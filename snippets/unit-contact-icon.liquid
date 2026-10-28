@@ -1,0 +1,23 @@
+{%- comment -%}
+  Line icons for the Contact page sections.
+  Usage: {% render 'unit-contact-icon', icon: 'phone' %}
+  Icons: phone, email, clock, cup, shield, pin, truck, chat
+{%- endcomment -%}
+{%- case icon -%}
+  {%- when 'phone' -%}
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 14.1v2.4a1.6 1.6 0 01-1.75 1.6 15.8 15.8 0 01-6.9-2.45 15.6 15.6 0 01-4.8-4.8A15.8 15.8 0 011.6 3.9 1.6 1.6 0 013.2 2.2h2.4a1.6 1.6 0 011.6 1.38c.1.77.29 1.52.55 2.24a1.6 1.6 0 01-.36 1.69l-1 1a12.8 12.8 0 004.8 4.8l1-1a1.6 1.6 0 011.69-.36c.72.26 1.47.45 2.24.55a1.6 1.6 0 011.38 1.62z"/></svg>
+  {%- when 'email' -%}
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="15" height="12" rx="2"/><path d="M3 5.5l7 5 7-5"/></svg>
+  {%- when 'clock' -%}
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l2.5 1.5"/></svg>
+  {%- when 'cup' -%}
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h10v5a4 4 0 01-4 4H8a4 4 0 01-4-4V8z"/><path d="M14 9.5h1.25a2 2 0 010 4H14"/><path d="M7 2.5c0 1 1 1 1 2s-1 1-1 2M10.5 2.5c0 1 1 1 1 2s-1 1-1 2"/></svg>
+  {%- when 'shield' -%}
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2l6 2.5v4.6c0 3.7-2.6 6.9-6 7.9-3.4-1-6-4.2-6-7.9V4.5L10 2z"/><path d="M7.5 10l1.8 1.8 3.4-3.6"/></svg>
+  {%- when 'pin' -%}
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8.5c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0112 0z"/><circle cx="10" cy="8.5" r="2"/></svg>
+  {%- when 'truck' -%}
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 14.5V5a1.5 1.5 0 00-1.5-1.5H3.5A1.5 1.5 0 002 5v8.75c0 .41.34.75.75.75H4"/><path d="M12.5 14.5h-5"/><path d="M15.5 14.5h1.75a.75.75 0 00.75-.75v-3a.8.8 0 00-.17-.5l-2.9-3.6a.8.8 0 00-.6-.3H11.5"/><circle cx="14" cy="14.5" r="1.5"/><circle cx="5.75" cy="14.5" r="1.5"/></svg>
+  {%- when 'chat' -%}
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 10a6.5 6.5 0 01-9.5 5.8L3 17l1.2-4.2A6.5 6.5 0 1117 10z"/></svg>
+{%- endcase -%}

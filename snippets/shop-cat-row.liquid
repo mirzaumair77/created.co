@@ -1,0 +1,15 @@
+{% comment %}
+  One product row in the Shop by category dropdown.
+  Usage: {% render 'shop-cat-row', product: product %}
+{% endcomment %}
+<li class="shop-cat__row">
+  <a href="{{ product.url }}" class="shop-cat__row-link">
+    <span class="shop-cat__thumb">
+      {%- if product.featured_media -%}
+        {{ product.featured_media | image_url: width: 80 | image_tag: loading: 'lazy', alt: '' }}
+      {%- endif -%}
+    </span>
+    <span class="shop-cat__name">{{ product.title }}</span>
+    <span class="shop-cat__price">{{ product.price | money_without_trailing_zeros }}</span>
+  </a>
+</li>

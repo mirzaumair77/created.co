@@ -1,0 +1,162 @@
+.the-lid { background: var(--tl-bg, #0E1F2A); color: var(--tl-fg, #fff); }
+.the-lid *, .the-lid *::before, .the-lid *::after { box-sizing: border-box; }
+
+/* desktop: no RIGHT padding (cards bleed right) */
+.the-lid__inner { padding: var(--tl-pt-d) 0 var(--tl-pb-d) 40px; }
+
+.the-lid__head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; padding-right: 40px; margin-bottom: 46px;
+}
+.the-lid__eyebrow { 
+      display: block;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 14px;
+    text-transform: uppercase;
+    color: #E7E9EA;
+    margin-bottom: 12px;
+ }
+.the-lid__title {
+  margin: 0 0 12px;
+    color: #E7E9EA;
+    font-size: 32px;
+    font-weight: 300;
+    line-height: 26px;
+    text-transform: capitalize;
+}
+.the-lid__text { 
+  color: #E7E9EA;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 22px;
+max-width:477px;
+ }
+
+.the-lid__arrows { display: flex; gap: 6px; flex-shrink: 0; }
+.the-lid__arrow { width: 34px; height: 34px; display: grid; place-items: center; background: none; border: 0; cursor: pointer; color: var(--tl-fg, #fff); }
+.the-lid__arrow svg { width: 16px; height: 16px; }
+.the-lid__arrow svg path { fill: currentColor; }
+.the-lid__arrow svg polyline, .the-lid__arrow svg line, .the-lid__arrow svg .arrow-cls-1 { stroke: currentColor; }
+.the-lid__arrow--off { opacity: .35; pointer-events: none; }
+
+/* slider */
+.the-lid__slider { overflow: hidden; }
+.the-lid__card { 
+    position: relative;
+    width: 58.1%;
+    height: 432px;
+    margin-right: 16px;
+    background: #E7E9EA;
+    border-radius: 20px;
+ }
+.the-lid__media { position: relative; height: 100%; width: 100%; border-radius: 20px; overflow: hidden; }
+.the-lid__media img, .the-lid__media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.the-lid__badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    border-radius: 999px;
+    background: rgba(14, 31, 42, 0.65);
+    padding: 8px 14px;
+    color: #FFF;
+    font-size: 10px;
+    font-weight: 700;
+    line-height:normal;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+}
+.main_lid_button {
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  z-index: 2;
+
+  width: calc(100% - 32px);
+  max-width: 308px;
+  padding: 4px;
+
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 32px;
+  box-sizing: border-box;
+}
+
+.the-lid__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 48px;
+  padding: 16px 24px;
+  box-sizing: border-box;
+
+  border-radius: 60px;
+  background: rgba(255, 255, 255, 0.28);
+
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* 01 / 03 counter — desktop: 01 left, /03 centered */
+.the-lid__count {
+  display: grid;
+  grid-template-columns: 1.89fr 1fr 1.2fr;   /* left | center | right */
+  align-items: center;
+  margin-top: 24px; padding-right: 40px; font-size: 13px;
+}
+.the-lid__count-current { 
+  grid-column: 1;
+    justify-self: start;
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px; }
+.the-lid__count-total   { 
+      grid-column: 2;
+    justify-self: center;
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+ }
+
+/* ---- mobile: padding BOTH sides ---- */
+@media (max-width: 749px) {
+  .the-lid__inner { padding: var(--tl-pt) 16px var(--tl-pb, 32px) 16px; }
+  .the-lid__head {  padding-right: 0; margin-bottom:24px;}
+  .the-lid__text { max-width: 100%;font-size:14px; }
+  .the-lid__card { width: 100%; height: 226px; margin-right: 12px; }
+
+  /* counter: 01 left, /03 far right on mobile */
+  .the-lid__count { padding-right: 0; grid-template-columns: 1fr 1fr; }
+  .the-lid__count-current { grid-column: 1; justify-self: start; }
+  .the-lid__count-total   { grid-column: 2; justify-self: end; }
+  .the-lid__title {
+  margin: 0 0 12px;
+    font-size: 24px;
+    line-height: 30px;
+}.the-lid__badge {
+    line-height:15px;
+}
+.the-lid__badge{
+  right:12px;
+}
+}
+.the-lid__arrow--off,
+.the-lid__arrow:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+  cursor: default;
+}

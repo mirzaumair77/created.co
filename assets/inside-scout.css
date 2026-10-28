@@ -1,0 +1,183 @@
+/* sections/inside-scout — markers activate cards; mobile is a scroll-snap slider
+   Image crop (height / vertical position / zoom / overlap) comes from the
+   section settings in the theme customizer, set inline on .iscout */
+
+.iscout {
+  background: #fff;
+  padding-top: var(--is-pt, 56px);
+  padding-bottom: var(--is-pb, 56px);
+}
+.iscout *, .iscout *::before, .iscout *::after { box-sizing: border-box; }
+
+.iscout .site-container {
+  position: relative;
+}
+.iscout__card:first-child span.iscout__card-text {
+  max-width: 300px;
+}
+/* Heading: bottom margin only when "Add space below heading" is checked */
+.iscout__head { text-align: center; max-width: 620px; margin: 0 auto; }
+.iscout__head.has-margin { margin-bottom: var(--is-head-mb, 70px); }
+.iscout__title {
+  margin: 0 0 22px;
+  font-size: 32px;
+  font-weight: 300;
+  color: #0e1f2a;
+  line-height: 26px;
+  text-transform: capitalize;
+}
+.iscout__text {
+  margin: 0;
+  color: #6E797F;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+/* ---------- STAGE = cropped image box + markers ---------- */
+/* Stage stays below the cards (cards have z-index: 2) */
+.iscout__stage {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 750px;
+  height: var(--is-h, 450px);
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.iscout__picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.iscout__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center var(--is-pos-y, 50%);
+  transform: scale(var(--is-zoom, 1));
+  transform-origin: center var(--is-pos-y, 50%);
+}
+
+/* ---------- MARKERS ---------- */
+.iscout__marker {
+  position: absolute;
+  left: var(--marker-x-desktop, 50%);
+  top: var(--marker-y-desktop, 50%);
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+
+  background: none;
+  border: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.iscout__dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #FF6E15;
+  border: 4px solid #fff;
+  flex-shrink: 0; box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  transition: transform .2s ease;
+}
+.iscout__pin-label {
+  background: #fff;
+  color: #0e1f2a;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  line-height: 16px;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.10);
+  transition: transform .2s ease;
+}
+.iscout__marker:hover .iscout__dot { transform: scale(1.2); }
+.iscout__marker:hover .iscout__pin-label { transform: scale(1.1); }
+
+/* ---------- CARDS ---------- */
+/* Cards sit ON TOP of the product (solid, opacity 1) —
+   product base goes behind them, like the original design */
+.iscout__cards {
+  position: relative;
+  z-index: 2;
+  margin-top: 32px;
+}
+.iscout__card { opacity: 1; }
+
+/* DESKTOP: overlap is controlled from the customizer ("Product overlap over cards") */
+@media (min-width: 750px) {
+  .iscout__cards { margin-top: calc(-1 * var(--is-overlap, 0px)); }
+}
+
+.iscout__cards-track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+.iscout__card {
+  background: #F5F5F5; border-radius: 20px; padding: 16px 0 24px 20px;
+  display: flex; flex-direction: column; gap: 6px; cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+.iscout__card-title { font-size: 14px; font-weight: 700; color: #0E1F2A; line-height: 22px; }
+.iscout__card-text { font-size: 12px; font-weight: 400; color: #6E797F; line-height: 16px; max-width: 215px; }
+
+/* ACTIVE card -> accent */
+.iscout__card.is-active { background: var(--is-accent, #FF6E15); }
+.iscout__card.is-active .iscout__card-title,
+.iscout__card.is-active .iscout__card-text { color: #fff; }
+
+@media (max-width: 1400px) {
+  .iscout__card { padding: 16px 20px 24px 20px; }
+}
+@media (min-width: 1400px) {
+  .iscout .site-container { padding: 0 72px 0 66px; }
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 749px) {
+  .iscout {
+    padding-top: var(--is-pt-m, 32px);
+    padding-bottom: var(--is-pb-m, 32px);
+  }
+  .iscout__head { padding: 0 20px; margin: 0 auto; }
+  .iscout__head.has-margin { margin-bottom: var(--is-head-mb-m, 24px); }
+  .iscout__title { margin: 0 0 12px; font-size: 24px; }
+  .iscout__text { font-size: 14px; }
+
+  .iscout__stage {
+    max-width: 361px;
+    height: var(--is-h-m, 280px);
+  }
+  .iscout__img {
+    object-position: center var(--is-pos-y-m, 50%);
+    transform: scale(var(--is-zoom-m, 1));
+    transform-origin: center var(--is-pos-y-m, 50%);
+  }
+
+  .iscout__marker {
+    left: var(--marker-x-mobile, 50%);
+    top: var(--marker-y-mobile, 50%);
+    gap: 4px;
+  }
+  .iscout__pin-label { font-size: 10px; padding: 3px 8px; }
+
+  .iscout__cards {
+    margin-top: 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .iscout__cards::-webkit-scrollbar { display: none; }
+  .iscout__cards-track { display: flex; gap: 12px; padding-right: 20px; }
+  .iscout__card { flex: 0 0 78%; scroll-snap-align: start; gap: 8px; }
+}

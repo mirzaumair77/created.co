@@ -1,0 +1,330 @@
+{%- liquid
+  assign background = section.settings.background
+  assign heading = section.settings.heading
+  assign text = section.settings.text
+  assign image_main = section.settings.image_main
+  assign image_secondary = section.settings.image_secondary
+  assign image_tertiary = section.settings.image_tertiary
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign padding_top_mobile = section.settings.padding_top_mobile
+  assign padding_bottom_mobile = section.settings.padding_bottom_mobile
+
+  assign image_loading = 'lazy'
+  if section.index <= 2
+    assign image_loading = 'eager'
+  endif
+
+  assign heading_plain = heading | strip_newlines | strip
+  assign image_main_alt = image_main.alt | default: heading_plain
+  assign image_secondary_alt = image_secondary.alt | default: heading_plain
+  assign image_tertiary_alt = image_tertiary.alt | default: heading_plain
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .product-design {
+    --product-design-bg: {{ background }};
+    --product-design-pt: {{ padding_top }}px;
+    --product-design-pb: {{ padding_bottom }}px;
+    --product-design-pt-mobile: {{ padding_top_mobile }}px;
+    --product-design-pb-mobile: {{ padding_bottom_mobile }}px;
+  }
+
+  .product-design {
+    padding-top: var(--product-design-pt-mobile);
+    padding-bottom: var(--product-design-pb-mobile);
+    background: var(--product-design-bg);
+  }
+
+  .product-design__container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .product-design__content {
+    padding-block-end: 24px;
+  }
+
+  .product-design__heading {
+    padding-block-end: 24px;
+  }
+
+  .product-design__heading h2 {
+    margin: 0;
+    font-family: var(--font-canela), var(--font-body-family);
+    color: #000;
+    font-size: 34px;
+    line-height: 34px;
+    letter-spacing: -0.748px;
+    font-weight: 300;
+  }
+
+  .product-design__text p {
+    margin: 0;
+    font-family: var(--font-basis-grotesque), var(--font-body-family);
+    color: #6E797F;
+    font-size: 15px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+
+  .product-design__text p + p {
+    margin-top: 12px;
+  }
+
+  .product-design__text a {
+    color: inherit;
+    text-underline-offset: 3px;
+  }
+
+  .product-design__gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .product-design__image {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border: 1px solid #E6E6E6;
+    border-radius: 6px;
+    background: #fff;
+  }
+
+  .product-design__image--large {
+    grid-column: 1 / -1;
+    aspect-ratio: 4 / 3;
+  }
+
+  .product-design__image img,
+  .product-design__image svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-design__image svg {
+    background: #f4f4f4;
+  }
+
+  @media (min-width: 769px) {
+    .product-design {
+      padding-top: var(--product-design-pt);
+      padding-bottom: var(--product-design-pb);
+    }
+
+    .product-design__container {
+      display: grid;
+      grid-template-columns: minmax(0, 494fr) minmax(0, 275fr);
+      align-items: center;
+      gap: clamp(40px, 5vw, 72px);
+      padding: 0 36px;
+    }
+
+    .product-design__content {
+      max-width: 470px;
+      padding-block-end: 0;
+    }
+
+    .product-design__heading {
+      padding-block-end: 20px;
+    }
+
+    .product-design__heading h2 {
+      font-size: 51px;
+      line-height: 51px;
+      letter-spacing: -1.122px;
+    }
+
+    .product-design__text p {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .product-design__text p + p {
+      margin-top: 20px;
+    }
+
+    .product-design__gallery {
+      order: -1;
+      gap: 16px;
+    }
+
+    .product-design__image {
+      aspect-ratio: 238 / 126;
+    }
+
+    .product-design__image--large {
+      aspect-ratio: 485 / 266;
+    }
+  }
+</style>
+
+<section class="product-design">
+  <div class="product-design__container">
+    {%- if heading != blank or text != blank -%}
+      <div class="product-design__content">
+        {%- if heading != blank -%}
+          <div class="product-design__heading">
+            <h2>{{ heading | escape | newline_to_br }}</h2>
+          </div>
+        {%- endif -%}
+
+        {%- if text != blank -%}
+          <div class="product-design__text">
+            {{ text }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="product-design__gallery">
+      <div class="product-design__image product-design__image--large">
+        {%- if image_main != blank -%}
+          {{
+            image_main
+            | image_url: width: 1600
+            | image_tag:
+              loading: image_loading,
+              widths: '375, 550, 750, 1000, 1300, 1600',
+              sizes: '(min-width: 769px) 58vw, calc(100vw - 40px)',
+              alt: image_main_alt
+          }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag }}
+        {%- endif -%}
+      </div>
+
+      <div class="product-design__image">
+        {%- if image_secondary != blank -%}
+          {{
+            image_secondary
+            | image_url: width: 900
+            | image_tag:
+              loading: 'lazy',
+              widths: '200, 375, 550, 750, 900',
+              sizes: '(min-width: 769px) 29vw, calc(50vw - 26px)',
+              alt: image_secondary_alt
+          }}
+        {%- else -%}
+          {{ 'product-2' | placeholder_svg_tag }}
+        {%- endif -%}
+      </div>
+
+      <div class="product-design__image">
+        {%- if image_tertiary != blank -%}
+          {{
+            image_tertiary
+            | image_url: width: 900
+            | image_tag:
+              loading: 'lazy',
+              widths: '200, 375, 550, 750, 900',
+              sizes: '(min-width: 769px) 29vw, calc(50vw - 26px)',
+              alt: image_tertiary_alt
+          }}
+        {%- else -%}
+          {{ 'product-3' | placeholder_svg_tag }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product design",
+  "tag": "div",
+  "class": "section-product-design",
+  "settings": [
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Designed\nin-house.",
+      "info": "Each new line starts a new heading line."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>We design every Created product ourselves, from the first sketch to the final lid.</p><p>Our team in California draws, prototypes and tests each shape by hand until every detail is right, so it feels just as good the hundredth time you pick it up.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_main",
+      "label": "Large image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_secondary",
+      "label": "Small image left"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_tertiary",
+      "label": "Small image right"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product design"
+    }
+  ]
+}
+{% endschema %}

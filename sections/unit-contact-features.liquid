@@ -1,0 +1,91 @@
+{%- comment -%}
+  Contact page: features strip (icon, title, text) above the footer.
+  Each feature is a block; pick a built-in icon or upload your own.
+{%- endcomment -%}
+{{ 'unit-contact.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="UnitContactFeatures-{{ section.id }}"
+  class="uc uc-features"
+  style="
+    --uc-pt: {{ section.settings.padding_top }}px;
+    --uc-pb: {{ section.settings.padding_bottom }}px;
+    --uc-pt-m: {{ section.settings.padding_top_mobile }}px;
+    --uc-pb-m: {{ section.settings.padding_bottom_mobile }}px;
+    --uc-features-cols: {{ section.blocks.size | at_least: 1 | at_most: 4 }};
+  "
+>
+  <div class="uc__container">
+    <ul class="uc-features__grid" role="list" style="margin: 0; padding: 0; list-style: none;">
+      {%- for block in section.blocks -%}
+        <li class="uc-features__item" {{ block.shopify_attributes }}>
+          <span class="uc-features__icon">
+            {%- if block.settings.icon_image != blank -%}
+              {{ block.settings.icon_image | image_url: width: 80 | image_tag: loading: 'lazy', alt: '' }}
+            {%- else -%}
+              {% render 'unit-contact-icon', icon: block.settings.icon %}
+            {%- endif -%}
+          </span>
+          <p class="uc-features__title">{{ block.settings.title | escape }}</p>
+          {%- if block.settings.text != blank -%}
+            <p class="uc-features__text">{{ block.settings.text | escape }}</p>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Unit contact: features",
+  "tag": "section",
+  "class": "section-unit-contact-features",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 24 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top padding (mobile)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 8 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom padding (mobile)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "cup", "label": "Cup" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "pin", "label": "Location" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "phone", "label": "Phone" },
+            { "value": "email", "label": "Email" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "chat", "label": "Chat" }
+          ],
+          "default": "cup"
+        },
+        { "type": "image_picker", "id": "icon_image", "label": "Custom icon", "info": "Optional. Replaces the icon above." },
+        { "type": "text", "id": "title", "label": "Title", "default": "18/8 stainless" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Food-safe steel in every vessel." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Unit contact: features",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "cup", "title": "18/8 stainless", "text": "Food-safe steel in every vessel." } },
+        { "type": "feature", "settings": { "icon": "shield", "title": "Lifetime hardware warranty", "text": "Lids, straws, and handles, covered for good." } },
+        { "type": "feature", "settings": { "icon": "pin", "title": "Designed in California", "text": "By a small team, since 2015." } },
+        { "type": "feature", "settings": { "icon": "truck", "title": "Free shipping over $75", "text": "Ships in 1 to 2 business days." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

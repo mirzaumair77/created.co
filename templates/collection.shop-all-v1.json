@@ -17,29 +17,85 @@
         "show_collection_image": false
       }
     },
-    "collection_icon_menu_tezxgT": {
-      "type": "collection-icon-menu",
-      "blocks": {
-        "menu_m37hRM": {
-          "type": "menu",
-          "settings": {
-            "collection_handle": "",
-            "collection_menu": "stainless-collection"
-          }
-        }
-      },
-      "block_order": [
-        "menu_m37hRM"
-      ],
-      "settings": {}
+    "collection_hero_v1_b3znEa": {
+      "type": "collection-hero-v1",
+      "name": "Collection Hero v1",
+      "settings": {
+        "show_breadcrumbs": true,
+        "heading": "",
+        "description": "",
+        "background_color": "#ffffff",
+        "padding_top_desktop": 24,
+        "padding_bottom_desktop": 4,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "category_slider_bpWUVb": {
+      "type": "category-slider",
+      "name": "Category cards slider",
+      "settings": {
+        "heading": "",
+        "padding_top_desktop": 0,
+        "padding_bottom_desktop": 8,
+        "padding_top_mobile": 12,
+        "padding_bottom_mobile": 8
+      }
+    },
+    "shop_by_need_XFyVqM": {
+      "type": "shop-by-need",
+      "name": "Shop by need",
+      "settings": {
+        "heading": "Shop by need",
+        "padding_top_desktop": 22,
+        "padding_bottom_desktop": 18,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 8
+      }
+    },
+    "shop_all_grid_fJXXE3": {
+      "type": "shop-all-grid",
+      "name": "Shop All Grid",
+      "settings": {
+        "products_per_page": 17,
+        "show_count": true,
+        "enable_sorting": true,
+        "promo_image": "shopify://shop_images/fa4f56964cd168de8c3d386ac28f85fd377c2576.png",
+        "promo_title": "Built For The Long Haul",
+        "promo_text": "Double-wall vacuum insulation, lids that seal, and hardware covered for life.",
+        "promo_cta": "Shop the collection",
+        "promo_link": "#",
+        "promo_after": 4
+      }
+    },
+    "accessories_products_iDB4gf": {
+      "type": "accessories-products",
+      "name": "Accessories products",
+      "settings": {
+        "heading": "Lids, Straws & Spares",
+        "description": "<p>Spare lids, straws and gaskets for every Created vessel, so the one you already own keeps going.</p>",
+        "collection": "24oz-cold-cups",
+        "products_to_show": 3,
+        "show_button": true,
+        "button_label": "Shop all accessories",
+        "button_link": "",
+        "background_color": "#ffffff",
+        "card_background": "#ffffff",
+        "image_background": "#f5f5f5",
+        "padding_top": 40,
+        "padding_bottom": 88,
+        "mobile_padding_top": 28,
+        "mobile_padding_bottom": 32
+      }
     },
     "product-grid": {
       "type": "main-collection-product-grid",
+      "disabled": true,
       "settings": {
         "collection_link_list": "duplicate-seed-collection-links",
         "products_per_page": 16,
         "image_ratio": "adapt",
-        "show_secondary_image": false,
+        "show_secondary_image": true,
         "add_image_padding": false,
         "show_vendor": false,
         "enable_filtering": true,
@@ -62,12 +118,41 @@
       "settings": {
         "include_margins": false
       }
+    },
+    "collection_page_faq_A9XgDE": {
+      "type": "collection-page-faq",
+      "blocks": {
+        "faq_item_fgQrg4": {
+          "type": "faq_item",
+          "repeater": "{{ collection.metafields.custom.collection_page_faq.value }}",
+          "settings": {
+            "question": "{{ block.repeater.question.value }}",
+            "answer": "{{ block.repeater.answer | metafield_tag }}"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_fgQrg4"
+      ],
+      "name": "Collection FAQ",
+      "settings": {
+        "image": "shopify://shop_images/slide_Free_shipping_over_75.png",
+        "image_mb": "shopify://shop_images/custom-faq-mobile.jpg",
+        "heading": "The answers to your questions.",
+        "tag": "Your questions",
+        "bg_color": "#ffffff"
+      }
     }
   },
   "order": [
     "banner",
-    "collection_icon_menu_tezxgT",
+    "collection_hero_v1_b3znEa",
+    "category_slider_bpWUVb",
+    "shop_by_need_XFyVqM",
+    "shop_all_grid_fJXXE3",
+    "accessories_products_iDB4gf",
     "product-grid",
-    "1730446863b94410cb"
+    "1730446863b94410cb",
+    "collection_page_faq_A9XgDE"
   ]
 }

@@ -1,0 +1,105 @@
+{%- comment -%}
+  snippets/shopall-pager.liquid
+  Circular prev/next pager + "Showing X of Y products".
+  The shown/total numbers are corrected by JS after render so they match the
+  ACTUAL visible cards (hidden-variant colour products are skipped in the grid).
+  Usage: {% render 'shopall-pager', paginate: paginate, visible_count: visible_count %}
+{%- endcomment -%}
+
+{%- liquid
+  assign per   = paginate.page_size
+  assign page  = paginate.current_page
+  assign total = paginate.items
+  if visible_count != blank
+    assign total = visible_count
+  endif
+  assign shown = page | times: per
+  if shown > total
+    assign shown = total
+  endif
+-%}
+
+<nav class="shopall-pager" role="navigation" aria-label="Pagination"
+     data-shopall-pager
+     data-page="{{ page }}"
+     data-per="{{ per }}"
+     data-total="{{ total }}">
+  <div class="shopall-pager__row">
+    {%- if paginate.previous -%}
+      <a class="shopall-pager__btn" href="{{ paginate.previous.url }}" aria-label="Previous page" data-shopall-ajax-link>
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    {%- else -%}
+      <span class="shopall-pager__btn is-disabled" aria-disabled="true">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    {%- endif -%}
+
+    <span class="shopall-pager__count">{{ page }} / {{ paginate.pages }}</span>
+
+    {%- if paginate.next -%}
+      <a class="shopall-pager__btn" href="{{ paginate.next.url }}" aria-label="Next page" data-shopall-ajax-link>
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    {%- else -%}
+      <span class="shopall-pager__btn is-disabled" aria-disabled="true">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    {%- endif -%}
+  </div>
+
+  <p class="shopall-pager__showing">Showing <span data-shopall-shown>{{ shown }}</span> of <span data-shopall-total>{{ total }}</span> products</p>
+</nav>
+
+
+
+<script>
+
+/* assets/shopall-pager.js
+   Corrects the pager's "Showing X of Y products" to match the ACTUAL visible
+   product cards (hidden-variant colour products are skipped in the grid, so
+   paginate over-counts). X = real cards on this page, Y = server visible_count.
+   Runs on load and after every AJAX grid swap. */
+(function () {
+  'use strict';
+
+  var section = document.querySelector('.shopall');
+  if (!section) return;
+
+  function cardsOnPage() {
+    return section.querySelectorAll(
+      '.shopall__grid .shopall__item:not(.shopall__promo)'
+    ).length;
+  }
+
+  function updateShowing() {
+    var pager = section.querySelector('[data-shopall-pager]');
+    if (!pager) return;
+
+    var shownEl = pager.querySelector('[data-shopall-shown]');
+    var totalEl = pager.querySelector('[data-shopall-total]');
+    if (!shownEl) return;
+
+    var onThisPage = cardsOnPage();
+    shownEl.textContent = onThisPage;
+
+    // keep total as the server-provided visible_count; never let it be less
+    // than what's on screen
+    if (totalEl) {
+      var total = parseInt(totalEl.textContent, 10) || onThisPage;
+      if (total < onThisPage) total = onThisPage;
+      totalEl.textContent = total;
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateShowing);
+  } else {
+    updateShowing();
+  }
+
+  document.addEventListener('shopall:updated', updateShowing);
+  window.addEventListener('load', updateShowing);
+})();
+
+</script>

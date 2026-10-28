@@ -7,14 +7,15 @@ html {
   -o-tab-size: 4;
   tab-size: 4;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 body {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
-    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  font-family: var(--font-body-family);
   margin: 0;
-  min-width: fit-content;
+
 }
 
 hr {
@@ -212,7 +213,7 @@ a {
   text-decoration: inherit;
 }
 
-.contact-header__text a{
+.contact-header__text a {
   color: rgb(18, 100, 163);
   text-decoration: none;
 }
@@ -262,159 +263,202 @@ video {
 :before {
   border-color: currentColor;
 }
+
+
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(InterVariable.woff2) format('woff2');
+}
+
+
 @font-face {
   font-family: grotesque;
   font-weight: 300;
   src: url(grotesque-light.otf);
 }
+
 @font-face {
   font-family: grotesque;
   font-style: italic;
   font-weight: 300;
   src: url(grotesque-light-italic.otf);
 }
+
 @font-face {
   font-family: grotesque;
   font-weight: 400;
   src: url(grotesque-regular.otf);
 }
+
 @font-face {
   font-family: grotesque;
   font-style: italic;
   font-weight: 400;
   src: url(grotesque-italic.otf);
 }
+
 @font-face {
   font-family: grotesque;
   font-weight: 500;
   src: url(grotesque-medium.otf);
 }
+
 @font-face {
   font-family: grotesque;
   font-weight: 600;
   src: url(grotesque-off_white.otf);
 }
+
 @font-face {
   font-family: grotesque;
   font-style: italic;
   font-weight: 600;
   src: url(grotesque-off_white-italic.otf);
 }
+
 @font-face {
   font-family: grotesque;
   font-weight: 700;
   src: url(grotesque-bold.otf);
 }
+
 @font-face {
   font-family: grotesque;
   font-style: italic;
   font-weight: 700;
   src: url(grotesque-bold-italic.otf);
 }
+
 @font-face {
   font-family: grotesque;
   font-weight: 900;
   src: url(grotesque-black.otf);
 }
+
 @font-face {
   font-family: grotesque;
   font-style: italic;
   font-weight: 900;
   src: url(grotesque-black-italic.otf);
 }
+
 @font-face {
   font-family: Basis Grotesque Pro;
   font-weight: 300;
   src: url(grotesque-light.otf);
 }
+
 @font-face {
   font-family: Basis Grotesque Pro;
   font-style: italic;
   font-weight: 300;
   src: url(grotesque-light-italic.otf);
 }
+
 @font-face {
   font-family: Basis Grotesque Pro;
   font-weight: 400;
   src: url(grotesque-regular.otf);
 }
+
 @font-face {
   font-family: Basis Grotesque Pro;
   font-style: italic;
   font-weight: 400;
   src: url(grotesque-italic.otf);
 }
+
 @font-face {
   font-family: Basis Grotesque Pro;
   font-weight: 500;
   src: url(grotesque-medium.otf);
 }
+
 @font-face {
   font-family: Basis Grotesque Pro;
   font-weight: 600;
   src: url(grotesque-off_white.otf);
 }
+
 @font-face {
   font-family: Basis Grotesque Pro;
   font-style: italic;
   font-weight: 600;
   src: url(grotesque-off_white-italic.otf);
 }
+
 @font-face {
   font-family: Basis Grotesque Pro;
   font-weight: 700;
   src: url(grotesque-bold.otf);
 }
+
 @font-face {
   font-family: Basis Grotesque Pro;
   font-style: italic;
   font-weight: 700;
   src: url(grotesque-bold-italic.otf);
 }
+
 @font-face {
   font-family: Basis Grotesque Pro;
   font-weight: 900;
   src: url(grotesque-black.otf);
 }
+
 @font-face {
   font-family: Basis Grotesque Pro;
   font-style: italic;
   font-weight: 900;
   src: url(grotesque-black-italic.otf);
 }
+
 @font-face {
   font-family: canela;
   font-weight: 400;
   src: url(Canela-Light.otf);
 }
+
 @font-face {
   font-family: canela;
   font-style: italic;
   font-weight: 400;
   src: url(Canela-LightItalic.otf);
 }
+
 @font-face {
   font-family: canela;
   font-weight: 300;
   src: url(Canela-Thin.otf);
 }
+
 @font-face {
   font-family: canela;
   font-style: italic;
   font-weight: 300;
   src: url(Canela-ThinItalic.otf);
 }
+
 @font-face {
   font-family: Canela-ThinItalic;
   font-style: italic;
   font-weight: 300;
   src: url(Canela-ThinItalic.otf);
 }
+
 :root {
   --header-height: 0.0625rem;
+  --font-canela: canela, serif;
+  --font-basis-grotesque: Basis Grotesque Pro;
 }
+
 .header-logo__link {
-  width: 8.5rem; /* 136px */
+  width: 8.5rem;
+  /* 136px */
 }
 
 @media screen and (min-width: 48rem) {
@@ -422,16 +466,19 @@ video {
     --footer-height: 34.9375rem;
   }
 }
+
 @media screen and (min-width: 64rem) {
   :root {
     --footer-height: 33.6875rem;
   }
 }
+
 @media screen and (min-width: 80rem) {
   :root {
     --footer-height: 27.125rem;
   }
 }
+
 :focus {
   outline: 0.125rem solid transparent;
   outline-offset: 0.125rem;
@@ -491,6 +538,7 @@ video {
 }
 
 @media (max-width: 26.25rem) {
+
   /* 420 px */
   .btn-bigger {
     padding: 1rem 2rem;
@@ -535,6 +583,7 @@ video {
     color: rgba(255, 255, 255, var(--tw-text-opacity));
   }
 }
+
 .btn--darkGray {
   --tw-bg-opacity: 1;
   --tw-text-opacity: 1;
@@ -557,6 +606,7 @@ video {
     color: rgba(40, 34, 35, var(--tw-text-opacity));
   }
 }
+
 .btn--black {
   --tw-bg-opacity: 1;
   --tw-text-opacity: 1;
@@ -588,7 +638,7 @@ textarea {
   color: #ffffff;
 }
 
-input.product-form__radio + label:not(.radio-label__color) {
+input.product-form__radio+label:not(.radio-label__color) {
   border-color: transparent;
   border-radius: 50%;
   border-width: 0.0625rem;
@@ -599,12 +649,12 @@ input.product-form__radio + label:not(.radio-label__color) {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-input.product-form__radio:checked + label:not(.radio-label__color) {
+input.product-form__radio:checked+label:not(.radio-label__color) {
   --tw-border-opacity: 1;
   border-color: rgba(0, 0, 0, var(--tw-border-opacity));
 }
 
-input.product-form__radio + label.radio-label__color {
+input.product-form__radio+label.radio-label__color {
   border-radius: 624.9375rem;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -615,11 +665,12 @@ input.product-form__radio + label.radio-label__color {
 }
 
 @media (min-width: 48rem) {
-  input.product-form__radio + label.radio-label__color {
+  input.product-form__radio+label.radio-label__color {
     height: 3.25rem;
     width: 2.625rem;
   }
 }
+
 input::-webkit-inner-spin-button,
 input::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -1383,9 +1434,7 @@ input[type="number"] {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y))
-    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .-translate-x-1\/2 {
@@ -1401,61 +1450,75 @@ input[type="number"] {
     transform: rotate(1turn);
   }
 }
+
 @keyframes spin {
   to {
     transform: rotate(1turn);
   }
 }
+
 @-webkit-keyframes ping {
+
   75%,
   to {
     opacity: 0;
     transform: scale(2);
   }
 }
+
 @keyframes ping {
+
   75%,
   to {
     opacity: 0;
     transform: scale(2);
   }
 }
+
 @-webkit-keyframes pulse {
   50% {
     opacity: 0.5;
   }
 }
+
 @keyframes pulse {
   50% {
     opacity: 0.5;
   }
 }
+
 @-webkit-keyframes bounce {
+
   0%,
   to {
     -webkit-animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
     animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
     transform: translateY(-25%);
   }
+
   50% {
     -webkit-animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     transform: none;
   }
 }
+
 @keyframes bounce {
+
   0%,
   to {
     -webkit-animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
     animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
     transform: translateY(-25%);
   }
+
   50% {
     -webkit-animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     transform: none;
   }
 }
+
 .animate-pulse {
   -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -2314,7 +2377,10 @@ input[type="number"] {
 *,
 :after,
 :before {
-  --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
+  --tw-ring-inset: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
   --tw-ring-offset-width: 0;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgba(59, 130, 246, 0.5);
@@ -2323,18 +2389,43 @@ input[type="number"] {
 }
 
 .filter {
-  --tw-blur: var(--tw-empty, /*!*/ /*!*/);
-  --tw-brightness: var(--tw-empty, /*!*/ /*!*/);
-  --tw-contrast: var(--tw-empty, /*!*/ /*!*/);
-  --tw-grayscale: var(--tw-empty, /*!*/ /*!*/);
-  --tw-hue-rotate: var(--tw-empty, /*!*/ /*!*/);
-  --tw-invert: var(--tw-empty, /*!*/ /*!*/);
-  --tw-saturate: var(--tw-empty, /*!*/ /*!*/);
-  --tw-sepia: var(--tw-empty, /*!*/ /*!*/);
-  --tw-drop-shadow: var(--tw-empty, /*!*/ /*!*/);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
-    var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate)
-    var(--tw-sepia) var(--tw-drop-shadow);
+  --tw-blur: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-brightness: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-contrast: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-grayscale: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-hue-rotate: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-invert: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-saturate: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-sepia: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  --tw-drop-shadow: var(--tw-empty,
+      /*!*/
+      /*!*/
+    );
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .blur {
@@ -2390,7 +2481,7 @@ body.js-focusable-widget-open {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.carousel-dot.selected > .carousel-dot__fill {
+.carousel-dot.selected>.carousel-dot__fill {
   --tw-bg-opacity: 1;
   background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
 }
@@ -2419,7 +2510,7 @@ summary.facets__summary::marker {
   position: relative;
 }
 
-.facet-checkbox input[checked] ~ .icon-checkmark {
+.facet-checkbox input[checked]~.icon-checkmark {
   display: block;
 }
 
@@ -2532,9 +2623,7 @@ drawer-component {
   display: none;
   overflow: hidden;
   position: fixed;
-  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y))
-    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   transition-duration: 0.15s;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -2648,6 +2737,7 @@ drawer-component.open {
     height: 250vh;
   }
 }
+
 @media (min-width: 48.0625rem) {
   .collab-image__item {
     left: var(--left);
@@ -2656,13 +2746,16 @@ drawer-component.open {
     z-index: var(--z-index);
   }
 }
+
 @media (min-width: 48rem) {
+
   /*   .tablet\:pointer-events-none {
     pointer-events: none;
   } */
   #MobileNavDrawer .accordion-content {
     height: auto !important;
   }
+
   .tablet\:static {
     position: static;
   }
@@ -3393,6 +3486,7 @@ drawer-component.open {
     color: rgba(0, 0, 0, var(--tw-text-opacity));
   }
 }
+
 @media (min-width: 64rem) {
   .laptop\:mt-24 {
     margin-top: 1.5rem;
@@ -3453,6 +3547,7 @@ drawer-component.open {
     text-decoration: none;
   }
 }
+
 @media (min-width: 64.001rem) {
   .desktop\:absolute {
     position: absolute;
@@ -3622,6 +3717,7 @@ drawer-component.open {
     font-size: 6.5rem;
   }
 }
+
 @media (orientation: landscape) and (min-width: 48rem) {
   .landscape\:absolute {
     position: absolute;
@@ -3643,6 +3739,7 @@ drawer-component.open {
     width: 100%;
   }
 }
+
 .custom-styling-swatch {
   flex-wrap: wrap;
   justify-content: center;
@@ -3660,42 +3757,53 @@ drawer-component.open {
 .product__form-details .price__regular {
   white-space: nowrap;
 }
-.story-timeline__event-text{
+
+.story-timeline__event-text {
   text-wrap: wrap;
   height: 160px;
   overflow: hidden;
 }
 
 .learn_btn {
-    text-align: center;
-    width: auto;
+  text-align: center;
+  width: auto;
   padding: 1.5rem 0.8rem;
 }
-span.compare-price.comparedPPC, span.compare-price.comparedPFPC, span.compare-price.comparedPFPCS {
-    padding-right: 2px;
-    color: #444;
+
+span.compare-price.comparedPPC,
+span.compare-price.comparedPFPC,
+span.compare-price.comparedPFPCS {
+  padding-right: 2px;
+  color: #444;
 }
+
 /* new custom css nomad landing */
-.text-78{
+.text-78 {
   font-size: 4.875rem;
 }
-.choose-item-icon img{
-  width:100%
+
+.choose-item-icon img {
+  width: 100%
 }
+
 @media(min-width: 990px) {
-.lft_5{
-  margin-left:5rem
-}
-  .lft_5 .site-container{
-    padding-left:unset;
+  .lft_5 {
+    margin-left: 5rem
+  }
+
+  .lft_5 .site-container {
+    padding-left: unset;
     padding-right: 52px;
   }
-  .text-with-carousel__section.lft_5{
+
+  .text-with-carousel__section.lft_5 {
     margin-left: 58px;
   }
-  .text-with-carousel__section.lft_5 .site-container{
-    padding-left:22px;
+
+  .text-with-carousel__section.lft_5 .site-container {
+    padding-left: 22px;
   }
+
   /* .lft_5 div[js-carousel-slide]:first-child{
     padding-left: unset;
   }
@@ -3703,32 +3811,38 @@ span.compare-price.comparedPPC, span.compare-price.comparedPFPC, span.compare-pr
     padding-left:unset
   } */
 }
-@media (min-width: 48rem){
-  .tablet\:pb-49{
+
+@media (min-width: 48rem) {
+  .tablet\:pb-49 {
     padding-bottom: 3.125rem;
   }
 }
 
 
 .ceramics-landing-page #buy-buttons {
-    position: absolute;
-    bottom: -70px;
+  position: absolute;
+  bottom: -70px;
 }
+
 .ceramics-landing-page .bg-product-card {
-    position: relative;
-    margin-bottom: 85px;
+  position: relative;
+  margin-bottom: 85px;
 }
-@media(max-width:767px){
- .ceramics-landing-page .fl_button{
-    display:none!important
+
+@media(max-width:767px) {
+  .ceramics-landing-page .fl_button {
+    display: none !important
   }
-  .carousel__grid .fl_gab button{
-    display:none!important
+
+  .carousel__grid .fl_gab button {
+    display: none !important
   }
-  .carousel__grid carousel-component{
-    padding-bottom:unset!important
+
+  .carousel__grid carousel-component {
+    padding-bottom: unset !important
   }
 }
-.ceramics-landing-page #sca-fg-today-offer-widget{
-  display:none!important
+
+.ceramics-landing-page #sca-fg-today-offer-widget {
+  display: none !important
 }

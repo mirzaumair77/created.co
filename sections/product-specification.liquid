@@ -1,0 +1,691 @@
+{%- liquid
+  assign background_color = section.settings.background_color
+
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign padding_top_mobile = section.settings.padding_top_mobile
+  assign mobile_padding_bottom = section.settings.mobile_padding_bottom
+
+  assign product_name = product.metafields.product_cards.product_card_title | default: product.title
+  assign heading = section.settings.heading | replace: '[product]', product_name
+  assign description = section.settings.description | replace: '[product]', product_name
+
+  # product's featured image first, section images as fallback
+  assign product_image = product.featured_image | default: section.settings.product_image
+  assign mobile_product_image = product.featured_image | default: section.settings.mobile_product_image | default: product_image
+-%}
+
+{%- style -%}
+#product-spec-{{ section.id }} {
+  background: {{ background_color }};
+  padding-block: {{ padding_top_mobile }}px {{ mobile_padding_bottom }}px;
+}
+
+@media (min-width: 769px) {
+  #product-spec-{{ section.id }} {
+    padding-block: {{ padding_top }}px {{ padding_bottom }}px;
+  }
+}
+
+.product-spec .site-container {
+  padding-inline: 16px;
+}
+
+.product-spec__header {
+  padding-block-end: 32px;
+  text-align: center;
+  max-width: 620px;
+  margin-inline: auto;
+}
+
+.product-spec__heading h2 {
+  font-size: 24px;
+  line-height: 26px;
+  font-weight: 300;
+  letter-spacing: 0;
+  text-transform: capitalize;
+  margin: 0;
+}
+
+.product-spec__description {
+  padding-block-start: 12px;
+}
+
+.product-spec__description p {
+  color: #6E797F;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0;
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+}
+
+.product-spec__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px 32px;
+}
+
+.product-spec__media {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.product-spec__image {
+  width: 100%;
+}
+
+.product-spec__image :is(img, svg) {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.product-spec__image-desktop {
+  display: none !important;
+}
+
+.product-spec__accordions {
+  width: 100%;
+}
+
+.product-spec__accordion-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.product-spec__accordion-item {
+  padding: 16px 8px;
+}
+
+.product-spec__accordion-item.border-top {
+  border-top: 1px solid #E7E9EA;
+}
+
+.product-spec__accordion-item.border-bottom {
+  border-bottom: 1px solid #E7E9EA;
+}
+
+.product-spec__accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.product-spec__accordion-item.is-open .product-spec__accordion-header {
+  padding-block-end: 8px;
+}
+
+.product-spec__accordion-title h3 {
+  color: #0E1F2A;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.product-spec__accordion-icon {
+  width: 100%;
+  max-width: 8px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.product-spec__accordion-item.is-open
+  .product-spec__accordion-icon {
+  transform: rotate(180deg);
+}
+
+.product-spec__accordion-icon svg {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.product-spec__accordion-content {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.4s ease;
+}
+
+.product-spec__accordion-content p {
+  color: #6E797F;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0;
+  font-weight: 400;
+  margin: 0;
+}
+
+@media (min-width: 769px) {
+
+  .product-spec .site-container {
+    padding-inline: 49px;
+  }
+
+  .product-spec__header {
+    padding-block-end: 7px;
+  }
+
+  .product-spec__heading h2 {
+    font-size: 32px;
+  }
+
+  .product-spec__description {
+    padding-block-start: 22px;
+  }
+
+  .product-spec__description p {
+    font-size: 16px;
+  }
+
+  .product-spec__body {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .product-spec__image {
+    max-width: 520px;
+  }
+  
+  .product-spec__image-mobile {
+    display: none !important;
+  }
+  
+  .product-spec__image-desktop {
+    display: block !important;
+  }
+
+  .product-spec__accordions {
+    flex: 1;
+    max-width: 642px;
+  }
+
+  .product-spec__accordion-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(3, auto);
+    column-gap: 42px;
+  }
+
+  .product-spec__accordion-item {
+    padding: 20px 8px;
+  }
+
+  .product-spec__accordion-header:hover .product-spec__accordion-title {
+    opacity: 0.7;
+  }
+}
+
+@media (min-width: 1440px) {
+
+  .product-spec .site-container {
+    padding-inline: 98px;
+  }
+}
+{%- if section.settings.img_crop %}
+/* Image crop: a fixed-height frame cuts the empty space above and below the product */
+#product-spec-{{ section.id }} .product-spec__image.is-cropped {
+  position: relative;
+  height: {{ section.settings.img_height_mobile }}px;
+  overflow: hidden;
+}
+#product-spec-{{ section.id }} .product-spec__image.is-cropped img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center {{ section.settings.img_pos_y_mobile }}%;
+  transform: scale({{ section.settings.img_zoom_mobile | divided_by: 100.0 }});
+  transform-origin: center {{ section.settings.img_pos_y_mobile }}%;
+}
+@media (min-width: 769px) {
+  #product-spec-{{ section.id }} .product-spec__image.is-cropped {
+    height: {{ section.settings.img_height }}px;
+  }
+  #product-spec-{{ section.id }} .product-spec__image.is-cropped img {
+    object-position: center {{ section.settings.img_pos_y }}%;
+    transform: scale({{ section.settings.img_zoom | divided_by: 100.0 }});
+    transform-origin: center {{ section.settings.img_pos_y }}%;
+  }
+}
+{%- endif %}
+{%- endstyle -%}
+
+<div id="product-spec-{{ section.id }}" class="product-spec">
+  <div class="site-container">
+    <div class="product-spec__header">
+      <div class="product-spec__heading">
+        <h2>{{ heading }}</h2>
+      </div>
+
+      {%- if description != blank -%}
+        <div class="product-spec__description">
+          {{ description }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="product-spec__body">
+      <div class="product-spec__image{% if section.settings.img_crop %} is-cropped{% endif %}">
+        {%- if product_image != blank -%}
+          {{
+            product_image
+            | image_url: width: 1200
+            | image_tag:
+              widths: '300, 450, 600, 750, 900, 1200',
+              sizes: '(min-width: 769px) 50vw, 100vw',
+              loading: 'lazy',
+              class: 'product-spec__image-desktop',
+              alt: product_image.alt
+            | default: product.title
+          }}
+        {%- endif -%}
+
+        {%- if mobile_product_image != blank -%}
+          {{
+            mobile_product_image
+            | image_url: width: 800
+            | image_tag:
+              widths: '300, 450, 600, 750, 800',
+              sizes: '100vw',
+              loading: 'lazy',
+              class: 'product-spec__image-mobile',
+              alt: mobile_product_image.alt
+            | default: product.title
+          }}
+        {%- elsif product_image == blank -%}
+          {{ 'product-1' | placeholder_svg_tag: 'product-spec__placeholder-svg' }}
+        {%- endif -%}
+      </div>
+
+      <div class="product-spec__accordions">
+        <div class="product-spec__accordion-grid">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign border_top = block.settings.border_top
+              assign border_bottom = block.settings.border_bottom
+              assign item_title = block.settings.title | replace: '[product]', product_name
+              assign item_content = block.settings.content | replace: '[product]', product_name
+            -%}
+
+            <div
+              class="product-spec__accordion-item{% if border_top == true %} border-top{%- endif -%} {% if border_bottom == true %} border-bottom{%- endif -%}"
+              {{ block.shopify_attributes }}
+            >
+              <div
+                class="product-spec__accordion-header"
+                role="button"
+                tabindex="0"
+                aria-expanded="false"
+              >
+                <div class="product-spec__accordion-title">
+                  <h3>{{ item_title }}</h3>
+                </div>
+
+                <div class="product-spec__accordion-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="7" height="6" viewBox="0 0 7 6" fill="none">
+                    <path d="M2.8844 5.55801L0.00039845 1.13249e-05H1.7504L3.1924 2.85601L4.6344 1.13249e-05H6.3844L3.5144 5.55801H2.8844Z" fill="#0E1F2A"/>
+                  </svg>
+                </div>
+              </div>
+
+              {%- if item_content != blank -%}
+                <div class="product-spec__accordion-content">
+                  {{ item_content }}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const section = document.querySelector('#product-spec-{{ section.id }}');
+
+    if (!section) return;
+
+    const accordionItems = section.querySelectorAll(
+      '.product-spec__accordion-item'
+    );
+
+    const setOpenHeight = (item) => {
+      const content = item.querySelector(
+        '.product-spec__accordion-content'
+      );
+
+      if (!content) return;
+
+      content.style.height = `${content.scrollHeight}px`;
+    };
+
+    const closeAccordion = (item) => {
+      const header = item.querySelector(
+        '.product-spec__accordion-header'
+      );
+      const content = item.querySelector(
+        '.product-spec__accordion-content'
+      );
+
+      if (!header || !content) return;
+
+      item.classList.remove('is-open');
+      content.classList.remove('is-open');
+      header.setAttribute('aria-expanded', 'false');
+
+      content.style.height = '0px';
+    };
+
+    const openAccordion = (item) => {
+      const header = item.querySelector(
+        '.product-spec__accordion-header'
+      );
+      const content = item.querySelector(
+        '.product-spec__accordion-content'
+      );
+
+      if (!header || !content) return;
+
+      item.classList.add('is-open');
+      content.classList.add('is-open');
+      header.setAttribute('aria-expanded', 'true');
+
+      setOpenHeight(item);
+    };
+
+    accordionItems.forEach((item) => {
+      const header = item.querySelector(
+        '.product-spec__accordion-header'
+      );
+      const content = item.querySelector(
+        '.product-spec__accordion-content'
+      );
+
+      if (!header || !content) return;
+
+      const toggleAccordion = () => {
+        const isOpen = item.classList.contains('is-open');
+
+        accordionItems.forEach((accordionItem) => {
+          if (accordionItem !== item) {
+            closeAccordion(accordionItem);
+          }
+        });
+
+        if (isOpen) {
+          closeAccordion(item);
+        } else {
+          openAccordion(item);
+        }
+      };
+
+      header.addEventListener('click', toggleAccordion);
+
+      header.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          toggleAccordion();
+        }
+      });
+    });
+
+    /*
+      Recalculate exact pixel height for any open accordion
+      when viewport width/orientation changes.
+    */
+    window.addEventListener('resize', () => {
+      accordionItems.forEach((item) => {
+        if (item.classList.contains('is-open')) {
+          setOpenHeight(item);
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product Specification",
+  "tag": "section",
+  "class": "section-product-spec",
+  "settings": [
+    {
+      "type": "color_background",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Specification Of 40oz Scout"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Created with 18/8 stainless steel, a double-walled design and vacuum insulation to keep drinks at the perfect temperature all day. Cup holder friendly and fully leakproof — toss it in your gym bag without worry.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Product Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_product_image",
+      "label": "Product image (Mobile)",
+      "info": "Optional. If not selected, the desktop image will be used."
+    },
+    {
+      "type": "header",
+      "content": "Image crop"
+    },
+    {
+      "type": "checkbox",
+      "id": "img_crop",
+      "label": "Crop the image",
+      "info": "Cuts the empty space above and below the product. Off = the full image as before.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "img_height",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Image height (desktop)",
+      "default": 420,
+      "info": "Lower = cuts more empty space above and below the product."
+    },
+    {
+      "type": "range",
+      "id": "img_pos_y",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical position (desktop)",
+      "default": 50,
+      "info": "Higher = product moves up. Lower = product moves down."
+    },
+    {
+      "type": "range",
+      "id": "img_zoom",
+      "min": 100,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "label": "Zoom (desktop)",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "img_height_mobile",
+      "min": 150,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "label": "Image height (mobile)",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "img_pos_y_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical position (mobile)",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "img_zoom_mobile",
+      "min": 100,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "label": "Zoom (mobile)",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "default": 76
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Padding bottom (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "accordion_item",
+      "name": "Accordion Item",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "border_top",
+          "label": "Border top",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "border_bottom",
+          "label": "Border bottom",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "General"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Add your content here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Specification",
+      "blocks": [
+        {
+          "type": "accordion_item",
+          "settings": {
+            "title": "General"
+          }
+        },
+        {
+          "type": "accordion_item",
+          "settings": {
+            "title": "Materials"
+          }
+        },
+        {
+          "type": "accordion_item",
+          "settings": {
+            "title": "Care"
+          }
+        },
+        {
+          "type": "accordion_item",
+          "settings": {
+            "title": "In the box"
+          }
+        },
+        {
+          "type": "accordion_item",
+          "settings": {
+            "title": "Shipping & returns"
+          }
+        },
+        {
+          "type": "accordion_item",
+          "settings": {
+            "title": "Warranty"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

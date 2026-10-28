@@ -1,0 +1,132 @@
+{% comment %}
+  sections/the-lid.liquid
+  Dark slider with GIF/image/video cards, "Design your Scout" button,
+  and a 01 / 03 counter. Reuses theme carousel-component (Flickity).
+  Scoped under .the-lid — no conflict.
+{% endcomment %}
+
+{{ 'the-lid.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'the-lid.js' | asset_url }}" defer="defer"></script>
+
+<section
+  class="the-lid"
+  data-section-id="{{ section.id }}"
+  style="
+    --tl-bg: {{ section.settings.bg_color | default: '#0E1F2A' }};
+    --tl-fg: {{ section.settings.text_color | default: '#ffffff' }};
+    --tl-pt: {{ section.settings.pad_top_mobile | default: 32 }}px;
+    --tl-pb: {{ section.settings.pad_bottom_mobile | default: 32 }}px;
+    --tl-pt-d: {{ section.settings.pad_top_desktop | default: 64 }}px;
+    --tl-pb-d: {{ section.settings.pad_bottom_desktop | default: 64 }}px;
+  "
+>
+  <div class=" the-lid__inner">
+
+    <div class="the-lid__head">
+      <div class="the-lid__intro">
+        {% if section.settings.eyebrow != blank %}<span class="the-lid__eyebrow">{{ section.settings.eyebrow }}</span>{% endif %}
+        {% if section.settings.title != blank %}<h2 class="the-lid__title">{{ section.settings.title }}</h2>{% endif %}
+        {% if section.settings.text != blank %}<p class="the-lid__text">{{ section.settings.text }}</p>{% endif %}
+      </div>
+      <div class="the-lid__arrows">
+        <button type="button" class="the-lid__arrow" aria-label="Previous" js-prev-button><svg xmlns="http://www.w3.org/2000/svg" width="5" height="10" viewBox="0 0 5 10" fill="none" aria-hidden="true">
+<path d="M4.78125 9.59375H3.15625L7.45058e-08 4.90625V4.75H1.78125L4.78125 9.59375ZM4.78125 -3.57628e-07L1.78125 4.84375H7.45058e-08V4.6875L3.15625 -3.57628e-07H4.78125Z" fill="currentColor"/>
+</svg></button>
+        <button type="button" class="the-lid__arrow" aria-label="Next" js-next-button><svg xmlns="http://www.w3.org/2000/svg" width="5" height="10" viewBox="0 0 5 10" fill="none" aria-hidden="true">
+<path d="M7.45058e-08 9.59375L3 4.75H4.78125V4.90625L1.625 9.59375H7.45058e-08ZM7.45058e-08 -3.57628e-07H1.625L4.78125 4.6875V4.84375H3L7.45058e-08 -3.57628e-07Z" fill="currentColor"/>
+</svg></button>
+      </div>
+    </div>
+<carousel-component
+  class="the-lid__slider"
+  data-options='{
+    "cellSelector": "[js-carousel-slide]",
+    "cellAlign": "left",
+    "contain": true,
+    "prevNextButtons": false,
+    "pageDots": false,
+    "groupCells": false,
+    "wrapAround": false,
+    "draggable": true,
+    "dragThreshold": 5,
+    "freeScroll": false,
+    "selectedAttraction": 0.025,
+    "friction": 0.28
+  }'
+>
+      <div js-carousel>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'slide' -%}
+            <div class="the-lid__card" js-carousel-slide {{ block.shopify_attributes }}>
+              {%- if block.settings.badge != blank -%}<span class="the-lid__badge">{{ block.settings.badge }}</span>{%- endif -%}
+              <div class="the-lid__media">
+                {%- if block.settings.video != blank -%}
+                  <video autoplay muted loop playsinline preload="metadata"
+                         {% if block.settings.image %}poster="{{ block.settings.image | image_url: width: 900 }}"{% endif %}>
+                    {%- for s in block.settings.video.sources -%}<source src="{{ s.url }}" type="{{ s.mime_type }}">{%- endfor -%}
+                  </video>
+                {%- elsif block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 900 }}" alt="{{ block.settings.image.alt | escape }}" loading="lazy">
+                {%- endif -%}
+              </div>
+              {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
+                <div class="main_lid_button">
+                <a class="the-lid__btn" href="{{ block.settings.button_link }}">{{ block.settings.button_label }}</a>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </carousel-component>
+
+    {%- assign slide_total = section.blocks | where: 'type', 'slide' | size -%}
+    {%- if slide_total > 0 -%}
+      <div class="the-lid__count">
+        <span class="the-lid__count-current" data-current>01</span>
+        <span class="the-lid__count-total">/{{ slide_total | prepend: '0' | slice: -2, 2 }}</span>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "The Lid Slider",
+  "tag": "section",
+  "class": "the-lid-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE LID" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Transparent Lid, Collapsible Straw" },
+    { "type": "textarea", "id": "text", "label": "Intro text" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#0E1F2A" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#ffffff" },
+    { "type": "header", "content": "Section spacing" },
+    { "type": "range", "id": "pad_top_desktop", "min": 0, "max": 160, "step": 2, "unit": "px", "label": "Padding top (desktop)", "default": 64 },
+    { "type": "range", "id": "pad_bottom_desktop", "min": 0, "max": 160, "step": 2, "unit": "px", "label": "Padding bottom (desktop)", "default": 64 },
+    { "type": "range", "id": "pad_top_mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "label": "Padding top (mobile)", "default": 32 },
+    { "type": "range", "id": "pad_bottom_mobile", "min": 0, "max": 120, "step": 2, "unit": "px", "label": "Padding bottom (mobile)", "default": 32 }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "text", "id": "badge", "label": "Badge text", "default": "GIF SLOT — STRAW COLLAPSE / LID DETACH LOOP" },
+        { "type": "image_picker", "id": "image", "label": "Image (also video poster)" },
+        { "type": "video", "id": "video", "label": "Video / GIF (autoplays muted)" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Design your Scout" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "The Lid Slider",
+      "blocks": [ { "type": "slide" }, { "type": "slide" }, { "type": "slide" } ]
+    }
+  ]
+}
+{% endschema %}

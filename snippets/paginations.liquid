@@ -1,0 +1,44 @@
+{%- comment -%}
+  snippets/shopall-pager.liquid
+  Circular prev/next pager: ( < )  current / total  ( > )
+  + "Showing X of Y products"
+  Usage: {% render 'shopall-pager', paginate: paginate %}
+{%- endcomment -%}
+
+{%- liquid
+  assign per   = paginate.page_size
+  assign page  = paginate.current_page
+  assign total = paginate.items
+  assign shown = page | times: per
+  if shown > total
+    assign shown = total
+  endif
+-%}
+
+<nav class="shopall-pager" role="navigation" aria-label="Pagination">
+  <div class="shopall-pager__row">
+    {%- if paginate.previous -%}
+      <a class="shopall-pager__btn" href="{{ paginate.previous.url }}" aria-label="Previous page">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    {%- else -%}
+      <span class="shopall-pager__btn is-disabled" aria-disabled="true">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    {%- endif -%}
+
+    <span class="shopall-pager__count">{{ page }} / {{ paginate.pages }}</span>
+
+    {%- if paginate.next -%}
+      <a class="shopall-pager__btn" href="{{ paginate.next.url }}" aria-label="Next page">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    {%- else -%}
+      <span class="shopall-pager__btn is-disabled" aria-disabled="true">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    {%- endif -%}
+  </div>
+
+  <p class="shopall-pager__showing">Showing {{ shown }} of {{ total }} products</p>
+</nav>

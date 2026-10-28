@@ -1,0 +1,182 @@
+{% style %}
+.store-benefits__{{ section.id }}{
+    background-color:{{ section.settings.bg_color }};
+    padding-top:{{ section.settings.top_padding }}px;
+    padding-bottom:{{ section.settings.bottom_padding }}px;
+}
+@media(max-width:768px){
+.store-benefits__{{ section.id }}{
+    padding-top:{{ section.settings.top_padding_mb }}px;
+    padding-bottom:{{ section.settings.bottom_padding_mb }}px;
+}
+}
+.store-benefits__wrapper{
+    border-top:1px solid #E7E9EA;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+    padding-top:35px;
+}
+.store-benefits__card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.store-benefits__card-icon{
+    width:100%;
+    max-width:20px;
+}
+.store-benefits__card-icon img{
+    width:100%;
+    height:auto;
+    display:flex;
+}
+.store-benefits__card-title{
+    padding-top:6px;
+}
+.store-benefits__card-title h4{
+    color: #0E1F2A;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 22px;
+    margin:0;
+}
+.store-benefits__card-text{
+    padding-top:6px;
+}
+.store-benefits__card-text p{
+    color: #6E797F;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    margin:0;
+}
+@media(max-width:768px){
+.store-benefits__wrapper{
+    grid-template-columns:repeat(2,1fr);
+    padding-top:32px;
+}
+.store-benefits__card-title h4{
+    font-size:13px;
+}
+.store-benefits__card-icon{
+  max-width:15px;
+}
+}
+{% endstyle %}
+<div class="store-benefits store-benefits__{{ section.id }}">
+    <div class="site-container">
+        <div class=store-benefits__wrapper>
+            {% for block in section.blocks %}
+              <div class="store-benefits__card">
+                {% if block.settings.icon !=blank %}
+                  <div class="store-benefits__card-icon">
+                    {{ block.settings.icon | image_url: width: 50 | image_tag: alt:block.settings.icon.alt }}
+                  </div>
+                {% endif %}
+                {% if block.settings.title !=blank %}
+                  <div class="store-benefits__card-title">
+                    <h4>{{ block.settings.title }} </h4>
+                  </div>
+                {% endif %}
+                {% if block.settings.text !=blank %}
+                  <div class="store-benefits__card-text">
+                    <p>{{ block.settings.text }} </p>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% schema %}
+{
+  "name": "Store Benefits",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Padding",
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Top Padding Desktop",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom Padding Desktop",
+      "default": 63
+    },
+    {
+      "type": "range",
+      "id": "top_padding_mb",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Top Padding Mobile",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding_mb",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom Padding Mobile",
+      "default": 32
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon-with-text",
+      "name": "Icon With Text",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon",
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "text",
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Store Benefits"
+    }
+  ]
+}
+{% endschema %}

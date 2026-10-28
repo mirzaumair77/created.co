@@ -1,0 +1,138 @@
+{% comment %}
+  Build Your Own Bundle: empty the cart AND remove the bundle discount code when the
+  customer comes back from checkout (back button, the cart icon in checkout, or the store logo).
+
+  Render once in layout/theme.liquid, just before </head> (NOT before </body>):
+    {% render 'byb-cart-reset' %}
+
+  It runs before the page is shown, so the old cart items and the count bubble never appear,
+  and it doesn't send any cart event, so the cart drawer stays closed.
+
+  On every page load it also removes a leftover bundle code (BUNDLE_CODES) from the cart.
+  Your cart drawer should call window.bybStripBundleCode() after each cart change
+  (add, quantity, remove) and before it renders the totals.
+{% endcomment %}
+<style>
+  /* while the cart is being emptied: hide the header count */
+  html.byb-resetting [js-open-cart-drawer] span,
+  html.byb-resetting .cart-count,
+  html.byb-resetting .cart-count-bubble { visibility: hidden !important; }
+  /* on the cart page: hide the page content until it reloads empty */
+  html.byb-resetting-cart main,
+  html.byb-resetting-cart #MainContent { visibility: hidden !important; }
+</style>
+<script>
+  (function () {
+    var FLAG = 'byb:checkout';
+    var MAX_AGE = 24 * 60 * 60 * 1000; // ignore flags older than 24h
+
+    // Bundle discount codes. The bundle goes straight to checkout and never uses the cart,
+    // so if one of these shows up on the store cart it is always a leftover: remove it.
+    // Keep this list the same as the "Discount code" settings of the Bundle builder section.
+    var BUNDLE_CODES = ['BUNDLE20'];
+    var html = document.documentElement;
+    var root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+    var onCartPage = /\/cart\/?$/.test(window.location.pathname);
+
+    function hasFlag() {
+      var t;
+      try { t = localStorage.getItem(FLAG); } catch (e) { return false; }
+      if (!t) return false;
+      if (Date.now() - Number(t) > MAX_AGE) {
+        try { localStorage.removeItem(FLAG); } catch (e) {}
+        return false;
+      }
+      return true;
+    }
+
+    // Shopify remembers ?discount=CODE from the checkout link in a cookie; without this,
+    // any later cart with 3+ eligible items would still get the bundle discount
+    function clearDiscountCookie() {
+      var expired = '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+      document.cookie = 'discount_code' + expired;
+      document.cookie = 'discount_code' + expired + '; domain=' + window.location.hostname;
+    }
+
+    /*
+      Removes bundle codes from the cart (other codes stay). Shopify keeps the code in an
+      HttpOnly cookie that JS cannot delete and puts it back when the cart changes, so this
+      runs on every page load and can be called again by the cart drawer:
+        window.bybStripBundleCode().then(function (changed) { ...render the drawer... });
+      Resolves to true when a code was removed.
+    */
+    function stripBundleCodes() {
+      return fetch(root + 'cart.js', { headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.json(); })
+        .then(function (cart) {
+          var codes = (cart.discount_codes || []).map(function (d) { return d.code; });
+          var upper = BUNDLE_CODES.map(function (c) { return c.toUpperCase(); });
+          var keep = codes.filter(function (c) { return upper.indexOf(String(c).toUpperCase()) === -1; });
+          if (keep.length === codes.length) return false; // nothing to remove
+
+          return fetch(root + 'cart/update.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ discount: keep.join(',') })
+          }).then(function () { return true; });
+        })
+        .catch(function () { return false; });
+    }
+    window.bybStripBundleCode = stripBundleCodes;
+
+    function removeCountBubble() {
+      document.querySelectorAll('[js-open-cart-drawer] span, .cart-count, .cart-count-bubble').forEach(function (b) { b.remove(); });
+    }
+
+    function reset() {
+      if (!hasFlag()) {
+        // normal visit: just make sure no leftover bundle code is on the cart
+        stripBundleCodes().then(function (changed) {
+          // the cart page shows server-rendered prices, so reload it once without the code
+          if (changed && onCartPage) window.location.replace(window.location.href);
+        });
+        return;
+      }
+
+      // hide before the first paint
+      html.classList.add('byb-resetting');
+      if (onCartPage) html.classList.add('byb-resetting-cart');
+
+      // 1. empty the cart  2. remove the bundle discount code from the cart  3. delete the saved code cookie
+      fetch(root + 'cart/clear.js', { method: 'POST', headers: { 'Accept': 'application/json' } })
+        .then(function () { return stripBundleCodes(); })
+        .then(function () {
+          clearDiscountCookie();
+          try { localStorage.removeItem(FLAG); } catch (e) {}
+
+          if (onCartPage) {
+            // the cart page was rendered with the bundle items; load it again, now empty
+            window.location.replace(window.location.href);
+            return;
+          }
+
+          // other pages: just drop the count bubble; no cart event, so the drawer stays closed
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+              removeCountBubble();
+              html.classList.remove('byb-resetting');
+            });
+          } else {
+            removeCountBubble();
+            html.classList.remove('byb-resetting');
+          }
+        })
+        .catch(function () {
+          // if clearing fails, show the page normally
+          html.classList.remove('byb-resetting', 'byb-resetting-cart');
+        });
+    }
+
+    // normal page load: runs right away in <head>
+    reset();
+
+    // page restored from the back/forward cache (back button from checkout)
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) reset();
+    });
+  })();
+</script>

@@ -9,717 +9,843 @@
  */
 {
   "sections": {
-    "1631277959cfa5b13c": {
-      "type": "hero",
+    "unit_hero_section_C7waLa": {
+      "type": "unit-hero-section",
+      "blocks": {
+        "background_AgYHeC": {
+          "type": "background",
+          "settings": {
+            "image": "shopify://shop_images/hero-banner.png",
+            "focal_x": 50,
+            "focal_y": 50,
+            "image_mobile": "shopify://shop_images/01_-_Hero_-_How_can_we_help.png",
+            "focal_x_mobile": 50,
+            "focal_y_mobile": 50,
+            "eyebrow": "",
+            "heading": "",
+            "text": "",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "show_dots": true,
+            "dot1_x": 34,
+            "dot1_y": 36,
+            "dot2_x": 58,
+            "dot2_y": 41
+          }
+        },
+        "background_FVaACR": {
+          "type": "background",
+          "settings": {
+            "image": "shopify://shop_images/drink-finder.png",
+            "focal_x": 50,
+            "focal_y": 50,
+            "focal_x_mobile": 50,
+            "focal_y_mobile": 50,
+            "eyebrow": "",
+            "heading": "",
+            "text": "",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "show_dots": true,
+            "dot1_x": 34,
+            "dot1_y": 35,
+            "dot2_x": 58,
+            "dot2_y": 41
+          }
+        },
+        "card_LWYbKx": {
+          "type": "card",
+          "settings": {
+            "product": "scout-40oz-sage",
+            "label": "New arrival",
+            "title": "40oz Scout",
+            "subtitle": "Available in 30 oz or 40 oz.",
+            "link": "",
+            "show_rating": true,
+            "rating": "5.0",
+            "reviews": "1"
+          }
+        },
+        "card_YhaxxH": {
+          "type": "card",
+          "settings": {
+            "product": "scout-40oz-white",
+            "label": "New arrival",
+            "title": "40oz Scout",
+            "subtitle": "Available in 30 oz or 40 oz.",
+            "link": "",
+            "show_rating": true,
+            "rating": "5.0",
+            "reviews": "1"
+          }
+        }
+      },
+      "block_order": [
+        "background_AgYHeC",
+        "background_FVaACR",
+        "card_LWYbKx",
+        "card_YhaxxH"
+      ],
+      "name": "Hero Scout slider",
+      "settings": {
+        "overlap_header": true,
+        "header_selector": ".shopify-section-header",
+        "height_desktop_mode": "custom",
+        "height_desktop_px": 760,
+        "height_mobile_mode": "custom",
+        "height_mobile_px": 850,
+        "overlay_opacity": 0,
+        "autoplay_speed": 15,
+        "show_progress": true,
+        "progress_mobile": false,
+        "progress_color": "#e25702",
+        "eyebrow": "Just launched",
+        "heading": "All New Scout Tumbler",
+        "text": "<p>Insulated drinkware built to keep up — from the desk to the trail. Filter by size, colour, or what you'll actually use it for.</p>",
+        "btn1_label": "Go custom",
+        "btn1_link": "https://created.co/pages/custom",
+        "btn2_label": "Shop now",
+        "btn2_link": "https://created.co/collections/shop-all",
+        "text_color": "#ffffff",
+        "eyebrow_color": "#faff94",
+        "btn_bg": "#0e1f2a",
+        "btn_text": "#ffffff",
+        "card_bg": "#5e7f91",
+        "card_opacity": 70,
+        "card_bg_mobile": "#3b4a52",
+        "card_opacity_mobile": 55
+      }
+    },
+    "press_logo_EWnkMh": {
+      "type": "press-logo",
+      "blocks": {
+        "logo_6y8nPG": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/logo_5.png",
+            "name": "Serious Eats",
+            "link": "",
+            "new_tab": true
+          }
+        },
+        "logo_ziJhQy": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/logo_6.png",
+            "name": "NBC News",
+            "link": "",
+            "new_tab": true
+          }
+        },
+        "logo_JcwLrt": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/logo_7.png",
+            "name": "Food & Wine",
+            "link": "",
+            "new_tab": true
+          }
+        },
+        "logo_FkNeCy": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/logo_9.png",
+            "name": "Travel + Leisure",
+            "link": "",
+            "new_tab": true
+          }
+        },
+        "logo_DWjktC": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/logo_8.png",
+            "name": "Cool Material",
+            "link": "",
+            "new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "logo_6y8nPG",
+        "logo_ziJhQy",
+        "logo_JcwLrt",
+        "logo_FkNeCy",
+        "logo_DWjktC"
+      ],
+      "name": "In the press",
+      "settings": {
+        "heading": "In the press",
+        "logo_width": 100,
+        "logo_width_mobile": 64,
+        "desktop_layout": "marquee",
+        "mobile_layout": "marquee",
+        "marquee_speed": 18,
+        "padding_top": 38,
+        "padding_bottom": 24,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "unit_best_seller_RV6YKG": {
+      "type": "unit-best-seller",
+      "blocks": {
+        "tab_qaDaie": {
+          "type": "tab",
+          "settings": {
+            "label": "All",
+            "collection": "24oz-cold-cups",
+            "limit": 8
+          }
+        },
+        "tab_bVRzbV": {
+          "type": "tab",
+          "settings": {
+            "label": "Stainless",
+            "collection": "stainless-collection",
+            "limit": 8
+          }
+        },
+        "tab_teYPP6": {
+          "type": "tab",
+          "settings": {
+            "label": "Ceramic",
+            "collection": "ceramics",
+            "limit": 8
+          }
+        },
+        "tab_LtpnED": {
+          "type": "tab",
+          "settings": {
+            "label": "Glass",
+            "collection": "cove-glassware-collection",
+            "limit": 8
+          }
+        }
+      },
+      "block_order": [
+        "tab_qaDaie",
+        "tab_bVRzbV",
+        "tab_teYPP6",
+        "tab_LtpnED"
+      ],
+      "name": "Shop by bestsellers",
+      "settings": {
+        "eyebrow": "Shop by",
+        "heading": "Bestsellers . .",
+        "text": "<p>Scout wasn't made for a treadmill life. It's for the sunrise trail, the second pour, the studio session that runs long. Wherever the day takes you — take it with you.</p>",
+        "show_rating": true,
+        "card_top_color": "#bccfdb",
+        "card_bottom_color": "#ffffff",
+        "star_color": "#e3560e",
+        "padding_top": 32,
+        "padding_bottom": 0
+      }
+    },
+    "shop_by_category_ezreTA": {
+      "type": "shop-by-category",
+      "blocks": {
+        "card_4nBfe7": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Hydration.png",
+            "image_mobile": "shopify://shop_images/Hydration.png",
+            "title": "Hydration",
+            "collection": "",
+            "products": [],
+            "link_label": "",
+            "open_default": false
+          }
+        },
+        "card_em9Cyp": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Coffee.png",
+            "image_mobile": "shopify://shop_images/Coffee.png",
+            "title": "Coffee",
+            "collection": "70s-collection",
+            "products": [
+              "angle-drip-12oz-black",
+              "small-latte-8oz-white",
+              "22oz-roam-mug-white"
+            ],
+            "link_label": "Shop All Coffee",
+            "open_default": false
+          }
+        },
+        "card_MhrdQ9": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Barware.png",
+            "image_mobile": "shopify://shop_images/Barware.png",
+            "title": "Barware",
+            "collection": "",
+            "products": [],
+            "link_label": "",
+            "open_default": false
+          }
+        },
+        "card_6CFK77": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Artist_Series.png",
+            "image_mobile": "shopify://shop_images/Artist_Series.png",
+            "title": "Artist Series",
+            "collection": "",
+            "products": [],
+            "link_label": "",
+            "open_default": false
+          }
+        }
+      },
+      "block_order": [
+        "card_4nBfe7",
+        "card_em9Cyp",
+        "card_MhrdQ9",
+        "card_6CFK77"
+      ],
+      "name": "Shop by category",
+      "settings": {
+        "eyebrow": "Every time is created",
+        "heading": "Drinkware. Simplified.",
+        "text": "<p>Scout wasn't made for a treadmill life. It's for the sunrise trail, the second pour</p>",
+        "panel_bg": "#b8ccd8",
+        "panel_text": "#0e1f2b",
+        "panel_top": 87,
+        "padding_top": 64,
+        "padding_bottom": 80,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "glass_banner_9nncgh": {
+      "type": "glass-banner",
+      "name": "Glass banner",
+      "settings": {
+        "image": "shopify://shop_images/image_7c933a8f-5ca2-4e26-9420-0e3b1300a84d.png",
+        "image_mobile": "shopify://shop_images/Container_7680c003-2816-4e2b-b16f-8657eb061c57.png",
+        "overlay": 0,
+        "card_position": "left",
+        "eyebrow": "Custom drinkware",
+        "heading": "Make Your Mark",
+        "text": "<p>Everyone is creative. At Created, we want your creativity to thrive. We make the process seamless from start to finish.</p>",
+        "text_mobile": "<p>Everyone is creative. At Created, we want your creativity to thrive.</p>",
+        "btn_label": "Go custom",
+        "btn_link": "",
+        "height": 520,
+        "padding_top": 0,
+        "padding_bottom": 56,
+        "height_mobile": 280,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "drink_finder_QmjycB": {
+      "type": "drink-finder",
+      "blocks": {
+        "filter_pill_J8Y4XK": {
+          "type": "filter_pill",
+          "settings": {
+            "icon": "coffee",
+            "label": "Morning coffee",
+            "filter_tag": "morning",
+            "search_text": "",
+            "default_active": false
+          }
+        },
+        "filter_pill_eQYBNc": {
+          "type": "filter_pill",
+          "settings": {
+            "icon": "sparkle",
+            "label": "Something cold",
+            "filter_tag": "cold",
+            "search_text": "",
+            "default_active": true
+          }
+        },
+        "filter_pill_kMQWpT": {
+          "type": "filter_pill",
+          "settings": {
+            "icon": "droplet",
+            "label": "All-day water",
+            "filter_tag": "water",
+            "search_text": "",
+            "default_active": false
+          }
+        },
+        "filter_pill_wxMbEg": {
+          "type": "filter_pill",
+          "settings": {
+            "icon": "pin",
+            "label": "On the go",
+            "filter_tag": "go",
+            "search_text": "",
+            "default_active": false
+          }
+        }
+      },
+      "block_order": [
+        "filter_pill_J8Y4XK",
+        "filter_pill_eQYBNc",
+        "filter_pill_kMQWpT",
+        "filter_pill_wxMbEg"
+      ],
+      "name": "Drink Finder",
+      "settings": {
+        "background_image": "shopify://shop_images/drink-finder.png",
+        "mobile_background_image": "shopify://shop_images/drink-finder__mobile-bg.png",
+        "overlay": true,
+        "section_height": "fit_screen",
+        "mobile_section_height": "auto",
+        "eyebrow_text": "Find Your Fit",
+        "heading": "What Are You Drinking Today?",
+        "collection": "",
+        "typing_phrases": "I need a tumbler that keeps my coffee warm for a long time\nI need a stainless steel coffee mug\nI am looking for a coffee tumbler short",
+        "search_placeholder": "I need something that keeps ice all day...",
+        "pill_search_template": "I need something that keeps [filter]",
+        "show_results_on_load": false,
+        "empty_text": "No matches found. Try another search.",
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "pick_label": "Our Pick",
+        "pick_button_label": "Design Your Scout",
+        "padding_top": 88,
+        "padding_bottom": 88,
+        "mobile_padding_top": 48,
+        "mobile_padding_bottom": 48
+      }
+    },
+    "stacked_story_R8g93k": {
+      "type": "stacked-story",
+      "blocks": {
+        "review_BNyzkG": {
+          "type": "review",
+          "settings": {
+            "quote": "“Two years of daily use and the Scout still looks new. The lid never leaks and it fits my car cup holder — which nothing else did.”",
+            "rating": 5,
+            "count": "1",
+            "name": "Sarah M.",
+            "meta": "Verified buyer • 40oz Scout"
+          }
+        },
+        "review_MF8pcr": {
+          "type": "review",
+          "settings": {
+            "quote": "“Two years of daily use and the Scout still looks new. The lid never leaks and it fits my car cup holder — which nothing else did.”",
+            "rating": 5,
+            "count": "1",
+            "name": "James R.",
+            "meta": "Verified buyer • 26oz Wander"
+          }
+        },
+        "point_hQdDAq": {
+          "type": "point",
+          "settings": {
+            "title": "Design first",
+            "text": "Rooted in mid-century design, but built for now — drawn and refined by artists in California."
+          }
+        },
+        "point_z4rqLY": {
+          "type": "point",
+          "settings": {
+            "title": "Quality without compromise",
+            "text": "18/8 stainless steel, double-wall vacuum insulation and a lifetime hardware warranty."
+          }
+        },
+        "point_MrDqia": {
+          "type": "point",
+          "settings": {
+            "title": "One system, endlessly yours",
+            "text": "Each Nomad lid is interchangeable with each Nomad base, so the cup changes as you do."
+          }
+        }
+      },
+      "block_order": [
+        "review_BNyzkG",
+        "review_MF8pcr",
+        "point_hQdDAq",
+        "point_z4rqLY",
+        "point_MrDqia"
+      ],
+      "name": "Stacked story",
+      "settings": {
+        "enable_stack": true,
+        "shrink": true,
+        "sticky_top": 0,
+        "intro_rating": 5,
+        "intro_eyebrow": "142 verified 5-star reviews",
+        "intro_heading": "Better Every Day.",
+        "intro_btn_label": "Explore all",
+        "intro_btn_link": "",
+        "reviews_image": "shopify://shop_images/better-every-day.png",
+        "philosophy_image": "shopify://shop_images/our-philosophy.png",
+        "philosophy_title": "Our philosophy",
+        "about_heading": "<p>Drinkware, Thoughtfully Designed.</p>",
+        "about_subheading": "About Created",
+        "about_text": "<p>At Created we believe drinkware should feel simple, intentional and built to last. Every vessel is designed by artists in California and made to be used every single day.</p>",
+        "about_btn_label": "Read more",
+        "about_btn_link": "",
+        "grad_top": "#b8cdd8",
+        "grad_bottom": "#ffffff",
+        "star_color": "#e25702"
+      }
+    },
+    "featured_details_Jrdyzm": {
+      "type": "featured-details",
+      "blocks": {
+        "card_LwGbce": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/188-stainless.png",
+            "title": "18/8 Stainless",
+            "text": "<p>Double-wall vacuum insulation keeps<br/>drinks cold for 24 hours.</p>"
+          }
+        },
+        "card_CffBWT": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/nomad-lid_system.png",
+            "title": "Nomad Lid System",
+            "text": "<p>Each Nomad lid is interchangeable<br/>with each Nomad base.</p>"
+          }
+        },
+        "card_rNkdgw": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/cup-holder-base.png",
+            "title": "Cup-holder Base",
+            "text": "<p>Tapered to fit a standard car cup<br/>holder in 30 oz and 40 oz.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "card_LwGbce",
+        "card_CffBWT",
+        "card_rNkdgw"
+      ],
+      "name": "Featured Details",
+      "settings": {
+        "subtitle": "FEATURED DETAILS",
+        "heading": "Inside Every Scout",
+        "description": "<p>Every detail in a created vessel is drawn, tested and refined in-house before it ships.</p>",
+        "background_color": "#ffffff",
+        "padding_top": 100,
+        "padding_bottom": 53,
+        "padding_top_mob": 48,
+        "padding_bottom_mb": 40
+      }
+    },
+    "bundle_builder_v2_pTLbaP": {
+      "type": "bundle-builder-v2",
+      "blocks": {
+        "step_VU9dxb": {
+          "type": "step",
+          "settings": {
+            "step_label": "MORNING",
+            "heading": "Choose your hydration piece",
+            "text": "Start with an 18/8 stainless base. Double-wall vacuum insulation on every size.",
+            "collection": "24oz-cold-cups",
+            "limit": 16
+          }
+        },
+        "step_bwqAyA": {
+          "type": "step",
+          "settings": {
+            "step_label": "AFTERNOON",
+            "heading": "Add a ceramic",
+            "text": "Hand-finished ceramic interiors keep the taste of your drink unchanged.",
+            "collection": "ceramics",
+            "limit": 16
+          }
+        },
+        "step_VR46pg": {
+          "type": "step",
+          "settings": {
+            "step_label": "EVENING",
+            "heading": "Finish with glass",
+            "text": "Cove glassware, drawn and refined by artists in California.",
+            "collection": "cove-glassware-collection",
+            "limit": 16
+          }
+        }
+      },
+      "block_order": [
+        "step_VU9dxb",
+        "step_bwqAyA",
+        "step_VR46pg"
+      ],
+      "name": "Bundle builder",
+      "settings": {
+        "eyebrow": "Start with a bundle",
+        "heading": "Build Your Own Bundle",
+        "text": "<p>Build your own bundle to experience the best of Created Co. and save up to 20% on your order.</p>",
+        "default_mode": "2",
+        "hide_sold_out": false,
+        "m1_label": "Build Routine",
+        "show_step_labels": true,
+        "m1_min": 3,
+        "m1_max_item": 10,
+        "m1_percent": 20,
+        "m1_code": "BUNDLE20",
+        "m1_note": "Save up to [percent]% when you build a bundle of three pieces or more.",
+        "m2_label": "BYOB",
+        "m2_heading": "Pick any pieces, in any quantity",
+        "m2_text": "<p>Top sellers. Add the same product more than once —<strong> [min] pieces or more unlock the [percent]% bundle saving.</strong></p>",
+        "m2_products": [],
+        "m2_collection": "ceramics",
+        "m2_limit": 50,
+        "m2_rows": 3,
+        "m2_rows_step": 3,
+        "load_more_label": "Load more",
+        "load_less_label": "Load less",
+        "m2_min": 3,
+        "m2_max_item": 10,
+        "m2_percent": 20,
+        "m2_code": "BUNDLE20",
+        "m2_note": "[min] pieces or more — any mix, or the same product — unlock [percent]% off. Up to [max] of each product.",
+        "summary_title": "Your bundle",
+        "empty_text": "Your picks will show here.",
+        "build_label": "Build bundle",
+        "sticky_top": 20,
+        "padding_top": 60,
+        "padding_bottom": 52,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "store_benefits_teYdqC": {
+      "type": "store-benefits",
+      "blocks": {
+        "icon_with_text_3hyHtY": {
+          "type": "icon-with-text",
+          "settings": {
+            "icon": "shopify://shop_images/Free_shipping.svg",
+            "title": "Free shipping over $75",
+            "text": "Ships in 1–2 business days"
+          }
+        },
+        "icon_with_text_fYQ3BU": {
+          "type": "icon-with-text",
+          "settings": {
+            "icon": "shopify://shop_images/returns_Icon_d8e30cac-4502-4b1e-ab45-82e8a14ccd65.svg",
+            "title": "30-day returns",
+            "text": "Unused items, any reason"
+          }
+        },
+        "icon_with_text_iNB8fR": {
+          "type": "icon-with-text",
+          "settings": {
+            "icon": "shopify://shop_images/warranty_Icon_7fb92b6a-ec4e-452e-93d8-4a32acb02f0c.svg",
+            "title": "Lifetime hardware warranty",
+            "text": "Lids, straws and handles"
+          }
+        },
+        "icon_with_text_777dg6": {
+          "type": "icon-with-text",
+          "settings": {
+            "icon": "shopify://shop_images/human_support.svg",
+            "title": "Real human support",
+            "text": "714.869.7416 · hello@created.co"
+          }
+        }
+      },
+      "block_order": [
+        "icon_with_text_3hyHtY",
+        "icon_with_text_fYQ3BU",
+        "icon_with_text_iNB8fR",
+        "icon_with_text_777dg6"
+      ],
+      "name": "Store Benefits",
+      "settings": {
+        "bg_color": "#ffffff",
+        "top_padding": 0,
+        "bottom_padding": 63,
+        "top_padding_mb": 32,
+        "bottom_padding_mb": 32
+      }
+    },
+    "unit_bundle_builder_pLJCtF": {
+      "type": "unit-bundle-builder",
+      "blocks": {
+        "image_jYYGg9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/bundle-builder__image-1.png"
+          }
+        },
+        "image_4EqgYp": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/bundle-builder__image-2.png"
+          }
+        },
+        "image_QxEFw4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/bundle-builder__image-3.png"
+          }
+        },
+        "image_FqMGPB": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/bundle-builder__image-4.png"
+          }
+        },
+        "image_7Drrx8": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/bundle-builder__image-2.png"
+          }
+        },
+        "image_dQPAQY": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/bundle-builder__image-1.png"
+          }
+        },
+        "step_da9WY6": {
+          "type": "step",
+          "settings": {
+            "step_label": "Step 01",
+            "heading": "Choose your hydration piece",
+            "text": "Start with an 18/8 stainless base. Double-wall vacuum insulation on every size.",
+            "collection": "24oz-cold-cups",
+            "limit": 4
+          }
+        },
+        "step_tDMxr3": {
+          "type": "step",
+          "settings": {
+            "step_label": "Step 02",
+            "heading": "Add a ceramic",
+            "text": "Hand-finished ceramic interiors keep the taste of your drink unchanged.",
+            "collection": "ceramics",
+            "limit": 4
+          }
+        },
+        "step_dYqQTx": {
+          "type": "step",
+          "settings": {
+            "step_label": "Step 03",
+            "heading": "Finish with glass",
+            "text": "Cove glassware, drawn and refined by artists in California.",
+            "collection": "cove-glassware-collection",
+            "limit": 4
+          }
+        }
+      },
+      "block_order": [
+        "image_jYYGg9",
+        "image_4EqgYp",
+        "image_QxEFw4",
+        "image_FqMGPB",
+        "image_7Drrx8",
+        "image_dQPAQY",
+        "step_da9WY6",
+        "step_tDMxr3",
+        "step_dYqQTx"
+      ],
       "disabled": true,
-      "custom_css": [],
+      "name": "Build your own bundle",
       "settings": {
-        "desktop_image": "shopify://shop_images/CC_HP_Desktop_1920x1000_01.21.25.jpg",
-        "mobile_image": "shopify://shop_images/CC_HP_Mobile_01.21.25.jpg",
-        "content_x_alignment": "items-start",
-        "content_y_alignment": "justify-center",
-        "text_alignment": "text-left",
-        "title-line-1": "EVERY",
-        "title-line-2": "Sip Counts",
-        "body_text": "Whether you're conquering new climbs or beating personal bests, Wander Bottle is ready to help get you there, one sip at a time.",
-        "mobile_offset": 0,
-        "offset": 0,
-        "cta_url_1": "https://created.co/pages/custom",
-        "cta_text_1": "GO CUSTOM",
-        "cta_url_2": "shopify://products/wander-26oz-pacific",
-        "cta_text_2": "Shop Wander"
+        "eyebrow": "Start with a bundle",
+        "heading": "Build Your Own Bundle",
+        "text": "<p>Build your own bundle to experience the best of Created Co. and save up to 20% on your order.</p>",
+        "open_label": "Build bundle",
+        "popup_eyebrow": "Start with a bundle",
+        "popup_heading": "Build Your Own Bundle",
+        "popup_text": "<p>Build your own bundle to experience the best of Created Co. and save up to 20% on your order.</p>",
+        "default_mode": "1",
+        "m1_label": "Day routine",
+        "show_step_labels": true,
+        "m1_percent": 20,
+        "m1_code": "BUNDLE20",
+        "m1_note": "Save up to [percent]% when you build a bundle of three pieces or more.",
+        "m2_label": "Actual bundle",
+        "m2_heading": "Pick any pieces, in any quantity",
+        "m2_text": "Top sellers. Add the same product more than once — [min] pieces or more unlock the [percent]% bundle saving.",
+        "m2_products": [],
+        "m2_collection": "24oz-cold-cups",
+        "m2_limit": 18,
+        "m2_min": 3,
+        "m2_max_item": 10,
+        "m2_percent": 20,
+        "m2_code": "BUNDLE20",
+        "m2_note": "[min] pieces or more — any mix, or the same product — unlock [percent]% off. Up to [max] pieces per bundle.",
+        "summary_title": "Your bundle",
+        "empty_text": "Your picks will show here.",
+        "build_label": "Build bundle",
+        "padding_top": 40,
+        "padding_bottom": 108,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
       }
     },
-    "hero_cRCrjD": {
-      "type": "hero",
-      "disabled": true,
-      "settings": {
-        "desktop_image": "shopify://shop_images/12-13-24_Created_Co16687_1.png",
-        "mobile_image": "shopify://shop_images/mobile12-13-24_Created_Co16687_2.png",
-        "content_x_alignment": "items-start",
-        "content_y_alignment": "justify-center",
-        "text_alignment": "text-left",
-        "title-line-1": "NOMAD",
-        "title-line-2": "System",
-        "body_text": "Craft your perfect drinking experience with a ceramic-lined, 100% leak-proof tumbler designed to fuel creativity and elevate every sip. Now with three interchangeable lids.",
-        "mobile_offset": 0,
-        "offset": 0,
-        "cta_url_1": "https://created.co/pages/custom",
-        "cta_text_1": "GO CUSTOM",
-        "cta_url_2": "shopify://pages/nomad-landing-page",
-        "cta_text_2": "SHOP NOMAD"
-      }
-    },
-    "hero_slider_v1_zTQUVW": {
-      "type": "hero-slider-v1",
+    "reviews_slider_748iQn": {
+      "type": "reviews-slider",
       "blocks": {
-        "slide_YmiQmP": {
-          "type": "slide",
-          "name": "Nomad",
+        "review_KthwAf": {
+          "type": "review",
           "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/12-13-24_Created_Co16687_1.png_1.png",
-            "mobile_image": "shopify://shop_images/Mobile_NOMAD.png",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "Discover the",
-            "title-line-2": "NOMAD SYSTEM",
-            "body_text": "Every Nomad lid is interchangeable with each base. Mix and match colors, or grab both lid options to complete the system. Nomad is design-driven drinkware at its finest.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "GO CUSTOM",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/pages/nomad-landing-page",
-            "cta_text_2": "EXPLORE NOMAD",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
+            "quote": "The quality feels premium and the results feel real. Created has become part of my daily ritual.",
+            "name": "David Wong",
+            "product": "scout-40oz-black",
+            "product_title": "40oz Scout",
+            "link": ""
           }
         },
-        "slide_B6tpHc": {
-          "type": "slide",
-          "name": "Citron + Rain",
+        "review_dPWNwf": {
+          "type": "review",
           "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/WEbsite_hero_7ec2a796-95ff-4e5d-b514-1615dc54926b.png",
-            "mobile_image": "shopify://shop_images/WEbsite_mobile.png",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "Citron & Rain",
-            "title-line-2": "",
-            "body_text": "Fresh and bright colorways are now available on some of our best sellers for summer.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/collections/shop-all",
-            "cta_text_1": "Shop Now",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/pages/custom",
-            "cta_text_2": "Go Custom",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
+            "quote": "Since adding the Nomad Flip to my routine, the lid has never leaked once — not in two years.",
+            "name": "Michael Brooks",
+            "product": "wander-26oz-pacific",
+            "product_title": "12oz Nomad Flip",
+            "link": ""
           }
         },
-        "slide_rW7TJC": {
-          "type": "slide",
-          "name": "Realtree",
-          "disabled": true,
+        "review_cVnEVa": {
+          "type": "review",
           "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/Frame_1_Hero_9e8a658a-1bc6-4c18-8211-be9bbf621fc8.png",
-            "mobile_image": "shopify://shop_images/Frame_2_Mobile_b5e9d22c-5e89-48a4-a171-d574ecba0075.png",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "Real Tree",
-            "title-line-2": "x Created",
-            "body_text": "Our entire stainless collection is now available in Realtree camo. This drop is limited edition. Don't wait.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/collections/stainless-collection",
-            "cta_text_1": "Shop Realtree",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/pages/custom",
-            "cta_text_2": "Go Custom",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
+            "quote": "I started with the Wander and quickly noticed the difference. It travels everywhere with me now.",
+            "name": "Olivia Bennett",
+            "product": "16oz-24oz-cold-cup-lid-navy",
+            "product_title": "26oz Wander",
+            "link": ""
           }
         },
-        "slide_agKY9C": {
-          "type": "slide",
-          "name": "Holiday Hero",
-          "disabled": true,
+        "review_XWErGe": {
+          "type": "review",
           "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/Frame_2_-_Holiday_Hero.png",
-            "mobile_image": "shopify://shop_images/Holiday_Hero_Mobile.png",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "The Perfect Gift",
-            "title-line-2": "",
-            "body_text": "Find the perfect gift for everyone on your list. Pick up a new Wander Bottle, discover a timeless Milk Glass piece, or upgrade your daily staple to a ceramic-coated Nomad Tumbler. Order by 12/10 to receive by Christmas.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "GO CUSTOM",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/collections/shop-all",
-            "cta_text_2": "SHOP NOW",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
-          }
-        },
-        "slide_nLGf4T": {
-          "type": "slide",
-          "name": "Cold Cup",
-          "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/CC_HP_Desktop_2400x2300_04.21.25-1.jpg",
-            "mobile_image": "shopify://shop_images/CC_HP_Mobile_800x810_04.21.25-1.jpg",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "It's Cold Cup",
-            "title-line-2": "SEASON",
-            "body_text": "Pour up your favorite iced drink and keep it icy cold for hours all spring and summer long. 3 sizes and 10+ colors available.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "GO CUSTOM",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/collections/cold-cups",
-            "cta_text_2": "SHOP NOW",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
-          }
-        },
-        "slide_bGLnxX": {
-          "type": "slide",
-          "name": "Wander",
-          "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/Hero___Wander_38257b56-0e4e-42f8-96a9-a5a881c1e866.png",
-            "mobile_image": "shopify://shop_images/Hero_Mobile_-_Wander.png",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "Hello",
-            "title-line-2": "WANDER",
-            "body_text": "Stainless, leak-proof, durable, and insulated. Our Wander Bottle is designed for those who strive to be at the top of their craft and driven to excellence.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "GO CUSTOM",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/products/wander-26oz-citron",
-            "cta_text_2": "SHOP NOW",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
-          }
-        },
-        "slide_fLLbBN": {
-          "type": "slide",
-          "name": "Scout",
-          "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/Frame_1_Hero.png",
-            "mobile_image": "shopify://shop_images/Frame_2_Mobile.png",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "All New",
-            "title-line-2": "SCOUT TUMBLER",
-            "body_text": "Just Launched. Our largest hydration vessel yet. Available in 30 oz or 40 oz. Cup-holder-friendly. Leak-proof. Built-in straw. Two different handle styles.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "GO CUSTOM",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/collections/stainless-collection",
-            "cta_text_2": "SHOP NOW",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
-          }
-        },
-        "slide_xGxrEC": {
-          "type": "slide",
-          "name": "Milk Glass",
-          "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/Hero___Milkglass.png",
-            "mobile_image": "shopify://shop_images/Hero_-_mobile.png",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "Timeless",
-            "title-line-2": "Milk Glass",
-            "body_text": "Rooted in mid-century design, but built for now. Enjoy timeless silhouettes, everyday durability, and a luminous palette of heritage tones.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "GO CUSTOM",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "shopify://products/milk-glass-8oz-mist",
-            "cta_text_2": "SHOP NOW",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
-          }
-        },
-        "slide_jQ4RAN": {
-          "type": "slide",
-          "name": "Roam",
-          "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/CC_HP_Desktop_2400x2300_04.21.25.jpg",
-            "mobile_image": "shopify://shop_images/CC_HP_Mobile_800x810_04.21.25.jpg",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "Travel-Ready",
-            "title-line-2": "ROAM MUG",
-            "body_text": "Designed to fit comfortably in your hand and we promise – perfectly in your cup holder.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "GO CUSTOM",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/collections/roam-mug",
-            "cta_text_2": "SHOP NOW",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
-          }
-        },
-        "slide_UJJ8AG": {
-          "type": "slide",
-          "name": "LISA ",
-          "disabled": true,
-          "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/Hero3.png",
-            "mobile_image": "shopify://shop_images/Mobile_e39a1cef-3d13-4955-a924-e8c584c993e9.png",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "Lisa",
-            "title-line-2": "Congdon",
-            "body_text": "Shop our latest artist release from the one and only Lisa Congdon. Enjoy playful, hand-drawn designs brought to life on your favorite drinkware. ",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "",
-            "btn_first_bg_color": "#000000",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/collections/lisa-congdon",
-            "cta_text_2": "SHOP NOW",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
-          }
-        },
-        "slide_kpEe8L": {
-          "type": "slide",
-          "name": "Wine",
-          "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/Hero___Wine.png",
-            "mobile_image": "shopify://shop_images/Hero_Mobile_-_wine.png",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "Ceramic-lined",
-            "title-line-2": "Wine Cup",
-            "body_text": "The Wine Cup is your go-to for chilled whites, bold reds, cocktails, or mocktails, offering a versatile, glass-free way to sip in style.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "GO CUSTOM",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/products/wine-cup-9oz-black?_pos=1&_sid=9a1c122e3&_ss=r",
-            "cta_text_2": "SHOP NOW",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
-          }
-        },
-        "slide_YMMPh4": {
-          "type": "slide",
-          "name": "Wine",
-          "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/CC_HP_Desktop_2400x2300_03.24.25.jpg",
-            "mobile_image": "shopify://shop_images/CC_HP_Mobile_800x810_03.24.25.jpg",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "Cove Glassware",
-            "title-line-2": "IS HERE",
-            "body_text": "Raise a glass (or two) to our newest collection, featuring beautiful, double-walled glassware in a gift-ready set of two for all occasions.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "GO CUSTOM",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/collections/cove-glassware-collection",
-            "cta_text_2": "SHOP NOW",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
-          }
-        },
-        "slide_PRUAr7": {
-          "type": "slide",
-          "name": "Beer",
-          "disabled": true,
-          "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/Hero___Beer_d5618d7e-5c89-4ca7-9be1-7cdd5bf2c1d9.png",
-            "mobile_image": "shopify://shop_images/Hero_Mobile_-_beer.png",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "The Perfect",
-            "title-line-2": "Beer Pint",
-            "body_text": "Cheers to a glass-free way to enjoy a pint. Designed to deliver everything you love about a classic pint with modern upgrades. Perfect for tailgates, barbecues, and everything in between.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "GO CUSTOM",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/products/beer-pint-black",
-            "cta_text_2": "SHOP NOW",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
-          }
-        },
-        "slide_QtgDkV": {
-          "type": "slide",
-          "name": "Canister",
-          "disabled": true,
-          "settings": {
-            "bg_color": "#000000",
-            "text_color": "#ffffff",
-            "desktop_image": "shopify://shop_images/CC_HP_Desktop_2400x2300_04.25.25.jpg",
-            "mobile_image": "shopify://shop_images/CC_HP_Mobile_800x810_04.25.25.jpg",
-            "content_x_alignment": "items-center",
-            "content_y_alignment": "justify-center",
-            "text_alignment": "text-center",
-            "title-line-1": "This Just In –",
-            "title-line-2": "COFFEE CANISTER",
-            "body_text": "Designed to preserve freshness, this is more than just storage – it’s an essential part of your coffee experience.",
-            "mobile_offset": 0,
-            "offset": 0,
-            "cta_url_1": "https://created.co/pages/custom",
-            "cta_text_1": "GO CUSTOM",
-            "btn_first_bg_color": "#ffffff",
-            "btn_first_text_color": "#ffffff",
-            "cta_url_2": "https://created.co/products/coffee-canister-black",
-            "cta_text_2": "SHOP NOW",
-            "btn_second_bg_color": "#ffffff",
-            "btn_second_text_color": "#000000"
+            "quote": "Keeps my coffee hot through the whole commute and still looks brand new.",
+            "name": "Sarah Mitchell",
+            "product": "cold-cup-24oz-eraser",
+            "product_title": "22oz Roam Mug",
+            "link": ""
           }
         }
       },
       "block_order": [
-        "slide_YmiQmP",
-        "slide_B6tpHc",
-        "slide_rW7TJC",
-        "slide_agKY9C",
-        "slide_nLGf4T",
-        "slide_bGLnxX",
-        "slide_fLLbBN",
-        "slide_xGxrEC",
-        "slide_jQ4RAN",
-        "slide_UJJ8AG",
-        "slide_kpEe8L",
-        "slide_YMMPh4",
-        "slide_PRUAr7",
-        "slide_QtgDkV"
-      ],
-      "settings": {}
-    },
-    "163310331302f0abcc": {
-      "type": "featured-collection-carousel",
-      "blocks": {
-        "a86fac9a-0473-4e6a-8d39-571e51bdf214": {
-          "type": "collection",
-          "settings": {
-            "collection": "hero-lider-collection",
-            "filter_text": "Stainless"
-          }
-        },
-        "01285e7d-7470-4298-b579-f11f248b6e86": {
-          "type": "collection",
-          "settings": {
-            "collection": "homepage-slider-collection-2",
-            "filter_text": "Ceramic"
-          }
-        },
-        "collection_aHjwta": {
-          "type": "collection",
-          "settings": {
-            "collection": "homepage-slider-collection-1-copy",
-            "filter_text": "Glass"
-          }
-        }
-      },
-      "block_order": [
-        "a86fac9a-0473-4e6a-8d39-571e51bdf214",
-        "01285e7d-7470-4298-b579-f11f248b6e86",
-        "collection_aHjwta"
-      ],
-      "settings": {
-        "full_width": false,
-        "spacing_left": false,
-        "main_heading": "OUR PRODUCTS",
-        "mb_heading": "OUR PRODUCTS",
-        "enable_arrow": true
-      }
-    },
-    "16351788315ad32cb8": {
-      "type": "text-with-carousel-home",
-      "blocks": {
-        "8a2ae643-9ff3-40db-8c73-5348da045daa": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/12-15-21_Created_Co0751.jpg"
-          }
-        },
-        "4acb7ceb-b021-4a21-8440-eb02a4bb83df": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/12-15-21_Created_Co0923.jpg"
-          }
-        },
-        "8b7c1008-2bc7-47f0-b60f-2d9808098155": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/12-15-21_Created_Co0890.jpg"
-          }
-        },
-        "43909962-ab4c-4a92-8185-a99072e0b62d": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/12-15-21_Created_Co0719.jpg"
-          }
-        },
-        "47d5772c-89ed-4481-8f4a-afff68b60e84": {
-          "type": "image",
-          "disabled": true,
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "8a2ae643-9ff3-40db-8c73-5348da045daa",
-        "4acb7ceb-b021-4a21-8440-eb02a4bb83df",
-        "8b7c1008-2bc7-47f0-b60f-2d9808098155",
-        "43909962-ab4c-4a92-8185-a99072e0b62d",
-        "47d5772c-89ed-4481-8f4a-afff68b60e84"
-      ],
-      "settings": {
-        "custom_class": "",
-        "spacing_left": false,
-        "dark_bg": true,
-        "auto_scroll": true,
-        "svg_main_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 557.06 112.01\"><defs><style>.body-text-cls-1{font-size:93.27px;font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;font-weight:500;}.body-text-cls-1,.body-text-cls-3{fill:#fff;}.body-text-cls-2{letter-spacing:0.01em;}.body-text-cls-3{font-size:90.26px;font-family:Canela-Thin, Canela;font-weight:200;}.body-text-cls-4{letter-spacing:0.02em;}.body-text-cls-5{letter-spacing:0.03em;}.body-text-cls-6{letter-spacing:0.03em;}.body-text-cls-7{letter-spacing:0.01em;}.body-text-cls-8{letter-spacing:0.02em;}</style></defs><title>Asset 6</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"body-text-cls-1\" transform=\"translate(0 79.28)\"><tspan class=\"body-text-cls-2\">G</tspan><tspan x=\"74.33\" y=\"0\">O</tspan></text><text class=\"body-text-cls-3\" transform=\"translate(148.11 79.28)\"><tspan class=\"body-text-cls-4\"> </tspan><tspan class=\"body-text-cls-5\" x=\"15.34\" y=\"0\">C</tspan><tspan class=\"body-text-cls-6\" x=\"85.47\" y=\"0\">U</tspan><tspan class=\"body-text-cls-7\" x=\"149.92\" y=\"0\">S</tspan><tspan class=\"body-text-cls-8\" x=\"198.84\" y=\"0\">TO</tspan><tspan x=\"332.87\" y=\"0\">M</tspan></text></g></g></svg>",
-        "svg_body_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 735.95 268.58\"><defs><style>.header-text-cls-1,.header-text-cls-14{font-size:116.3px;font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;font-weight:500;}.header-text-cls-1,.header-text-cls-10,.header-text-cls-14,.header-text-cls-7{fill:#e6e6e6;}.header-text-cls-2{letter-spacing:-0.02em;}.header-text-cls-3{letter-spacing:-0.01em;}.header-text-cls-4{letter-spacing:-0.1em;}.header-text-cls-5{letter-spacing:-0.02em;}.header-text-cls-6{letter-spacing:0em;}.header-text-cls-10,.header-text-cls-7{font-size:111.26px;font-weight:200;}.header-text-cls-7{font-family:Canela-ThinItalic, Canela;font-style:italic;}.header-text-cls-8{letter-spacing:0.02em;}.header-text-cls-9{letter-spacing:0em;}.header-text-cls-10{font-family:Canela-Thin, Canela;}.header-text-cls-11{letter-spacing:-0.03em;}.header-text-cls-12{letter-spacing:0.01em;}.header-text-cls-13{letter-spacing:0.02em;}.header-text-cls-14{letter-spacing:-0.01em;}.header-text-cls-15{letter-spacing:-0.01em;}</style></defs><title>Asset 5</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"header-text-cls-1\" transform=\"translate(0 98.86)\"><tspan class=\"header-text-cls-2\">C</tspan><tspan class=\"header-text-cls-3\" x=\"87.23\" y=\"0\">R</tspan><tspan x=\"164.68\" y=\"0\">E</tspan><tspan class=\"header-text-cls-4\" x=\"237.83\" y=\"0\">A</tspan><tspan x=\"311.22\" y=\"0\">T</tspan><tspan class=\"header-text-cls-5\" x=\"381.46\" y=\"0\">E</tspan><tspan class=\"header-text-cls-6\" x=\"452.76\" y=\"0\">D </tspan></text><text class=\"header-text-cls-7\" transform=\"translate(560.5 98.86)\"><tspan class=\"header-text-cls-8\">w</tspan><tspan class=\"header-text-cls-9\" x=\"60.19\" y=\"0\">it</tspan><tspan x=\"109.59\" y=\"0\">h </tspan></text><text class=\"header-text-cls-10\" transform=\"translate(67.06 227.81)\"><tspan class=\"header-text-cls-11\">Y</tspan><tspan class=\"header-text-cls-12\" x=\"60.19\" y=\"0\">O</tspan><tspan class=\"header-text-cls-13\" x=\"151.53\" y=\"0\">U</tspan><tspan x=\"229.86\" y=\"0\"> </tspan></text><text class=\"header-text-cls-7\" transform=\"translate(315.72 227.81)\">in </text><text class=\"header-text-cls-14\" transform=\"translate(402.95 227.76)\">MI<tspan class=\"header-text-cls-15\" x=\"135.84\" y=\"0\">N</tspan><tspan class=\"header-text-cls-6\" x=\"220.27\" y=\"0\">D</tspan></text></g></g></svg>",
-        "svg_text_color": "#000000",
-        "body_text_1": "Everyone is creative. At Created, we want your creativity to thrive. \n\nLearn more about how to launch your own custom drinkware line, made with  quality, integrity, and care.  We make the process seamless from start to finish.",
-        "body_text_2": "MAKE YOUR MARK",
-        "button_url": "https://created.co/pages/custom",
-        "button_text": "Get Started",
-        "full_width": false,
-        "button_url_1": "",
-        "button_text_1": "",
-        "button_url_2": "",
-        "button_text_2": ""
-      }
-    },
-    "1633099024f65d366f": {
-      "type": "image-banner",
-      "custom_css": [
-        "section.image-banner__section.pt-48 {margin-bottom: 50px;}"
-      ],
-      "settings": {
-        "title_1": "OUR",
-        "title_2": "STORY",
-        "desktop_image": "shopify://shop_images/CC_Collage_559f2688-e8d1-4181-af2c-7f9752eaa4d2.jpg",
-        "mobile_image": "shopify://shop_images/CC_Collage_559f2688-e8d1-4181-af2c-7f9752eaa4d2.jpg",
-        "banner_text": "<div class=\"w-full text-85 font-canela font-medium leading-none\" style=\"text-align: justify;\">\n<span>LIVE</span>\n<span class=\"italic\">INSPIRED</span>\n</div>",
-        "svg_text": "",
-        "svg_text_mobile": "",
-        "banner_text_color": "",
-        "mobile_offset": 0,
-        "offset": 0,
-        "column_1": "We started Created Co. as an excuse to get out of our ordinary. To shake the dust. To try something new. To break the norm. After all, life isn’t meant to feel like it’s on a treadmill.",
-        "column_2": "Created Co. is our way of helping you live a more inspired life. A life that reflects who you are, that captures your style, shares your words, celebrates your art, and makes what you do real.",
-        "button_url": "shopify://pages/our-story",
-        "button_text": "READ OUR STORY"
-      }
-    },
-    "text_with_carousel_home_DfL7ix": {
-      "type": "text-with-carousel-home",
-      "blocks": {
-        "image_cUAjmJ": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Gallery_Image_1.jpg"
-          }
-        },
-        "image_wYaTt4": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/galler_02.png"
-          }
-        },
-        "image_Tk9Ak9": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Gallery_Image_3.jpg"
-          }
-        },
-        "image_fANa3P": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Gallery_Image_4.jpg"
-          }
-        }
-      },
-      "block_order": [
-        "image_cUAjmJ",
-        "image_wYaTt4",
-        "image_Tk9Ak9",
-        "image_fANa3P"
-      ],
-      "custom_css": [],
-      "settings": {
-        "custom_class": "",
-        "spacing_left": false,
-        "dark_bg": true,
-        "auto_scroll": true,
-        "svg_main_text": "",
-        "svg_body_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 735.95 268.58\"><defs><style>.header-text-cls-1,.header-text-cls-14{font-size:116.3px;font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;font-weight:500;}.header-text-cls-1,.header-text-cls-10,.header-text-cls-14,.header-text-cls-7{fill:#e6e6e6;}.header-text-cls-2{letter-spacing:-0.02em;}.header-text-cls-3{letter-spacing:-0.01em;}.header-text-cls-4{letter-spacing:-0.1em;}.header-text-cls-5{letter-spacing:-0.02em;}.header-text-cls-6{letter-spacing:0em;}.header-text-cls-10,.header-text-cls-7{font-size:111.26px;font-weight:200;}.header-text-cls-7{font-family:Canela-ThinItalic, Canela;font-style:italic;}.header-text-cls-8{letter-spacing:0.02em;}.header-text-cls-9{letter-spacing:0em;}.header-text-cls-10{font-family:Canela-Thin, Canela;}.header-text-cls-11{letter-spacing:-0.03em;}.header-text-cls-12{letter-spacing:0.01em;}.header-text-cls-13{letter-spacing:0.02em;}.header-text-cls-14{letter-spacing:-0.01em;}.header-text-cls-15{letter-spacing:-0.01em;}</style></defs><title>Asset 5</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"header-text-cls-1\" transform=\"translate(0 98.86)\"><tspan class=\"header-text-cls-2\">S</tspan><tspan class=\"header-text-cls-3\" x=\"67.23\" y=\"0\">T</tspan><tspan x=\"120.68\" y=\"0\">A</tspan><tspan class=\"header-text-cls-4\" x=\"197.83\" y=\"0\">R</tspan><tspan x=\"270.22\" y=\"0\">T</tspan></text><text class=\"header-text-cls-7\" transform=\"translate(360.5 98.86)\"><tspan class=\"header-text-cls-8\">w</tspan><tspan class=\"header-text-cls-9\" x=\"60.19\" y=\"0\">it</tspan><tspan x=\"109.59\" y=\"0\">h </tspan></text><text class=\"header-text-cls-10\" transform=\"translate(67.06 227.81)\"><tspan class=\"header-text-cls-11\">A</tspan><tspan x=\"229.86\" y=\"0\"> </tspan></text><text class=\"header-text-cls-14\" transform=\"translate(170.95 227.76)\">bun<tspan class=\"header-text-cls-15\" x=\"197.84\" y=\"0\">d</tspan><tspan class=\"header-text-cls-6\" x=\"264.27\" y=\"0\">le</tspan></text></g></g></svg>",
-        "svg_text_color": "#000000",
-        "body_text_1": "Build your own bundle to experience the best of Created Co. and save up to 20% on your order.",
-        "body_text_2": "",
-        "button_url": "shopify://pages/meta-ads-landing-page",
-        "button_text": "Build Bundle",
-        "full_width": false,
-        "button_url_1": "",
-        "button_text_1": "",
-        "button_url_2": "",
-        "button_text_2": ""
-      }
-    },
-    "1631281167a6c25fe8": {
-      "type": "image-text-blocks",
-      "blocks": {
-        "image_and_text_wW8hQD": {
-          "type": "image_and_text",
-          "settings": {
-            "image": "shopify://shop_images/created-co-adventure_600x_1.jpg",
-            "title_1": "build your",
-            "title_2": "BUNDLE",
-            "body_text": "Build your own bundle to experience the best of Created Co. and save up to 20% on your order.",
-            "cta_url": "shopify://pages/bundle-landing-page",
-            "cta_text": "SHOP"
-          }
-        },
-        "8a827e22-572c-4e1d-9813-0dc593f6cdd8": {
-          "type": "image_and_text",
-          "settings": {
-            "image": "shopify://shop_images/created-co-regulars-1_600x_1.jpg",
-            "title_1": "for the",
-            "title_2": "REGULARS",
-            "body_text": "We live in coffee shops and cafes. From cups to mugs to merchandise, we can tell the difference and we’re here to help you dial it in.",
-            "cta_url": "shopify://collections/cafe-cups-old",
-            "cta_text": "SHOP"
-          }
-        },
-        "ab171736-c505-451a-b801-ba7e94e1c83a": {
-          "type": "image_and_text",
-          "settings": {
-            "image": "shopify://shop_images/created-co-you_600x_1.jpg",
-            "title_1": "for",
-            "title_2": "YOU",
-            "body_text": "Ergonomically designed for comfort and versatility. Discover the perfect drinkware companion for your day.",
-            "cta_url": "shopify://collections/drip-mugs",
-            "cta_text": "SHOP"
-          }
-        },
-        "image_and_text_zkx3z4": {
-          "type": "image_and_text",
-          "disabled": true,
-          "settings": {
-            "image": "shopify://shop_images/created-co-adventure_600x_1.jpg",
-            "title_1": "BUILD",
-            "title_2": "BUNDLE",
-            "body_text": "Build your own bundle to experience the best of Created Co. and save up to 20% on your order.",
-            "cta_url": "shopify://pages/meta-ads-landing-page",
-            "cta_text": "BULID BUNDLE"
-          }
-        }
-      },
-      "block_order": [
-        "image_and_text_wW8hQD",
-        "8a827e22-572c-4e1d-9813-0dc593f6cdd8",
-        "ab171736-c505-451a-b801-ba7e94e1c83a",
-        "image_and_text_zkx3z4"
+        "review_KthwAf",
+        "review_dPWNwf",
+        "review_cVnEVa",
+        "review_XWErGe"
       ],
       "disabled": true,
-      "settings": {}
-    },
-    "press_slider_RjQEQM": {
-      "type": "press-slider",
-      "blocks": {
-        "slide_VETTYK": {
-          "type": "slide",
-          "settings": {
-            "img_slide": "shopify://shop_images/Media_Outlet_Logos_Website-02.png",
-            "text_slide": "<p>“For months now, I’ve lived joyfully knowing that any time I want to bring my tea or coffee with me, the taste will remain pure. In fact, I’m sipping a perfectly balanced tea from my Nomad Flip as I write this.”</p>"
-          }
-        },
-        "slide_gg7rW8": {
-          "type": "slide",
-          "settings": {
-            "img_slide": "shopify://shop_images/Media_Outlet_Logos_Website-01.png",
-            "text_slide": "<p>\"I recently invested in a Created Co. Nomad to-go mug for my coffee and it was the best money I’ve ever spent. Not only is it sleek and stylish, but it also keeps my coffee hot for hours on end, and doesn’t change the flavor thanks to a nifty ceramic interior like other travel mugs tend to do.\"</p>"
-          }
-        },
-        "slide_aGyE6y": {
-          "type": "slide",
-          "settings": {
-            "img_slide": "shopify://shop_images/Media_Outlet_Logos_Website-05.png",
-            "text_slide": "<p>“Created Co. has just released a new stainless steel, double-walled water bottle perfect for both once-in-a-lifetime adventures and everyday use. It's durable, slim, and expertly designed.\"</p>"
-          }
-        },
-        "slide_t6jcVb": {
-          "type": "slide",
-          "settings": {
-            "img_slide": "shopify://shop_images/Media_Outlet_Logos_Website-03.png",
-            "text_slide": "<p>On Angle Drip Mug: \"This update on the traditional diner version lets you wrap three fingers around it, resting them on the flat inner edge so you can navigate through sipping without wobbles or slippage.\"</p>"
-          }
-        },
-        "slide_84g3hy": {
-          "type": "slide",
-          "settings": {
-            "img_slide": "shopify://shop_images/Media_Outlet_Logos_Website-06.png",
-            "text_slide": "<p>\"Created Co. hires California artists to create these gorgeous stainless steel Cold Cups, and we can see all the thought they put into the details; the ceramic coating, elegant thinner handle, and the solid colorway from top to bottom.\"</p>"
-          }
-        }
-      },
-      "block_order": [
-        "slide_VETTYK",
-        "slide_gg7rW8",
-        "slide_aGyE6y",
-        "slide_t6jcVb",
-        "slide_84g3hy"
-      ],
+      "name": "Reviews slider",
       "settings": {
-        "heading": "IN THE PRESS"
+        "show_stars": "mobile",
+        "rating": 5,
+        "subheading": "142 verified 5-star reviews",
+        "heading": "Better Every Day.",
+        "btn_label": "View product",
+        "padding_top": 20,
+        "padding_bottom": 188,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 48
       }
     },
     "1756914724ed55da47": {
@@ -738,18 +864,143 @@
       "settings": {
         "include_margins": false
       }
+    },
+    "unit_faq_e6Fg9h": {
+      "type": "unit-faq",
+      "blocks": {
+        "faq_fLMjqx": {
+          "type": "faq",
+          "settings": {
+            "question": "What is Created?",
+            "answer": "<p>Created is a drinkware brand designed by artists in California. Every piece is built to be used every day.</p>"
+          }
+        },
+        "faq_UjYbRn": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does the insulation hold?",
+            "answer": "<p>Double-wall vacuum insulation keeps drinks cold for up to 24 hours and hot for up to 12 hours.</p>"
+          }
+        },
+        "faq_QTzCkV": {
+          "type": "faq",
+          "settings": {
+            "question": "Which lids fit which bases?",
+            "answer": "<p>Every Nomad lid fits every Nomad base, so you can mix and match as you go.</p>"
+          }
+        },
+        "faq_KiLmYP": {
+          "type": "faq",
+          "settings": {
+            "question": "Is Created drinkware dishwasher safe?",
+            "answer": "<p>Lids are top-rack dishwasher safe. We recommend hand washing the bases to protect the finish.</p>"
+          }
+        },
+        "faq_EecTaz": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>Yes, we ship to most countries. Shipping costs and times are shown at checkout.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_fLMjqx",
+        "faq_UjYbRn",
+        "faq_QTzCkV",
+        "faq_KiLmYP",
+        "faq_EecTaz"
+      ],
+      "disabled": true,
+      "name": "FAQ",
+      "settings": {
+        "eyebrow": "FAQs",
+        "heading": "Frequently Asked Questions",
+        "text": "<p>Everything you need to know about Created.</p>",
+        "show_numbers": true,
+        "single_open": true,
+        "open_first": false,
+        "schema": true,
+        "padding_top": 0,
+        "padding_bottom": 76,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "created_studio_UwjYx4": {
+      "type": "created-studio",
+      "blocks": {
+        "slide_PNm7zL": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/Designed-by-artists.png",
+            "image_mobile": "shopify://shop_images/Designed-by-artists.png",
+            "title": "Designed by artists",
+            "description": "<p>Each release is drawn and refined in California.</p>"
+          }
+        },
+        "slide_UYjq8J": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/Built-for-daily-use.png",
+            "image_mobile": "shopify://shop_images/Built-for-daily-use.png",
+            "title": "Built for daily use",
+            "description": "<p>18/8 stainless steel with double-wall vacuum insulation.</p>"
+          }
+        },
+        "slide_G94FYF": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/Pure-flavour-every-time.png",
+            "image_mobile": "shopify://shop_images/Pure-flavour-every-time.png",
+            "title": "Pure flavour, every time",
+            "description": "<p>Ceramic interiors keep the taste of your drink unchanged.</p>"
+          }
+        },
+        "slide_mLHWEh": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/Cove-glassware.png",
+            "image_mobile": "shopify://shop_images/Cove-glassware.png",
+            "title": "Cove glassware",
+            "description": "<p>Clear, simple forms for the table and the bar.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "slide_PNm7zL",
+        "slide_UYjq8J",
+        "slide_G94FYF",
+        "slide_mLHWEh"
+      ],
+      "disabled": true,
+      "name": "Created Studio",
+      "settings": {
+        "subtitle": "Journals",
+        "heading": "Created Studio",
+        "color_background": "#ffffff",
+        "padding_top": 53,
+        "padding_bottom": 100,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 56
+      }
     }
   },
   "order": [
-    "1631277959cfa5b13c",
-    "hero_cRCrjD",
-    "hero_slider_v1_zTQUVW",
-    "163310331302f0abcc",
-    "16351788315ad32cb8",
-    "1633099024f65d366f",
-    "text_with_carousel_home_DfL7ix",
-    "1631281167a6c25fe8",
-    "press_slider_RjQEQM",
-    "1756914724ed55da47"
+    "unit_hero_section_C7waLa",
+    "press_logo_EWnkMh",
+    "unit_best_seller_RV6YKG",
+    "shop_by_category_ezreTA",
+    "glass_banner_9nncgh",
+    "drink_finder_QmjycB",
+    "stacked_story_R8g93k",
+    "featured_details_Jrdyzm",
+    "bundle_builder_v2_pTLbaP",
+    "store_benefits_teYdqC",
+    "unit_bundle_builder_pLJCtF",
+    "reviews_slider_748iQn",
+    "1756914724ed55da47",
+    "unit_faq_e6Fg9h",
+    "created_studio_UwjYx4"
   ]
 }

@@ -1,0 +1,346 @@
+{% comment %}
+  Section: Hero Scout Slider
+  Desktop: background slider (autoplay + progress bar) with 2 hotspot dots per slide,
+           left content (section settings), right product card slider (blocks).
+  Mobile:  background slider only (dots hidden), content stacked, product card
+           becomes a horizontal card (image left, text right), swipeable.
+{% endcomment %}
+
+{{ 'hero-scout-slider.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'hero-scout-slider.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign bg_blocks = section.blocks | where: 'type', 'background'
+  assign card_blocks = section.blocks | where: 'type', 'card'
+  assign autoplay_ms = section.settings.autoplay_speed | times: 1000
+
+  assign hs_height = '100vh'
+  if section.settings.height_desktop_mode == 'custom'
+    assign hs_height = section.settings.height_desktop_px | append: 'px'
+  endif
+
+  assign hs_height_mobile = '100svh'
+  if section.settings.height_mobile_mode == 'custom'
+    assign hs_height_mobile = section.settings.height_mobile_px | append: 'px'
+  endif
+-%}
+
+<style>
+  #HeroScout-{{ section.id }} {
+    --hs-height: {{ hs_height }};
+    --hs-height-mobile: {{ hs_height_mobile }};
+    --hs-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --hs-progress-color: {{ section.settings.progress_color }};
+    --hs-autoplay: {{ autoplay_ms }}ms;
+    --hs-text: {{ section.settings.text_color }};
+    --hs-eyebrow: {{ section.settings.eyebrow_color }};
+    --hs-btn-bg: {{ section.settings.btn_bg }};
+    --hs-btn-text: {{ section.settings.btn_text }};
+    --hs-card-bg: {{ section.settings.card_bg }};
+    --hs-card-opacity: {{ section.settings.card_opacity | divided_by: 100.0 }};
+    --hs-card-bg-mobile: {{ section.settings.card_bg_mobile }};
+    --hs-card-opacity-mobile: {{ section.settings.card_opacity_mobile | divided_by: 100.0 }};
+    --hs-header-offset: 0px;
+  }
+</style>
+
+<section
+  id="HeroScout-{{ section.id }}"
+  class="hero-scout{% if section.settings.overlap_header %} hero-scout--overlap{% endif %}{% unless section.settings.progress_mobile %} hero-scout--no-progress-mobile{% endunless %}"
+  data-autoplay="{{ autoplay_ms }}"
+  data-header-selector="{{ section.settings.header_selector | escape }}"
+>
+  {%- comment -%} ========== BACKGROUND SLIDER ========== {%- endcomment -%}
+  <div class="hero-scout__bg js-hero-bg">
+    {%- for block in bg_blocks -%}
+      <div class="hero-scout__bg-slide" {{ block.shopify_attributes }}>
+        {%- liquid
+          assign img_loading = 'lazy'
+          if forloop.first
+            assign img_loading = 'eager'
+          endif
+          assign desk_pos = 'object-position: ' | append: block.settings.focal_x | append: '% ' | append: block.settings.focal_y | append: '%;'
+          assign mob_pos = 'object-position: ' | append: block.settings.focal_x_mobile | append: '% ' | append: block.settings.focal_y_mobile | append: '%;'
+          assign desk_img = block.settings.image
+          assign mob_img = block.settings.image_mobile | default: block.settings.image
+        -%}
+
+        {%- if desk_img != blank -%}
+          {{
+            desk_img
+            | image_url: width: 2400
+            | image_tag:
+              class: 'hero-scout__bg-img hero-scout__bg-img--desktop',
+              widths: '1100, 1500, 1920, 2400',
+              sizes: '100vw',
+              loading: img_loading,
+              style: desk_pos
+          }}
+        {%- endif -%}
+
+        {%- if mob_img != blank -%}
+          {{
+            mob_img
+            | image_url: width: 1200
+            | image_tag:
+              class: 'hero-scout__bg-img hero-scout__bg-img--mobile',
+              widths: '400, 600, 800, 1000, 1200',
+              sizes: '100vw',
+              loading: img_loading,
+              style: mob_pos
+          }}
+        {%- endif -%}
+
+        {%- if desk_img == blank and mob_img == blank -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-scout__bg-img hero-scout__placeholder' }}
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <div class="hero-scout__overlay" aria-hidden="true"></div>
+
+  {%- comment -%} ========== HOTSPOT DOTS (one set per slide, outside the slider so clicks work) ========== {%- endcomment -%}
+  <div class="hero-scout__hotspots">
+    {%- for block in bg_blocks -%}
+      {%- if block.settings.show_dots -%}
+        <div class="hero-scout__dots js-hero-dots{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}">
+          <button type="button" class="hero-scout__dot js-hero-dot" data-card="1"
+            style="left: {{ block.settings.dot1_x }}%; top: {{ block.settings.dot1_y }}%;"
+            aria-label="Show product 1"></button>
+          <button type="button" class="hero-scout__dot js-hero-dot" data-card="2"
+            style="left: {{ block.settings.dot2_x }}%; top: {{ block.settings.dot2_y }}%;"
+            aria-label="Show product 2"></button>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} ========== FOREGROUND ========== {%- endcomment -%}
+  <div class="site-container hero-scout__inner">
+    <div class="hero-scout__content">
+      {%- for block in bg_blocks -%}
+        {%- liquid
+          assign c_eyebrow = block.settings.eyebrow | default: section.settings.eyebrow
+          assign c_heading = block.settings.heading | default: section.settings.heading
+          assign c_text = block.settings.text | default: section.settings.text
+          assign c_btn1 = block.settings.btn1_label | default: section.settings.btn1_label
+          assign c_btn1_link = block.settings.btn1_link | default: section.settings.btn1_link
+          assign c_btn2 = block.settings.btn2_label | default: section.settings.btn2_label
+          assign c_btn2_link = block.settings.btn2_link | default: section.settings.btn2_link
+        -%}
+        <div class="hero-scout__slide-content js-hero-content{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}"{% unless forloop.first %} aria-hidden="true"{% endunless %}>
+          {%- if c_eyebrow != blank -%}
+            <p class="hero-scout__eyebrow">{{ c_eyebrow }}</p>
+          {%- endif -%}
+          {%- if c_heading != blank -%}
+            <h2 class="hero-scout__heading">{{ c_heading }}</h2>
+          {%- endif -%}
+          {%- if c_text != blank -%}
+            <div class="hero-scout__text">{{ c_text }}</div>
+          {%- endif -%}
+          <div class="hero-scout__buttons">
+            {%- if c_btn1 != blank -%}
+              <a href="{{ c_btn1_link | default: '#' }}" class="hero-scout__btn hero-scout__btn--primary"{% unless forloop.first %} tabindex="-1"{% endunless %}>{{ c_btn1 }}</a>
+            {%- endif -%}
+            {%- if c_btn2 != blank -%}
+              <a href="{{ c_btn2_link | default: '#' }}" class="hero-scout__btn hero-scout__btn--link"{% unless forloop.first %} tabindex="-1"{% endunless %}>{{ c_btn2 }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if card_blocks.size > 0 -%}
+      <div class="hero-scout__card">
+        <div class="hero-scout__card-slider js-hero-card">
+          {%- for block in card_blocks -%}
+            {%- liquid
+              assign p = block.settings.product
+              assign card_img = block.settings.image | default: p.featured_image
+              assign card_title = block.settings.title | default: p.title
+              assign card_link = block.settings.link | default: p.url
+            -%}
+            <div class="hero-scout__card-slide" data-product-id="{{ p.id }}" {{ block.shopify_attributes }}>
+              {%- if card_link != blank -%}
+                <a href="{{ card_link }}" class="hero-scout__card-link" aria-label="{{ card_title | escape }}"></a>
+              {%- endif -%}
+              {%- if block.settings.label != blank -%}
+                <p class="hero-scout__card-label hero-scout__card-label--top">{{ block.settings.label }}</p>
+              {%- endif -%}
+
+              <div class="hero-scout__card-media">
+                {%- if card_img != blank -%}
+                  {{ card_img | image_url: width: 500 | image_tag: loading: 'lazy', sizes: '(max-width: 749px) 60px, 200px', alt: card_title }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'hero-scout__placeholder' }}
+                {%- endif -%}
+              </div>
+
+              <div class="hero-scout__card-info">
+                {%- if block.settings.label != blank -%}
+                  <p class="hero-scout__card-label hero-scout__card-label--inline">{{ block.settings.label }}</p>
+                {%- endif -%}
+                {%- if block.settings.show_rating -%}
+                  <p class="hero-scout__card-rating">
+                    <span class="hero-scout__stars" aria-hidden="true">★★★★★</span>
+                    <span>{{ block.settings.rating }}</span>
+                    <span>({{ block.settings.reviews }})</span>
+                  </p>
+                {%- endif -%}
+                {%- if card_title != blank -%}
+                  <h3 class="hero-scout__card-title">{{ card_title }}</h3>
+                {%- endif -%}
+                {%- if block.settings.subtitle != blank -%}
+                  <p class="hero-scout__card-sub">{{ block.settings.subtitle }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if card_blocks.size > 1 -%}
+          <div class="hero-scout__card-nav">
+            <button type="button" class="js-card-prev" aria-label="Previous product">
+              <svg width="7" height="11" viewBox="0 0 7 11" fill="none" aria-hidden="true"><path d="M6 1 1.5 5.5 6 10" stroke="currentColor" stroke-width="1.4"/></svg>
+            </button>
+            <span class="hero-scout__card-divider" aria-hidden="true"></span>
+            <button type="button" class="js-card-next" aria-label="Next product">
+              <svg width="7" height="11" viewBox="0 0 7 11" fill="none" aria-hidden="true"><path d="m1 1 4.5 4.5L1 10" stroke="currentColor" stroke-width="1.4"/></svg>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.show_progress and bg_blocks.size > 1 -%}
+    <div class="hero-scout__progress" aria-hidden="true">
+      <span class="hero-scout__progress-fill js-hero-progress"></span>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Hero Scout slider",
+  "tag": "div",
+  "class": "section-hero-scout",
+  "max_blocks": 16,
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "checkbox", "id": "overlap_header", "label": "Pull section up behind header", "default": false, "info": "Leave off if the header is already transparent/absolute on the home page." },
+    { "type": "text", "id": "header_selector", "label": "Header CSS selector", "default": ".shopify-section-header" },
+    { "type": "header", "content": "Desktop height" },
+    {
+      "type": "select",
+      "id": "height_desktop_mode",
+      "label": "Height",
+      "options": [
+        { "value": "full", "label": "Full screen" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "full"
+    },
+    { "type": "range", "id": "height_desktop_px", "label": "Custom height", "min": 400, "max": 1000, "step": 10, "unit": "px", "default": 700, "info": "Used when Height is set to Custom." },
+    { "type": "header", "content": "Mobile height" },
+    {
+      "type": "select",
+      "id": "height_mobile_mode",
+      "label": "Height",
+      "options": [
+        { "value": "full", "label": "Full screen" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "full"
+    },
+    { "type": "range", "id": "height_mobile_px", "label": "Custom height", "min": 400, "max": 900, "step": 10, "unit": "px", "default": 640, "info": "Used when Height is set to Custom." },
+    { "type": "range", "id": "overlay_opacity", "label": "Text-side shade", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 25 },
+
+    { "type": "header", "content": "Background slider" },
+    { "type": "range", "id": "autoplay_speed", "label": "Autoplay speed", "min": 3, "max": 15, "step": 1, "unit": "s", "default": 6 },
+    { "type": "checkbox", "id": "show_progress", "label": "Show progress bar", "default": true },
+    { "type": "checkbox", "id": "progress_mobile", "label": "Show progress bar on mobile", "default": false },
+    { "type": "color", "id": "progress_color", "label": "Progress bar colour", "default": "#E3560E" },
+
+    { "type": "header", "content": "Default content" },
+    { "type": "paragraph", "content": "Each Background slide has its own content. These are only used when a slide's field is empty." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Just launched" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "All New Scout Tumbler" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Insulated drinkware built to keep up — from the desk to the trail. Filter by size, colour, or what you'll actually use it for.</p>" },
+    { "type": "text", "id": "btn1_label", "label": "Button label", "default": "Go custom" },
+    { "type": "url", "id": "btn1_link", "label": "Button link" },
+    { "type": "text", "id": "btn2_label", "label": "Link label", "default": "Shop now" },
+    { "type": "url", "id": "btn2_link", "label": "Link URL" },
+
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#FFFFFF" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow", "default": "#E8E36B" },
+    { "type": "color", "id": "btn_bg", "label": "Button background", "default": "#0E1F2B" },
+    { "type": "color", "id": "btn_text", "label": "Button text", "default": "#FFFFFF" },
+
+    { "type": "header", "content": "Product card" },
+    { "type": "color", "id": "card_bg", "label": "Desktop card background", "default": "#5E7F91" },
+    { "type": "range", "id": "card_opacity", "label": "Desktop card opacity", "min": 20, "max": 100, "step": 5, "unit": "%", "default": 70 },
+    { "type": "color", "id": "card_bg_mobile", "label": "Mobile card background", "default": "#3B4A52" },
+    { "type": "range", "id": "card_opacity_mobile", "label": "Mobile card opacity", "min": 20, "max": 100, "step": 5, "unit": "%", "default": 55 }
+  ],
+  "blocks": [
+    {
+      "type": "background",
+      "name": "Background slide",
+      "settings": [
+        { "type": "header", "content": "Desktop" },
+        { "type": "image_picker", "id": "image", "label": "Desktop image", "info": "Recommended 2400 × 1400px" },
+        { "type": "range", "id": "focal_x", "label": "Focal point X", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 50 },
+        { "type": "range", "id": "focal_y", "label": "Focal point Y", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 50 },
+        { "type": "header", "content": "Mobile" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Recommended 1000 × 1800px. Uses the desktop image if empty." },
+        { "type": "range", "id": "focal_x_mobile", "label": "Focal point X", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 50 },
+        { "type": "range", "id": "focal_y_mobile", "label": "Focal point Y", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 50 },
+        { "type": "header", "content": "Content" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "richtext", "id": "text", "label": "Text" },
+        { "type": "text", "id": "btn1_label", "label": "Button label" },
+        { "type": "url", "id": "btn1_link", "label": "Button link" },
+        { "type": "text", "id": "btn2_label", "label": "Link label" },
+        { "type": "url", "id": "btn2_link", "label": "Link URL" },
+        { "type": "header", "content": "Hotspot dots (desktop only)" },
+        { "type": "paragraph", "content": "Dot 1 shows the 1st Product card, Dot 2 shows the 2nd Product card." },
+        { "type": "checkbox", "id": "show_dots", "label": "Show dots", "default": true },
+        { "type": "range", "id": "dot1_x", "label": "Dot 1 – X", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 34 },
+        { "type": "range", "id": "dot1_y", "label": "Dot 1 – Y", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 35 },
+        { "type": "range", "id": "dot2_x", "label": "Dot 2 – X", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 58 },
+        { "type": "range", "id": "dot2_y", "label": "Dot 2 – Y", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 41 }
+      ]
+    },
+    {
+      "type": "card",
+      "name": "Product card",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product", "info": "Image, title and link come from the product unless overridden." },
+        { "type": "text", "id": "label", "label": "Label", "default": "New arrival" },
+        { "type": "image_picker", "id": "image", "label": "Image override" },
+        { "type": "text", "id": "title", "label": "Title override", "default": "40oz Scout" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Available in 30 oz or 40 oz." },
+        { "type": "url", "id": "link", "label": "Card link", "info": "Whole card is clickable. Leave empty to link to the selected product." },
+        { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
+        { "type": "text", "id": "rating", "label": "Rating", "default": "5.0" },
+        { "type": "text", "id": "reviews", "label": "Review count", "default": "1" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Scout slider",
+      "blocks": [
+        { "type": "background" },
+        { "type": "background" },
+        { "type": "card" },
+        { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

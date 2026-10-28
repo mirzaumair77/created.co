@@ -1,0 +1,182 @@
+
+  .created-studio__header {
+    margin-bottom: 29px;
+    padding: 0 20px;
+    text-align: center;
+  }
+  .created-studio__subtitle p {
+    margin: 0;
+    color: #6e797f;
+    font-size: 13px;
+    line-height: 19.5px;
+    font-weight: 600;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+  }
+  .created-studio__heading {
+    margin-top: 4px;
+  }
+  .created-studio__heading h2 {
+        font-family: canela, serif;
+    margin: 0;
+    color: inherit;
+    font-size: 36px;
+    line-height: 1.2;
+    font-weight: 300;
+    letter-spacing: -1.5px;
+  }
+  .created-studio__track {
+    margin-left: 4.050633vw;
+  }
+.created-studio__slider:not(.flickity-enabled) {
+  overflow-x: auto;
+  white-space: nowrap;
+  font-size: 0;
+  scrollbar-width: none;
+}
+
+.created-studio__slider:not(.flickity-enabled)::-webkit-scrollbar {
+  display: none;
+}
+  .created-studio__slider:not(.flickity-enabled) .created-studio__card {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .created-studio__slider:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .created-studio__slider.flickity-enabled {
+    position: relative;
+  }
+  .created-studio__slider .flickity-viewport {
+    position: relative;
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+  .created-studio__slider.is-draggable {
+    cursor: grab;
+  }
+  .created-studio__slider.is-pointer-down {
+    cursor: grabbing;
+  }
+  .created-studio__card {
+    --created-studio-ratio: 280 / 320;
+    width: 70.886076vw;
+    margin-right: 4.050633vw;
+    white-space: normal;
+  }
+  .created-studio__card:nth-child(4n + 1) {
+    width: 65.822785vw;
+    --created-studio-ratio: 260 / 200;
+  }
+  .created-studio__card:nth-child(4n + 3) {
+    width: 55.696203vw;
+    --created-studio-ratio: 220 / 260;
+  }
+  .created-studio__card:nth-child(4n) {
+    --created-studio-ratio: 280 / 320;
+  }
+  .created-studio__image {
+    overflow: hidden;
+    border-radius: 16px;
+    background: #f5f5f5;
+    aspect-ratio: var(--created-studio-ratio);
+  }
+  .created-studio__image picture {
+    display: block;
+  }
+  .created-studio__image img {
+    display: block;
+    width: 100%;
+    aspect-ratio: var(--created-studio-ratio);
+    object-fit: cover;
+  }
+  .created-studio__text {
+    margin-top: 12px;
+    overflow-wrap: anywhere;
+  }
+  .created-studio__title h3 {
+    font-family: canela, serif;
+    margin: 0;
+    color: #0e1f2a;
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  .created-studio__description {
+    margin-top: 4px;
+    color: #6e797f;
+    font-size: 13px;
+    line-height: 23px;
+    font-weight: 400;
+  }
+  .created-studio__description p {
+    margin: 0;
+  }
+  .created-studio__description p + p {
+    margin-top: 8px;
+  }
+  .created-studio {
+  overflow: hidden;
+}
+
+.created-studio__slider .flickity-viewport {
+  overflow: visible;
+}
+  @media screen and (min-width: 768px) {
+
+    .created-studio__header {
+      margin-bottom: 68px;
+    }
+    .created-studio__subtitle p {
+      font-size: 14px;
+      line-height: 15px;
+    }
+    .created-studio__heading {
+      margin-top: 10px;
+    }
+    .created-studio__heading h2 {
+      font-size: 51px;
+      line-height: 1;
+      letter-spacing: -2.16px;
+    }
+    .created-studio__track {
+      margin-left: 3.958333vw;
+    }
+    .created-studio__card {
+      width: 32.083333vw;
+      margin-right: 2.638889vw;
+      --created-studio-ratio: 462 / 463;
+    }
+    .created-studio__card:nth-child(4n + 1) {
+      width: 24.652778vw;
+      --created-studio-ratio: 355 / 258;
+    }
+    .created-studio__card:nth-child(4n + 3) {
+      width: 19.097222vw;
+      --created-studio-ratio: 275 / 338;
+    }
+    .created-studio__card:nth-child(4n) {
+      --created-studio-ratio: 1;
+    }
+    .created-studio__image {
+      border-radius: 20px;
+    }
+    .created-studio__text {
+      margin-top: 18px;
+      max-width: 26.041667vw;
+    }
+    .created-studio__title h3 {
+      font-size: 27px;
+      line-height: 36px;
+      font-weight: 300;
+    }
+    .created-studio__card:nth-child(4n + 3) .created-studio__title h3 {
+      line-height: 31px;
+    }
+    .created-studio__description {
+      margin-top: 8px;
+      font-size: 14px;
+    }
+  }

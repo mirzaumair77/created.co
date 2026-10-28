@@ -1,0 +1,348 @@
+
+
+{%- comment -%}
+  Hide the whole section when there is NO FAQ data entered.
+  We treat the section as "empty" when none of the FAQ Item blocks have a
+  question (covers both: no blocks added, and blocks whose metaobject-bound
+  question comes back blank because the collection metafield has no data).
+{%- endcomment -%}
+{%- liquid
+  assign has_faq = false
+  for block in section.blocks
+    if block.settings.question != blank
+      assign has_faq = true
+      break
+    endif
+  endfor
+-%}
+
+{%- if has_faq -%}
+{% style %}
+  .custom-faq__{{ section.id }}{
+      background-color:{{ section.settings.bg_color }};
+  }
+
+  .custom-faq__{{ section.id }} .site-container{
+    padding:0px;
+  }
+  .custom-faq__main{
+      display:flex;
+      gap:36px;
+  }
+  .custom-faq__content{
+      width:100%;
+      max-width:50%;
+      position:relative;
+  }
+  .custom-faq__image img{
+    width:100%;
+    height:auto;
+    object-fit:cover;
+  }
+  .custom-faq__image .desktop-image{
+    display:block;
+  }
+  .custom-faq__image .mobile-image{
+    display:none;
+  }
+  .custom-faq__wrapper{
+      width:100%;
+      max-width:50%;
+      padding:43px 30px 43px 0px;
+  }
+
+  .custom-faq__heading {
+      padding-bottom:40px;
+  }
+
+  .custom-faq__heading h2{
+      color: #0E1F2A;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 32px;
+      margin: 0;
+  }
+  .custom-faq-item {
+    border-top: 1px solid #E4E4E4;
+    padding-top:25px;
+    padding-bottom:28px;
+  }
+
+  .custom-faq-item:last-child {
+    border-bottom: 1px solid #E4E4E4;
+  }
+  .custom-faq-item__trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding:0;
+  }
+  .custom-faq-item__content{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .custom-faq__content-tag p{
+    display:inline-block;
+    background: rgba(255, 255, 255, 0.88);
+    color: #0E1F2A;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 15.6px;
+    position:absolute;
+    top:20px;
+    left:20px;
+    padding:4px 10px;
+
+  }
+  .custom-faq-item__index p{
+    color: #6E797F;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 15.6px;
+    letter-spacing: -0.36px;
+    margin:0;
+  }
+  .custom-faq-item__question p{
+    color: #0E1F2A;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19.6px;
+    letter-spacing: -0.14px;
+    margin:0;
+  }
+
+  .custom-faq-item__icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.custom-faq-item__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.custom-faq-item__icon .icon-vertical {
+  transform-origin: center;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.custom-faq-item[open] .custom-faq-item__icon .icon-vertical {
+  transform: scaleY(0);
+  opacity: 0;
+}
+
+  .custom-faq-item__panel__text {
+    overflow: hidden;
+    height: 0;
+    transition: height 0.10s ease;
+    padding-top:12px;
+    padding-right:20px;
+  }
+  .custom-faq-item[open] .custom-faq-item__panel__text {
+    height: auto;
+  }
+  .custom-faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .custom-faq-item summary {
+    list-style: none;
+  }
+  .custom-faq-item__panel__text p {
+     color:#6E797F;
+     font-size: 14px;
+     line-height: 19.6px;
+     font-weight: 400;
+     letter-spacing: 0.14px;
+     margin:0;
+  }
+ @media(max-width:768px){
+  .custom-faq__main{
+    flex-direction:column;
+    gap:0px;
+  }
+   .custom-faq__image .desktop-image{
+    display:none;
+  }
+  .custom-faq__image{
+     height:215px;
+  }
+  .custom-faq__image .mobile-image{
+    display:block;
+    height:100%;
+
+  }
+  .custom-faq__content{
+    max-width:100%;
+  }
+  .custom-faq__wrapper{
+    max-width:100%;
+    padding:28px 16px;
+  }
+  .custom-faq__heading{
+    padding-bottom:20px;
+  }
+  .custom-faq__heading h2{
+    font-size: 22px;
+    line-height: 32px;
+  }
+  .custom-faq-item__question p{
+    font-size:13px;
+  }
+  .custom-faq-item{
+    padding:14px 0px;
+  }
+ }
+{% endstyle %}
+<div class="custom-faq custom-faq__{{ section.id }}">
+  <div class="site-container">
+    <div class="custom-faq__main">
+        <div class="custom-faq__content">
+        {% if section.settings.image !=blank %}
+          {%  assign mobile_image = section.settings.image_mb | default:section.settings.image  %}
+          <div class="custom-faq__image">
+            {{ section.settings.image | image_url: width:800 | image_tag: class:'desktop-image', alt:section.settings.image.alt  }}
+            {{ mobile_image | image_url: width:800 | image_tag: class:'mobile-image', alt:mobile_image.alt  }}
+         </div>
+        {% endif %}
+        {% if section.settings.tag !=blank %}
+          <div class="custom-faq__content-tag">
+            <p> {{ section.settings.tag }}</p>
+          </div>
+        {% endif %}
+    </div>
+      <div class="custom-faq__wrapper">
+        {% if section.settings.heading !=blank %}
+          <div class="custom-faq__heading">
+            <h2>{{ section.settings.heading }} </h2>
+          </div>
+        {% endif %}
+        {%- assign faq_i = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.settings.question != blank -%}
+            {%- assign faq_i = faq_i | plus: 1 -%}
+              <details
+                class="custom-faq-item"
+
+                {{ block.shopify_attributes }}
+              >
+                <summary class="custom-faq-item__trigger">
+                    <div class="custom-faq-item__content">
+                    <div class="custom-faq-item__index">
+                        {% if faq_i < 10 %}
+                          <p>0{{ faq_i }}/ </p>
+                        {%  else %}
+                         <p>{{ faq_i }}/ </p>
+                        {% endif %}
+                    </div>
+                  <div class="custom-faq-item__question">
+                    <p>{{ block.settings.question }}</p>
+                  </div>
+                </div>
+                 <span class="custom-faq-item__icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path
+                    class="icon-vertical"
+                    d="M8 3.5V12.5"
+                    stroke="black"
+                    stroke-width="1.2"
+                    stroke-linecap="round"
+                    />
+                    <path
+                    d="M3.5 8H12.5"
+                    stroke="black"
+                    stroke-width="1.2"
+                    stroke-linecap="round"
+                    />
+                </svg>
+        </span>
+                </summary>
+
+                <div class="custom-faq-item__panel__text">
+                  {{ block.settings.answer }}
+                </div>
+              </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collection FAQ",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mb",
+      "label": "Select a Image",
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The answers to your questions."
+    },
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Tag",
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Is the Scout leakproof?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Answer goes here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection FAQ"
+    }
+  ]
+}
+{% endschema %}

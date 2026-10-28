@@ -1,0 +1,92 @@
+{%- comment -%}
+  Contact page hero: background image, pill eyebrow, heading and intro text.
+  Sits directly below the header, like the home page.
+{%- endcomment -%}
+{{ 'unit-contact.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign desktop_image = section.settings.image
+  assign mobile_image = section.settings.image_mobile | default: desktop_image
+-%}
+
+<section
+  id="UnitContactHero-{{ section.id }}"
+  class="uc uc-hero"
+  style="
+    --uc-hero-h: {{ section.settings.height }}px;
+    --uc-hero-h-m: {{ section.settings.height_mobile }}px;
+    --uc-hero-overlay: {{ section.settings.overlay | divided_by: 100.0 }};
+    --uc-hero-overlay-top: {{ section.settings.overlay | divided_by: 200.0 }};
+    --uc-hero-text: {{ section.settings.text_color }};
+    --uc-hero-title: {{ section.settings.title_size }}px;
+    --uc-hero-title-m: {{ section.settings.title_size_mobile }}px;
+  "
+>
+  <div class="uc-hero__media">
+    {%- if desktop_image != blank -%}
+      {{
+        desktop_image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'uc-hero__img--desktop',
+          widths: '1100, 1500, 1920, 2400',
+          sizes: '100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: desktop_image.alt
+      }}
+      {{
+        mobile_image
+        | image_url: width: 1200
+        | image_tag:
+          class: 'uc-hero__img--mobile',
+          widths: '600, 900, 1200',
+          sizes: '100vw',
+          loading: 'eager',
+          alt: mobile_image.alt
+      }}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'uc-hero__placeholder' }}
+    {%- endif -%}
+    <div class="uc-hero__overlay"></div>
+  </div>
+
+  <div class="uc-hero__content">
+    <div class="uc__container">
+      <div class="uc-hero__inner">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="uc-hero__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h1 class="uc-hero__title font-canela">{{ section.settings.title | escape }}</h1>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="uc-hero__text">{{ section.settings.text }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Unit contact: hero",
+  "tag": "section",
+  "class": "section-unit-contact-hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Background image (mobile)", "info": "Optional. Uses the desktop image when empty." },
+    { "type": "range", "id": "overlay", "label": "Image darkening", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 45 },
+    { "type": "text", "id": "eyebrow", "label": "Pill text", "default": "Contact · Real people in California" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "How Can We Help?" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Our team answers every message personally. Most questions can be sorted right here in a minute - and if not, we're a message or call away.</p>" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#FFFFFF" },
+    { "type": "header", "content": "Size" },
+    { "type": "range", "id": "height", "label": "Height (desktop)", "min": 360, "max": 900, "step": 10, "unit": "px", "default": 560 },
+    { "type": "range", "id": "height_mobile", "label": "Height (mobile)", "min": 360, "max": 800, "step": 10, "unit": "px", "default": 520 },
+    { "type": "range", "id": "title_size", "label": "Heading size (desktop)", "min": 36, "max": 96, "step": 1, "unit": "px", "default": 64 },
+    { "type": "range", "id": "title_size_mobile", "label": "Heading size (mobile)", "min": 28, "max": 64, "step": 1, "unit": "px", "default": 44 }
+  ],
+  "presets": [{ "name": "Unit contact: hero" }]
+}
+{% endschema %}

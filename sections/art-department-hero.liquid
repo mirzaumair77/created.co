@@ -1,0 +1,586 @@
+{%- liquid
+  assign section_id = section.id
+  assign desktop_image = section.settings.image
+  assign mobile_image = section.settings.mobile_image
+  assign banner_height = section.settings.banner_height
+  assign enable_overlay = section.settings.enable_overlay
+  assign badge_text = section.settings.badge_text
+  assign badge_text_mobile = section.settings.badge_text_mobile
+  assign heading = section.settings.heading
+  assign description = section.settings.description
+  assign primary_label = section.settings.primary_button_label
+  assign primary_url = section.settings.primary_button_url | default: routes.collections_url
+  assign secondary_label = section.settings.secondary_button_label
+  assign secondary_url = section.settings.secondary_button_url | default: routes.collections_url
+  assign padding_top_mobile = section.settings.padding_top_mobile
+  assign padding_bottom_mobile = section.settings.padding_bottom_mobile
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+
+  assign has_mobile_source = false
+  if desktop_image == blank
+    assign desktop_image = mobile_image
+  elsif mobile_image != blank
+    assign has_mobile_source = true
+  endif
+
+  assign height_modifier = banner_height | replace: '_', '-'
+  assign heading_id = 'AdHeroHeading-' | append: section_id
+
+  assign heading_tag = 'h2'
+  assign image_loading = 'lazy'
+  assign image_priority = 'auto'
+  if section.index == 1
+    assign heading_tag = 'h1'
+    assign image_loading = 'eager'
+    assign image_priority = 'high'
+  elsif section.index == 2
+    assign image_loading = 'eager'
+  endif
+
+  assign has_badge_variants = false
+  if badge_text_mobile != blank and badge_text_mobile != badge_text
+    assign has_badge_variants = true
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section_id }} .ad-hero {
+    padding-top: {{ padding_top_mobile }}px;
+    padding-bottom: {{ padding_bottom_mobile }}px;
+  }
+
+  @media (min-width: 769px) {
+    #shopify-section-{{ section_id }} .ad-hero {
+      padding-top: {{ padding_top }}px;
+      padding-bottom: {{ padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<style>
+  .ad-hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .ad-hero--fit-screen {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  body:has(.created-header--transparent:not([data-sticky='none'])) .ad-hero--fit-screen {
+    min-height: calc(100vh - (var(--announcement-bar-height, 0px)));
+    min-height: calc(100dvh - (var(--announcement-bar-height, 0px)));
+  }
+
+  body:has(.created-header[data-sticky='none']) .ad-hero--fit-screen {
+    min-height: calc(100vh - (var(--header-height, 0px) + var(--announcement-bar-height, 0px)));
+    min-height: calc(100svh - (var(--header-height, 0px) + var(--announcement-bar-height, 0px)));
+  }
+
+  .ad-hero--small {
+    min-height: 420px;
+  }
+
+  .ad-hero--medium {
+    min-height: 560px;
+  }
+
+  .ad-hero--large {
+    min-height: 680px;
+  }
+
+  .ad-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .ad-hero__media img,
+  .ad-hero__placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ad-hero__placeholder {
+    fill: rgba(255, 255, 255, 0.15);
+  }
+
+  .ad-hero__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.62);
+    pointer-events: none;
+  }
+
+  .ad-hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 20px;
+    width: 100%;
+    padding: 0 20px;
+    animation: ad-hero-fade-up 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  .ad-hero__content > :last-child {
+    margin-bottom: 0;
+  }
+
+  .ad-hero__content :is(h1, h2, p) {
+    margin: 0;
+  }
+
+  .ad-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border: 1px solid #ffffff99;
+    border-radius: 999px;
+    font-family: var(--font-basis-grotesque), var(--font-body-family);
+    color: #fff;
+    font-size: 12px;
+    line-height: normal;
+    font-weight: 500;
+  }
+
+  .ad-hero__badge-text--desktop {
+    display: none;
+  }
+
+  .ad-hero__heading > * {
+    font-family: var(--font-canela), var(--font-body-family);
+    color: #fff;
+    font-size: 46px;
+    line-height: 48px;
+    letter-spacing: -1.2px;
+    font-weight: 400;
+  }
+
+  .ad-hero__description p {
+    font-family: var(--font-basis-grotesque), var(--font-body-family);
+    color: #ffffffd9;
+    font-size: 15px;
+    line-height: 22px;
+    font-weight: 400;
+  }
+
+  .ad-hero__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-self: stretch;
+  }
+
+  .ad-hero__button a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 50px;
+    padding: 18px 24px;
+    border: 1px solid;
+    border-radius: 999px;
+    font-family: var(--font-basis-grotesque), var(--font-body-family);
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .ad-hero__button--primary a {
+    background-color: #000;
+    border-color: #000;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .ad-hero__button--secondary a {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.9);
+    color: #fff;
+  }
+
+  .ad-hero__button a:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+
+  @media (hover: hover) {
+    .ad-hero__button a:hover {
+      background-color: #fff;
+      border-color: #fff;
+      color: #000;
+    }
+  }
+
+  @keyframes ad-hero-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ad-hero__content {
+      animation: none;
+    }
+
+    .ad-hero__button a {
+      transition: none;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .ad-hero--small {
+      min-height: 520px;
+    }
+
+    .ad-hero--medium {
+      min-height: 650px;
+    }
+
+    .ad-hero--large {
+      min-height: 820px;
+    }
+
+    .ad-hero__overlay {
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.1) 100%);
+    }
+
+    .ad-hero__content {
+      padding: 0 36px;
+      row-gap: 24px;
+    }
+
+    .ad-hero__badge-text--desktop {
+      display: block;
+    }
+
+    .ad-hero__badge-text--mobile {
+      display: none;
+    }
+
+    .ad-hero__heading {
+      width: 100%;
+      max-width: 434px;
+    }
+
+    .ad-hero__heading > * {
+      font-size: 57px;
+      line-height: 60px;
+      font-weight: 300;
+      letter-spacing: normal;
+    }
+
+    .ad-hero__description {
+      max-width: 680px;
+    }
+
+    .ad-hero__description p {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .ad-hero__buttons {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-self: flex-start;
+    }
+
+    .ad-hero__button a {
+      width: auto;
+    }
+    
+    .ad-hero__button--primary a {
+      font-weight: 500;
+    }
+  }
+</style>
+
+<section
+  class="ad-hero ad-hero--{{ height_modifier }}"
+  {% if heading != blank %}
+    aria-labelledby="{{ heading_id }}"
+  {% endif %}
+>
+  <div class="ad-hero__media">
+    {%- if desktop_image != blank -%}
+      <picture>
+        {%- if has_mobile_source -%}
+          <source
+            media="(max-width: 768px)"
+            srcset="
+              {{ mobile_image | image_url: width: 375 }} 375w,
+              {{ mobile_image | image_url: width: 550 }} 550w,
+              {{ mobile_image | image_url: width: 750 }} 750w,
+              {{ mobile_image | image_url: width: 1100 }} 1100w,
+              {{ mobile_image | image_url: width: 1500 }} 1500w
+            "
+            sizes="100vw"
+            width="{{ mobile_image.width }}"
+            height="{{ mobile_image.height }}"
+          >
+        {%- endif -%}
+        {{
+          desktop_image
+          | image_url: width: 3840
+          | image_tag:
+            widths: '375, 550, 750, 1100, 1500, 1920, 2400, 3000, 3840',
+            sizes: '100vw',
+            alt: desktop_image.alt,
+            loading: image_loading,
+            fetchpriority: image_priority,
+            style: desktop_image.presentation.focal_point
+          | prepend: 'object-position: '
+        }}
+      </picture>
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'ad-hero__placeholder' }}
+    {%- endif -%}
+  </div>
+
+  {%- if enable_overlay -%}
+    <div class="ad-hero__overlay" aria-hidden="true"></div>
+  {%- endif -%}
+
+  <div class="ad-hero__content">
+    {%- if badge_text != blank -%}
+      <div class="ad-hero__badge">
+        {%- if has_badge_variants -%}
+          <div class="ad-hero__badge-text ad-hero__badge-text--desktop">
+            <p>{{ badge_text | escape }}</p>
+          </div>
+          <div class="ad-hero__badge-text ad-hero__badge-text--mobile">
+            <p>{{ badge_text_mobile | escape }}</p>
+          </div>
+        {%- else -%}
+          <div class="ad-hero__badge-text">
+            <p>{{ badge_text | escape }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if heading != blank -%}
+      <div class="ad-hero__heading">
+        <{{ heading_tag }} id="{{ heading_id }}">{{ heading }}</{{ heading_tag }}>
+      </div>
+    {%- endif -%}
+
+    {%- if description != blank -%}
+      <div class="ad-hero__description">
+        {{ description }}
+      </div>
+    {%- endif -%}
+
+    {%- if primary_label != blank or secondary_label != blank -%}
+      <div class="ad-hero__buttons">
+        {%- if primary_label != blank -%}
+          <div class="ad-hero__button ad-hero__button--primary">
+            <a href="{{ primary_url }}">{{ primary_label | escape }}</a>
+          </div>
+        {%- endif -%}
+
+        {%- if secondary_label != blank -%}
+          <div class="ad-hero__button ad-hero__button--secondary">
+            <a href="{{ secondary_url }}">{{ secondary_label | escape }}</a>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Art Department hero",
+  "tag": "section",
+  "class": "section-ad-hero",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image",
+      "info": "Optional. Shown on screens 768px and below. Falls back to the main image."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "banner_height",
+      "label": "Banner height",
+      "options": [
+        {
+          "value": "fit_screen",
+          "label": "Fit Screen"
+        },
+        {
+          "value": "auto",
+          "label": "Auto"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "fit_screen"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_overlay",
+      "label": "Enable overlay",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "Art Department"
+    },
+    {
+      "type": "text",
+      "id": "badge_text_mobile",
+      "label": "Badge text (mobile)",
+      "info": "Optional. Replaces the badge text on mobile.",
+      "default": "Art Department · Now live: Drop 03"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Art Department. Made by artists."
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Limited runs of drinkware designed with the artists, illustrators and makers we love. Every collection is made in small batches - and when a run is gone, it moves to the archive.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Primary button"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Label",
+      "default": "Shop the latest drop"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_url",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Secondary button"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Label",
+      "default": "Browse collections"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_url",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding (mobile)",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding (mobile)",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding (desktop)",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding (desktop)",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Art Department hero"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,169 @@
+{%- comment -%}
+  Search drawer results view.
+  Rendered with the Section Rendering API by search-drawer.js:
+  /search/suggest?q=…&resources[type]=product,collection,page,article,query&section_id=search-drawer-results
+
+  - Products: product-item (card layout) slider
+  - Pages: matching collections, pages and articles
+  - No products: "No results" message, "Did you mean" (first suggested query) and bestsellers
+  - Trending searches (theme settings > Search drawer): only shown in this view
+  Matching FAQs are added by search-drawer.js into [data-search-drawer-faq-slot].
+{%- endcomment -%}
+
+{%- if predictive_search.performed -%}
+  {%- liquid
+    assign sdr_terms = predictive_search.terms
+    assign sdr_terms_down = sdr_terms | downcase | strip
+    assign sdr_products = predictive_search.resources.products
+    assign sdr_pages = predictive_search.resources.collections | concat: predictive_search.resources.pages | concat: predictive_search.resources.articles
+    assign sdr_trending = settings.search_drawer_trending | newline_to_br | split: '<br />'
+
+    assign sdr_suggestion = blank
+    for sdr_query in predictive_search.resources.queries
+      assign sdr_query_down = sdr_query.text | downcase | strip
+      if sdr_query_down != sdr_terms_down
+        assign sdr_suggestion = sdr_query.text
+        break
+      endif
+    endfor
+
+    comment
+      Predictive search returns at most 10 products
+    endcomment
+    assign sdr_count_label = 'templates.search.results_with_count' | t: count: sdr_products.size
+    if sdr_products.size >= 10
+      assign sdr_count_label = sdr_count_label | replace_first: '10', '10+'
+    endif
+  -%}
+
+  <div class="search-drawer__results-view" data-search-drawer-results-view>
+    {%- if sdr_products.size > 0 -%}
+      <div class="search-drawer__section search-drawer__result-products" data-search-drawer-slider>
+        <div class="search-drawer__section-head">
+          <div class="search-drawer__intro">
+            <p class="search-drawer__eyebrow">
+              {{- 'templates.search.products' | t }} · {{ sdr_count_label -}}
+            </p>
+            <h2 class="search-drawer__heading">“{{ sdr_terms | escape }}”</h2>
+          </div>
+
+          {%- if settings.search_drawer_view_all_text != blank -%}
+            <a
+              href="{{ routes.search_url }}?q={{ sdr_terms | url_encode }}&options%5Bprefix%5D=last"
+              class="search-drawer__view-all-link"
+            >
+              {{- settings.search_drawer_view_all_text | escape }}
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 5h10M7 1l4 4-4 4"/>
+              </svg>
+            </a>
+          {%- endif -%}
+        </div>
+
+        <div class="search-drawer__swiper swiper" data-search-drawer-swiper="products">
+          <ul
+            class="search-drawer__track search-drawer__track--products swiper-wrapper"
+            id="SearchDrawerResultProducts"
+            role="list"
+          >
+            {%- for product in sdr_products -%}
+              <li class="search-drawer__slide search-drawer__slide--product swiper-slide">
+                {%- render 'product-item', product: product, layout: 'card', skip_style: true -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="search-drawer__section search-drawer__empty">
+        <h2 class="search-drawer__heading">
+          {%- assign sdr_terms_escaped = sdr_terms | escape -%}
+          {{- settings.search_drawer_no_results_heading | escape | replace: '[terms]', sdr_terms_escaped -}}
+        </h2>
+
+        {%- if sdr_suggestion != blank -%}
+          <p class="search-drawer__did-you-mean">
+            {{- settings.search_drawer_did_you_mean | escape }}
+            <a
+              href="{{ routes.search_url }}?q={{ sdr_suggestion | url_encode }}&options%5Bprefix%5D=last"
+              class="search-drawer__did-you-mean-link"
+              data-search-drawer-suggestion="{{ sdr_suggestion | escape }}"
+            >
+              {{- sdr_suggestion | escape -}}
+            </a>?
+          </p>
+        {%- endif -%}
+
+        {%- if settings.search_drawer_no_results_text != blank -%}
+          <p class="search-drawer__empty-text">{{ settings.search_drawer_no_results_text | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- render 'search-drawer-bestseller', sdb_id: 'SearchDrawerEmptyBestsellers' -%}
+    {%- endif -%}
+
+    {%- if sdr_pages.size > 0 -%}
+      <div class="search-drawer__section search-drawer__pages">
+        {%- if settings.search_drawer_pages_heading != blank -%}
+          <h2 class="search-drawer__heading">{{ settings.search_drawer_pages_heading | escape }}</h2>
+        {%- endif -%}
+
+        <ul class="search-drawer__page-list" role="list">
+          {%- for item in sdr_pages limit: 6 -%}
+            {%- liquid
+              case item.object_type
+                when 'collection'
+                  assign sdr_type = 'templates.search.collection' | t
+                when 'article'
+                  assign sdr_type = 'templates.search.article' | t
+                else
+                  assign sdr_type = 'templates.search.page' | t
+              endcase
+            -%}
+            <li class="search-drawer__page-item">
+              <a href="{{ item.url }}" class="search-drawer__page">
+                <span class="search-drawer__page-info">
+                  <span class="search-drawer__page-title">{{ item.title | escape }}</span>
+                  <span class="search-drawer__page-type">{{ sdr_type }}</span>
+                </span>
+                <svg class="search-drawer__page-chevron" aria-hidden="true" focusable="false" viewBox="0 0 6 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 1l4 4-4 4"/>
+                </svg>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+
+    <div data-search-drawer-faq-slot></div>
+
+    {%- capture sdr_trending_items -%}
+      {%- for line in sdr_trending -%}
+        {%- assign sdr_term = line | strip -%}
+        {%- if sdr_term != blank -%}
+          <li class="search-drawer__suggestion-item">
+            <a
+              href="{{ routes.search_url }}?q={{ sdr_term | url_encode }}&options%5Bprefix%5D=last"
+              class="search-drawer__suggestion"
+              data-search-drawer-suggestion="{{ sdr_term | escape }}"
+            >
+              {{- sdr_term | escape -}}
+            </a>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- if sdr_trending_items != blank -%}
+      <div class="search-drawer__section search-drawer__trending">
+        {%- if settings.search_drawer_trending_heading != blank -%}
+          <h2 class="search-drawer__heading">{{ settings.search_drawer_trending_heading | escape }}</h2>
+        {%- endif -%}
+        <ul class="search-drawer__suggestion-list" role="list">
+          {{- sdr_trending_items -}}
+        </ul>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}

@@ -1,0 +1,619 @@
+{%- comment -%}
+  Section: Bundle builder
+  - One "Collection tab" block per collection. The "All" tab is not a collection: it shows the
+    products of every configured collection, each product once.
+  - Customers pick [min]–[max] pieces (one of each product). [min] is the first discount tier.
+  - The 20% / 25% discounts are automatic discounts in Shopify admin (on the same collections);
+    the tiers below are only shown to the customer and used to estimate the bundle total.
+  - Add bundle to cart → /cart/add.js, then the Rebuy cart drawer, the cart page or checkout.
+  - Styles: assets/bundle-builder.css. Script: assets/bundle-builder.js (<bundle-builder> element,
+    so it sets itself up again when the theme editor re-renders the section).
+  - Swiper: the theme's swiper-bundle.min.js, already loaded on every page by snippets/search-drawer.
+{%- endcomment -%}
+
+{{ 'bundle-builder-v3.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'bundle-builder-v3.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign bb = section.settings
+  assign max_items = bb.max_items
+  assign min_items = bb.tier_1_quantity | at_most: max_items
+
+  assign has_tier_2 = false
+  if bb.tier_2_percent > 0 and bb.tier_2_quantity > min_items and bb.tier_2_quantity <= max_items
+    assign has_tier_2 = true
+  endif
+  assign last_quantity = min_items
+  if has_tier_2
+    assign last_quantity = bb.tier_2_quantity
+  endif
+
+  assign heading_mobile = bb.heading_mobile | default: bb.heading
+
+  comment
+    Pass 1: product ids per tab and the handles of every product in the configured collections
+    (|handle| delimited, so `contains` only matches whole handles).
+  endcomment
+  assign all_handles = '|'
+  assign tab_count = 0
+  for block in section.blocks
+    assign tab_collection = block.settings.collection
+    if tab_collection == blank
+      continue
+    endif
+    for product in tab_collection.products limit: bb.products_per_collection
+      if bb.hide_sold_out and product.available == false
+        continue
+      endif
+      assign product_handle = '|' | append: product.handle | append: '|'
+      unless all_handles contains product_handle
+        assign all_handles = all_handles | append: product.handle | append: '|'
+      endunless
+    endfor
+    assign tab_count = tab_count | plus: 1
+  endfor
+
+  assign tier_1_label_desktop = bb.tier_label_desktop | replace: '[quantity]', min_items | replace: '[percent]', bb.tier_1_percent
+  assign tier_1_label_mobile = bb.tier_label_mobile | replace: '[quantity]', min_items | replace: '[percent]', bb.tier_1_percent
+  assign tier_2_label_desktop = bb.tier_label_desktop | replace: '[quantity]', bb.tier_2_quantity | replace: '[percent]', bb.tier_2_percent
+  assign tier_1_position = min_items | times: 100.0 | divided_by: last_quantity
+-%}
+
+{% style %}
+  .bundle-builder--{{ section.id }} {
+    --bundle-builder-background: {{ bb.background_color }};
+    --bundle-builder-gradient: {{ bb.gradient_color }};
+    --bundle-builder-accent: {{ bb.accent_color }};
+    --bundle-builder-list-height: {{ bb.mobile_list_height }}px;
+    --bundle-builder-padding-top: {{ bb.padding_top_mobile }}px;
+    --bundle-builder-padding-bottom: {{ bb.padding_bottom_mobile }}px;
+    {%- if bb.background_mobile != blank %}
+      --bundle-builder-background-mobile: {{ bb.background_mobile }};
+    {%- endif %}
+    {%- if bb.background_desktop != blank %}
+      --bundle-builder-background-desktop: {{ bb.background_desktop }};
+    {%- endif %}
+  }
+
+  @media screen and (min-width: 769px) {
+    .bundle-builder--{{ section.id }} {
+      --bundle-builder-padding-top: {{ bb.padding_top }}px;
+      --bundle-builder-padding-bottom: {{ bb.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<bundle-builder class="bundle-builder bundle-builder--{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="bundle-builder__container">
+    <div class="bundle-builder__header">
+      {%- if bb.eyebrow != blank -%}
+        <p class="bundle-builder__eyebrow">{{ bb.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if bb.heading != blank -%}
+        <h2 class="bundle-builder__heading">
+          <span class="bundle-builder__heading-text bundle-builder__heading-text--desktop">
+            {{- bb.heading | escape -}}
+          </span>
+          <span class="bundle-builder__heading-text bundle-builder__heading-text--mobile">
+            {{- heading_mobile | escape -}}
+          </span>
+        </h2>
+      {%- endif -%}
+    </div>
+
+    <div class="bundle-builder__progress">
+      <p class="bundle-builder__message" data-bundle-builder-message aria-live="polite"></p>
+
+      <div class="bundle-builder__track bundle-builder__track--tiers" aria-hidden="true">
+        <span class="bundle-builder__track-fill" data-bundle-builder-fill></span>
+        <span
+          class="bundle-builder__marker"
+          data-bundle-builder-marker="{{ min_items }}"
+          style="--bundle-builder-position: {{ tier_1_position }}%;"
+        >
+          <span class="bundle-builder__marker-label">{{ tier_1_label_desktop | escape }}</span>
+        </span>
+        {%- if has_tier_2 -%}
+          <span
+            class="bundle-builder__marker"
+            data-bundle-builder-marker="{{ bb.tier_2_quantity }}"
+            style="--bundle-builder-position: 100%;"
+          >
+            <span class="bundle-builder__marker-label">{{ tier_2_label_desktop | escape }}</span>
+          </span>
+        {%- endif -%}
+      </div>
+
+      <div class="bundle-builder__track bundle-builder__track--steps" aria-hidden="true">
+        <span class="bundle-builder__track-fill" data-bundle-builder-fill></span>
+        {%- for i in (1..min_items) -%}
+          {%- assign step_position = i | times: 100.0 | divided_by: min_items -%}
+          <span
+            class="bundle-builder__marker"
+            data-bundle-builder-step="{{ i }}"
+            style="--bundle-builder-position: {{ step_position }}%;"
+          >
+            {%- if forloop.last -%}
+              <span class="bundle-builder__marker-label">{{ tier_1_label_mobile | escape }}</span>
+            {%- endif -%}
+          </span>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- if tab_count > 0 -%}
+      <div class="bundle-builder__tabs">
+        <div
+          class="bundle-builder__tabs-scroller"
+          role="tablist"
+          aria-label="{{ bb.heading | escape }}"
+          data-bundle-builder-tabs
+        >
+          {%- if bb.show_all_tab -%}
+            <button
+              type="button"
+              class="bundle-builder__tab is-active"
+              id="BundleBuilderTab-{{ section.id }}-all"
+              role="tab"
+              aria-selected="true"
+              aria-controls="BundleBuilderSlider-{{ section.id }}"
+              data-bundle-builder-tab="all"
+            >
+              {{- bb.all_tab_label | escape -}}
+            </button>
+          {%- endif -%}
+
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign tab_collection = block.settings.collection
+              if tab_collection == blank
+                continue
+              endif
+              assign tab_ids = ''
+              for product in tab_collection.products limit: bb.products_per_collection
+                if bb.hide_sold_out and product.available == false
+                  continue
+                endif
+                assign tab_ids = tab_ids | append: product.id | append: ','
+              endfor
+              if tab_ids == blank
+                continue
+              endif
+            -%}
+            <button
+              type="button"
+              class="bundle-builder__tab"
+              id="BundleBuilderTab-{{ block.id }}"
+              role="tab"
+              aria-selected="false"
+              aria-controls="BundleBuilderSlider-{{ section.id }}"
+              data-bundle-builder-tab="{{ tab_ids | remove_last: ',' }}"
+              {{ block.shopify_attributes }}
+            >
+              {{- block.settings.label | default: tab_collection.title | escape -}}
+            </button>
+          {%- endfor -%}
+        </div>
+
+        <button
+          type="button"
+          class="bundle-builder__tabs-next"
+          data-bundle-builder-tabs-next
+          aria-label="{{ 'accessibility.next_slide' | t | escape }}"
+          hidden
+        >
+          <svg width="7" height="12" viewBox="0 0 7 12" fill="none" aria-hidden="true">
+            <path d="m1 1 5 5-5 5" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="bundle-builder__viewport" data-bundle-builder-viewport>
+        <div
+          class="bundle-builder__slider"
+          id="BundleBuilderSlider-{{ section.id }}"
+          role="tabpanel"
+          data-bundle-builder-slider
+        >
+          <div class="bundle-builder__wrapper" data-bundle-builder-wrapper>
+            {%- comment -%}
+              Every collection block's products, each product once (by product id).
+              bundle-builder.js shuffles this combined pool for the "All" tab.
+            {%- endcomment -%}
+            {%- assign rendered_ids = '|' -%}
+            {%- for block in section.blocks -%}
+              {%- assign tab_collection = block.settings.collection -%}
+              {%- if tab_collection == blank -%}{%- continue -%}{%- endif -%}
+              {%- for product in tab_collection.products limit: bb.products_per_collection -%}
+                {%- liquid
+                  if bb.hide_sold_out and product.available == false
+                    continue
+                  endif
+                  assign product_key = '|' | append: product.id | append: '|'
+                  if rendered_ids contains product_key
+                    continue
+                  endif
+                  assign rendered_ids = rendered_ids | append: product.id | append: '|'
+                -%}
+                {%- render 'bundle-builder-product', product: product, bb_settings: bb, bb_handles: all_handles -%}
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="bundle-builder__arrow bundle-builder__arrow--prev"
+          data-bundle-builder-prev
+          aria-label="{{ 'accessibility.previous_slide' | t }}"
+        >
+          <svg width="7" height="12" viewBox="0 0 7 12" fill="none" aria-hidden="true">
+            <path d="M6 1 1 6l5 5" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="bundle-builder__arrow bundle-builder__arrow--next"
+          data-bundle-builder-next
+          aria-label="{{ 'accessibility.next_slide' | t }}"
+        >
+          <svg width="7" height="12" viewBox="0 0 7 12" fill="none" aria-hidden="true">
+            <path d="m1 1 5 5-5 5" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </button>
+
+        <div class="bundle-builder__scrollbar" data-bundle-builder-scrollbar></div>
+      </div>
+    {%- elsif request.design_mode -%}
+      <p class="bundle-builder__empty">Add a “Collection tab” block and pick a collection to show products.</p>
+    {%- endif -%}
+
+    <div class="bundle-builder__footer">
+      <div class="bundle-builder__summary">
+        <p class="bundle-builder__summary-title">{{ bb.summary_title | escape }}</p>
+        <p class="bundle-builder__summary-count" data-bundle-builder-count></p>
+      </div>
+
+      <div class="bundle-builder__slots" data-bundle-builder-slots></div>
+
+      <div class="bundle-builder__totals">
+        <p class="bundle-builder__amounts">
+          <s class="bundle-builder__compare" data-bundle-builder-compare hidden></s>
+          <span class="bundle-builder__total" data-bundle-builder-total>{{ 0 | money }}</span>
+        </p>
+        <p class="bundle-builder__note" data-bundle-builder-note aria-live="polite"></p>
+      </div>
+
+      <button type="button" class="bundle-builder__submit" data-bundle-builder-submit aria-disabled="true">
+        <span data-bundle-builder-submit-label>{{ bb.submit_label | escape }}</span>
+      </button>
+
+      {%- if bb.footnote != blank -%}
+        <p class="bundle-builder__footnote">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M10.8333 7.04171C10.8333 9.75004 8.93751 11.1042 6.68417 11.8896C6.56618 11.9296 6.438 11.9277 6.32126 11.8842C4.06251 11.1042 2.16667 9.75004 2.16667 7.04171V3.25004C2.16667 3.10638 2.22374 2.96861 2.32532 2.86702C2.4269 2.76544 2.56468 2.70837 2.70834 2.70837C3.79167 2.70837 5.14584 2.05837 6.08834 1.23504C6.20309 1.137 6.34907 1.08313 6.50001 1.08313C6.65094 1.08313 6.79692 1.137 6.91167 1.23504C7.85959 2.06379 9.20834 2.70837 10.2917 2.70837C10.4353 2.70837 10.5731 2.76544 10.6747 2.86702C10.7763 2.96861 10.8333 3.10638 10.8333 3.25004V7.04171Z" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+          </svg>
+          {{ bb.footnote | escape }}
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <script type="application/json" data-bundle-builder-config>
+    {
+      "min": {{ min_items }},
+      "max": {{ max_items }},
+      "tiers": [
+        { "quantity": {{ min_items }}, "percent": {{ bb.tier_1_percent }} }
+        {%- if has_tier_2 -%},{ "quantity": {{ bb.tier_2_quantity }}, "percent": {{ bb.tier_2_percent }} }{%- endif -%}
+      ],
+      "moneyFormat": {{ shop.money_format | json }},
+      "afterAdd": {{ bb.after_add | json }},
+      "cartUrl": {{ routes.cart_url | json }},
+      "cartAddUrl": {{ routes.cart_add_url | append: '.js' | json }},
+      "checkoutUrl": "/checkout",
+      "strings": {
+        "pieceSingular": {{ bb.piece_singular | json }},
+        "piecePlural": {{ bb.piece_plural | json }},
+        "progressAdd": {{ bb.progress_add | json }},
+        "progressUnlocked": {{ bb.progress_unlocked | json }},
+        "progressMax": {{ bb.progress_max | json }},
+        "countBelow": {{ bb.count_below | json }},
+        "countApplied": {{ bb.count_applied | json }},
+        "noteAdd": {{ bb.note_add | json }},
+        "noteSave": {{ bb.note_save | json }},
+        "noteMin": {{ bb.note_min | json }},
+        "noteLimit": {{ bb.note_limit | json }},
+        "submit": {{ bb.submit_label | json }},
+        "adding": {{ 'accessibility.loading' | t | json }},
+        "error": {{ 'sections.cart.cart_error' | t | json }},
+        "add": {{ bb.add_label | json }},
+        "added": {{ bb.added_label | json }},
+        "soldOut": {{ 'products.product.sold_out' | t | json }},
+        "remove": {{ 'sections.cart.remove_title' | t: title: '[title]' | json }},
+        "emptySlot": {{ bb.add_label | json }}
+      }
+    }
+  </script>
+</bundle-builder>
+
+{% schema %}
+{
+  "name": "Bundle builder",
+  "tag": "section",
+  "class": "section-bundle-builder",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Start with a bundle" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Build Your Own Bundle" },
+    {
+      "type": "text",
+      "id": "heading_mobile",
+      "label": "Heading on mobile",
+      "default": "Build your bundle",
+      "info": "Leave empty to use the heading."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_all_tab",
+      "label": "Show \"All\" tab",
+      "default": true,
+      "info": "Shows the products of every collection tab, each product once. It is not a collection."
+    },
+    { "type": "text", "id": "all_tab_label", "label": "\"All\" tab label", "default": "All" },
+
+    { "type": "header", "content": "Products" },
+    {
+      "type": "range",
+      "id": "products_per_collection",
+      "label": "Products per collection",
+      "min": 4,
+      "max": 50,
+      "step": 1,
+      "default": 24
+    },
+    { "type": "checkbox", "id": "hide_sold_out", "label": "Hide sold-out products", "default": true },
+
+    { "type": "header", "content": "Bundle rules" },
+    {
+      "type": "paragraph",
+      "content": "The discounts are automatic discounts in Shopify admin, set on the same collections. The pieces and percentages below are only shown to customers: keep them the same as the discounts."
+    },
+    {
+      "type": "range",
+      "id": "max_items",
+      "label": "Maximum pieces in a bundle",
+      "min": 3,
+      "max": 16,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "tier_1_quantity",
+      "label": "First discount: pieces",
+      "min": 3,
+      "max": 16,
+      "step": 1,
+      "default": 3,
+      "info": "Also the minimum bundle size."
+    },
+    {
+      "type": "range",
+      "id": "tier_1_percent",
+      "label": "First discount: percent",
+      "min": 0,
+      "max": 90,
+      "step": 1,
+      "unit": "%",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "tier_2_quantity",
+      "label": "Second discount: pieces",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "default": 5,
+      "info": "Hidden if it is not more than the first discount's pieces or is above the maximum."
+    },
+    {
+      "type": "range",
+      "id": "tier_2_percent",
+      "label": "Second discount: percent",
+      "min": 0,
+      "max": 90,
+      "step": 1,
+      "unit": "%",
+      "default": 25,
+      "info": "0% hides the second discount."
+    },
+
+    { "type": "header", "content": "Progress text" },
+    {
+      "type": "paragraph",
+      "content": "Wrap words in *asterisks* to highlight them. Placeholders: [remaining], [pieces], [percent], [next_percent], [count], [min], [max], [amount]."
+    },
+    {
+      "type": "text",
+      "id": "progress_add",
+      "label": "Before the first discount",
+      "default": "Add *[remaining] more [pieces]* to save [percent]%"
+    },
+    {
+      "type": "text",
+      "id": "progress_unlocked",
+      "label": "Discount unlocked, another to go",
+      "default": "*[percent]% off unlocked* · add [remaining] more to save [next_percent]%"
+    },
+    { "type": "text", "id": "progress_max", "label": "Best discount unlocked", "default": "*[percent]% off unlocked*" },
+    {
+      "type": "text",
+      "id": "tier_label_desktop",
+      "label": "Tier label (desktop)",
+      "default": "[quantity] pcs · [percent]%",
+      "info": "[quantity] and [percent] are replaced."
+    },
+    {
+      "type": "text",
+      "id": "tier_label_mobile",
+      "label": "Tier label (mobile)",
+      "default": "[quantity] pieces · [percent]% off",
+      "info": "[quantity] and [percent] are replaced."
+    },
+    { "type": "text", "id": "piece_singular", "label": "Piece (singular)", "default": "piece" },
+    { "type": "text", "id": "piece_plural", "label": "Pieces (plural)", "default": "pieces" },
+
+    { "type": "header", "content": "Product cards" },
+    { "type": "text", "id": "badge_label", "label": "Selected badge", "default": "In your bundle" },
+    { "type": "text", "id": "add_label", "label": "Add button", "default": "Add" },
+    { "type": "text", "id": "added_label", "label": "Added button", "default": "Added" },
+
+    { "type": "header", "content": "Bundle summary" },
+    { "type": "text", "id": "summary_title", "label": "Title", "default": "Your bundle" },
+    { "type": "text", "id": "count_below", "label": "Count before the minimum", "default": "[count] of [min] pieces" },
+    {
+      "type": "text",
+      "id": "count_applied",
+      "label": "Count with a discount",
+      "default": "[count] pieces · [percent]% off applied"
+    },
+    {
+      "type": "text",
+      "id": "note_add",
+      "label": "Price note before the discount",
+      "default": "Add [remaining] more to save [percent]%"
+    },
+    {
+      "type": "text",
+      "id": "note_save",
+      "label": "Price note with a discount",
+      "default": "You save [amount] ([percent]% off)"
+    },
+    {
+      "type": "text",
+      "id": "note_min",
+      "label": "Message: bundle too small",
+      "default": "Add [remaining] more [pieces] to complete your bundle"
+    },
+    {
+      "type": "text",
+      "id": "note_limit",
+      "label": "Message: bundle full",
+      "default": "Your bundle is full ([max] pieces max)"
+    },
+    { "type": "text", "id": "submit_label", "label": "Button", "default": "Add bundle to cart" },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Note under the button (mobile)",
+      "default": "Save 20% on 3+ pieces · Free shipping over $65"
+    },
+    {
+      "type": "select",
+      "id": "after_add",
+      "label": "After adding to cart",
+      "options": [
+        { "value": "drawer", "label": "Open the cart drawer" },
+        { "value": "cart", "label": "Go to the cart page" },
+        { "value": "checkout", "label": "Go to checkout" }
+      ],
+      "default": "drawer"
+    },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "gradient_color", "label": "Top gradient", "default": "#C9D7E0" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#E35A12" },
+    {
+      "type": "color_background",
+      "id": "background_desktop",
+      "label": "Desktop Background",
+      "default": "linear-gradient(180deg, #B8CDD8 0%, rgba(246, 241, 236, 0.00) 32%), #FFF"
+    },
+    {
+      "type": "color_background",
+      "id": "background_mobile",
+      "label": "Mobile Background",
+      "default": "#FFF"
+    },
+
+    { "type": "header", "content": "Mobile" },
+    {
+      "type": "range",
+      "id": "mobile_list_height",
+      "label": "Product list height",
+      "min": 280,
+      "max": 720,
+      "step": 10,
+      "unit": "px",
+      "default": 420
+    },
+
+    { "type": "header", "content": "Desktop padding" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    { "type": "header", "content": "Mobile padding" },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection tab",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "label", "label": "Tab label", "info": "Leave empty to use the collection title." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle builder",
+      "blocks": [
+        { "type": "collection", "settings": { "label": "Tumblers" } },
+        { "type": "collection", "settings": { "label": "Cold Cups" } },
+        { "type": "collection", "settings": { "label": "Mugs" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

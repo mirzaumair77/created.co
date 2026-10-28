@@ -1,0 +1,164 @@
+{%- comment -%}
+  snippets/product-card-swatch.liquid
+  Usage: {% render 'product-card-swatch', product: product %}
+
+  Colours are SEPARATE products linked on the base product via metafields:
+    namespace: variants
+    keys:      related_product_color_1 ... related_product_color_8
+  The base product is always the FIRST swatch. Each swatch's image/title/
+  subtitle/price/url come from that colour product's own data.
+
+  DE-DUP: the base product's own URL sometimes also appears inside the
+  related_product_color_* metafields (client defined both colours on both
+  products). We keep a delimited list of URLs already shown and skip any
+  colour product whose URL is already in it, so every product renders ONCE.
+  The base URL is seeded first, so the base can never repeat.
+{%- endcomment -%}
+
+{%- liquid
+  assign base = product
+  assign refs = '1,2,3,4,5,6,7,8' | split: ','
+  comment
+    seed "seen" with the base URL, pipe-wrapped so `contains` only ever
+    matches a whole URL (never a partial path)
+  endcomment
+  assign seen = '|' | append: base.url | append: '|'
+-%}
+
+{%- comment -%} ---- helper capture: renders one JSON object for a product ---- {%- endcomment -%}
+{%- capture json_items -%}
+  {%- comment -%} first item = base product {%- endcomment -%}
+  {
+    "url": {{ base.url | json }},
+    "title": {{ base.metafields.product_cards.product_card_title | default: base.title | json }},
+    "subtitle": {{ base.metafields.info.subtitle | default: '' | json }},
+    "price": {{ base.price | money | json }},
+    "compareAt": {{ base.compare_at_price | money | json }},
+    "onSale": {% if base.compare_at_price > base.price %}true{% else %}false{% endif %},
+    "available": {{ base.available | json }},
+    "image": {{ base.featured_image | image_url: width: 700 | json }},
+    "imageAlt": {{ base.featured_image.alt | default: base.title | json }},
+   "rating": {{ base.metafields.reviews.rating.value.rating | default: 0 | json }},
+"ratingCount": {{ base.metafields.reviews.rating_count.value | default: 0 | json }}
+  }
+  {%- for n in refs -%}
+    {%- assign key = 'related_product_color_' | append: n -%}
+    {%- assign cp = base.metafields.variants[key].value -%}
+    {%- if cp != blank -%}
+      {%- assign cpurl = '|' | append: cp.url | append: '|' -%}
+      {%- unless seen contains cpurl -%}
+        {%- assign seen = seen | append: cp.url | append: '|' -%}
+      ,{
+        "url": {{ cp.url | json }},
+        "title": {{ cp.metafields.product_cards.product_card_title | default: cp.title | json }},
+        "subtitle": {{ cp.metafields.info.subtitle | default: '' | json }},
+        "price": {{ cp.price | money | json }},
+        "compareAt": {{ cp.compare_at_price | money | json }},
+        "onSale": {% if cp.compare_at_price > cp.price %}true{% else %}false{% endif %},
+        "available": {{ cp.available | json }},
+        "image": {{ cp.featured_image | image_url: width: 700 | json }},
+        "imageAlt": {{ cp.featured_image.alt | default: cp.title | json }},
+       "rating": {{ cp.metafields.reviews.rating.value.rating | default: 0 | json }},
+"ratingCount": {{ cp.metafields.reviews.rating_count.value | default: 0 | json }}
+      }
+      {%- endunless -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- comment -%}
+  reset "seen" to the base URL so the swatch-buttons loop below applies the
+  exact same de-dup and stays perfectly index-aligned with the JSON above.
+{%- endcomment -%}
+{%- assign seen = '|' | append: base.url | append: '|' -%}
+
+<product-swatch-card class="pcs" data-selected="0">
+
+  <script type="application/json" class="pcs__data">[{{ json_items }}]</script>
+
+  {%- comment -%} ---- media (link) ---- {%- endcomment -%}
+  <a class="pcs__media" href="{{ base.url }}" data-pcs-link aria-label="{{ base.title | escape }}">
+    <img
+      class="pcs__img"
+      src="{{ base.featured_image | image_url: width: 700 }}"
+      alt="{{ base.featured_image.alt | default: base.title | escape }}"
+      width="700" height="700"
+      loading="lazy"
+    >
+  </a>
+<div class="product_info">
+  {%- comment -%} ---- rating ---- {%- endcomment -%}
+{%- assign rating_value = base.metafields.reviews.rating.value.rating | default: 0 -%}
+{%- assign rating_count = base.metafields.reviews.rating_count.value | default: 0 -%}
+
+<div
+  class="pcs__rating{% if rating_value == 0 or rating_count == 0 %} is-empty{% endif %}"
+  {% if rating_value > 0 and rating_count > 0 %}
+    aria-label="{{ rating_value }} out of 5 stars, based on {{ rating_count }} reviews"
+  {% endif %}
+>
+  <span
+    class="pcs__stars"
+    style="--rating: {{ rating_value }};"
+    aria-hidden="true"
+  ></span>
+
+  <span class="pcs__rating-num">
+    {{ rating_value | round: 1 }}
+  </span>
+
+  <span class="pcs__rating-count">
+    ({{ rating_count }})
+  </span>
+</div>
+
+  {%- comment -%} ---- title + price ---- {%- endcomment -%}
+  <div class="pcs__head">
+     <div class="inner_pcs__head">
+    <a class="pcs__title-link" href="{{ base.url }}" data-pcs-link>
+      <span class="pcs__title font-canela font-thin">
+        {{ base.metafields.product_cards.product_card_title | default: base.title }}
+      </span>
+    </a>
+        {%- if base.metafields.info.subtitle != blank -%}
+        <p class="pcs__subtitle">{{ base.metafields.info.subtitle }}</p>
+      {%- else -%}
+        <p class="pcs__subtitle" hidden></p>
+      {%- endif -%}
+    </div>
+    <span class="pcs__price-wrap">
+      <span class="pcs__price font-canela font-thin">{{ base.price | money }}</span>
+      {%- if base.compare_at_price > base.price -%}
+        <s class="pcs__compare">{{ base.compare_at_price | money }}</s>
+      {%- else -%}
+        <s class="pcs__compare" hidden></s>
+      {%- endif -%}
+    </span>
+  </div>
+
+
+
+  {%- comment -%} ---- swatches ---- {%- endcomment -%}
+  <div class="pcs__swatches" role="group" aria-label="Colours">
+    {%- comment -%} base swatch {%- endcomment -%}
+    <button type="button" class="pcs__swatch is-active" data-index="0"
+            aria-pressed="true" aria-label="{{ base.title | escape }}">
+      <img src="{{ base.featured_image | image_url: width: 120 }}" alt="" loading="lazy" width="120" height="120">
+    </button>
+    {%- for n in refs -%}
+      {%- assign key = 'related_product_color_' | append: n -%}
+      {%- assign cp = base.metafields.variants[key].value -%}
+      {%- if cp != blank -%}
+        {%- assign cpurl = '|' | append: cp.url | append: '|' -%}
+        {%- unless seen contains cpurl -%}
+          {%- assign seen = seen | append: cp.url | append: '|' -%}
+          <button type="button" class="pcs__swatch" data-index="0"
+                  aria-pressed="false" aria-label="{{ cp.title | escape }}">
+            <img src="{{ cp.featured_image | image_url: width: 120 }}" alt="" loading="lazy" width="120" height="120">
+          </button>
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+</product-swatch-card>

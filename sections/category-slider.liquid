@@ -1,0 +1,122 @@
+{{ 'category-slider.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'category-slider.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'category-filter.js' | asset_url }}" defer="defer"></script>
+
+{% style %}
+  #CategorySlider-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+  @media screen and (min-width: 750px) {
+    #CategorySlider-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_desktop }}px;
+      padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+    }
+  }
+{% endstyle %}
+
+{%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+
+{%- comment -%}
+  Slider data comes from the collection metafield:
+    custom.category_cards  = List of "Category Card" metaobjects
+  Each metaobject has: image, title, subtitle, filter_value
+  filter_value is the product tag used by Search & Discovery (?filter.p.m.custom.filter_group=).
+{%- endcomment -%}
+{%- assign cards = collection.metafields.custom.category_cards.value -%}
+{%- assign card_count = cards | size -%}
+
+<section
+  id="CategorySlider-{{ section.id }}"
+  class="cat-slider"
+  data-section-id="{{ section.id }}"
+  data-collection-url="{{ collection.url }}"
+>
+  <div class="site-container cat-slider__inner">
+    <div class="cat-slider__head">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="cat-slider__title">{{ section.settings.heading }}</h2>
+      {%- else -%}
+        <span></span>
+      {%- endif -%}
+
+      {%- comment -%} arrows only matter when the slider is active (3+ cards) {%- endcomment -%}
+      {%- if card_count >= 4 -%}
+        <div class="cat-slider__arrows">
+          <button type="button" class="cat-slider__arrow" aria-label="Previous categories" aria-disabled="false" data-cat-prev js-prev-button>
+            <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path d="M10.5 4.5L6 9L10.5 13.5" stroke="currentColor" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button type="button" class="cat-slider__arrow" aria-label="Next categories" aria-disabled="false" data-cat-next js-next-button>
+            <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path d="M7.5 4.5L12 9L7.5 13.5" stroke="currentColor" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if card_count > 0 -%}
+      {%- comment -%} is-static (<3 cards) => no Flickity, just a flex row {%- endcomment -%}
+      <div class="cat-slider__carousel{% if card_count < 3 %} is-static{% endif %}" data-cat-carousel data-card-count="{{ card_count }}">
+        <div class="cat-slider__track" data-cat-track js-carousel>
+          {%- for card in cards -%}
+            {%- assign filter_value = card.filter_value | default: card.filter_value.value | strip -%}
+            {%- if filter_value == blank -%}
+              {%- capture card_href -%}{{ collection.url }}?sort_by={{ current_sort | url_encode }}{%- endcapture -%}
+            {%- else -%}
+              {%- capture card_href -%}{{ collection.url }}?filter.p.m.custom.filter_group={{ filter_value | url_encode }}&sort_by={{ current_sort | url_encode }}{%- endcapture -%}
+            {%- endif -%}
+
+            <a
+              href="{{ card_href }}"
+              class="cat-card"
+              data-cat-slide
+              js-carousel-slide
+              data-filter-tag="{{ filter_value | escape }}"
+              {% if filter_value == blank %}data-show-all="true"{% endif %}
+            >
+              <div class="cat-card__media">
+                {%- if card.image != blank -%}
+                  {{ card.image.value
+                    | image_url: width: 240
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '120, 180, 240',
+                      sizes: '(max-width: 749px) 80px, 100px',
+                      alt: card.title
+                  }}
+                {%- endif -%}
+              </div>
+              <div class="cat-card__text">
+                <span class="cat-card__title">{{ card.title }}</span>
+                {%- if card.subtitle != blank -%}
+                  <span class="cat-card__subtitle">{{ card.subtitle }}</span>
+                {%- endif -%}
+              </div>
+            </a>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category cards slider",
+  "tag": "section",
+  "class": "section-category-slider",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "paragraph", "content": "Cards come from the collection metafield custom.category_cards (list of Category Card metaobjects: image, title, subtitle, filter_value)." },
+    { "type": "header", "content": "Section spacing" },
+    { "type": "range", "id": "padding_top_desktop", "label": "Padding top (desktop)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding_bottom_desktop", "label": "Padding bottom (desktop)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Padding top (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 20 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Padding bottom (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 20 }
+  ],
+  "presets": [ { "name": "Category cards slider" } ]
+}
+{% endschema %}

@@ -1,0 +1,1584 @@
+{% comment %}
+  Section: Bundle builder (on the page, no popup)
+  - Head: eyebrow, heading, text, toggle between the two bundles
+  - Bundle 1 "Day routine": "Bundle step" blocks (one collection each). Every product has a
+    quantity stepper; any mix of products from any step counts.
+  - Bundle 2 "Actual bundle": one product grid with quantity steppers, shown 3 rows at a time
+    with Load more / Load less.
+  - Both bundles: discount unlocks at [min] pieces (default 3), max [max] of each product
+    (default 10, or the stock if lower), own discount % and discount code.
+  - Build bundle → cart permalink straight to checkout with the discount code.
+  - Cart is cleared when the customer comes back: keep {% render 'byb-cart-reset' %} in theme.liquid <head>.
+  - All CSS and JS is in this file. Class names use the "bbs-" prefix so nothing clashes with
+    the old Build Your Own Bundle section or the theme.
+{% endcomment %}
+
+{%- liquid
+  assign steps = section.blocks | where: 'type', 'step'
+
+  assign has_m1 = false
+  if steps.size > 0
+    assign has_m1 = true
+  endif
+
+  assign has_m2 = false
+  if section.settings.m2_products != blank and section.settings.m2_products.size > 0
+    assign has_m2 = true
+    assign m2_items = section.settings.m2_products
+    assign m2_cap = 50
+  elsif section.settings.m2_collection != blank and section.settings.m2_collection.products_count > 0
+    assign has_m2 = true
+    assign m2_items = section.settings.m2_collection.products
+    assign m2_cap = section.settings.m2_limit
+  endif
+
+  assign active_mode = section.settings.default_mode
+  if active_mode == '1' and has_m1 == false
+    assign active_mode = '2'
+  endif
+  if active_mode == '2' and has_m2 == false
+    assign active_mode = '1'
+  endif
+
+  assign show_toggle = false
+  if has_m1 and has_m2
+    assign show_toggle = true
+  endif
+
+  assign m2_min_s = section.settings.m2_min | append: ''
+  assign m2_max_s = section.settings.m2_max_item | append: ''
+  assign m2_pct_s = section.settings.m2_percent | append: ''
+  assign m2_text = section.settings.m2_text | replace: '[min]', m2_min_s | replace: '[max]', m2_max_s | replace: '[percent]', m2_pct_s
+-%}
+
+<style>
+  .bbs {
+    --bbs-ink: #0e1f2b;
+    --bbs-muted: #5d6468;
+    padding: var(--bbs-pad-top) 0 var(--bbs-pad-bottom);
+    color: var(--bbs-ink);
+    overflow-x: clip;
+  }
+  .bbs .site-container { padding: 0 23px; }
+
+  /* ---------- Head: heading left, text right, toggle under the heading ---------- */
+  .bbs__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "main text"
+      "toggle .";
+    align-items: center;
+    column-gap: 32px;
+    row-gap: 20px;
+    margin-bottom: 34px;
+  }
+  .bbs__head-main { grid-area: main; }
+  .bbs__head .bbs__text { grid-area: text; }
+  .bbs__head .bbs-toggle { grid-area: toggle; justify-self: start; }
+
+  .bbs__eyebrow {
+    color: #6E797F;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 15px;
+    letter-spacing: .4px;
+    margin-bottom: 21px;
+    text-transform: uppercase;
+  }
+  .bbs__heading {
+    margin: 0;
+    font-family: canela, serif;
+    color: #0E1F2A;
+    font-size: 51px;
+    font-weight: 400;
+    line-height: 51px;
+    letter-spacing: -2.16px;
+  }
+  .bbs__text {
+    max-width: 417px;
+    padding-top: 14px;
+    color: #6E797F;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 17px;
+    letter-spacing: 0;
+  }
+  .bbs__text p { margin: 0; }
+
+  /* ---------- Buttons ---------- */
+  .bbs__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 276px;
+    min-height: 54px;
+    padding: 0 28px;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    transition: opacity .2s;
+    border-radius: 999px;
+    background: #0e1f2a;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .bbs__btn:hover:not(:disabled) { opacity: .88; }
+  .bbs__btn:disabled { opacity: .35; cursor: not-allowed; }
+  .bbs__btn:focus-visible { outline: 2px solid var(--bbs-ink); outline-offset: 3px; }
+  .bbs__btn.is-loading { opacity: .7; pointer-events: none; }
+  .bbs__btn--full { width: 100%; min-height: 54px; }
+
+  /* ---------- Toggle ---------- */
+  .bbs-toggle {
+    display: inline-flex;
+    gap: 2px;
+    padding: 4px;
+    border-radius: 999px;
+    background: #f5f5f5;
+  }
+  .bbs-toggle__btn {
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: #0e1f2a73;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 12px 22px 11px 22px;
+    cursor: pointer;
+    background: #F5F5F5;
+    font-style: normal;
+    line-height: 13px;
+    letter-spacing: 0.6px;
+  }
+  .bbs-toggle__btn.is-active {
+    color: var(--bbs-ink);
+    font-weight: 700;
+    border: 1px solid rgba(14, 31, 42, 0.14);
+    background: #FFF;
+  }
+  .bbs-toggle__btn:focus-visible { outline: 1px solid var(--bbs-ink); outline-offset: 2px; }
+
+  /* ---------- Layout ---------- */
+  .bbs-builder {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 332px;
+    gap: 24px;
+    align-items: start;
+  }
+  .bbs-steps[hidden],
+  .bbs-pick[hidden] { display: none; }
+
+  /* ---------- Bundle 1: steps ---------- */
+  .bbs-step {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: 57px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(14, 31, 42, 0.12);
+  }
+  .bbs-step:first-child { padding-top: 0; }
+  .bbs-step:last-child { border-bottom: 0; }
+  .bbs-step__pill {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 17px;
+    border-radius: 999px;
+    border: 1px solid rgba(14, 31, 42, 0.30);
+    padding: 8px 18px;
+    color: #0E1F2A;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 13px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .bbs-step__heading {
+    margin: 0 0 12px;
+    font-family: canela, serif;
+    letter-spacing: -.02em;
+    color: #0E1F2A;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 30px;
+  }
+  .bbs-step__text {
+    margin: 0;
+    max-width: 38ch;
+    color: #6E797F;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 17px;
+  }
+  .bbs-step__empty { font-size: 12px; color: var(--bbs-muted); }
+
+  .bbs-step__products {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 64px) / 4.5); /* 4 full products + half of the 5th */
+    gap: 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+  }
+  .bbs-step__products::-webkit-scrollbar { display: none; }
+  .bbs-step__products > .bbs-card { scroll-snap-align: start; }
+  /* more products than fit: drag with the mouse to scroll (set by JS) */
+  .bbs-step__products.is-draggable { cursor: grab; }
+  .bbs-step__products.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+  .bbs-step__products.is-dragging .bbs-card { pointer-events: none; }
+  .bbs-step__products img { -webkit-user-drag: none; user-select: none; }
+  .bbs-step__products.is-thumb-dragging { scroll-snap-type: none; }
+  .bbs-step__scroller { min-width: 0; }
+
+  /* Scroll bar under each step row (shown only when the row scrolls) */
+  .bbs-bar {
+    position: relative;
+    height: 2px;
+    margin-top: 14px;
+    border-radius: 2px;
+    background: rgba(14, 31, 42, 0.12);
+    cursor: pointer;
+    touch-action: none;
+  }
+  .bbs-bar[hidden] { display: none; }
+  .bbs-bar::before { content: ''; position: absolute; left: 0; right: 0; top: -8px; bottom: -8px; } /* bigger hit area */
+  .bbs-bar__thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 2px;
+    background: #0E1F2A8C;
+    cursor: grab;
+  }
+  .bbs-bar.is-dragging .bbs-bar__thumb { cursor: grabbing; }
+
+  /* ---------- Bundle 2: any pieces ---------- */
+  .bbs-pick__head { margin-bottom: 9px; }
+  .bbs-pick__heading {
+    font-family: canela, serif;
+    letter-spacing: -.02em;
+    color: #0E1F2A;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .bbs-pick__text {
+    margin: 0;
+    line-height: 1.5;
+    color: #6E797F;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+  }
+  .bbs-pick__grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .bbs-pick__more { display: flex; justify-content: center; margin-top: 24px; }
+  .bbs-pick__more[hidden] { display: none; }
+  .bbs-more-btn {
+    min-height: 44px;
+    padding: 0 28px;
+    border: 1px solid rgba(14, 31, 42, 0.35);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--bbs-ink);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .bbs-more-btn:hover { border-color: var(--bbs-ink); }
+  .bbs-more-btn:focus-visible { outline: 2px solid var(--bbs-ink); outline-offset: 2px; }
+
+  /* ---------- Product tile ---------- */
+  .bbs-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid transparent;
+    transition: border-color .15s;
+    border-radius: 12px;
+    background: #F5F5F5;
+  }
+  .bbs-card[hidden] { display: none; }
+  .bbs-card:hover { border-color: #c4c8cb; }
+  .bbs-card.is-selected { border: 1px solid #0E1F2A; }
+  .bbs-card.is-soldout { opacity: .5; }
+
+  .bbs-card__select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 14px 8px 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  button.bbs-card__select {
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  button.bbs-card__select:disabled { cursor: not-allowed; }
+  button.bbs-card__select:focus-visible { outline: 2px solid var(--bbs-ink); outline-offset: -2px; }
+  .bbs-card__check {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+    padding: 4px;
+    border-radius: 999px;
+    background: #0E1F2A;
+  }
+  .bbs-card.is-selected .bbs-card__check { display: flex; }
+
+  .bbs-card__media { display: flex; align-items: center; justify-content: center; height: 88px; margin-bottom: 8px; }
+  .bbs-card__media img,
+  .bbs-card__media svg { max-height: 100%; width: auto; max-width: 100%; object-fit: contain; }
+  .bbs-card__title {
+    color: #0E1F2A;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 13px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .bbs-card__price {
+    margin-top: 3px;
+    color: #6E797F;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+  }
+  /* "Only 2 available" / "Max 10 per product" */
+  .bbs-card__msg {
+    margin: -4px 8px 10px;
+    color: #6E797F;
+    text-align: center;
+    font-size: 11px;
+    line-height: 13px;
+  }
+  .bbs-card__msg[hidden] { display: none; }
+
+  /* Quantity stepper */
+  .bbs-qty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(100% - 28px);
+    max-width: 104px;
+    height: 30px;
+    margin: 0 auto 12px;
+    padding: 2px;
+    border: 1px solid rgba(14, 31, 42, 0.12);
+    border-radius: 999px;
+    background: #FFF;
+  }
+  .bbs-card.is-selected .bbs-qty { border: 1px solid #0E1F2A; }
+  .bbs-qty__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--bbs-ink);
+    cursor: pointer;
+  }
+  .bbs-qty__btn:disabled { opacity: .3; cursor: not-allowed; }
+  .bbs-qty__btn:focus-visible { outline: 1px solid var(--bbs-ink); outline-offset: 1px; }
+  .bbs-qty__value { min-width: 14px; font-size: 10px; text-align: center; color: var(--bbs-muted); }
+  .bbs-card.is-selected .bbs-qty__value {
+    color: #0E1F2A;
+    text-align: center;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* ---------- Summary ---------- */
+  .bbs-summary {
+    position: sticky;
+    top: var(--bbs-sticky-top, 0px);
+    padding: 28px;
+    border-radius: 20px;
+    background: #F5F5F5;
+  }
+  .bbs-summary__title {
+    margin: 0 0 29px;
+    color: #0E1F2A;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 15px;
+    letter-spacing: 0.5px;
+  }
+  .bbs-summary__list { list-style: none; margin: 0; padding: 0; }
+  .bbs-summary__list:empty { display: none; }
+  .bbs-summary__row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 12px;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 15px;
+    letter-spacing: -0.4px;
+  }
+  .bbs-summary__thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 44px;
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden;
+    width: 44px;
+    height: 44px;
+    padding: 5px;
+  }
+  .bbs-summary__thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .bbs-summary__name { flex: 1; min-width: 0; }
+  .bbs-summary__badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: #fff;
+    font-size: 9px;
+    font-weight: 600;
+    vertical-align: 1px;
+  }
+  .bbs-summary__each { display: block; margin-top: 2px; font-size: 9px; color: var(--bbs-muted); }
+  .bbs-summary__price {
+    white-space: nowrap;
+    color: #6E797F;
+    text-align: right;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 15px;
+  }
+  .bbs-summary__empty { margin: 0; font-size: 11px; color: #9aa0a4; }
+  .bbs-summary__empty[hidden] { display: none; }
+
+  .bbs-summary__lines {
+    margin-top: 16px;
+    padding: 21px 0 19px 0;
+    border-top: 1px solid rgba(14, 31, 42, 0.12);
+    border-bottom: 1px solid rgba(14, 31, 42, 0.12);
+  }
+  .bbs-summary__line {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 11px;
+    color: #6E797F;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 17px;
+  }
+  .bbs-summary__line:last-child { margin-bottom: 0; }
+  .bbs-summary__line[hidden] { display: none; }
+  .bbs-summary__line--saving {
+    color: #E25702;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 17px;
+  }
+
+  .bbs-summary__total { padding: 21px 0 16px; }
+  .bbs-summary__total-label {
+    margin: 0 0 7px;
+    color: #6E797F;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 15px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .bbs-summary__total-value {
+    margin: 0 0 16px;
+    font-family: canela, serif;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: -1.28px;
+  }
+  .bbs-summary__note {
+    margin: 0;
+    color: #6E797F;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+  }
+  .bbs-summary__note:empty { display: none; }
+  .bbs-summary__hint { display: none; }
+
+  /* ================= TABLET ================= */
+  @media (max-width: 1100px) {
+    .bbs-step { grid-template-columns: 1fr; gap: 20px; }
+    .bbs-pick__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  /* ================= MOBILE ================= */
+  @media (max-width: 749px) {
+    .bbs { padding: var(--bbs-pad-top-mobile) 0 var(--bbs-pad-bottom-mobile); }
+    .bbs .site-container { padding: 0 20px; }
+
+    .bbs__eyebrow { line-height: 18px; margin-bottom: 4px; }
+    .bbs__btn {
+      max-width: 298px;
+      min-height: 53px;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 16px;
+      letter-spacing: 0.8px;
+    }
+    .bbs__heading {
+      font-size: 34px;
+      font-weight: 300;
+      line-height: 39.1px;
+      letter-spacing: -1.5px;
+    }
+    .bbs__text { max-width: none; padding-top: 0; }
+
+    .bbs__head {
+      grid-template-columns: 1fr;
+      grid-template-areas: "main" "text" "toggle";
+      align-items: start;
+      row-gap: 20px;
+      margin-bottom: 40px;
+    }
+    .bbs-toggle__btn { padding: 10px 16px; font-size: 12px; }
+
+    .bbs-builder { grid-template-columns: 1fr; }
+
+    .bbs-step { padding: 24px 0; }
+    .bbs-step:last-child { padding-bottom: 0; }
+    .bbs-step__pill {
+      min-height: 28.987px;
+      padding: 0 16px;
+      border: 1.102px solid rgba(14, 31, 42, 0.30);
+      margin-bottom: 16px;
+    }
+    .bbs-step__heading {
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 30px;
+    }
+    .bbs-step__text { max-width: none; }
+    .bbs-step__products {
+      grid-auto-columns: 36%;
+      margin-right: -20px;
+      padding-right: 20px;
+      gap: 12px;
+    }
+
+    .bbs-pick__head { margin-bottom: 20px; }
+    .bbs-pick__heading {
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 30px;
+      margin-bottom: 12px;
+    }
+    .bbs-pick__text { font-size: 12px; }
+    .bbs-pick__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 0; }
+
+    .bbs-card { border-radius: 16px; }
+    .bbs-card__select { padding: 18px 8px 12px; border-radius: 12px; }
+    .bbs-card__check {
+      width: 21.998px;
+      height: 21.998px;
+      padding: 3.993px 4.011px 4.011px 3.993px;
+    }
+    .bbs-qty { max-width: 96px; }
+    .bbs-qty__btn { width: 26px; height: 26px; }
+    .bbs-qty__value { font-size: 12px; }
+
+    .bbs-summary {
+      position: static;
+      padding: 28px;
+      border-radius: 20px;
+    }
+    .bbs-summary__title { margin: 0 0 24px; }
+    .bbs-summary__row { padding-bottom: 20px; }
+    .bbs-summary__row:last-child { padding-bottom: 24px; }
+    .bbs-summary__total { padding: 20px 0 24px; }
+    .bbs-summary__total-label { margin: 0 0 8px; }
+    .bbs-summary__lines { padding: 20px 0; margin-top: 0; }
+    .bbs-summary__total-value { font-size: 30px; }
+  }
+
+  @media (max-width: 400px) {
+    .bbs__btn { min-width: 200px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bbs-card,
+    .bbs__btn { transition: none; }
+  }
+
+
+  .bbs-pick__text p { margin: 0; }
+</style>
+
+<section
+  id="BundleBuilder-{{ section.id }}"
+  class="bbs"
+  style="--bbs-pad-top: {{ section.settings.padding_top }}px; --bbs-pad-bottom: {{ section.settings.padding_bottom }}px; --bbs-pad-top-mobile: {{ section.settings.padding_top_mobile }}px; --bbs-pad-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px; --bbs-sticky-top: {{ section.settings.sticky_top }}px;"
+>
+  <div class="site-container">
+    {%- comment -%} ========== HEAD ========== {%- endcomment -%}
+    <div class="bbs__head">
+      <div class="bbs__head-main">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="bbs__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="bbs__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.text != blank -%}
+        <div class="bbs__text">{{ section.settings.text }}</div>
+      {%- endif -%}
+      {%- if show_toggle -%}
+        {%- comment -%} The bundle that opens first ("Show first") is always the first button {%- endcomment -%}
+        {%- capture bbs_btn_1 -%}
+          <button type="button" role="tab" class="bbs-toggle__btn js-bbs-mode{% if active_mode == '1' %} is-active{% endif %}" data-bundle="1" aria-selected="{% if active_mode == '1' %}true{% else %}false{% endif %}">
+            {{- section.settings.m1_label -}}
+          </button>
+        {%- endcapture -%}
+        {%- capture bbs_btn_2 -%}
+          <button type="button" role="tab" class="bbs-toggle__btn js-bbs-mode{% if active_mode == '2' %} is-active{% endif %}" data-bundle="2" aria-selected="{% if active_mode == '2' %}true{% else %}false{% endif %}">
+            {{- section.settings.m2_label -}}
+          </button>
+        {%- endcapture -%}
+        <div class="bbs-toggle" role="tablist" aria-label="Bundle type">
+          {%- if active_mode == '2' -%}
+            {{- bbs_btn_2 -}}{{- bbs_btn_1 -}}
+          {%- else -%}
+            {{- bbs_btn_1 -}}{{- bbs_btn_2 -}}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="bbs-builder">
+      <div class="bbs-bundles">
+        {%- comment -%} ----- Bundle 1: Day routine (steps, quantity on every product) ----- {%- endcomment -%}
+        {%- if has_m1 -%}
+          <div
+            class="bbs-steps js-bbs-bundle"
+            data-bundle="1"
+            data-label="{{ section.settings.m1_label | escape }}"
+            data-percent="{{ section.settings.m1_percent }}"
+            data-code="{{ section.settings.m1_code | strip | escape }}"
+            data-min="{{ section.settings.m1_min }}"
+            data-max-item="{{ section.settings.m1_max_item }}"
+            data-note="{{ section.settings.m1_note | escape }}"
+            data-one-per-step="true"
+            {% if active_mode != '1' %}hidden{% endif %}
+          >
+            {%- for block in steps -%}
+              {%- assign step_index = forloop.index0 -%}
+              <div class="bbs-step" {{ block.shopify_attributes }}>
+                <div class="bbs-step__info">
+                  {%- if section.settings.show_step_labels -%}
+                    <span class="bbs-step__pill">{{ block.settings.step_label | default: 'Step' }}</span>
+                  {%- endif -%}
+                  <h3 class="bbs-step__heading" id="BbsStep-{{ block.id }}">{{ block.settings.heading }}</h3>
+                  {%- if block.settings.text != blank -%}
+                    <p class="bbs-step__text">{{ block.settings.text }}</p>
+                  {%- endif -%}
+                </div>
+                <div class="bbs-step__scroller">
+                <div class="bbs-step__products js-bbs-row" role="group" aria-labelledby="BbsStep-{{ block.id }}">
+                  {%- assign shown = 0 -%}
+                  {%- if block.settings.collection != blank -%}
+                    {%- for product in block.settings.collection.products -%}
+                      {%- if section.settings.hide_sold_out and product.available == false -%}{%- continue -%}{%- endif -%}
+                      {%- if shown >= block.settings.limit -%}{%- break -%}{%- endif -%}
+                      {%- assign shown = shown | plus: 1 -%}
+                      {%- liquid
+                        assign v = product.selected_or_first_available_variant
+                        assign p_title = product.metafields.product_cards.product_card_title.value | default: product.title
+                        assign stock = ''
+                        if v.inventory_management == 'shopify' and v.inventory_policy == 'deny'
+                          assign stock = v.inventory_quantity | at_least: 0
+                        endif
+                      -%}
+                      <div
+                        class="bbs-card js-bbs-tile{% unless v.available %} is-soldout{% endunless %}"
+                        data-step="{{ step_index }}"
+                        data-variant="{{ v.id }}"
+                        data-price="{{ v.price }}"
+                        data-stock="{{ stock }}"
+                        data-title="{{ p_title | escape }}"
+                        data-image="{{ product.featured_media | image_url: width: 120 }}"
+                      >
+                        <span class="bbs-card__check" aria-hidden="true">
+                          <svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="m1 3.5 2.3 2.3L8 1" stroke="#fff" stroke-width="1.3"/></svg>
+                        </span>
+                        <button type="button" class="bbs-card__select js-bbs-pick" aria-pressed="false" {% unless v.available %}disabled{% endunless %}>
+                          <span class="bbs-card__media">
+                            {%- if product.featured_media -%}
+                              {{ product.featured_media | image_url: width: 300 | image_tag: loading: 'lazy', sizes: '120px', alt: '' }}
+                            {%- else -%}
+                              {{ 'product-1' | placeholder_svg_tag }}
+                            {%- endif -%}
+                          </span>
+                          <span class="bbs-card__title">{{ p_title }}</span>
+                          <span class="bbs-card__price">
+                            {%- if v.available -%}{{ v.price | money_without_trailing_zeros }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+                          </span>
+                        </button>
+                        <div class="bbs-qty" role="group" aria-label="Quantity for {{ p_title | escape }}">
+                          <button type="button" class="bbs-qty__btn js-bbs-minus" aria-label="Remove one {{ p_title | escape }}" disabled>
+                            <svg width="9" height="1" viewBox="0 0 9 1" fill="none" aria-hidden="true"><path d="M0 .5h9" stroke="currentColor"/></svg>
+                          </button>
+                          <span class="bbs-qty__value js-bbs-qty" aria-live="polite">0</span>
+                          <button type="button" class="bbs-qty__btn js-bbs-plus" aria-label="Add one {{ p_title | escape }}" {% unless v.available %}disabled{% endunless %}>
+                            <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M4.5 0v9M0 4.5h9" stroke="currentColor"/></svg>
+                          </button>
+                        </div>
+                        <p class="bbs-card__msg js-bbs-msg" aria-live="polite" hidden></p>
+                      </div>
+                    {%- endfor -%}
+                  {%- endif -%}
+                  {%- if shown == 0 -%}
+                    <p class="bbs-step__empty">
+                      {%- if block.settings.collection == blank -%}Select a collection for this step.{%- else -%}No products available right now.{%- endif -%}
+                    </p>
+                  {%- endif -%}
+                </div>
+                <div class="bbs-bar js-bbs-bar" hidden aria-hidden="true"><span class="bbs-bar__thumb js-bbs-thumb"></span></div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} ----- Bundle 2: Actual bundle (grid, 3 rows at a time) ----- {%- endcomment -%}
+        {%- if has_m2 -%}
+          <div
+            class="bbs-pick js-bbs-bundle"
+            data-bundle="2"
+            data-label="{{ section.settings.m2_label | escape }}"
+            data-percent="{{ section.settings.m2_percent }}"
+            data-code="{{ section.settings.m2_code | strip | escape }}"
+            data-min="{{ section.settings.m2_min }}"
+            data-max-item="{{ section.settings.m2_max_item }}"
+            data-note="{{ section.settings.m2_note | escape }}"
+            {% if active_mode != '2' %}hidden{% endif %}
+          >
+            <div class="bbs-pick__head">
+              {%- if section.settings.m2_heading != blank -%}
+                <h3 class="bbs-pick__heading" id="BbsPick-{{ section.id }}">{{ section.settings.m2_heading }}</h3>
+              {%- endif -%}
+              {%- if m2_text != blank -%}
+                  <div class="bbs-pick__text">{{ m2_text }}</div>
+                {%- endif -%}
+            </div>
+
+            <div
+              class="bbs-pick__grid js-bbs-grid"
+              role="group"
+              aria-labelledby="BbsPick-{{ section.id }}"
+              data-rows="{{ section.settings.m2_rows }}"
+              data-rows-step="{{ section.settings.m2_rows_step }}"
+            >
+              {%- assign shown = 0 -%}
+              {%- for product in m2_items -%}
+                {%- if section.settings.hide_sold_out and product.available == false -%}{%- continue -%}{%- endif -%}
+                {%- if shown >= m2_cap -%}{%- break -%}{%- endif -%}
+                {%- assign shown = shown | plus: 1 -%}
+                {%- liquid
+                  assign v = product.selected_or_first_available_variant
+                  assign p_title = product.metafields.product_cards.product_card_title.value | default: product.title
+                  assign stock = ''
+                  if v.inventory_management == 'shopify' and v.inventory_policy == 'deny'
+                    assign stock = v.inventory_quantity | at_least: 0
+                  endif
+                -%}
+                <div
+                  class="bbs-card js-bbs-tile{% unless v.available %} is-soldout{% endunless %}"
+                  data-variant="{{ v.id }}"
+                  data-price="{{ v.price }}"
+                  data-stock="{{ stock }}"
+                  data-title="{{ p_title | escape }}"
+                  data-image="{{ product.featured_media | image_url: width: 120 }}"
+                >
+                  <span class="bbs-card__check" aria-hidden="true">
+                    <svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="m1 3.5 2.3 2.3L8 1" stroke="#fff" stroke-width="1.3"/></svg>
+                  </span>
+                  <div class="bbs-card__select">
+                    <span class="bbs-card__media">
+                      {%- if product.featured_media -%}
+                        {{ product.featured_media | image_url: width: 300 | image_tag: loading: 'lazy', sizes: '160px', alt: '' }}
+                      {%- else -%}
+                        {{ 'product-1' | placeholder_svg_tag }}
+                      {%- endif -%}
+                    </span>
+                    <span class="bbs-card__title">{{ p_title }}</span>
+                    <span class="bbs-card__price">
+                      {%- if v.available -%}{{ v.price | money_without_trailing_zeros }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+                    </span>
+                  </div>
+                  <div class="bbs-qty" role="group" aria-label="Quantity for {{ p_title | escape }}">
+                    <button type="button" class="bbs-qty__btn js-bbs-minus" aria-label="Remove one {{ p_title | escape }}" disabled>
+                      <svg width="9" height="1" viewBox="0 0 9 1" fill="none" aria-hidden="true"><path d="M0 .5h9" stroke="currentColor"/></svg>
+                    </button>
+                    <span class="bbs-qty__value js-bbs-qty" aria-live="polite">0</span>
+                    <button type="button" class="bbs-qty__btn js-bbs-plus" aria-label="Add one {{ p_title | escape }}" {% unless v.available %}disabled{% endunless %}>
+                      <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M4.5 0v9M0 4.5h9" stroke="currentColor"/></svg>
+                    </button>
+                  </div>
+                  <p class="bbs-card__msg js-bbs-msg" aria-live="polite" hidden></p>
+                </div>
+              {%- endfor -%}
+            </div>
+
+            <div class="bbs-pick__more" hidden>
+              <button
+                type="button"
+                class="bbs-more-btn js-bbs-more"
+                data-more="{{ section.settings.load_more_label | escape }}"
+                data-less="{{ section.settings.load_less_label | escape }}"
+              >
+                {{- section.settings.load_more_label -}}
+              </button>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- unless has_m1 or has_m2 -%}
+          <p class="bbs-step__empty">Add a "Bundle step" block, or pick products for Bundle 2, in the theme editor.</p>
+        {%- endunless -%}
+      </div>
+
+      {%- comment -%} ========== SUMMARY (empty by default) ========== {%- endcomment -%}
+      <aside class="bbs-summary" aria-label="{{ section.settings.summary_title | escape }}">
+        <h3 class="bbs-summary__title">{{ section.settings.summary_title }}</h3>
+
+        <ul class="bbs-summary__list js-bbs-list" aria-live="polite"></ul>
+        {%- if section.settings.empty_text != blank -%}
+          <p class="bbs-summary__empty js-bbs-empty">{{ section.settings.empty_text }}</p>
+        {%- endif -%}
+
+        <div class="bbs-summary__lines">
+          <p class="bbs-summary__line">
+            <span>Subtotal</span>
+            <span class="js-bbs-subtotal">{{ 0 | money }}</span>
+          </p>
+          <p class="bbs-summary__line bbs-summary__line--saving js-bbs-saving-row" hidden>
+            <span>Bundle saving · <span class="js-bbs-pct"></span>%</span>
+            <span class="js-bbs-saving"></span>
+          </p>
+        </div>
+
+        <div class="bbs-summary__total">
+          <p class="bbs-summary__total-label">Bundle total</p>
+          <p class="bbs-summary__total-value js-bbs-total">{{ 0 | money }}</p>
+          <p class="bbs-summary__note js-bbs-note"></p>
+        </div>
+
+        <button type="button" class="bbs__btn bbs__btn--full js-bbs-build" disabled aria-describedby="BbsHint-{{ section.id }}">
+          {{- section.settings.build_label -}}
+        </button>
+        <p class="bbs-summary__hint js-bbs-hint" id="BbsHint-{{ section.id }}" aria-live="polite"></p>
+      </aside>
+    </div>
+  </div>
+
+  <script type="application/json" class="js-bbs-money">{{ shop.money_format | json }}</script>
+</section>
+
+<script>
+{% raw %}
+(function () {
+  'use strict';
+
+  var CHECKOUT_FLAG = 'byb:checkout'; // read by snippets/byb-cart-reset.liquid (clears the cart on return)
+
+  /* ---------- helpers ---------- */
+  function formatMoney(cents, format) {
+    cents = Math.round(cents);
+    function fmt(n, dec, thou, decSep) {
+      var parts = (n / 100).toFixed(dec).split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thou);
+      return parts.join(decSep);
+    }
+    return String(format).replace(/\{\{\s*(\w+)\s*\}\}/, function (_, key) {
+      switch (key) {
+        case 'amount_no_decimals': return fmt(cents, 0, ',', '.');
+        case 'amount_with_comma_separator': return fmt(cents, 2, '.', ',');
+        case 'amount_no_decimals_with_comma_separator': return fmt(cents, 0, '.', ',');
+        case 'amount_with_apostrophe_separator': return fmt(cents, 2, "'", '.');
+        default: return fmt(cents, 2, ',', '.');
+      }
+    });
+  }
+
+  /* "$40.00" → "$40" for the small per-line prices */
+  function formatShort(cents, format) {
+    var s = formatMoney(cents, format);
+    return cents % 100 === 0 ? s.replace(/[.,]00(?=\D*$)/, '') : s;
+  }
+
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str == null ? '' : String(str);
+    return d.innerHTML;
+  }
+
+  function fillTemplate(tpl, b) {
+    return (tpl || '')
+      .replace(/\[percent\]/g, b.percent)
+      .replace(/\[min\]/g, b.min)
+      .replace(/\[max\]/g, b.max);
+  }
+
+  /* ---------- Builder ---------- */
+  function Builder(el) {
+    var self = this;
+    this.el = el;
+
+    var moneyEl = el.querySelector('.js-bbs-money');
+    try { this.moneyFormat = JSON.parse(moneyEl.textContent); } catch (e) { this.moneyFormat = '$' + '{{amount}}'; }
+
+    this.list = el.querySelector('.js-bbs-list');
+    this.empty = el.querySelector('.js-bbs-empty');
+    this.buildBtn = el.querySelector('.js-bbs-build');
+    this.hint = el.querySelector('.js-bbs-hint');
+    this.note = el.querySelector('.js-bbs-note');
+    this.modeBtns = [].slice.call(el.querySelectorAll('.js-bbs-mode'));
+
+    /* One state per bundle: items = [{ id, price, title, image, qty }] in the order they were added */
+    this.bundles = {};
+    this.panels = [].slice.call(el.querySelectorAll('.js-bbs-bundle'));
+    this.panels.forEach(function (panel) {
+      self.bundles[panel.dataset.bundle] = {
+        key: panel.dataset.bundle,
+        panel: panel,
+        label: panel.dataset.label || '',
+        percent: parseFloat(panel.dataset.percent) || 0,
+        code: panel.dataset.code || '',
+        note: panel.dataset.note || '',
+        min: parseInt(panel.dataset.min, 10) || 3,
+        max: parseInt(panel.dataset.maxItem, 10) || 10, // per product
+        onePerStep: panel.dataset.onePerStep === 'true', // Day routine: one product per step
+        tiles: [].slice.call(panel.querySelectorAll('.js-bbs-tile')),
+        items: []
+      };
+    });
+
+    var firstVisible = this.panels.filter(function (p) { return !p.hidden; })[0] || this.panels[0];
+    this.active = firstVisible ? firstVisible.dataset.bundle : null;
+
+    this.bindModes();
+    this.bindTiles();
+    this.bindDragScroll();
+    this.bindBars();
+    this.initLoadMore();
+    if (this.buildBtn) this.buildBtn.addEventListener('click', this.build.bind(this));
+
+    // back button from checkout: reset the button
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted && self.buildBtn) self.buildBtn.classList.remove('is-loading');
+    });
+
+    Object.keys(this.bundles).forEach(function (k) { self.syncTiles(self.bundles[k]); });
+    this.render();
+  }
+
+  /* ---------- Toggle ---------- */
+  Builder.prototype.bindModes = function () {
+    var self = this;
+    this.modeBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () { self.setMode(btn.dataset.bundle); });
+    });
+  };
+
+  Builder.prototype.setMode = function (key) {
+    if (!this.bundles[key] || key === this.active) return;
+    this.active = key;
+    this.modeBtns.forEach(function (b) {
+      var on = b.dataset.bundle === key;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    var bundles = this.bundles;
+    Object.keys(bundles).forEach(function (k) { bundles[k].panel.hidden = k !== key; });
+    if (this.applyLoadMore) this.applyLoadMore(); // grid columns can only be measured while visible
+    if (this.updateBars) this.updateBars();
+    this.render();
+  };
+
+  /* ---------- Quantity steppers (both bundles) ---------- */
+  Builder.prototype.bindTiles = function () {
+    var self = this;
+    Object.keys(this.bundles).forEach(function (k) {
+      var b = self.bundles[k];
+      b.tiles.forEach(function (tile) {
+        var plus = tile.querySelector('.js-bbs-plus');
+        var minus = tile.querySelector('.js-bbs-minus');
+        var pick = tile.querySelector('.js-bbs-pick');
+        if (plus) plus.addEventListener('click', function () { self.changeQty(b, tile, 1); });
+        if (minus) minus.addEventListener('click', function () { self.changeQty(b, tile, -1); });
+        // Day routine: tapping the product picks it (quantity 1); tapping again removes it
+        if (pick) pick.addEventListener('click', function () {
+          if (tile.classList.contains('is-selected')) self.removeItem(b, tile);
+          else self.changeQty(b, tile, 1);
+        });
+      });
+    });
+  };
+
+  Builder.prototype.totalQty = function (b) {
+    return b.items.reduce(function (sum, i) { return sum + i.qty; }, 0);
+  };
+
+  /* Per product: "Max per product" setting, or the stock if that's lower */
+  Builder.prototype.itemLimit = function (b, tile) {
+    var limit = b.max;
+    var stock = tile.dataset.stock;
+    if (stock !== '' && stock != null) limit = Math.min(limit, Math.max(0, parseInt(stock, 10) || 0));
+    return limit;
+  };
+
+  /* Day routine: one product per step, so the step is part of the key */
+  Builder.prototype.tileKey = function (b, tile) {
+    return (b.onePerStep ? tile.dataset.step + ':' : '') + tile.dataset.variant;
+  };
+
+  Builder.prototype.findItem = function (b, key) {
+    for (var i = 0; i < b.items.length; i++) if (b.items[i].key === key) return b.items[i];
+    return null;
+  };
+
+  Builder.prototype.removeItem = function (b, tile) {
+    var item = this.findItem(b, this.tileKey(b, tile));
+    if (item) b.items.splice(b.items.indexOf(item), 1);
+    this.syncTiles(b);
+    this.render();
+  };
+
+  Builder.prototype.changeQty = function (b, tile, delta) {
+    var key = this.tileKey(b, tile);
+    var item = this.findItem(b, key);
+
+    if (delta > 0) {
+      if ((item ? item.qty : 0) >= this.itemLimit(b, tile)) return;
+      if (!item) {
+        // Day routine: picking a product replaces the other product in the same step
+        if (b.onePerStep) {
+          var step = tile.dataset.step;
+          b.items = b.items.filter(function (i) { return i.step !== step; });
+        }
+        item = {
+          key: key,
+          step: tile.dataset.step,
+          id: Number(tile.dataset.variant),
+          price: Number(tile.dataset.price),
+          title: tile.dataset.title,
+          image: tile.dataset.image,
+          qty: 0
+        };
+        b.items.push(item);
+      }
+      item.qty += 1;
+    } else if (item) {
+      item.qty -= 1;
+      if (item.qty <= 0) b.items.splice(b.items.indexOf(item), 1);
+    }
+
+    this.syncTiles(b);
+    this.render();
+  };
+
+  /* Update every tile (the same product can show in two steps, so match by variant) */
+  Builder.prototype.syncTiles = function (b) {
+    var self = this;
+    b.tiles.forEach(function (tile) {
+      var item = self.findItem(b, self.tileKey(b, tile));
+      var qty = item ? item.qty : 0;
+      var pick = tile.querySelector('.js-bbs-pick');
+      if (pick) pick.setAttribute('aria-pressed', qty > 0 ? 'true' : 'false');
+      var soldOut = tile.classList.contains('is-soldout');
+      var limit = self.itemLimit(b, tile);
+      var atLimit = qty > 0 && qty >= limit;
+
+      tile.classList.toggle('is-selected', qty > 0);
+      tile.querySelector('.js-bbs-qty').textContent = qty;
+      tile.querySelector('.js-bbs-minus').disabled = qty === 0;
+      tile.querySelector('.js-bbs-plus').disabled = soldOut || qty >= limit;
+
+      var msg = tile.querySelector('.js-bbs-msg');
+      if (msg) {
+        msg.textContent = atLimit
+          ? (limit < b.max ? 'Only ' + limit + ' available' : 'Max ' + limit + ' per product')
+          : '';
+        msg.hidden = !atLimit;
+      }
+    });
+  };
+
+  /* ---------- Summary ---------- */
+  Builder.prototype.current = function () { return this.bundles[this.active]; };
+
+  Builder.prototype.isComplete = function (b) {
+    return !!b && this.totalQty(b) >= b.min;
+  };
+
+  Builder.prototype.render = function () {
+    var b = this.current();
+    var fmt = this.moneyFormat;
+    var subtotal = 0;
+    var html = '';
+
+    if (b) {
+      // Day routine: list the picks in step order
+      var lines = b.onePerStep
+        ? b.items.slice().sort(function (x, y) { return Number(x.step) - Number(y.step); })
+        : b.items;
+      lines.forEach(function (p) {
+        var line = p.price * p.qty;
+        subtotal += line;
+        html +=
+          '<li class="bbs-summary__row">' +
+            '<span class="bbs-summary__thumb">' + (p.image ? '<img src="' + escapeHtml(p.image) + '" alt="" loading="lazy">' : '') + '</span>' +
+            '<span class="bbs-summary__name">' + escapeHtml(p.title) +
+              (p.qty > 1
+                ? '<span class="bbs-summary__badge">× ' + p.qty + '</span>' +
+                  '<span class="bbs-summary__each">' + p.qty + ' × ' + formatShort(p.price, fmt) + '</span>'
+                : '') +
+            '</span>' +
+            '<span class="bbs-summary__price">' + formatShort(line, fmt) + '</span>' +
+          '</li>';
+      });
+    }
+
+    this.list.innerHTML = html;
+    if (this.empty) this.empty.hidden = html !== '';
+
+    var complete = this.isComplete(b);
+    var pct = b ? b.percent : 0;
+    var saving = complete && pct > 0 ? Math.round(subtotal * pct / 100) : 0;
+
+    this.el.querySelector('.js-bbs-subtotal').textContent = formatMoney(subtotal, fmt);
+    this.el.querySelector('.js-bbs-total').textContent = formatMoney(subtotal - saving, fmt);
+
+    // the discount line only shows once the bundle is complete
+    this.el.querySelector('.js-bbs-saving-row').hidden = !(complete && pct > 0);
+    this.el.querySelector('.js-bbs-pct').textContent = pct;
+    this.el.querySelector('.js-bbs-saving').textContent = '–' + formatMoney(saving, fmt);
+
+    if (this.note) this.note.textContent = b ? fillTemplate(b.note, b) : '';
+
+    if (this.buildBtn) this.buildBtn.disabled = !complete;
+    this.setHint(b && !complete ? this.hintText(b) : '');
+  };
+
+  Builder.prototype.hintText = function (b) {
+    var total = this.totalQty(b);
+    var need = b.min - total;
+    var word = need === 1 ? 'piece' : 'pieces';
+    return total === 0
+      ? 'Add ' + need + ' ' + word + ' to unlock ' + b.percent + '%'
+      : 'Add ' + need + ' more ' + word + ' to unlock ' + b.percent + '%';
+  };
+
+  Builder.prototype.setHint = function (msg, isError) {
+    if (!this.hint) return;
+    this.hint.textContent = msg;
+    this.hint.classList.toggle('is-error', !!isError);
+  };
+
+  /* ---------- Bundle 2: Load more / Load less (3 rows at a time) ---------- */
+  Builder.prototype.initLoadMore = function () {
+    var grid = this.el.querySelector('.js-bbs-grid');
+    var btn = this.el.querySelector('.js-bbs-more');
+    if (!grid || !btn) return;
+
+    var wrap = btn.parentNode;
+    var tiles = [].slice.call(grid.querySelectorAll('.js-bbs-tile'));
+    var startRows = Math.max(1, parseInt(grid.dataset.rows, 10) || 3);
+    var stepRows = Math.max(1, parseInt(grid.dataset.rowsStep, 10) || 3);
+    var rows = startRows;
+    var lastCols = 0;
+
+    function columns() {
+      var v = getComputedStyle(grid).gridTemplateColumns || '';
+      var m = v.match(/repeat\((\d+)/);
+      if (m) return parseInt(m[1], 10);
+      var n = v.split(' ').filter(function (x) { return x && x !== 'none'; }).length;
+      return n || lastCols || 6;
+    }
+
+    var apply = function () {
+      if (grid.offsetParent === null) return; // hidden (other bundle showing): measure later
+      var cols = columns();
+      lastCols = cols;
+      var cap = rows * cols;
+      tiles.forEach(function (t, i) { t.hidden = i >= cap; });
+
+      if (tiles.length <= startRows * cols) {
+        wrap.hidden = true;
+        return;
+      }
+      wrap.hidden = false;
+      var all = cap >= tiles.length;
+      btn.textContent = all ? btn.dataset.less : btn.dataset.more;
+      btn.setAttribute('aria-expanded', all ? 'true' : 'false');
+    };
+    this.applyLoadMore = apply;
+
+    btn.addEventListener('click', function () {
+      var cols = columns();
+      if (rows * cols >= tiles.length) {
+        rows = startRows; // Load less
+        apply();
+        var top = grid.getBoundingClientRect().top;
+        if (top < 0) grid.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      } else {
+        rows += stepRows; // Load more
+        apply();
+      }
+    });
+
+    var raf = null;
+    window.addEventListener('resize', function () {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(apply);
+    });
+
+    apply();
+  };
+
+  /* ---------- Bundle 1 rows: drag with the mouse to scroll sideways ----------
+     Only when a row has more products than fit. The scrollbar is hidden;
+     touch swipe and trackpad scroll work on their own. */
+  Builder.prototype.bindDragScroll = function () {
+    var rows = [].slice.call(this.el.querySelectorAll('.js-bbs-row'));
+
+    function overflows(row) { return row.scrollWidth > row.clientWidth + 1; }
+
+    rows.forEach(function (row) {
+      var startX = 0, startScroll = 0, down = false, moved = false, pointerId = null;
+
+      row.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+      row.addEventListener('pointerenter', function () {
+        row.classList.toggle('is-draggable', overflows(row));
+      });
+
+      row.addEventListener('pointerdown', function (e) {
+        if (e.pointerType !== 'mouse' || e.button !== 0 || !overflows(row)) return;
+        if (e.target.closest('.bbs-qty')) return; // let − / + work normally
+        e.preventDefault();
+        down = true; moved = false; pointerId = e.pointerId;
+        startX = e.clientX; startScroll = row.scrollLeft;
+      });
+
+      row.addEventListener('pointermove', function (e) {
+        if (!down || e.pointerId !== pointerId) return;
+        var dx = e.clientX - startX;
+        if (!moved && Math.abs(dx) < 5) return;
+        if (!moved) {
+          moved = true;
+          row.classList.add('is-dragging');
+          try { row.setPointerCapture(pointerId); } catch (err) {}
+        }
+        row.scrollLeft = startScroll - dx;
+      });
+
+      function end() {
+        if (!down) return;
+        down = false;
+        try { row.releasePointerCapture(pointerId); } catch (err) {}
+        if (moved) setTimeout(function () { row.classList.remove('is-dragging'); }, 0);
+      }
+      row.addEventListener('pointerup', end);
+      row.addEventListener('pointercancel', end);
+      row.addEventListener('lostpointercapture', end);
+
+      row.addEventListener('click', function (e) {
+        if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
+      }, true);
+    });
+  };
+
+  /* ---------- Bundle 1 rows: scroll bar under each row ---------- */
+  Builder.prototype.bindBars = function () {
+    var bars = [];
+
+    [].slice.call(this.el.querySelectorAll('.bbs-step__scroller')).forEach(function (wrap) {
+      var row = wrap.querySelector('.js-bbs-row');
+      var bar = wrap.querySelector('.js-bbs-bar');
+      var thumb = wrap.querySelector('.js-bbs-thumb');
+      if (!row || !bar || !thumb) return;
+
+      function sizes() {
+        var max = row.scrollWidth - row.clientWidth;
+        var trackW = bar.clientWidth;
+        var thumbW = Math.max(40, Math.round(trackW * row.clientWidth / Math.max(row.scrollWidth, 1)));
+        return { max: max, trackW: trackW, thumbW: Math.min(thumbW, trackW) };
+      }
+
+      function update() {
+        if (!row.clientWidth) return; // hidden (other bundle showing)
+        var scrolls = row.scrollWidth > row.clientWidth + 1;
+        bar.hidden = !scrolls;
+        if (!scrolls) return;
+        var s = sizes();
+        var left = s.max > 0 ? (row.scrollLeft / s.max) * (s.trackW - s.thumbW) : 0;
+        thumb.style.width = s.thumbW + 'px';
+        thumb.style.transform = 'translateX(' + left + 'px)';
+      }
+      bars.push(update);
+
+      var raf = null;
+      row.addEventListener('scroll', function () {
+        if (raf) return;
+        raf = requestAnimationFrame(function () { raf = null; update(); });
+      }, { passive: true });
+
+      // drag the thumb
+      var down = false, startX = 0, startScroll = 0, pid = null;
+      thumb.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        down = true; pid = e.pointerId;
+        startX = e.clientX; startScroll = row.scrollLeft;
+        bar.classList.add('is-dragging');
+        row.classList.add('is-thumb-dragging');
+        try { thumb.setPointerCapture(pid); } catch (err) {}
+      });
+      thumb.addEventListener('pointermove', function (e) {
+        if (!down || e.pointerId !== pid) return;
+        var s = sizes();
+        var ratio = s.max / Math.max(s.trackW - s.thumbW, 1);
+        row.scrollLeft = startScroll + (e.clientX - startX) * ratio;
+      });
+      function end() {
+        if (!down) return;
+        down = false;
+        bar.classList.remove('is-dragging');
+        row.classList.remove('is-thumb-dragging');
+        try { thumb.releasePointerCapture(pid); } catch (err) {}
+      }
+      thumb.addEventListener('pointerup', end);
+      thumb.addEventListener('pointercancel', end);
+      thumb.addEventListener('lostpointercapture', end);
+
+      // click on the track: jump there
+      bar.addEventListener('pointerdown', function (e) {
+        if (e.target === thumb) return;
+        var s = sizes();
+        var rect = bar.getBoundingClientRect();
+        var x = e.clientX - rect.left - s.thumbW / 2;
+        row.scrollTo({ left: (x / Math.max(s.trackW - s.thumbW, 1)) * s.max, behavior: 'smooth' });
+      });
+
+      // images change the row width once they load
+      [].slice.call(row.querySelectorAll('img')).forEach(function (img) {
+        if (!img.complete) img.addEventListener('load', update, { once: true });
+      });
+    });
+
+    var updateAll = function () { bars.forEach(function (fn) { fn(); }); };
+    this.updateBars = updateAll;
+    window.addEventListener('resize', updateAll);
+    updateAll();
+  };
+
+  /* ---------- Straight to checkout (cart permalink + discount code) ---------- */
+  Builder.prototype.build = function () {
+    var b = this.current();
+    if (!this.isComplete(b)) return;
+
+    var root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+    var self = this;
+
+    // the same variant can sit in two steps: merge the quantities
+    var merged = {};
+    var order = [];
+    b.items.forEach(function (p) {
+      if (!merged[p.id]) order.push(p.id);
+      merged[p.id] = (merged[p.id] || 0) + p.qty;
+    });
+    var lines = order.map(function (id) { return id + ':' + merged[id]; }).join(',');
+    var params = [];
+    if (b.code) params.push('discount=' + encodeURIComponent(b.code));
+    if (b.label) params.push('attributes[Bundle]=' + encodeURIComponent(b.label));
+    var url = root + 'cart/' + lines + (params.length ? '?' + params.join('&') : '');
+
+    this.buildBtn.classList.add('is-loading');
+    this.setHint('');
+
+    // going straight to checkout: keep the cart drawer closed
+    window.CartDrawerSkipOpenUntil = Date.now() + 15000;
+
+    // empty the cart first so checkout only has the bundle
+    fetch(root + 'cart/clear.js', { method: 'POST', headers: { 'Accept': 'application/json' } })
+      .catch(function () { /* still go to checkout */ })
+      .then(function () {
+        try { localStorage.setItem(CHECKOUT_FLAG, String(Date.now())); } catch (e) {}
+        window.location.href = url;
+      })
+      .catch(function (err) {
+        self.buildBtn.classList.remove('is-loading');
+        self.setHint((err && err.message) || 'Something went wrong. Please try again.', true);
+      });
+  };
+
+  /* ---------- Start ---------- */
+  function init(root) {
+    (root || document).querySelectorAll('.bbs').forEach(function (s) {
+      if (s.__bbs) return;
+      try { s.__bbs = new Builder(s); }
+      catch (err) { console.error('Bundle builder: setup failed', err); }
+    });
+  }
+
+  // this script sits right after the section markup, so it can start straight away
+  init(document);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { init(document); });
+  }
+
+  if (window.__bbsEditorBound) return;
+  window.__bbsEditorBound = true;
+
+  /* Theme editor */
+  document.addEventListener('shopify:section:load', function (e) { init(e.target); });
+  document.addEventListener('shopify:block:select', function (e) {
+    var s = e.target.closest('.bbs');
+    if (!s || !s.__bbs) return;
+    if (e.target.classList.contains('bbs-step')) s.__bbs.setMode('1');
+    e.target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  });
+})();
+{% endraw %}
+</script>
+
+{% schema %}
+{
+  "name": "Bundle builder",
+  "tag": "div",
+  "class": "section-bundle-builder",
+  "max_blocks": 10,
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Start with a bundle" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Build Your Own Bundle" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Build your own bundle to experience the best of Created Co. and save up to 20% on your order.</p>" },
+    {
+      "type": "select",
+      "id": "default_mode",
+      "label": "Show first",
+      "options": [
+        { "value": "1", "label": "Bundle 1 (Day routine)" },
+        { "value": "2", "label": "Bundle 2 (Actual bundle)" }
+      ],
+      "default": "1"
+    },
+    { "type": "checkbox", "id": "hide_sold_out", "label": "Hide sold-out products", "default": true },
+
+    { "type": "header", "content": "Bundle 1 – Day routine" },
+    { "type": "paragraph", "content": "Add one \"Bundle step\" block per step. Customers can add any quantity of any product, from any step." },
+    { "type": "text", "id": "m1_label", "label": "Toggle label", "default": "Day routine" },
+    { "type": "checkbox", "id": "show_step_labels", "label": "Show step labels (Step 01, 02…)", "default": true },
+    { "type": "range", "id": "m1_min", "label": "Pieces needed for the discount", "min": 1, "max": 10, "step": 1, "default": 3 },
+    { "type": "range", "id": "m1_max_item", "label": "Max per product", "min": 1, "max": 20, "step": 1, "default": 10, "info": "If a product has less stock than this, the stock is the limit." },
+    { "type": "range", "id": "m1_percent", "label": "Discount shown", "min": 0, "max": 50, "step": 1, "unit": "%", "default": 20 },
+    { "type": "text", "id": "m1_code", "label": "Discount code", "default": "BUNDLE20", "info": "Must exist in Discounts with the same %." },
+    { "type": "text", "id": "m1_note", "label": "Summary note", "default": "Save up to [percent]% when you build a bundle of three pieces or more.", "info": "[min], [max] and [percent] are replaced." },
+
+    { "type": "header", "content": "Bundle 2 – Actual bundle" },
+    { "type": "text", "id": "m2_label", "label": "Toggle label", "default": "Actual bundle" },
+    { "type": "text", "id": "m2_heading", "label": "Heading", "default": "Pick any pieces, in any quantity" },
+{ "type": "richtext", "id": "m2_text", "label": "Text", "default": "<p>Top sellers. Add the same product more than once — [min] pieces or more unlock the [percent]% bundle saving.</p>", "info": "[min], [max] and [percent] are replaced." },    { "type": "product_list", "id": "m2_products", "label": "Products", "limit": 50, "info": "Picked products are used first. Leave empty to use the collection below." },
+    { "type": "collection", "id": "m2_collection", "label": "Or a collection" },
+    { "type": "range", "id": "m2_limit", "label": "Products from collection", "min": 6, "max": 100, "step": 1, "default": 36 },
+    { "type": "range", "id": "m2_rows", "label": "Rows shown at first", "min": 1, "max": 6, "step": 1, "default": 3 },
+    { "type": "range", "id": "m2_rows_step", "label": "Rows added by Load more", "min": 1, "max": 6, "step": 1, "default": 3 },
+    { "type": "text", "id": "load_more_label", "label": "Load more label", "default": "Load more" },
+    { "type": "text", "id": "load_less_label", "label": "Load less label", "default": "Load less" },
+    { "type": "range", "id": "m2_min", "label": "Pieces needed for the discount", "min": 1, "max": 10, "step": 1, "default": 3 },
+    { "type": "range", "id": "m2_max_item", "label": "Max per product", "min": 1, "max": 20, "step": 1, "default": 10, "info": "If a product has less stock than this, the stock is the limit." },
+    { "type": "range", "id": "m2_percent", "label": "Discount shown", "min": 0, "max": 50, "step": 1, "unit": "%", "default": 20 },
+    { "type": "text", "id": "m2_code", "label": "Discount code", "default": "BUNDLE20", "info": "Must exist in Discounts with the same %." },
+    { "type": "text", "id": "m2_note", "label": "Summary note", "default": "[min] pieces or more — any mix, or the same product — unlock [percent]% off. Up to [max] of each product.", "info": "[min], [max] and [percent] are replaced." },
+
+    { "type": "header", "content": "Summary" },
+    { "type": "text", "id": "summary_title", "label": "Title", "default": "Your bundle" },
+    { "type": "text", "id": "empty_text", "label": "Empty text", "default": "Your picks will show here." },
+    { "type": "text", "id": "build_label", "label": "Button label", "default": "Build bundle" },
+    { "type": "range", "id": "sticky_top", "label": "Desktop: space above the summary while scrolling", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 20, "info": "Raise this if a sticky header covers the summary." },
+
+    { "type": "header", "content": "Desktop padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "header", "content": "Mobile padding" },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Bundle step",
+      "settings": [
+        { "type": "text", "id": "step_label", "label": "Step label", "default": "Step 01" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Choose your hydration piece" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Start with an 18/8 stainless base. Double-wall vacuum insulation on every size." },
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "range", "id": "limit", "label": "Products to show", "min": 2, "max": 24, "step": 1, "default": 4, "info": "Products that don't fit in the row scroll sideways." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle builder",
+      "blocks": [
+        { "type": "step", "settings": { "step_label": "Step 01", "heading": "Choose your hydration piece", "text": "Start with an 18/8 stainless base. Double-wall vacuum insulation on every size." } },
+        { "type": "step", "settings": { "step_label": "Step 02", "heading": "Add a ceramic", "text": "Hand-finished ceramic interiors keep the taste of your drink unchanged." } },
+        { "type": "step", "settings": { "step_label": "Step 03", "heading": "Finish with glass", "text": "Cove glassware, drawn and refined by artists in California." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

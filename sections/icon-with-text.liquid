@@ -1,0 +1,326 @@
+{%- liquid
+  assign background = section.settings.background
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign padding_top_mobile = section.settings.padding_top_mobile
+  assign padding_bottom_mobile = section.settings.padding_bottom_mobile
+
+  assign items_markup = ''
+-%}
+
+{%- for block in section.blocks -%}
+  {%- liquid
+    assign item_icon = block.settings.icon
+    assign item_title = block.settings.title
+    assign item_text = block.settings.text
+  -%}
+
+  {%- capture item_html -%}
+    <li class="icon-with-text__item" {{ block.shopify_attributes }}>
+      {%- if item_icon != 'none' -%}
+        <div class="icon-with-text__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            {%- case item_icon -%}
+              {%- when 'mug' -%}
+                <path d="M6 2v2"></path>
+                <path d="M10 2v2"></path>
+                <path d="M14 2v2"></path>
+                <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"></path>
+              {%- when 'shield' -%}
+                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              {%- when 'pin' -%}
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              {%- when 'truck' -%}
+                <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                <path d="M15 18H9"></path>
+                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+                <circle cx="17" cy="18" r="2"></circle>
+                <circle cx="7" cy="18" r="2"></circle>
+              {%- when 'leaf' -%}
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+              {%- when 'star' -%}
+                <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
+              {%- when 'return' -%}
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                <path d="M21 3v5h-5"></path>
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                <path d="M8 16H3v5"></path>
+              {%- when 'lock' -%}
+                <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              {%- when 'heart' -%}
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+            {%- endcase -%}
+          </svg>
+        </div>
+      {%- endif -%}
+
+      <div class="icon-with-text__content">
+        {%- if item_title != blank -%}
+          <div class="icon-with-text__title">
+            <h3>{{ item_title | escape }}</h3>
+          </div>
+        {%- endif -%}
+
+        {%- if item_text != blank -%}
+          <div class="icon-with-text__text">
+            <p>{{ item_text | escape }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </li>
+  {%- endcapture -%}
+
+  {%- assign items_markup = items_markup | append: item_html -%}
+{%- endfor -%}
+
+<style>
+  #shopify-section-{{ section.id }} .icon-with-text {
+    --icon-with-text-bg: {{ background }};
+    --icon-with-text-pt: {{ padding_top }}px;
+    --icon-with-text-pb: {{ padding_bottom }}px;
+    --icon-with-text-pt-mobile: {{ padding_top_mobile }}px;
+    --icon-with-text-pb-mobile: {{ padding_bottom_mobile }}px;
+  }
+
+  .icon-with-text {
+    padding-top: var(--icon-with-text-pt-mobile);
+    padding-bottom: var(--icon-with-text-pb-mobile);
+    background: var(--icon-with-text-bg);
+    color: #111;
+  }
+
+  .icon-with-text__list {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 20px;
+    list-style: none;
+  }
+
+  .icon-with-text__item {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    align-items: start;
+    gap: 14px;
+    padding: 20px 0;
+    border-bottom: 1px solid #E7E9EA;
+  }
+
+  .icon-with-text__icon {
+    display: flex;
+    color: #000;
+  }
+
+  .icon-with-text__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .icon-with-text__title {
+    padding-block-end: 4px;
+  }
+
+  .icon-with-text__title h3 {
+    margin: 0;
+    font-family: var(--font-basis-grotesque), var(--font-body-family);
+    color: #000;
+    font-size: 15px;
+    line-height: normal;
+    font-weight: 700;
+  }
+
+  .icon-with-text__text p {
+    margin: 0;
+    font-family: var(--font-basis-grotesque), var(--font-body-family);
+    color: #6E797F;
+    font-size: 13px;
+    line-height: 19.5px;
+    font-weight: 400;
+  }
+
+  @media (min-width: 769px) {
+    .icon-with-text {
+      padding-top: var(--icon-with-text-pt);
+      padding-bottom: var(--icon-with-text-pb);
+    }
+
+    .icon-with-text__list {
+      display: grid;
+      grid-auto-columns: minmax(0, 1fr);
+      grid-auto-flow: column;
+      padding: 0 36px;
+    }
+
+    .icon-with-text__item {
+      display: block;
+      padding: 34px;
+      border-bottom: 0;
+      border-left: 1px solid #E7E9EA;
+    }
+
+    .icon-with-text__item:first-child {
+      border-left: 0;
+    }
+
+    .icon-with-text__icon {
+      padding-block-end: 12px;
+    }
+
+    .icon-with-text__title {
+      padding-block-end: 6px;
+    }
+
+    .icon-with-text__title h3 {
+      font-weight: 500;
+    }
+  }
+</style>
+
+{%- if items_markup != blank -%}
+  <section class="icon-with-text">
+    <ul class="icon-with-text__list">
+      {{ items_markup }}
+    </ul>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Icon with text",
+  "tag": "div",
+  "class": "section-icon-with-text",
+  "settings": [
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "mug",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "mug", "label": "Mug" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "pin", "label": "Location pin" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "star", "label": "Star" },
+            { "value": "return", "label": "Returns" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "heart", "label": "Heart" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "18/8 stainless"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Food-safe steel in every vessel."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Icon with text",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "icon": "mug",
+            "title": "18/8 stainless",
+            "text": "Food-safe steel in every vessel."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "Lifetime hardware warranty",
+            "text": "Lids, straws, and handles, covered for good."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "pin",
+            "title": "Designed in California",
+            "text": "By a small team, since 2015."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping over $75",
+            "text": "Ships in 1 to 2 business days."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

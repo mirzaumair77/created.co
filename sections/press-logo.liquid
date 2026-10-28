@@ -1,0 +1,150 @@
+{% comment %}
+  Section: In the press (logo row / marquee)
+  - Logos = blocks (image + name + optional link)
+  - Desktop: heading on the left, logo row (max 820px, logos 100px) on the right, one line
+  - Mobile: heading on top (centred), logos below
+  - Mobile: marquee (auto-scroll) or static row
+{% endcomment %}
+
+{{ 'press-logos.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign logos = section.blocks | where: 'type', 'logo'
+  assign m_mobile = false
+  assign m_desktop = false
+  if logos.size > 1
+    if section.settings.mobile_layout == 'marquee'
+      assign m_mobile = true
+    endif
+    if section.settings.desktop_layout == 'marquee'
+      assign m_desktop = true
+    endif
+  endif
+  assign copies = 1
+  if m_mobile or m_desktop
+    assign copies = 2
+  endif
+-%}
+
+<style>
+  #Press-{{ section.id }} {
+    --press-pt: {{ section.settings.padding_top_mobile }}px;
+    --press-pb: {{ section.settings.padding_bottom_mobile }}px;
+    --press-pt-d: {{ section.settings.padding_top }}px;
+    --press-pb-d: {{ section.settings.padding_bottom }}px;
+    --press-logo-w: {{ section.settings.logo_width_mobile }}px;
+    --press-logo-w-d: {{ section.settings.logo_width }}px;
+    --press-speed: {{ section.settings.marquee_speed }}s;
+  }
+</style>
+
+<section
+  id="Press-{{ section.id }}"
+  class="press{% if m_mobile %} press--marquee-mobile{% endif %}{% if m_desktop %} press--marquee-desktop{% endif %}"
+  aria-label="{{ section.settings.heading | default: 'In the press' | escape }}"
+>
+  <div class="site-container press__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="press__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="press__viewport">
+      <div class="press__track">
+        {%- comment -%} Printed twice when a marquee is on, so the loop is seamless {%- endcomment -%}
+        {%- for copy in (1..copies) -%}
+          <ul class="press__list{% if copy > 1 %} press__list--clone{% endif %}"{% if copy > 1 %} aria-hidden="true"{% endif %}>
+            {%- for block in logos -%}
+              {%- assign logo_alt = block.settings.name | default: block.settings.image.alt -%}
+              <li class="press__item"{% if copy == 1 %} {{ block.shopify_attributes }}{% endif %}>
+                {%- if block.settings.link != blank -%}
+                  <a href="{{ block.settings.link }}" class="press__link"{% if copy > 1 %} tabindex="-1"{% endif %}{% if block.settings.new_tab %} target="_blank" rel="noopener"{% endif %}>
+                {%- endif -%}
+
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 300 | image_tag: class: 'press__logo', loading: 'lazy', sizes: '100px', widths: '100, 200, 300', alt: logo_alt }}
+                {%- else -%}
+                  {{ 'logo' | placeholder_svg_tag: 'press__logo press__logo--placeholder' }}
+                {%- endif -%}
+
+                {%- if block.settings.link != blank -%}
+                  </a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "In the press",
+  "tag": "div",
+  "class": "section-press",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "In the press" },
+
+    { "type": "header", "content": "Logos" },
+    { "type": "range", "id": "logo_width", "label": "Logo width – desktop", "min": 60, "max": 180, "step": 2, "unit": "px", "default": 100 },
+    { "type": "range", "id": "logo_width_mobile", "label": "Logo width – mobile", "min": 50, "max": 140, "step": 2, "unit": "px", "default": 80 },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "desktop_layout",
+      "label": "Desktop layout",
+      "options": [
+        { "value": "static", "label": "Static row" },
+        { "value": "marquee", "label": "Marquee (auto-scroll)" }
+      ],
+      "default": "static"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        { "value": "marquee", "label": "Marquee (auto-scroll)" },
+        { "value": "static", "label": "Static row" }
+      ],
+      "default": "marquee"
+    },
+    { "type": "range", "id": "marquee_speed", "label": "Marquee speed", "min": 10, "max": 60, "step": 2, "unit": "s", "default": 24, "info": "Time for one full loop. Higher = slower." },
+
+    { "type": "header", "content": "Spacing – desktop" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 72 },
+
+    { "type": "header", "content": "Spacing – mobile" },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top padding", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom padding", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Logo" },
+        { "type": "text", "id": "name", "label": "Name", "info": "Used as alt text, e.g. NBC News" },
+        { "type": "url", "id": "link", "label": "Link (optional)" },
+        { "type": "checkbox", "id": "new_tab", "label": "Open link in new tab", "default": true }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "In the press",
+      "blocks": [
+        { "type": "logo", "settings": { "name": "Serious Eats" } },
+        { "type": "logo", "settings": { "name": "NBC News" } },
+        { "type": "logo", "settings": { "name": "Food & Wine" } },
+        { "type": "logo", "settings": { "name": "Travel + Leisure" } },
+        { "type": "logo", "settings": { "name": "Cool Material" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

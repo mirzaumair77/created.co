@@ -281,6 +281,174 @@
     ]
   },
   {
+    "name": "Search drawer",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Opens from the desktop header search field, the mobile search icon and the search field in the mobile menu drawer."
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_placeholder",
+        "label": "Desktop placeholder",
+        "default": "Search for products and FAQs"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_placeholder_mobile",
+        "label": "Mobile placeholder",
+        "default": "Search products & FAQs"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_cancel_text",
+        "label": "Mobile close text",
+        "default": "Cancel"
+      },
+      {
+        "type": "header",
+        "content": "Suggested searches"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_suggestion_heading",
+        "label": "Suggestion heading",
+        "default": "Suggested searches"
+      },
+      {
+        "type": "textarea",
+        "id": "search_drawer_suggestions",
+        "label": "Suggestion tab names",
+        "default": "Scout, Wander, Nomad Flip, Cold Cup, Angle Drip Mug, Beer Pint, Wine Cup, Milk Glass, Stainless, Ceramics, Glassware, Artist Series",
+        "info": "Separate with commas, e.g. New Arrivals, Best Sellers, Dresses, Tops. Each name searches inside the drawer. Mobile shows the first 6."
+      },
+      {
+        "type": "header",
+        "content": "Search results"
+      },
+      {
+        "type": "paragraph",
+        "content": "Shown in the drawer while typing. Pressing Enter opens the search page."
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_view_all_text",
+        "label": "View all results text",
+        "default": "View all results"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_pages_heading",
+        "label": "Pages heading",
+        "default": "Pages"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_no_results_heading",
+        "label": "No results heading",
+        "default": "No results for “[terms]”",
+        "info": "[terms] is replaced with the search."
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_did_you_mean",
+        "label": "Did you mean text",
+        "default": "Did you mean"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_no_results_text",
+        "label": "No results text",
+        "default": "Check the spelling or try a broader term. Here's what other people are loving."
+      },
+      {
+        "type": "header",
+        "content": "Trending searches"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_trending_heading",
+        "label": "Trending heading",
+        "default": "Trending searches"
+      },
+      {
+        "type": "textarea",
+        "id": "search_drawer_trending",
+        "label": "Trending searches",
+        "default": "Scout\nNomad Flip\nCold Cup\nAngle Drip Mug\nMilk Glass\nArtist Series",
+        "info": "One search per line. Shown in the search results view; each searches inside the drawer."
+      },
+      {
+        "type": "header",
+        "content": "Bestsellers"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_bestseller_subheading",
+        "label": "Bestseller subheading",
+        "default": "Shop by"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_bestseller_heading",
+        "label": "Bestseller heading",
+        "default": "Bestsellers . ."
+      },
+      {
+        "type": "collection",
+        "id": "search_drawer_bestseller_collection",
+        "label": "Bestseller collection",
+        "info": "Products from this collection are shown in the search drawer."
+      },
+      {
+        "type": "range",
+        "id": "search_drawer_bestseller_limit",
+        "label": "Products to show",
+        "min": 2,
+        "max": 12,
+        "step": 1,
+        "default": 8
+      },
+      {
+        "type": "header",
+        "content": "FAQs"
+      },
+      {
+        "type": "paragraph",
+        "content": "FAQ cards come from the \"search_drawer_faq\" metaobject (fields: question – single line text, answer – rich text). Manage entries in Content > Metaobjects. The FAQ row is hidden when there are no entries."
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_faq_heading",
+        "label": "FAQ heading",
+        "default": "FAQs"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_faq_show_all_text",
+        "label": "Show all text",
+        "default": "Show all"
+      },
+      {
+        "type": "url",
+        "id": "search_drawer_faq_show_all_link",
+        "label": "Show all link"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_faq_read_more",
+        "label": "Read more text",
+        "default": "Read more"
+      },
+      {
+        "type": "text",
+        "id": "search_drawer_faq_read_less",
+        "label": "Read less text",
+        "default": "Read less"
+      }
+    ]
+  },
+  {
     "name": "Nav Drawer",
     "settings": [
       {
@@ -291,7 +459,355 @@
     ]
   },
   {
-    "name": "Cart",
+    "name": "Cart drawer",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Controls the slide-out cart drawer that opens from the cart icon and after Add to Cart."
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_title",
+        "label": "Title",
+        "default": "Your Cart"
+      },
+      {
+        "type": "range",
+        "id": "cart_drawer_width",
+        "label": "Drawer width (desktop)",
+        "min": 360,
+        "max": 560,
+        "step": 10,
+        "unit": "px",
+        "default": 420
+      },
+      {
+        "type": "range",
+        "id": "cart_drawer_title_size",
+        "label": "Title size",
+        "min": 22,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 30
+      },
+      {
+        "type": "select",
+        "id": "cart_drawer_provider",
+        "label": "Cart to use",
+        "options": [
+          {
+            "value": "custom",
+            "label": "Custom cart drawer"
+          },
+          {
+            "value": "rebuy",
+            "label": "Rebuy Smart Cart"
+          }
+        ],
+        "default": "custom",
+        "info": "select the cart need to show "
+      },
+      {
+        "type": "header",
+        "content": "Free shipping bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_drawer_shipping_enabled",
+        "label": "Show free shipping bar",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "cart_drawer_shipping_threshold",
+        "label": "Free shipping threshold",
+        "info": "Amount in your store currency, e.g. 65 for $65.",
+        "default": 65
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_shipping_locked",
+        "label": "Message before threshold",
+        "info": "Use [amount] where the remaining amount should appear.",
+        "default": "You're [amount] away from free shipping"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_shipping_unlocked",
+        "label": "Message after threshold",
+        "default": "You've unlocked free shipping"
+      },
+      {
+        "type": "header",
+        "content": "Empty cart"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_empty_title",
+        "label": "Heading",
+        "default": "Your cart is empty"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_empty_text",
+        "label": "Text",
+        "default": "Start with a Cold Cup below."
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_empty_button_label",
+        "label": "Button label",
+        "default": "Shop bestsellers"
+      },
+      {
+        "type": "url",
+        "id": "cart_drawer_empty_button_link",
+        "label": "Button link",
+        "default": "/collections/all"
+      },
+      {
+        "type": "header",
+        "content": "Upsell (Complete your set)"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_drawer_upsell_enabled",
+        "label": "Show upsell products",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_upsell_title",
+        "label": "Heading",
+        "default": "Complete your set"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_upsell_swipe_label",
+        "label": "Swipe hint",
+        "default": "Swipe"
+      },
+      {
+        "type": "product_list",
+        "id": "cart_drawer_upsell_products",
+        "label": "Products",
+        "limit": 12
+      },
+      {
+        "type": "collection",
+        "id": "cart_drawer_upsell_collection",
+        "label": "Or use a collection",
+        "info": "Used when no products are selected above."
+      },
+      {
+        "type": "range",
+        "id": "cart_drawer_upsell_limit",
+        "label": "Maximum products shown",
+        "min": 2,
+        "max": 12,
+        "step": 1,
+        "default": 8
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_upsell_badge",
+        "label": "Free shipping badge",
+        "info": "Shown on products that would unlock free shipping. Leave empty to hide.",
+        "default": "Unlocks free ship"
+      },
+      {
+        "type": "select",
+        "id": "cart_drawer_upsell_badge_rule",
+        "label": "Show badge on",
+        "options": [
+          {
+            "value": "all",
+            "label": "All products until free shipping is unlocked"
+          },
+          {
+            "value": "unlocks",
+            "label": "Only products that would unlock free shipping"
+          }
+        ],
+        "default": "all"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_upsell_button_label",
+        "label": "Add button label",
+        "default": "+ Add"
+      },
+      {
+        "type": "header",
+        "content": "Order summary"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_shipping_label",
+        "label": "Shipping label",
+        "default": "Shipping"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_shipping_calculated",
+        "label": "Shipping value (not free yet)",
+        "default": "Calculated at checkout"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_shipping_free",
+        "label": "Shipping value (free)",
+        "default": "Free"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_discount_label",
+        "label": "Discount label",
+        "default": "Discount"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_subtotal_label",
+        "label": "Subtotal label",
+        "default": "Subtotal"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_savings_text",
+        "label": "Savings message",
+        "info": "Use [amount] where the saved amount should appear. Leave empty to hide.",
+        "default": "You're saving [amount] on this order"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_taxes_text",
+        "label": "Taxes note",
+        "default": "Taxes calculated at checkout"
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_checkout_label",
+        "label": "Checkout button label",
+        "default": "Checkout"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_drawer_show_express",
+        "label": "Show express checkout buttons",
+        "info": "Shop Pay, Apple Pay, PayPal etc. Which buttons appear is controlled in Settings → Payments.",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "cart_drawer_express_style",
+        "label": "Express button style",
+        "options": [
+          {
+            "value": "static",
+            "label": "Payment icons (display only)"
+          },
+          {
+            "value": "dynamic",
+            "label": "Shopify buttons (one-tap payment)"
+          }
+        ],
+        "default": "static",
+        "info": "Payment icons always show Shop Pay, Apple Pay and PayPal (also in the empty cart) so customers can see what you accept; they are not clickable. Shopify buttons pay in one tap but only show the methods the customer's device supports."
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_drawer_express_shoppay",
+        "label": "Payment icon: Shop Pay",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_drawer_express_applepay",
+        "label": "Payment icon: Apple Pay",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_drawer_express_paypal",
+        "label": "Payment icon: PayPal",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_drawer_secure_text",
+        "label": "Footer note",
+        "default": "Secure checkout · Free shipping over $65"
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "cart_drawer_text_color",
+        "label": "Text and icons",
+        "default": "#0E1F2A"
+      },
+      {
+        "type": "color",
+        "id": "cart_drawer_muted_color",
+        "label": "Secondary text",
+        "info": "Variant, labels, Remove, notes.",
+        "default": "#6E797F"
+      },
+      {
+        "type": "color",
+        "id": "cart_drawer_tile_bg",
+        "label": "Image tiles and close button background",
+        "default": "#F5F5F5"
+      },
+      {
+        "type": "color",
+        "id": "cart_drawer_line_color",
+        "label": "Divider lines",
+        "default": "#E7E9EA"
+      },
+      {
+        "type": "color",
+        "id": "cart_drawer_border_color",
+        "label": "Quantity box border",
+        "default": "#CFD2D4"
+      },
+      {
+        "type": "color",
+        "id": "cart_drawer_accent_color",
+        "label": "Accent (progress bar, amounts, discounts)",
+        "default": "#E25702"
+      },
+      {
+        "type": "color",
+        "id": "cart_drawer_checkout_bg",
+        "label": "Checkout button background",
+        "default": "#0E1F2A"
+      },
+      {
+        "type": "color",
+        "id": "cart_drawer_checkout_text",
+        "label": "Checkout button text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "cart_drawer_bar_bg",
+        "label": "Shipping bar background",
+        "default": "#F5F5F5"
+      },
+      {
+        "type": "color",
+        "id": "cart_drawer_badge_bg",
+        "label": "Upsell badge background",
+        "default": "#0E1F2A"
+      }
+    ]
+  },
+  {
+    "name": "Cart (old drawer — not used)",
     "settings": [
       {
         "type": "header",

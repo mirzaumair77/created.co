@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
+
 {%- if settings.predictive_search_enabled -%}
   <link
     rel="stylesheet"
@@ -17,102 +18,499 @@
 
 {{ 'base-modal.css' | asset_url | stylesheet_tag }}
 {{ 'base-header.css' | asset_url | stylesheet_tag }}
+{{ 'header-redesign.css' | asset_url | stylesheet_tag }}
 
 <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'header-redesign.js' | asset_url }}" defer="defer"></script>
 
-<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
-  <symbol id="icon-search" viewbox="0 0 18 19" fill="none">
+{%- liquid
+  assign sticky_mode = section.settings.sticky_mode
+  assign logo_position = section.settings.logo_position
+  assign menu_position = section.settings.menu_position
+  assign show_account = section.settings.show_account
+  assign show_search = section.settings.show_search
+  assign search_position = section.settings.search_position
+  assign border_width = section.settings.border_width
+  assign bottom_border_color = section.settings.bottom_border_color
+
+  assign enable_home_header = section.settings.enable_home_header
+  assign enable_clp_header = section.settings.enable_clp_header
+  assign enable_pdp_header = section.settings.enable_pdp_header
+  assign enable_sticky_header = section.settings.enable_sticky_header
+
+  assign solid_bg = section.settings.solid_bg
+  assign solid_text = section.settings.solid_text
+  assign solid_nav = section.settings.solid_nav
+  assign solid_pill = section.settings.solid_pill
+  assign solid_pill_hover_alpha = section.settings.solid_pill_hover_opacity | divided_by: 100.0
+  assign solid_pill_hover = section.settings.solid_pill_hover | default: solid_pill | color_modify: 'alpha', solid_pill_hover_alpha
+  assign solid_pill_active = section.settings.solid_pill_active | default: solid_pill | color_modify: 'alpha', solid_pill_hover_alpha
+  assign logo_dark = section.settings.logo_dark
+
+  assign home_overlay = section.settings.home_overlay
+  assign home_bg = section.settings.home_bg
+  assign home_bg_opacity = section.settings.home_bg_opacity
+  assign home_text = section.settings.home_text
+  assign home_nav = section.settings.home_nav
+  assign home_pill = section.settings.home_pill
+  assign home_pill_opacity = section.settings.home_pill_opacity
+  assign home_pill_hover_alpha = section.settings.home_pill_hover_opacity | divided_by: 100.0
+  assign home_pill_hover = section.settings.home_pill_hover | default: home_pill | color_modify: 'alpha', home_pill_hover_alpha
+  assign home_pill_active = section.settings.home_pill_active | default: home_pill | color_modify: 'alpha', home_pill_hover_alpha
+  assign home_logo = section.settings.home_logo
+
+  assign clp_overlay = section.settings.clp_overlay
+  assign clp_bg = section.settings.clp_bg
+  assign clp_bg_opacity = section.settings.clp_bg_opacity
+  assign clp_text = section.settings.clp_text
+  assign clp_nav = section.settings.clp_nav
+  assign clp_pill = section.settings.clp_pill
+  assign clp_pill_opacity = section.settings.clp_pill_opacity
+  assign clp_pill_hover_alpha = section.settings.clp_pill_hover_opacity | divided_by: 100.0
+  assign clp_pill_hover = section.settings.clp_pill_hover | default: clp_pill | color_modify: 'alpha', clp_pill_hover_alpha
+  assign clp_pill_active = section.settings.clp_pill_active | default: clp_pill | color_modify: 'alpha', clp_pill_hover_alpha
+  assign clp_logo = section.settings.clp_logo
+
+  assign pdp_overlay = section.settings.pdp_overlay
+  assign pdp_bg = section.settings.pdp_bg
+  assign pdp_bg_opacity = section.settings.pdp_bg_opacity
+  assign pdp_text = section.settings.pdp_text
+  assign pdp_nav = section.settings.pdp_nav
+  assign pdp_pill = section.settings.pdp_pill
+  assign pdp_pill_opacity = section.settings.pdp_pill_opacity
+  assign pdp_pill_hover_alpha = section.settings.pdp_pill_hover_opacity | divided_by: 100.0
+  assign pdp_pill_hover = section.settings.pdp_pill_hover | default: pdp_pill | color_modify: 'alpha', pdp_pill_hover_alpha
+  assign pdp_pill_active = section.settings.pdp_pill_active | default: pdp_pill | color_modify: 'alpha', pdp_pill_hover_alpha
+  assign pdp_logo = section.settings.pdp_logo
+
+  assign sticky_templates = section.settings.sticky_templates
+  assign sticky_overlay = section.settings.sticky_overlay
+  assign sticky_bg = section.settings.sticky_bg
+  assign sticky_bg_opacity = section.settings.sticky_bg_opacity
+  assign sticky_text = section.settings.sticky_text
+  assign sticky_nav = section.settings.sticky_nav
+  assign sticky_pill = section.settings.sticky_pill
+  assign sticky_pill_opacity = section.settings.sticky_pill_opacity
+  assign sticky_pill_hover_alpha = section.settings.sticky_pill_hover_opacity | divided_by: 100.0
+  assign sticky_pill_hover = section.settings.sticky_pill_hover | default: sticky_pill | color_modify: 'alpha', sticky_pill_hover_alpha
+  assign sticky_pill_active = section.settings.sticky_pill_active | default: sticky_pill | color_modify: 'alpha', sticky_pill_hover_alpha
+  assign sticky_logo = section.settings.sticky_logo
+
+  assign search_label = 'general.search.search' | t
+
+  comment
+    Custom sticky header: when enabled, the header is sticky only on the
+    templates listed (comma separated). An entry can be a template type
+    ("product", "page", "blog"), an alternate template's suffix ("about-us"
+    for templates/page.about-us.json) or both ("page.about-us"). A ".json"
+    extension is ignored. Listed templates use the selected sticky type, or
+    "always" if it is set to Never. All other templates are not sticky.
+
+    template.name is only the type ("page"); the alternate template name
+    lives in template.suffix, so both are compared.
+  endcomment
+
+  assign sticky_template_match = false
+  if enable_sticky_header
+    assign sticky_current = template.name | downcase
+    assign sticky_current_suffix = template.suffix | downcase
+    assign sticky_current_full = sticky_current
+    if sticky_current_suffix != blank
+      assign sticky_current_full = sticky_current | append: '.' | append: sticky_current_suffix
+    endif
+
+    assign sticky_template_list = sticky_templates | downcase | split: ','
+    for sticky_template in sticky_template_list
+      assign sticky_template = sticky_template | strip | remove_last: '.json'
+      if sticky_template == blank
+        continue
+      endif
+
+      if sticky_template == sticky_current or sticky_template == sticky_current_full
+        assign sticky_template_match = true
+        break
+      endif
+
+      if sticky_current_suffix != blank and sticky_template == sticky_current_suffix
+        assign sticky_template_match = true
+        break
+      endif
+    endfor
+
+    if sticky_template_match
+      if sticky_mode == 'none'
+        assign sticky_mode = 'always'
+      endif
+    else
+      assign sticky_mode = 'none'
+    endif
+  endif
+
+  comment
+    Initial state at the top of the page.
+    Pages without a dedicated state fall back to the scrolled/solid settings.
+  endcomment
+
+  assign overlay = false
+  assign init_bg = solid_bg
+  assign init_text = solid_text
+  assign init_nav = solid_nav
+  assign init_pill = solid_pill
+  assign init_pill_hover = solid_pill_hover
+  assign init_pill_active = solid_pill_active
+  assign init_logo = blank
+
+  comment
+    Sticky template state is the base for listed templates; the dedicated
+    Homepage/CLP/PDP states below still take priority when enabled.
+  endcomment
+
+  if sticky_template_match
+    assign overlay = sticky_overlay
+    assign sticky_bg_alpha = sticky_bg_opacity | divided_by: 100.0
+    assign sticky_pill_alpha = sticky_pill_opacity | divided_by: 100.0
+    assign init_bg = sticky_bg | color_modify: 'alpha', sticky_bg_alpha
+    assign init_text = sticky_text
+    assign init_nav = sticky_nav
+    assign init_pill = sticky_pill | color_modify: 'alpha', sticky_pill_alpha
+    assign init_pill_hover = sticky_pill_hover
+    assign init_pill_active = sticky_pill_active
+    assign init_logo = sticky_logo
+  endif
+
+  case template.name
+    when 'index'
+      if enable_home_header
+        assign overlay = home_overlay
+        assign home_bg_alpha = home_bg_opacity | divided_by: 100.0
+        assign home_pill_alpha = home_pill_opacity | divided_by: 100.0
+        assign init_bg = home_bg | color_modify: 'alpha', home_bg_alpha
+        assign init_text = home_text
+        assign init_nav = home_nav
+        assign init_pill = home_pill | color_modify: 'alpha', home_pill_alpha
+        assign init_pill_hover = home_pill_hover
+        assign init_pill_active = home_pill_active
+        assign init_logo = home_logo
+      endif
+    when 'collection'
+      if enable_clp_header
+        assign overlay = clp_overlay
+        assign clp_bg_alpha = clp_bg_opacity | divided_by: 100.0
+        assign clp_pill_alpha = clp_pill_opacity | divided_by: 100.0
+        assign init_bg = clp_bg | color_modify: 'alpha', clp_bg_alpha
+        assign init_text = clp_text
+        assign init_nav = clp_nav
+        assign init_pill = clp_pill | color_modify: 'alpha', clp_pill_alpha
+        assign init_pill_hover = clp_pill_hover
+        assign init_pill_active = clp_pill_active
+        assign init_logo = clp_logo
+      endif
+    when 'product'
+      if enable_pdp_header
+        assign overlay = pdp_overlay
+        assign pdp_bg_alpha = pdp_bg_opacity | divided_by: 100.0
+        assign pdp_pill_alpha = pdp_pill_opacity | divided_by: 100.0
+        assign init_bg = pdp_bg | color_modify: 'alpha', pdp_bg_alpha
+        assign init_text = pdp_text
+        assign init_nav = pdp_nav
+        assign init_pill = pdp_pill | color_modify: 'alpha', pdp_pill_alpha
+        assign init_pill_hover = pdp_pill_hover
+        assign init_pill_active = pdp_pill_active
+        assign init_logo = pdp_logo
+      endif
+  endcase
+
+  assign logo_swap = false
+  if init_logo != blank
+    assign logo_swap = true
+  endif
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --ch-solid-bg: {{ solid_bg }};
+    --ch-solid-text: {{ solid_text }};
+    --ch-solid-nav: {{ solid_nav }};
+    --ch-solid-pill: {{ solid_pill }};
+    --ch-solid-pill-hover: {{ solid_pill_hover }};
+    --ch-solid-pill-active: {{ solid_pill_active }};
+    --ch-init-bg: {{ init_bg }};
+    --ch-init-text: {{ init_text }};
+    --ch-init-nav: {{ init_nav }};
+    --ch-init-pill: {{ init_pill }};
+    --ch-init-pill-hover: {{ init_pill_hover }};
+    --ch-init-pill-active: {{ init_pill_active }};
+    --ch-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
+    --ch-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --ch-padding-top-desktop: {{ section.settings.padding_top_desktop }}px;
+    --ch-padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --ch-border-width: {{ border_width }}px;
+    --ch-border-color: {{ bottom_border_color }};
+    z-index: 50;
+
+    {%- if overlay %}
+      position: {% if sticky_mode == 'none' %}absolute{% else %}fixed{% endif %};
+      top: {% if sticky_mode == 'none' %}var(--announcement-bar-height, 0px){% else %}var(--header-sticky-top, var(--announcement-bar-height, 0px)){% endif %};
+      left: 0;
+      width: 100%;
+    {%- elsif sticky_mode != 'none' %}
+      position: sticky;
+      top: 0;
+    {%- endif %}
+
+    {%- if sticky_mode == 'scroll_up' %}
+      transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    {%- endif %}
+  }
+
+  {%- if sticky_mode == 'scroll_up' %}
+    #shopify-section-{{ section.id }}.is-hidden {
+      transform: translate3d(0, calc(-100% - var(--header-sticky-top, 0px)), 0);
+    }
+  {%- endif %}
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] details {
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] summary {
+    pointer-events: none;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .created-header__search-label {
+    visibility: hidden;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .search-modal {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--search-pill-radius);
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .modal-overlay {
+    display: none;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .search-modal:has(predictive-search[open]) .modal-overlay {
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .modal-overlay::after {
+    position: fixed;
+    top: var(--header-height, 0px);
+    height: 100vh;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .search-modal__content {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .search-modal__form {
+    position: static;
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .field {
+    height: 100%;
+    margin: 0;
+    border-radius: var(--search-pill-radius);
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .field::before,
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .field::after {
+    display: none;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .field:focus-within {
+    outline: 1px solid var(--search-pill-color, currentColor);
+    outline-offset: 2px;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .search__input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0 var(--search-pill-end, 44px) 0 var(--search-pill-start, 16px);
+    border: 0;
+    border-radius: inherit;
+    background: transparent;
+    box-shadow: none;
+    outline: 0;
+    color: var(--search-pill-color);
+    font-family: var(--search-pill-font-family);
+    font-size: var(--search-pill-font-size);
+    font-weight: var(--search-pill-font-weight);
+    letter-spacing: var(--search-pill-letter-spacing);
+    line-height: normal;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .search__input::placeholder {
+    color: inherit;
+    opacity: 1;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .search__button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: var(--search-pill-end, 44px);
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .search__button svg {
+    opacity: 0;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .search-modal__close-button {
+    display: none;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='inline'] .predictive-search {
+    {%- if search_position == 'left' %}
+      right: auto;
+      left: 0;
+    {%- else %}
+      right: 0;
+      left: auto;
+    {%- endif %}
+    width: min(742px, calc(100vw - 32px));
+    max-height: calc(100vh - var(--header-height, 0px));
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='modal'],
+  #shopify-section-{{ section.id }} [data-search-mode='modal'] details-modal,
+  #shopify-section-{{ section.id }} [data-search-mode='modal'] details {
+    position: static;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='modal'] .search-modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: auto;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='modal'] .search-modal__content {
+    position: relative;
+    height: 100%;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='modal'] .search-modal__form {
+    position: static;
+    width: 100%;
+    max-width: none;
+  }
+
+  #shopify-section-{{ section.id }} [data-search-mode='modal'] .predictive-search {
+    top: 100%;
+    right: 0;
+    left: 0;
+    width: auto;
+    max-height: calc(100vh - var(--header-height, 0px));
+    max-height: calc(100dvh - var(--header-height, 0px));
+  }
+{% endstyle %}
+
+<svg class="created-header__sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="icon-search" viewBox="0 0 18 19" fill="none">
     <path fill-rule="evenodd" clip-rule="evenodd" d="M11.03 11.68A5.784 5.784 0 112.85 3.5a5.784 5.784 0 018.18 8.18zm.26 1.12a6.78 6.78 0 11.72-.7l5.4 5.4a.5.5 0 11-.71.7l-5.41-5.4z" fill="currentColor"/>
   </symbol>
 
-  <symbol id="icon-close" class="icon icon-close" fill="none" viewBox="0 0 18 17">
-    <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
+  <symbol id="icon-close" viewBox="0 0 18 17" fill="none">
+    <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor"/>
   </symbol>
 </svg>
 
-<div class="header-wrapper new_desktop_header">
-  <header class="site-header  flex items-center justify-between site-container">
-    <button js-open-mobile-nav class="w-48 h-38 desktop:hidden">{% render 'icon-menu' %}</button>
-    <button class="w-20 hidden custom_close">{% render 'icon-close' %}</button>
-
-    
-    <a href="/" class="header-logo__link w-118 desktop:w-140">
-      {% render 'icon-logotype-black' %}
-    </a>
-    <div class="flex items-center justify-end justify-self-end gap-28">
-      <div class="header-nav__container hidden">
-
-
-        {% for block in section.blocks %}
-          {% case block.type %}
-
-            {% when 'menu_item' %}
-              <a href="{{ block.settings.menu_link }}" class="new_single_item header-nav__item uppercase font-grotesque text-20 px-16">
-                {{- block.settings.menu_item_text -}}
-              </a>
-
-            {% when 'mega_menu' %}
-              <a href="{{ block.settings.menu_link }}" class="new_megamenu_item header-nav__item uppercase font-grotesque text-20 px-16" id="new_megamenu_item_{{ block.id }}">
-                <span>{{- block.settings.menu_item_text -}}</span>
-                {% render 'icon-caret' %}
-              </a>
-            {% when 'mega_menu_v2' %}
-              <a href="{{ block.settings.menu_link }}" class="new_megamenu_item header-nav__item uppercase font-grotesque text-20 px-16" id="new_megamenu_item_{{ block.id }}">
-                <span>{{- block.settings.menu_item_text -}}</span>
-                {% render 'icon-caret' %}
-              </a>
-            
-          {% endcase %}
-        {% endfor %}
-
-
-        
-        {% comment %}
-        {% for link in linklists[section.settings.menu].links %}
-          <a href="{{ link.url }}" class="header-nav__item uppercase font-grotesque text-20 px-16">
-            {{- link.title -}}
-          </a>
-        {% endfor %}
-
-          <button class="hidden desktop:inline-block header-nav__item uppercase font-grotesque px-10 relative" js-open-cart-drawer>
-            {% render 'icon-cart' %}
-            {% if cart.item_count > 0 %}
-              <span class="absolute -top-8 right-0 bg-black w-16 h-16 block text-10 rounded-full text-white">{{ cart.item_count }}</span>
-            {% endif %}
-          </button>
-        {% endcomment %}
+{% capture created_logo %}
+  <div class="created-header__logo{% if logo_swap %} created-header__logo--swap{% endif %}">
+    <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+      <div class="created-header__logo-dark">
+        {%- if logo_dark != blank -%}
+          {{ logo_dark | image_url: width: 400 | image_tag: loading: 'eager', alt: shop.name }}
+        {%- else -%}
+          {% render 'icon-logotype-black' %}
+        {%- endif -%}
       </div>
+      {%- if logo_swap -%}
+        <div class="created-header__logo-initial">
+          {{ init_logo | image_url: width: 400 | image_tag: loading: 'eager', alt: '' }}
+        </div>
+      {%- endif -%}
+    </a>
+  </div>
+{% endcapture %}
 
+{% capture created_nav %}
+  {%- if section.settings.menu.links.size > 0 -%}
+    <nav class="created-header__nav" aria-label="Primary">
+      {%- render 'mega-menu-redesign', mmr_section: section -%}
+    </nav>
+  {%- endif -%}
+{% endcapture %}
+
+{% capture created_search %}
+  {%- if show_search -%}
+    <div class="created-header__icon created-header__icon--search">
       <details-modal class="header__search">
         <details>
-          <summary
-            class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle"
-            aria-haspopup="dialog"
-            aria-label="{{ 'general.search.search' | t }}"
-          >
-            <span>
-              {%- render 'icon-search' -%}
-              {% comment %}
-                <svg class="modal__toggle-close icon icon-close" aria-hidden="true" focusable="false" role="presentation">
-                  <use href="#icon-close"></use>
-                </svg>
-              {% endcomment %}
-            </span>
+          <summary class="modal__toggle" aria-haspopup="dialog" aria-label="{{ search_label }}">
+            <span class="created-header__search-label">{{ search_label }}</span>
+            <svg class="icon icon-search" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M8.24357 2.99805C7.55465 2.99805 6.87248 3.13374 6.23601 3.39737C5.59953 3.66101 5.02122 4.04743 4.53408 4.53457C4.04694 5.02171 3.66052 5.60002 3.39688 6.23649C3.13326 6.87297 2.99756 7.55514 2.99756 8.24406C2.99756 8.93297 3.13326 9.61514 3.39688 10.2516C3.66052 10.888 4.04694 11.4664 4.53408 11.9535C5.02122 12.4407 5.59953 12.8271 6.23601 13.0908C6.87248 13.3544 7.55465 13.4901 8.24357 13.4901C9.6349 13.4901 10.9692 12.9374 11.953 11.9535C12.9369 10.9697 13.4896 9.63539 13.4896 8.24406C13.4896 6.85273 12.9369 5.51839 11.953 4.53457C10.9692 3.55075 9.6349 2.99805 8.24357 2.99805Z" stroke="currentColor" stroke-width="1.12414" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12.3652 12.3662L15.7377 15.7386" stroke="currentColor" stroke-width="1.12414" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </summary>
-          <div
-            class="search-modal modal__content"
-            role="dialog"
-            aria-modal="true"
-            aria-label="{{ 'general.search.search' | t }}"
-          >
+
+          <div class="search-modal modal__content" role="dialog" aria-modal="true" aria-label="{{ search_label }}">
             <div class="modal-overlay"></div>
+
             <div
               class="search-modal__content{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} search-modal__content-top{% else %} search-modal__content-bottom{% endif %}"
               tabindex="-1"
             >
               {%- if settings.predictive_search_enabled -%}
-                <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
+                <predictive-search
+                  class="search-modal__form"
+                  data-loading-text="{{ 'accessibility.loading' | t }}"
+                >
               {%- endif -%}
+
               <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
                 <div class="field">
                   <input
@@ -121,7 +519,7 @@
                     type="search"
                     name="q"
                     value=""
-                    placeholder="{{ 'general.search.search' | t }}"
+                    placeholder="{{ search_label }}"
                     {%- if settings.predictive_search_enabled -%}
                       role="combobox"
                       aria-expanded="false"
@@ -135,12 +533,11 @@
                       spellcheck="false"
                     {%- endif -%}
                   >
-                  <!-- next line adds the word "search" above search box -->
-                  <!-- <label class="field__label" for="Search-In-Modal">{{ 'general.search.search' | t }}</label> -->
                   <input type="hidden" name="options[prefix]" value="last">
-                  <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
-                    <svg class="icon icon-search" aria-hidden="true" focusable="false" role="presentation">
-                      <use href="#icon-search"></use>
+                  <button class="search__button field__button" aria-label="{{ search_label }}">
+                    <svg class="icon icon-search" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <path d="M8.24357 2.99805C7.55465 2.99805 6.87248 3.13374 6.23601 3.39737C5.59953 3.66101 5.02122 4.04743 4.53408 4.53457C4.04694 5.02171 3.66052 5.60002 3.39688 6.23649C3.13326 6.87297 2.99756 7.55514 2.99756 8.24406C2.99756 8.93297 3.13326 9.61514 3.39688 10.2516C3.66052 10.888 4.04694 11.4664 4.53408 11.9535C5.02122 12.4407 5.59953 12.8271 6.23601 13.0908C6.87248 13.3544 7.55465 13.4901 8.24357 13.4901C9.6349 13.4901 10.9692 12.9374 11.953 11.9535C12.9369 10.9697 13.4896 9.63539 13.4896 8.24406C13.4896 6.85273 12.9369 5.51839 11.953 4.53457C10.9692 3.55075 9.6349 2.99805 8.24357 2.99805Z" stroke="currentColor" stroke-width="1.12414" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M12.3652 12.3662L15.7377 15.7386" stroke="currentColor" stroke-width="1.12414" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                   </button>
                 </div>
@@ -148,519 +545,991 @@
                 {%- if settings.predictive_search_enabled -%}
                   <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
                     <div class="predictive-search__loading-state">
-                      <svg
-                        aria-hidden="true"
-                        focusable="false"
-                        role="presentation"
-                        class="spinner"
-                        viewBox="0 0 66 66"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
+                      <svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
                         <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
                       </svg>
                     </div>
                   </div>
-
                   <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
                 {%- endif -%}
               </form>
+
               {%- if settings.predictive_search_enabled -%}
                 </predictive-search>
               {%- endif -%}
+
               <button
                 type="button"
                 class="search-modal__close-button modal__close-button link link--text focus-inset"
                 aria-label="{{ 'accessibility.close' | t }}"
               >
-                <svg class="icon icon-close" aria-hidden="true" focusable="false" role="presentation">
-                  <use href="#icon-close"></use>
+                <svg class="icon icon-close" aria-hidden="true" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" focusable="false">
+                  <path d="M3.5 3.5l11 11M14.5 3.5l-11 11"></path>
                 </svg>
               </button>
             </div>
           </div>
         </details>
       </details-modal>
-      <button class="font-grotesque relative header__icon" js-open-cart-drawer>
-        {% render 'icon-cart' %}
-        {% if cart.item_count > 0 %}
-          <span class="absolute -top-8 right-0 bg-black w-16 h-16 block text-10 rounded-full text-white">
-            {{- cart.item_count -}}
-          </span>
-        {% endif %}
-      </button>
     </div>
-  </header>
+  {%- endif -%}
+{% endcapture %}
 
-  {% for block in section.blocks %}
-    {% case block.type %} 
-      {% when 'mega_menu_v2' %}
-        <div class="new_megamenu_main" data-id="new_megamenu_item_{{ block.id }}"> 
-          <div class="site-container">
-            <div class="new_megamenu_main_v2">
-              <div class="new_megamenu_col_v2">
-                <ul class="new_megamenu_menu_v2 left_menu">
-                  {% for link in block.settings.column_menu_v2.links %}
-                        <li>
-                          <a href="{{ link.url }}">
-                            <span>{{ link.title }}</span>
-                          </a>
-                        </li>
-                      {% endfor %}
-                </ul>  
-              </div>
-              <div class="new_megamenu_col_v2">
-                <ul class="new_megamenu_menu_v2 feature-column">
-                  {% for link in block.settings.column_menu_v2.links %}
-                        {% if link.type == 'product_link' %}
-                        <li class="{% if link.object.metafields.custom.mega_menu_image_v2 != blank %} new_megamenu_v2 {% endif %}">
-                          <a href="{{ link.url }}">
-                            {% if link.object.metafields.custom.mega_menu_image_v2 != blank %}
-                              <img src="{{ link.object.metafields.custom.mega_menu_image_v2 | img_url:'master' }}"/>
-                            {% endif %}
-                            <span>{{ link.title }}</span>
-                          </a>
-                        </li>
-                        {% elsif link.type == 'collection_link' %}  
-                          <li class="{% if link.object.metafields.custom.mega_menu_image_v2 != blank %} new_megamenu_v2 {% endif %}">
-                          <a href="{{ link.url }}">
-                            {% unless link.title == 'Shop All' %}
-                            {% if link.object.metafields.custom.mega_menu_image_v2 != blank %}
-                              <img src="{{ link.object.metafields.custom.mega_menu_image_v2 | img_url:'master' }}"/>
-                            {% endif %}
-                            {% endunless %}
-                            <span>{{ link.title }}</span>
-                          </a>
-                        </li>
-                        {% elsif link.type == 'page_link' %}  
-                          <li class="{% if link.object.metafields.custom.mega_menu_image_v2 != blank %} new_megamenu_v2 {% endif %}">
-                          <a href="{{ link.url }}">
-                            {% unless link.title == 'Shop All' %}
-                            {% if link.object.metafields.custom.mega_menu_image_v2 != blank %}
-                              <img src="{{ link.object.metafields.custom.mega_menu_image_v2 | img_url:'master' }}"/>
-                            {% endif %}
-                            {% endunless %}
-                            <span>{{ link.title }}</span>
-                          </a>
-                        </li>  
-                        {% else %}
-                        <li>
-                          <a href="{{ link.url }}">
-                            <span>{{ link.title }}</span>
-                            
-                          </a>
-                        </li>
-                          
-                        {% endif %}
-                      {% endfor %}
-                </ul> 
-              </div>
-              
-            </div>
-          </div>
-        </div>  
-      {% when 'mega_menu' %}
-        <div class="new_megamenu_main" data-id="new_megamenu_item_{{ block.id }}"> 
-          <div class="site-container">
-            <div class="new_megamenu_main_inner">
-                {% liquid
+{% capture created_account %}
+  {%- if show_account -%}
+    <div class="created-header__icon created-header__icon--account">
+      <a href="{{ routes.account_url }}" aria-label="{{ 'customer.account.title' | t }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M8.99287 2.99805C8.27733 2.99805 7.5911 3.28229 7.08513 3.78826C6.57917 4.29422 6.29492 4.98046 6.29492 5.69599C6.29492 6.41153 6.57917 7.09777 7.08513 7.60373C7.5911 8.1097 8.27733 8.39394 8.99287 8.39394C9.70841 8.39394 10.3946 8.1097 10.9006 7.60373C11.4065 7.09777 11.6908 6.41153 11.6908 5.69599C11.6908 4.98046 11.4065 4.29422 10.9006 3.78826C10.3946 3.28229 9.70841 2.99805 8.99287 2.99805Z" stroke="currentColor" stroke-width="1.12414" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.74707 14.9888C3.74707 12.4407 6.0703 10.792 8.99308 10.792C11.9159 10.792 14.2391 12.4407 14.2391 14.9888" stroke="currentColor" stroke-width="1.12414" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  {%- endif -%}
+{% endcapture %}
 
-                  assign ch = "column_heading_"
-                  assign hl = "heading_link_"
-                  assign cm = "column_menu_"
-                  assign nc = "no_column_"
-                  
-                
-                %}
+{% capture created_utilities %}
+  {{ created_account }}
 
-                {% for i in (1..5) %} 
+  <div class="created-header__icon created-header__icon--cart">
+    <button type="button" class="header__icon" js-open-cart-drawer aria-label="{{ 'sections.cart.title' | t }}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M4.49658 5.99512H13.4897L12.7403 14.9883H5.24601L4.49658 5.99512Z" stroke="currentColor" stroke-width="1.12414" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M7.11963 5.99501V4.64604C7.11963 4.14913 7.31702 3.67259 7.66838 3.32121C8.01975 2.96985 8.4963 2.77246 8.9932 2.77246C9.49011 2.77246 9.96665 2.96985 10.318 3.32121C10.6694 3.67259 10.8668 4.14913 10.8668 4.64604V5.99501" stroke="currentColor" stroke-width="1.12414" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="created-header__count" {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+    </button>
+    {% comment %} {%- if cart.item_count > 0 -%}<div class="created-header__count">{{ cart.item_count }}</div>{%- endif -%} {% endcomment %}
+  </div>
 
-                  {% liquid
+  <div class="created-header__icon created-header__icon--toggle" data-nav-open-wrap>
+    <button type="button" js-open-mobile-nav aria-label="Menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
+        <path d="M0 0.747315C0 0.334588 0.334581 7.62939e-06 0.747307 7.62939e-06H15.2519C15.6646 7.62939e-06 15.9992 0.334588 15.9992 0.747315C15.9992 1.16004 15.6646 1.49462 15.2519 1.49462H0.747306C0.33458 1.49462 0 1.16004 0 0.747315Z" fill="currentColor"/>
+        <path d="M0 7.24193C0 6.8292 0.334581 6.49462 0.747307 6.49462H15.2519C15.6646 6.49462 15.9992 6.8292 15.9992 7.24193C15.9992 7.65465 15.6646 7.98924 15.2519 7.98924H0.747306C0.33458 7.98924 0 7.65465 0 7.24193Z" fill="currentColor"/>
+        <path d="M0 13.7365C0 13.3238 0.334581 12.9892 0.747307 12.9892H15.2519C15.6646 12.9892 15.9992 13.3238 15.9992 13.7365C15.9992 14.1493 15.6646 14.4838 15.2519 14.4838H0.747306C0.33458 14.4838 0 14.1493 0 13.7365Z" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
 
-                    assign column_heading = ch | append:i
-                    assign heading_link = hl | append:i
-                    assign column_menu = cm | append:i
-                    assign no_column = nc | append:i
-                  
-                  %}
+  <div class="created-header__icon created-header__icon--toggle" data-nav-close-wrap hidden>
+    <button type="button" aria-label="{{ 'accessibility.close' | t }}">
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true" focusable="false">
+        <path d="M3.5 3.5l11 11M14.5 3.5l-11 11"/>
+      </svg>
+    </button>
+  </div>
+{% endcapture %}
 
-                  {% if block.settings[column_menu] != blank %}
-                  <div class="new_megamenu_column {% if block.settings[no_column] == 2 %} two_column{% elsif block.settings[no_column] == 3 %} three_column{% endif %}">
-                    {% if block.settings[heading_link] != blank %}
-                      <h2 class="heading_with_link">
-                        <a href="{{  block.settings[heading_link] }}">
-                          {{  block.settings[column_heading] }}
-                        </a>
-                      </h2>
-                    {% else %}
-                      <h2 class="heading_without_link">
-                        {{  block.settings[column_heading] }}
-                      </h2>
-                    {% endif %}
+<div
+  class="created-header header-wrapper new_desktop_header{% if overlay %} created-header--transparent{% endif %}"
+  data-created-header
+  data-sticky="{{ sticky_mode }}"
+>
+  <div class="created-header__bar">
+    <div class="created-header__zone created-header__zone--left">
+      {%- if search_position == 'left' -%}
+        {{ created_search }}
+      {%- endif -%}
+      {%- if logo_position == 'left' -%}
+        {{ created_logo }}
+      {%- endif -%}
+      {%- if menu_position == 'left' -%}
+        {{ created_nav }}
+      {%- endif -%}
+    </div>
 
-                    <ul class="new_megamenu_column_menu">
-                      {% for link in block.settings[column_menu].links %}
-                        {% if link.type == 'product_link' %}
-                        <li class="{% if link.object.metafields.custom.new_menu_icon != blank or link.object.featured_image %} new_megamenu_icon {% endif %}">
-                          <a href="{{ link.url }}">
-                            <span>{{ link.title }}</span>
-                            
-                            {% if link.object.metafields.custom.new_menu_icon != blank %}
-                              <img src="{{ link.object.metafields.custom.new_menu_icon | img_url:'x100' }}"/>
-                            {% elsif  link.object.featured_image != blank%}
-                               <img src="{{ link.object.featured_image.src | img_url:'x100' }}"/>
-                            {% endif %}
-                            
-                          </a>
-                        </li>
-                        {% elsif link.type == 'collection_link' %}  
-                          <li class="{% if link.object.metafields.custom.new_menu_icon != blank or link.object.featured_image %} new_megamenu_icon {% endif %}">
-                          <a href="{{ link.url }}">
-                            <span>{{ link.title }}</span>
-                            {% unless link.title == 'Shop All' %}
-                            {% if link.object.metafields.custom.new_menu_icon != blank %}
-                              <img src="{{ link.object.metafields.custom.new_menu_icon | img_url:'x100' }}"/>
-                            {% elsif  link.object.featured_image != blank%}
-                               <img src="{{ link.object.featured_image.src | img_url:'x100' }}"/>
-                            {% endif %}
-                            {% endunless %}
-                          </a>
-                        </li>
-                        {% else %}
-                        <li>
-                          <a href="{{ link.url }}">
-                            <span>{{ link.title }}</span>
-                            
-                          </a>
-                        </li>
-                          
-                        {% endif %}
-                      {% endfor %}
-                    </ul>
-                  </div>
-                  {% endif %}
-                {% endfor %}
-            </div>
-          </div>
-        </div>
-    {% endcase %}
-  {% endfor %}
-  
+    <div class="created-header__zone created-header__zone--center">
+      {%- if logo_position == 'center' -%}
+        {{ created_logo }}
+      {%- endif -%}
+      {%- if menu_position == 'center' -%}
+        {{ created_nav }}
+      {%- endif -%}
+    </div>
+
+    <div class="created-header__zone created-header__zone--right">
+      {%- if menu_position == 'right' -%}
+        {{ created_nav }}
+      {%- endif -%}
+      {%- if logo_position == 'right' -%}
+        {{ created_logo }}
+      {%- endif -%}
+      {%- if search_position == 'right' -%}
+        {{ created_search }}
+      {%- endif -%}
+      {{ created_utilities }}
+    </div>
+  </div>
 </div>
-
 
 <div class="new_mobile_header">
   {% render 'mobile-nav-drawer' %}
 </div>
- 
 
-<script>
-  $(document).ready(function(){
-    $('.new_megamenu_item').on('mouseenter',function(){ 
-      $(this).addClass('active')
-      $(`.new_megamenu_main[data-id="${$(this).attr('id')}"]`).fadeIn()
-    })
-    $('.new_megamenu_main').on('mouseleave',function(){
-      $(`.new_megamenu_item[id="${$(this).attr('data-id')}"]`).removeClass('active')
-      $('.new_megamenu_main').fadeOut()
-    })
-    $('.new_single_item').on('mouseenter',function(){
-      $('.new_megamenu_item').removeClass('active')
-      $('.new_megamenu_main').fadeOut()
-    })
+{%- render 'search-drawer', sd_section: section -%}
 
-
-
-
-    $('[js-open-mobile-nav]').on('click',function(){
-      $(this).hide()
-      $('.custom_close').show()
-    })
-    $('.custom_close').on('click',function(){
-      $(this).hide()
-      $('[js-close-mobile-nav]').click();
-      $('[js-open-mobile-nav]').show()
-    })
-
-    // 1st step drawer
-    $('.new_mobile_header .new_megamenu_item_mbl .open_headings').on('click',function(e){
-      e.preventDefault()
-      $(this).parents('.mega_item').find('.new_mbl_menu_headings_list').addClass('active')
-    })
-    $('.new_mbl_prev').on('click',function(){
-      $('.new_mbl_menu_headings_list').removeClass('active')
-    })
-
-    // 2nd step drawer
-    $('.open_inner_menu').on('click',function(){
-      $(this).parents('.headings_menus.top_item').find('.mbl_inner_menu').addClass('active')
-    })
-    $('.new_mbl_prev_inner_menu').on('click',function(){
-      $('.mbl_inner_menu').removeClass('active')
-    })
-  })
-</script>
-      
 {% schema %}
 {
   "name": "Header",
-  "class": "bg-white",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo"
-    },
     {
       "type": "link_list",
       "id": "menu",
-      "label": "Main Navigation"
+      "label": "Menu",
+      "default": "main-menu",
+      "info": "Controls the header navigation and mobile drawer. First-level links with child links open the mega menu."
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "select",
+      "id": "logo_position",
+      "label": "Logo position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Menu"
+    },
+    {
+      "type": "select",
+      "id": "menu_position",
+      "label": "Menu position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Customer account"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show account icon",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "search_position",
+      "label": "Search position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "right",
+      "visible_if": "{{ section.settings.show_search }}"
+    },
+    {
+      "type": "header",
+      "content": "Sticky behavior"
+    },
+    {
+      "type": "select",
+      "id": "sticky_mode",
+      "label": "Sticky type",
+      "options": [
+        {
+          "value": "none",
+          "label": "Never"
+        },
+        {
+          "value": "always",
+          "label": "Always sticky"
+        },
+        {
+          "value": "scroll_up",
+          "label": "Sticky on scroll up"
+        }
+      ],
+      "default": "always"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Bottom border thickness",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "bottom_border_color",
+      "label": "Bottom border color",
+      "default": "#e8e8e8",
+      "visible_if": "{{ section.settings.border_width > 0 }}"
+    },
+    {
+      "type": "header",
+      "content": "Mega menu"
+    },
+    {
+      "type": "collection_list",
+      "id": "mm_bestseller_collection",
+      "label": "Best seller collections",
+      "limit": 6,
+      "info": "Desktop mega menu only. Shown as collection cards; two are visible at a time and the rest slide."
+    },
+    {
+      "type": "text",
+      "id": "mega_menu_bestseller_heading",
+      "label": "Best seller heading",
+      "default": "Best sellers"
+    },
+    {
+      "type": "text",
+      "id": "mega_menu_footer_text",
+      "label": "Footer bar text"
+    },
+    {
+      "type": "text",
+      "id": "mega_menu_footer_link_label",
+      "label": "Footer bar link label"
+    },
+    {
+      "type": "url",
+      "id": "mega_menu_footer_link",
+      "label": "Footer bar link"
+    },
+    {
+      "type": "color",
+      "id": "mega_menu_footer_bg",
+      "label": "Footer bar background",
+      "default": "#B9CCD7"
+    },
+    {
+      "type": "header",
+      "content": "Mobile drawer"
+    },
+    {
+      "type": "text",
+      "id": "drawer_search_placeholder",
+      "label": "Search placeholder"
+    },
+    {
+      "type": "text",
+      "id": "drawer_search_error",
+      "label": "Search error message",
+      "default": "Something went wrong. Please try again."
+    },
+    {
+      "type": "text",
+      "id": "drawer_featured_heading",
+      "label": "Featured heading"
+    },
+    {
+      "type": "collection_list",
+      "id": "drawer_featured_collections",
+      "label": "Featured collections",
+      "limit": 8
+    },
+    {
+      "type": "header",
+      "content": "Scrolled state (all pages)"
+    },
+    {
+      "type": "color",
+      "id": "solid_bg",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "solid_text",
+      "label": "Text and icons",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "solid_nav",
+      "label": "Navigation text",
+      "default": "#111111"
+    },
+    {
+      "type": "color_background",
+      "id": "solid_pill",
+      "label": "Button and pill background",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "solid_pill_hover",
+      "label": "Button and pill hover background",
+      "default": "#ffffff",
+      "info": "Icon buttons on hover. Leave empty to use the button and pill background."
+    },
+    {
+      "type": "color",
+      "id": "solid_pill_active",
+      "label": "Button and pill active background",
+      "default": "#ffffff",
+      "info": "Menu items on hover and while their mega menu is open. Leave empty to use the button and pill background."
+    },
+    {
+      "type": "range",
+      "id": "solid_pill_hover_opacity",
+      "label": "Button and pill hover and active opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 14
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_dark",
+      "label": "Black logo",
+      "info": "Shown when scrolled. Leave empty to use the theme logo snippet."
+    },
+    {
+      "type": "header",
+      "content": "Homepage header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_home_header",
+      "label": "Enable custom homepage header",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "home_overlay",
+      "label": "Overlay header on content",
+      "default": true,
+      "visible_if": "{{ section.settings.enable_home_header }}"
+    },
+    {
+      "type": "color",
+      "id": "home_bg",
+      "label": "Header background",
+      "default": "#000000",
+      "visible_if": "{{ section.settings.enable_home_header }}"
+    },
+    {
+      "type": "range",
+      "id": "home_bg_opacity",
+      "label": "Header background opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 0,
+      "visible_if": "{{ section.settings.enable_home_header }}"
+    },
+    {
+      "type": "color",
+      "id": "home_text",
+      "label": "Text and icons",
+      "default": "#ffffff",
+      "visible_if": "{{ section.settings.enable_home_header }}"
+    },
+    {
+      "type": "color",
+      "id": "home_nav",
+      "label": "Navigation text",
+      "default": "#ffffff",
+      "visible_if": "{{ section.settings.enable_home_header }}"
+    },
+    {
+      "type": "color",
+      "id": "home_pill",
+      "label": "Button and pill background",
+      "default": "#0E1F2A",
+      "visible_if": "{{ section.settings.enable_home_header }}"
+    },
+    {
+      "type": "range",
+      "id": "home_pill_opacity",
+      "label": "Button and pill opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 15,
+      "visible_if": "{{ section.settings.enable_home_header }}"
+    },
+    {
+      "type": "color",
+      "id": "home_pill_hover",
+      "label": "Button and pill hover background",
+      "default": "#ffffff",
+      "info": "Icon buttons on hover. Leave empty to use the button and pill background.",
+      "visible_if": "{{ section.settings.enable_home_header }}"
+    },
+    {
+      "type": "color",
+      "id": "home_pill_active",
+      "label": "Button and pill active background",
+      "default": "#ffffff",
+      "info": "Menu items on hover and while their mega menu is open. Leave empty to use the button and pill background.",
+      "visible_if": "{{ section.settings.enable_home_header }}"
+    },
+    {
+      "type": "range",
+      "id": "home_pill_hover_opacity",
+      "label": "Button and pill hover and active opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 14,
+      "visible_if": "{{ section.settings.enable_home_header }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "home_logo",
+      "label": "Inverse logo",
+      "info": "Shown at the top of the page, before scrolling.",
+      "visible_if": "{{ section.settings.enable_home_header }}"
+    },
+    {
+      "type": "header",
+      "content": "Collection page (CLP) header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_clp_header",
+      "label": "Enable custom CLP header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "clp_overlay",
+      "label": "Overlay header on content",
+      "default": false,
+      "visible_if": "{{ section.settings.enable_clp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "clp_bg",
+      "label": "Header background",
+      "default": "#ffffff",
+      "visible_if": "{{ section.settings.enable_clp_header }}"
+    },
+    {
+      "type": "range",
+      "id": "clp_bg_opacity",
+      "label": "Header background opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ section.settings.enable_clp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "clp_text",
+      "label": "Text and icons",
+      "default": "#111111",
+      "visible_if": "{{ section.settings.enable_clp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "clp_nav",
+      "label": "Navigation text",
+      "default": "#111111",
+      "visible_if": "{{ section.settings.enable_clp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "clp_pill",
+      "label": "Button and pill background",
+      "default": "#f3f3f3",
+      "visible_if": "{{ section.settings.enable_clp_header }}"
+    },
+    {
+      "type": "range",
+      "id": "clp_pill_opacity",
+      "label": "Button and pill opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ section.settings.enable_clp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "clp_pill_hover",
+      "label": "Button and pill hover background",
+      "default": "#ffffff",
+      "info": "Icon buttons on hover. Leave empty to use the button and pill background.",
+      "visible_if": "{{ section.settings.enable_clp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "clp_pill_active",
+      "label": "Button and pill active background",
+      "default": "#ffffff",
+      "info": "Menu items on hover and while their mega menu is open. Leave empty to use the button and pill background.",
+      "visible_if": "{{ section.settings.enable_clp_header }}"
+    },
+    {
+      "type": "range",
+      "id": "clp_pill_hover_opacity",
+      "label": "Button and pill hover and active opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 14,
+      "visible_if": "{{ section.settings.enable_clp_header }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "clp_logo",
+      "label": "Inverse logo",
+      "info": "Optional. Shown before scrolling.",
+      "visible_if": "{{ section.settings.enable_clp_header }}"
+    },
+    {
+      "type": "header",
+      "content": "Product page (PDP) header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_pdp_header",
+      "label": "Enable custom PDP header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "pdp_overlay",
+      "label": "Overlay header on content",
+      "default": false,
+      "visible_if": "{{ section.settings.enable_pdp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "pdp_bg",
+      "label": "Header background",
+      "default": "#ffffff",
+      "visible_if": "{{ section.settings.enable_pdp_header }}"
+    },
+    {
+      "type": "range",
+      "id": "pdp_bg_opacity",
+      "label": "Header background opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ section.settings.enable_pdp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "pdp_text",
+      "label": "Text and icons",
+      "default": "#111111",
+      "visible_if": "{{ section.settings.enable_pdp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "pdp_nav",
+      "label": "Navigation text",
+      "default": "#111111",
+      "visible_if": "{{ section.settings.enable_pdp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "pdp_pill",
+      "label": "Button and pill background",
+      "default": "#f3f3f3",
+      "visible_if": "{{ section.settings.enable_pdp_header }}"
+    },
+    {
+      "type": "range",
+      "id": "pdp_pill_opacity",
+      "label": "Button and pill opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ section.settings.enable_pdp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "pdp_pill_hover",
+      "label": "Button and pill hover background",
+      "default": "#ffffff",
+      "info": "Icon buttons on hover. Leave empty to use the button and pill background.",
+      "visible_if": "{{ section.settings.enable_pdp_header }}"
+    },
+    {
+      "type": "color",
+      "id": "pdp_pill_active",
+      "label": "Button and pill active background",
+      "default": "#ffffff",
+      "info": "Menu items on hover and while their mega menu is open. Leave empty to use the button and pill background.",
+      "visible_if": "{{ section.settings.enable_pdp_header }}"
+    },
+    {
+      "type": "range",
+      "id": "pdp_pill_hover_opacity",
+      "label": "Button and pill hover and active opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 14,
+      "visible_if": "{{ section.settings.enable_pdp_header }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "pdp_logo",
+      "label": "Inverse logo",
+      "info": "Optional. Shown before scrolling.",
+      "visible_if": "{{ section.settings.enable_pdp_header }}"
+    },
+    {
+      "type": "header",
+      "content": "Sticky header (custom templates)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "label": "Enable custom sticky header",
+      "default": false,
+      "info": "When enabled, the header is sticky only on the templates listed below. Uses the selected sticky type, or Always sticky if set to Never."
+    },
+    {
+      "type": "textarea",
+      "id": "sticky_templates",
+      "label": "Templates",
+      "placeholder": "product, page, blog",
+      "info": "Comma-separated template names, e.g. product, page, blog. For an alternate template, use its name (about-us) or type and name (page.about-us).",
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_overlay",
+      "label": "Overlay header on content",
+      "default": false,
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "color",
+      "id": "sticky_bg",
+      "label": "Header background",
+      "default": "#ffffff",
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "range",
+      "id": "sticky_bg_opacity",
+      "label": "Header background opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "color",
+      "id": "sticky_text",
+      "label": "Text and icons",
+      "default": "#111111",
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "color",
+      "id": "sticky_nav",
+      "label": "Navigation text",
+      "default": "#111111",
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "color",
+      "id": "sticky_pill",
+      "label": "Button and pill background",
+      "default": "#f3f3f3",
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "range",
+      "id": "sticky_pill_opacity",
+      "label": "Button and pill opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "color",
+      "id": "sticky_pill_hover",
+      "label": "Button and pill hover background",
+      "default": "#ffffff",
+      "info": "Icon buttons on hover. Leave empty to use the button and pill background.",
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "color",
+      "id": "sticky_pill_active",
+      "label": "Button and pill active background",
+      "default": "#ffffff",
+      "info": "Menu items on hover and while their mega menu is open. Leave empty to use the button and pill background.",
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "range",
+      "id": "sticky_pill_hover_opacity",
+      "label": "Button and pill hover and active opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 14,
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "sticky_logo",
+      "label": "Inverse logo",
+      "info": "Optional. Shown before scrolling.",
+      "visible_if": "{{ section.settings.enable_sticky_header }}"
+    },
+    {
+      "type": "header",
+      "content": "Header spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Desktop padding top",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Desktop padding bottom",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Mobile padding top",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Mobile padding bottom",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 16
     }
   ],
   "blocks": [
-     {
-       "name": "Menu Item",
-       "type": "menu_item",
-       "settings": [
-         {
-          "type": "text",
-          "id": "menu_item_text",
-          "label": "Heading",
-          "default": "Menu"
-         },
-         {
-          "type": "url",
-          "id": "menu_link",
-          "label": "Menu link"
-        } 
-       ]
-     },
     {
-       "name": "Mega Menu V2",
-       "type": "mega_menu_v2",
-       "settings": [
+      "name": "Mega Menu",
+      "type": "mega_menu",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows collections when the third-level link matches a link in the selected header menu. Matching ignores case and spacing."
+        },
         {
           "type": "text",
-          "id": "menu_item_text",
-          "label": "Heading",
-          "default": "Menu"
-         },
-         {
-          "type": "url",
-          "id": "menu_link",
-          "label": "Menu link"
-         },
-         {
-          "type": "link_list",
-          "id": "column_menu_v2",
-          "label": "Menu"
+          "id": "third_level_link",
+          "label": "Third-level link",
+          "info": "Title of a third-level link in the header menu, e.g. \"Shop all drinkware\"."
         },
-       ]
-     },
-     {
-       "name": "Mega Menu",
-       "type": "mega_menu",
-       "settings": [
-         {
+        {
+          "type": "header",
+          "content": "Collection list 1"
+        },
+        {
           "type": "text",
-          "id": "menu_item_text",
-          "label": "Heading",
-          "default": "Menu"
-         },
-         {
-          "type": "url",
-          "id": "menu_link",
-          "label": "Menu link"
-         },
-         {
-            "type":"header",
-            "content":"Column 0"
-         },
-         {
-          "type": "text",
-          "id": "column_heading_6",
-          "label": "Heading",
-          "default": "NOMAD System"
+          "id": "title_1",
+          "label": "Title 1"
         },
         {
-          "type": "url",
-          "id": "heading_link_6",
-          "label": "Heading Link"
-        },
-         {
-          "type": "link_list",
-          "id": "column_menu_6",
-          "label": "Menu"
-        },
-         {
-          "type": "range",
-          "id": "no_column_6",
-          "label": "No Of Column",
-          "min": 1,
-          "max": 3,
-          "step": 1,
-          "default": 1
-        },
-         {
-            "type":"header",
-            "content":"Column 1"
-         },
-         {
-          "type": "text",
-          "id": "column_heading_1",
-          "label": "Heading",
-          "default": "Stainless"
+          "type": "collection_list",
+          "id": "collection_list_1",
+          "label": "Collection list 1",
+          "limit": 8
         },
         {
-          "type": "url",
-          "id": "heading_link_1",
-          "label": "Heading Link"
-        },
-        {
-          "type": "link_list",
-          "id": "column_menu_1",
-          "label": "Menu"
-        },
-         {
-          "type": "range",
-          "id": "no_column_1",
-          "label": "No Of Column",
-          "min": 1,
-          "max": 3,
-          "step": 1,
-          "default": 1
-        },
-        {
-            "type":"header",
-            "content":"Column 2"
-         },
-         {
-          "type": "text",
-          "id": "column_heading_2",
-          "label": "Heading",
-          "default": "Stainless"
-        },
-        {
-          "type": "url",
-          "id": "heading_link_2",
-          "label": "Heading Link"
-        },
-        {
-          "type": "link_list",
-          "id": "column_menu_2",
-          "label": "Menu"
-        },
-         {
-          "type": "range",
-          "id": "no_column_2",
-          "label": "No Of Column",
-          "min": 1,
-          "max": 3,
-          "step": 1,
-          "default": 1
-        },
-        {
-            "type":"header",
-            "content":"Column 3"
-         },
-         {
-          "type": "text",
-          "id": "column_heading_3",
-          "label": "Heading",
-          "default": "Stainless"
-        },
-        {
-          "type": "url",
-          "id": "heading_link_3",
-          "label": "Heading Link"
-        },
-        {
-          "type": "link_list",
-          "id": "column_menu_3",
-          "label": "Menu"
-        },
-         {
-          "type": "range",
-          "id": "no_column_3",
-          "label": "No Of Column",
-          "min": 1,
-          "max": 3,
-          "step": 1,
-          "default": 1
-        },
-        {
-            "type":"header",
-            "content":"Column 4"
-         },
-         {
-          "type": "text",
-          "id": "column_heading_4",
-          "label": "Heading",
-          "default": "Stainless"
-        },
-        {
-          "type": "url",
-          "id": "heading_link_4",
-          "label": "Heading Link"
-        },
-        {
-          "type": "link_list",
-          "id": "column_menu_4",
-          "label": "Menu"
-        },
-         {
-          "type": "range",
-          "id": "no_column_4",
-          "label": "No Of Column",
-          "min": 1,
-          "max": 3,
-          "step": 1,
-          "default": 1
-        },
-        {
-            "type":"header",
-            "content":"Column 5"
-         },
-         {
-          "type": "text",
-          "id": "column_heading_5",
-          "label": "Heading",
-          "default": "Stainless"
-        },
-        {
-          "type": "url",
-          "id": "heading_link_5",
-          "label": "Heading Link"
-        },
-        {
-          "type": "link_list",
-          "id": "column_menu_5",
-          "label": "Menu"
+          "type": "select",
+          "id": "product_display_1",
+          "label": "Products to show",
+          "options": [
+            {
+              "value": "all",
+              "label": "All"
+            },
+            {
+              "value": "limited",
+              "label": "Limited"
+            }
+          ],
+          "default": "limited"
         },
         {
           "type": "range",
-          "id": "no_column_5",
-          "label": "No Of Column",
+          "id": "product_limit_1",
+          "label": "Product count",
           "min": 1,
-          "max": 3,
+          "max": 24,
           "step": 1,
-          "default": 1
+          "default": 6,
+          "visible_if": "{{ block.settings.product_display_1 == 'limited' }}"
+        },
+        {
+          "type": "header",
+          "content": "Collection list 2"
+        },
+        {
+          "type": "text",
+          "id": "title_2",
+          "label": "Title 2"
+        },
+        {
+          "type": "collection_list",
+          "id": "collection_list_2",
+          "label": "Collection list 2",
+          "limit": 8
+        },
+        {
+          "type": "select",
+          "id": "product_display_2",
+          "label": "Products to show",
+          "options": [
+            {
+              "value": "all",
+              "label": "All"
+            },
+            {
+              "value": "limited",
+              "label": "Limited"
+            }
+          ],
+          "default": "limited"
+        },
+        {
+          "type": "range",
+          "id": "product_limit_2",
+          "label": "Product count",
+          "min": 1,
+          "max": 24,
+          "step": 1,
+          "default": 6,
+          "visible_if": "{{ block.settings.product_display_2 == 'limited' }}"
+        },
+        {
+          "type": "header",
+          "content": "Collection list 3"
+        },
+        {
+          "type": "text",
+          "id": "title_3",
+          "label": "Title 3"
+        },
+        {
+          "type": "collection_list",
+          "id": "collection_list_3",
+          "label": "Collection list 3",
+          "limit": 8
+        },
+        {
+          "type": "select",
+          "id": "product_display_3",
+          "label": "Products to show",
+          "options": [
+            {
+              "value": "all",
+              "label": "All"
+            },
+            {
+              "value": "limited",
+              "label": "Limited"
+            }
+          ],
+          "default": "limited"
+        },
+        {
+          "type": "range",
+          "id": "product_limit_3",
+          "label": "Product count",
+          "min": 1,
+          "max": 24,
+          "step": 1,
+          "default": 6,
+          "visible_if": "{{ block.settings.product_display_3 == 'limited' }}"
         }
-       ]
-     }
+      ]
+    }
   ]
 }
 {% endschema %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-  

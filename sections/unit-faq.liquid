@@ -1,0 +1,126 @@
+{% comment %}
+  Section: FAQ accordion
+  - Left: eyebrow, heading, text (sticky on desktop)
+  - Right: numbered questions (blocks), native <details> accordion — no JS needed
+  - Option: only one answer open at a time (details name attribute)
+  - Option: FAQPage structured data for Google
+{% endcomment %}
+
+{{ 'unit-faq-accordion.css' | asset_url | stylesheet_tag }}
+
+{%- assign faqs = section.blocks | where: 'type', 'faq' -%}
+
+<style>
+  #Faq-{{ section.id }} {
+    --faq-pt: {{ section.settings.padding_top_mobile }}px;
+    --faq-pb: {{ section.settings.padding_bottom_mobile }}px;
+    --faq-pt-d: {{ section.settings.padding_top }}px;
+    --faq-pb-d: {{ section.settings.padding_bottom }}px;
+  }
+</style>
+
+<section id="Faq-{{ section.id }}" class="faq">
+  <div class="site-container faq__inner">
+    <div class="faq__intro">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="faq__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="faq__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="faq__text">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="faq__list">
+      {%- for block in faqs -%}
+        <details
+          class="faq-item"
+          {% if section.settings.single_open %}name="faq-{{ section.id }}"{% endif %}
+          {% if forloop.first and section.settings.open_first %}open{% endif %}
+          {{ block.shopify_attributes }}
+        >
+          <summary class="faq-item__q">
+            {%- if section.settings.show_numbers -%}
+              <span class="faq-item__num" aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+            {%- endif -%}
+            <span class="faq-item__title">{{ block.settings.question }}</span>
+            <span class="faq-item__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-item__a">
+            {{ block.settings.answer }}
+          </div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- if section.settings.schema and faqs.size > 0 -%}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {%- for block in faqs -%}
+            {
+              "@type": "Question",
+              "name": {{ block.settings.question | strip_html | json }},
+              "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} }
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      }
+    </script>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "div",
+  "class": "section-faq",
+  "max_blocks": 30,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FAQs" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently Asked Questions" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Everything you need to know about Created.</p>" },
+
+    { "type": "header", "content": "Accordion" },
+    { "type": "checkbox", "id": "show_numbers", "label": "Show numbers (01, 02…)", "default": true },
+    { "type": "checkbox", "id": "single_open", "label": "Only one answer open at a time", "default": true },
+    { "type": "checkbox", "id": "open_first", "label": "Open first question", "default": false },
+    { "type": "checkbox", "id": "schema", "label": "Add FAQ structured data for Google", "default": true, "info": "Use on one FAQ section per page only." },
+
+    { "type": "header", "content": "Spacing – desktop" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 80 },
+
+    { "type": "header", "content": "Spacing – mobile" },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top padding", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom padding", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "What is Created?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Created is a drinkware brand designed by artists in California. Every piece is built to be used every day.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "faq", "settings": { "question": "What is Created?" } },
+        { "type": "faq", "settings": { "question": "How long does the insulation hold?", "answer": "<p>Double-wall vacuum insulation keeps drinks cold for up to 24 hours and hot for up to 12 hours.</p>" } },
+        { "type": "faq", "settings": { "question": "Which lids fit which bases?", "answer": "<p>Every Nomad lid fits every Nomad base, so you can mix and match as you go.</p>" } },
+        { "type": "faq", "settings": { "question": "Is Created drinkware dishwasher safe?", "answer": "<p>Lids are top-rack dishwasher safe. We recommend hand washing the bases to protect the finish.</p>" } },
+        { "type": "faq", "settings": { "question": "Do you ship internationally?", "answer": "<p>Yes, we ship to most countries. Shipping costs and times are shown at checkout.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

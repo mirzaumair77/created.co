@@ -1,0 +1,601 @@
+{%- liquid
+  assign background_color = section.settings.background_color
+
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign padding_top_mobile = section.settings.padding_top_mobile
+  assign mobile_padding_bottom = section.settings.mobile_padding_bottom
+
+  assign subheading = section.settings.subheading
+  assign heading = section.settings.heading
+  assign button_label = section.settings.button_label
+  assign blocks = section.blocks
+
+  assign discount_percent = section.settings.discount_percent | default: 20
+
+  assign total_price = 0
+  for block in blocks
+    assign first_variant = block.settings.product.selected_or_first_available_variant
+    assign total_price = total_price | plus: first_variant.price
+  endfor
+
+  assign discount_amount = total_price | times: discount_percent | divided_by: 100
+  assign final_price = total_price | minus: discount_amount
+-%}
+
+{%- style -%}
+#bundle-builder-{{ section.id }} {
+  background: {{ background_color }};
+  padding-block: {{ padding_top_mobile }}px {{ mobile_padding_bottom }}px;
+}
+
+@media (min-width: 769px) {
+  #bundle-builder-{{ section.id }} {
+    padding-block: {{ padding_top }}px {{ padding_bottom }}px;
+  }
+}
+
+bundle-builder {
+  display: block;
+}
+
+.bundle-builder__container {
+  max-width: 852px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+.bundle-builder__header {
+  text-align: center;
+  padding-block-end: 24px;
+  width: 100%;
+  max-width: 615px;
+  margin-inline: auto;
+}
+
+.bundle-builder__subheading {
+  padding-block-end: 12px;
+}
+
+.bundle-builder__subheading span {
+  display: block;
+  color: #0E1F2A;
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.bundle-builder__heading h2 {
+  color: #0E1F2A;
+  font-size: 24px;
+  line-height: 37px;
+  font-weight: 300;
+  margin: 0;
+}
+
+.bundle-builder__items {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.bundle-builder__item {
+  flex: 0 0 auto;
+  width: calc(58% - 11px);
+  scroll-snap-align: start;
+}
+
+.bundle-builder__item-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.bundle-builder__item-placeholder-svg {
+  width: 100%;
+  height: auto;
+}
+
+.bundle-builder__item-info {
+  padding-block-start: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.bundle-builder__item-title h3 {
+  display: block;
+  color: #0E1F2A;
+  font-size: 14px;
+  line-height: 19.6px;
+  letter-spacing: -0.14px;
+  font-weight: 500;
+}
+
+.bundle-builder__item-variant span {
+  display: block;
+  color: #6E797F;
+  font-size: 12px;
+  line-height: 15.6px;
+  letter-spacing: -0.36px;
+  font-weight: 400;
+}
+
+.bundle-builder__item-price span {
+  display: block;
+  color: #0E1F2A;
+  font-size: 14px;
+  line-height: 19.6px;
+  letter-spacing: -0.14px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.bundle-builder__summary {
+  padding-block-start: 20px;
+  text-align: center;
+}
+
+.bundle-builder__summary p {
+  color: #6E797F;
+  font-size: 12px;
+  line-height: 19.6px;
+  font-weight: 400;
+  letter-spacing: -0.14px;
+  margin: 0;
+}
+
+.bundle-builder__action {
+  padding-block-start: 12px;
+}
+
+.bundle-builder__button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background-color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 17px 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.bundle-builder__button:hover {
+  opacity: 0.88;
+}
+
+.bundle-builder__button-label {
+  color: #FFF;
+  font-size: 13px;
+  line-height: 19.5px;
+  letter-spacing: 0.2px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.bundle-builder__button-price {
+  color: #FFF;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: -0.14px;
+  font-weight: 700;
+}
+
+@media (min-width: 769px) {
+
+  .bundle-builder__header {
+    padding-block-end: 36px;
+  }
+
+  .bundle-builder__subheading {
+    padding-block-end: 8px;
+  }
+
+  .bundle-builder__heading h2 {
+    font-size: 32px;
+  }
+
+  .bundle-builder__items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    overflow-x: hidden;
+  }
+
+  .bundle-builder__item {
+    width: 100%;
+  }
+
+  .bundle-builder__item-image img {
+    border-radius: 0px;
+  }
+  
+  .bundle-builder__item-info {
+    padding-block-start: 10px;
+  }
+  
+  .bundle-builder__summary {
+    padding-block-start: 36px;
+  }
+
+  .bundle-builder__summary p {
+    font-size: 14px;
+  }
+
+  .bundle-builder__action {
+    max-width: 420px;
+    margin-inline: auto;
+  }
+
+  .bundle-builder__button {
+    border-radius: 0px;
+    padding: 17px 18px;
+  }
+
+  .bundle-builder__button-label {
+    font-size: 14px;
+  }
+
+  .bundle-builder__button-price {
+    font-size: 14px;
+  }
+}
+{%- endstyle -%}
+
+<bundle-builder 
+  id="bundle-builder-{{ section.id }}" 
+  class="bundle-builder"
+  data-section-id="{{ section.id }}"
+>
+  <div class="bundle-builder__container">
+    <div class="bundle-builder__header">
+      {%- if subheading != blank -%}
+        <div class="bundle-builder__subheading">
+          <span>{{ subheading }}</span>
+        </div>
+      {%- endif -%}
+      {%- if heading != blank -%}
+        <div class="bundle-builder__heading">
+          {{ heading }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="bundle-builder__items">
+      {%- for block in blocks -%}
+        {%- liquid
+          assign product = block.settings.product
+          assign first_variant = product.selected_or_first_available_variant
+          assign image = block.settings.custom_image | default: product.featured_image
+          assign title = block.settings.custom_title | default: product.title
+          assign variant_title = first_variant.title
+          assign price = first_variant.price
+        -%}
+
+        <div 
+          class="bundle-builder__item" 
+          {{ block.shopify_attributes }} 
+          data-variant-id="{{ first_variant.id }}"
+          data-price="{{ price }}"
+        >
+          <div class="bundle-builder__item-image">
+            {%- if image != blank -%}
+              {{
+                image
+                | image_url: width: 1200
+                | image_tag:
+                  widths: '300, 450, 600, 750, 900, 1200',
+                  sizes: '(min-width: 769px) 50vw, 100vw',
+                  loading: 'lazy',
+                  alt: image.alt
+                | default: product.title
+              }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'bundle-builder__item-placeholder-svg' }}
+            {%- endif -%}
+          </div>
+
+          <div class="bundle-builder__item-info">
+            <div class="bundle-builder__item-text">
+              {%- if title != blank -%}
+                <div class="bundle-builder__item-title">
+                  <h3>{{ title }}</h3>
+                </div>
+              {%- endif -%}
+
+              {%- if variant_title != blank and variant_title != 'Default Title' -%}
+                <div class="bundle-builder__item-variant">
+                  <span>{{ variant_title }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+
+            {%- if price != blank -%}
+              <div class="bundle-builder__item-price">
+                <span>{{ price | money }}</span>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="bundle-builder__summary">
+      <p>{{ blocks.size }} items · {{ total_price | money }} → {{ final_price | money }} · Made in the same 18/8 stainless steel</p>
+    </div>
+
+    <div class="bundle-builder__action">
+      <button type="button" class="bundle-builder__button" data-submit-button>
+        <div class="bundle-builder__button-label">
+          <span class="button-text" data-button-text>{{ button_label }}</span>
+        </div>
+        <div class="bundle-builder__button-price">
+          <span>{{ final_price | money }}</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</bundle-builder>
+
+<script>
+  if (!customElements.get('bundle-builder')) {
+    customElements.define(
+      'bundle-builder',
+      class BundleBuilder extends HTMLElement {
+        constructor() {
+          super();
+
+          this.submitButton = this.querySelector('[data-submit-button]');
+          this.buttonText = this.querySelector('[data-button-text]');
+          this.items = this.querySelectorAll('.bundle-builder__item');
+          this.originalText = this.buttonText ? this.buttonText.textContent : '';
+          this.discountCode = 'BundleBuilderDiscount';
+
+          this.onAddToCart = this.handleAddToCart.bind(this);
+        }
+
+        connectedCallback() {
+          if (this.submitButton) {
+            this.submitButton.addEventListener('click', this.onAddToCart);
+          }
+        }
+
+        disconnectedCallback() {
+          if (this.submitButton) {
+            this.submitButton.removeEventListener('click', this.onAddToCart);
+          }
+        }
+
+        generateBundleId() {
+          return `bundle_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+        }
+
+        getPayloadItems(bundleId) {
+          const payloadItems = [];
+
+          this.items.forEach((item) => {
+            const variantId = item.dataset.variantId;
+            if (variantId) {
+              payloadItems.push({
+                id: parseInt(variantId, 10),
+                quantity: 1,
+                properties: {
+                  _bundle_id: bundleId,
+                },
+              });
+            }
+          });
+
+          return payloadItems;
+        }
+
+        async applyDiscount() {
+          // Apply the code to the cart so the drawer shows it
+          try {
+            await fetch('/cart/update.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({ discount: this.discountCode }),
+            });
+          } catch (err) {
+            console.warn('Bundle applyDiscount error:', err);
+          }
+        }
+
+        async handleAddToCart(event) {
+          if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          const items = this.getPayloadItems(this.generateBundleId());
+
+          if (items.length === 0) {
+            alert('Please select products for this bundle.');
+            return false;
+          }
+
+          this.setLoadingState(true);
+
+          try {
+            // 1. Add items to cart via standard Ajax API
+            const response = await fetch('/cart/add.js', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              },
+              body: JSON.stringify({ items: items }),
+            });
+
+            if (!response.ok) {
+              const errData = await response.json();
+              throw new Error(errData.description || 'Failed to add items to cart');
+            }
+
+            // 2. Apply the bundle discount code
+            await this.applyDiscount();
+
+            // 3. Refresh and open the theme's cart drawer
+            if (window.CartDrawer) {
+              window.CartDrawer.refresh(true);
+            } else {
+              document.dispatchEvent(new CustomEvent('cart:refresh'));
+            }
+
+          } catch (error) {
+            console.error('Error processing bundle:', error);
+            alert(error.message || 'Error adding items to cart.');
+          } finally {
+            this.setLoadingState(false);
+          }
+
+          return false;
+        }
+
+        setLoadingState(isLoading) {
+          if (this.submitButton) {
+            if (isLoading) {
+              this.submitButton.setAttribute('disabled', 'true');
+              this.submitButton.classList.add('loading');
+            } else {
+              this.submitButton.removeAttribute('disabled');
+              this.submitButton.classList.remove('loading');
+            }
+          }
+
+          if (this.buttonText) {
+            this.buttonText.textContent = isLoading ? 'Adding...' : this.originalText;
+          }
+        }
+      }
+    );
+  }
+</script>
+{% schema %}
+{
+  "name": "Bundle Builder",
+  "tag": "section",
+  "class": "section-bundle-builder",
+  "settings": [
+    {
+      "type": "color_background",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "range",
+      "id": "discount_percent",
+      "label": "Discount percentage",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "The Scout Story"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<h2>Build a bundle-builder around your Scout and save up to 20%.</h2>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Add bundle-builder to cart"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Padding bottom (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 76
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bundle_item",
+      "name": "Bundle Item",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Image"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom Title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle Builder"
+    }
+  ]
+}
+{% endschema %}

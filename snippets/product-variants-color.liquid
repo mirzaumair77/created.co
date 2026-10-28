@@ -1,0 +1,157 @@
+{%- assign color_max = settings.color_swatches_max | default: 25 -%}
+{%- assign current_name = product.metafields.custom.color_name
+  | default: product.title
+  | split: ' - '
+  | last
+-%}
+
+{%- assign color_count = 0 -%}
+
+{%- for i in (1..color_max) -%}
+  {%- assign key = 'related_product_color_' | append: i -%}
+  {%- assign cp = product.metafields.variants[key].value -%}
+
+  {%- if cp == blank -%}
+    {%- assign cp = product.metafields.custom[key].value -%}
+  {%- endif -%}
+
+  {%- if cp != blank -%}
+    {%- assign color_count = color_count | plus: 1 -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<div class="cpdp-color{% if color_count > 3 %} cpdp-color--slider{% endif %}">
+  <div class="cpdp-color__meta">
+    <span class="cpdp-color__title">Color</span>
+
+    <span
+      class="cpdp-color__name"
+      id="cpdp-selected-color"
+      data-default="{{ current_name | escape }}"
+    >
+      {{ current_name }}
+    </span>
+  </div>
+
+  {%- if color_count > 3 -%}
+  <div class="cpdp-color__slider-wrap">
+
+    <carousel-component
+      class="cpdp-color__slider"
+      data-options='{
+        "cellSelector":"[js-carousel-slide]",
+        "cellAlign":"left",
+        "contain":true,
+        "prevNextButtons":false,
+        "pageDots":false,
+        "groupCells":false,
+        "wrapAround":false,
+        "draggable":true,
+        "dragThreshold":5,
+        "imagesLoaded":true
+      }'
+    >
+      <div js-carousel>
+        {%- for i in (1..color_max) -%}
+          {%- assign key = 'related_product_color_' | append: i -%}
+          {%- assign cp = product.metafields.variants[key].value -%}
+
+          {%- if cp == blank -%}
+            {%- assign cp = product.metafields.custom[key].value -%}
+          {%- endif -%}
+
+          {%- if cp == blank -%}
+            {%- continue -%}
+          {%- endif -%}
+
+          {%- assign cname = cp.metafields.custom.color_name
+            | default: cp.title
+            | split: ' - '
+            | last
+          -%}
+
+          <a
+            href="{{ cp.url }}"
+            class="cpdp-swatch{% if cp.url == product.url %} is-active{% endif %}"
+            js-carousel-slide
+            data-name="{{ cname | escape }}"
+            aria-label="{{ cname | escape }}"
+          >
+            {%- if cp.featured_image -%}
+              <img
+                src="{{ cp.featured_image | image_url: width: 160 }}"
+                alt="{{ cname | escape }}"
+                loading="lazy"
+                width="80"
+                height="80"
+                draggable="false"
+              >
+            {%- endif -%}
+          </a>
+        {%- endfor -%}
+      </div>
+    </carousel-component>
+
+    <button
+      type="button"
+      class="cpdp-arrow flickity-button flickity-prev-next-button previous"
+      aria-label="Previous colour"
+      aria-disabled="true"
+      data-color-prev
+      disabled
+    >
+      {% render 'icon-arrow-left-new' %}
+    </button>
+
+    <button
+      type="button"
+      class="cpdp-arrow flickity-button flickity-prev-next-button next"
+      aria-label="Next colour"
+      aria-disabled="false"
+      data-color-next
+    >
+      {% render 'icon-arrow-right-new' %}
+    </button>
+
+  </div>
+{%- else -%}
+    <div class="cpdp-color__swatches">
+      {%- for i in (1..color_max) -%}
+        {%- assign key = 'related_product_color_' | append: i -%}
+        {%- assign cp = product.metafields.variants[key].value -%}
+
+        {%- if cp == blank -%}
+          {%- assign cp = product.metafields.custom[key].value -%}
+        {%- endif -%}
+
+        {%- if cp == blank -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        {%- assign cname = cp.metafields.custom.color_name
+          | default: cp.title
+          | split: ' - '
+          | last
+        -%}
+
+        <a
+          href="{{ cp.url }}"
+          class="cpdp-swatch{% if cp.url == product.url %} is-active{% endif %}"
+          data-name="{{ cname | escape }}"
+          aria-label="{{ cname | escape }}"
+        >
+          {%- if cp.featured_image -%}
+            <img
+              src="{{ cp.featured_image | image_url: width: 160 }}"
+              alt="{{ cname | escape }}"
+              loading="lazy"
+              width="80"
+              height="80"
+              draggable="false"
+            >
+          {%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>

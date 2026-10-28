@@ -1,17 +1,18 @@
 /* extracted from base.css */
 
 /* Main Header Layout */
-.header-wrapper {
+/* .header-wrapper {
   display: block;
   position: relative;
-  background-color: var(--color-base-background-1);
+  background-color:transparent;
   padding: 1.5rem 0;
   color: #000;
+  z-index:4;
 }
 
 .header-wrapper--border-bottom {
   border-bottom: 0.1rem solid var(--color-foreground-20);
-}
+} */
 
 .header {
   display: grid;

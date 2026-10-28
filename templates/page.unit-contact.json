@@ -1,0 +1,345 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "unit-contact-hero",
+      "settings": {
+        "image": "shopify://shop_images/hero-banner.png",
+        "image_mobile": "shopify://shop_images/01_-_Hero_-_How_can_we_help.png",
+        "overlay": 45,
+        "eyebrow": "Contact · Real people in California",
+        "title": "How Can We Help?",
+        "text": "<p>Our team answers every message personally. Most questions can be sorted right here in a minute - and if not, we're a message or call away.</p>",
+        "text_color": "#ffffff",
+        "height": 560,
+        "height_mobile": 520,
+        "title_size": 57,
+        "title_size_mobile": 46
+      }
+    },
+    "form": {
+      "type": "unit-contact-form",
+      "blocks": {
+        "topic_order": {
+          "type": "topic",
+          "settings": {
+            "label": "Order status"
+          }
+        },
+        "topic_return": {
+          "type": "topic",
+          "settings": {
+            "label": "Return or exchange"
+          }
+        },
+        "topic_warranty": {
+          "type": "topic",
+          "settings": {
+            "label": "Warranty claim"
+          }
+        },
+        "topic_product": {
+          "type": "topic",
+          "settings": {
+            "label": "Product question"
+          }
+        },
+        "topic_other": {
+          "type": "topic",
+          "settings": {
+            "label": "Something else"
+          }
+        }
+      },
+      "block_order": [
+        "topic_order",
+        "topic_return",
+        "topic_warranty",
+        "topic_product",
+        "topic_other"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Image_fae9a18c-027b-4256-b9b8-7feae1f183e0.png",
+        "image_mobile": "shopify://shop_images/Image_1_170c314a-a6cf-48f6-a9ec-8056c338cf9d.png",
+        "card_bg": "#f5f5f5",
+        "title": "Send Us a Message.",
+        "subtitle": "Fields marked optional can be skipped.",
+        "topic_label": "What's it about?",
+        "first_name_label": "First name",
+        "first_name_placeholder": "Your first name",
+        "show_last_name": true,
+        "last_name_label": "Last name",
+        "last_name_placeholder": "Your last name",
+        "optional_text": "optional",
+        "email_label": "Email",
+        "email_placeholder": "you@email.com",
+        "show_order": true,
+        "order_label": "Order number",
+        "order_placeholder": "e.g. #1042",
+        "order_help": "It's in your confirmation email.",
+        "message_label": "Message",
+        "message_placeholder": "Tell us what happened and what you'd like us to do.",
+        "button_label": "Send message",
+        "sending_label": "Sending…",
+        "note": "",
+        "success_message": "Thanks! We got your message and will get back to you within one business day.",
+        "error_message": "Please check the fields below and try again.",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "padding_top_mobile": 64,
+        "padding_bottom_mobile": 72
+      }
+    },
+    "custom": {
+      "type": "unit-contact-custom",
+      "blocks": {
+        "use_gifts": {
+          "type": "use",
+          "settings": {
+            "label": "Corporate gifts"
+          }
+        },
+        "use_onboarding": {
+          "type": "use",
+          "settings": {
+            "label": "Employee onboarding"
+          }
+        },
+        "use_events": {
+          "type": "use",
+          "settings": {
+            "label": "Events and conferences"
+          }
+        },
+        "use_retail": {
+          "type": "use",
+          "settings": {
+            "label": "Retail merch"
+          }
+        },
+        "use_weddings": {
+          "type": "use",
+          "settings": {
+            "label": "Weddings"
+          }
+        },
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Tell us about your project",
+            "text": "Quantity, products, your logo and the date you need them."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Get a mockup and quote",
+            "text": "Usually within 2 business days, with no commitment."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Approve and we make it",
+            "text": "Production takes about 3-4 weeks after approval."
+          }
+        }
+      },
+      "block_order": [
+        "use_gifts",
+        "use_onboarding",
+        "use_events",
+        "use_retail",
+        "use_weddings",
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "title": "Custom Drinkware, Made With You.",
+        "text": "<p>Laser engraving or full-color print on our&nbsp;<br/>tumblers, bottles and mugs. Orders start at&nbsp;<br/>25 units.</p>",
+        "uses_label": "Popular uses",
+        "button_label": "Start a custom inquiry",
+        "button_link": "/pages/custom",
+        "link_label": "See past custom work",
+        "link_url": "/pages/custom",
+        "steps_title": "How it works",
+        "bg": "#000000",
+        "text_color": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "padding_top_mobile": 36,
+        "padding_bottom_mobile": 36
+      }
+    },
+    "faq": {
+      "type": "unit-contact-faq",
+      "blocks": {
+        "q_order": {
+          "type": "question",
+          "settings": {
+            "question": "Where is my order?",
+            "answer": "<p>Orders ship within 1-2 business days. You'll get a tracking link by email as soon as yours leaves our warehouse, and you can track it any time with your order number and email.</p>"
+          }
+        },
+        "q_return": {
+          "type": "question",
+          "settings": {
+            "question": "How do I return or exchange something?",
+            "answer": "<p>We offer 30-day returns on unused items, for any reason. Send us a message with your order number and we'll get it sorted.</p>"
+          }
+        },
+        "q_warranty": {
+          "type": "question",
+          "settings": {
+            "question": "What does the lifetime hardware warranty cover?",
+            "answer": "<p>Lids, straws and handles are covered for as long as you own your drinkware. Replacement parts are stocked.</p>"
+          }
+        },
+        "q_change": {
+          "type": "question",
+          "settings": {
+            "question": "Can I change or cancel my order?",
+            "answer": "<p>Add your answer here.</p>"
+          }
+        },
+        "q_ship": {
+          "type": "question",
+          "settings": {
+            "question": "Do you ship outside the US?",
+            "answer": "<p>Yes, we ship to most countries. Shipping costs and times are shown at checkout.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q_order",
+        "q_return",
+        "q_warranty",
+        "q_change",
+        "q_ship"
+      ],
+      "settings": {
+        "eyebrow": "FAQs",
+        "title": "Quick Answers",
+        "text": "<p>The questions we hear most. Can't find yours? Call or email and we'll help.</p>",
+        "button_label": "Visit support center",
+        "button_link": "",
+        "open_first": true,
+        "padding_top": 92,
+        "padding_bottom": 76,
+        "padding_top_mobile": 72,
+        "padding_bottom_mobile": 72
+      }
+    },
+    "talk": {
+      "type": "unit-contact-talk",
+      "blocks": {
+        "call": {
+          "type": "item",
+          "settings": {
+            "icon": "phone",
+            "label": "Call",
+            "value": "714.869.7416",
+            "link": ""
+          }
+        },
+        "email": {
+          "type": "item",
+          "settings": {
+            "icon": "email",
+            "label": "Email",
+            "value": "hello@created.co",
+            "link": ""
+          }
+        },
+        "hours": {
+          "type": "item",
+          "settings": {
+            "icon": "clock",
+            "label": "Hours",
+            "value": "Mon-Fri, 8am-5pm PST",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "call",
+        "email",
+        "hours"
+      ],
+      "settings": {
+        "title": "Talk to a person",
+        "bg": "#f5f5f5",
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 32
+      }
+    },
+    "features": {
+      "type": "unit-contact-features",
+      "blocks": {
+        "steel": {
+          "type": "feature",
+          "settings": {
+            "icon": "cup",
+            "title": "18/8 stainless",
+            "text": "Food-safe steel in every vessel."
+          }
+        },
+        "warranty": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "title": "Lifetime hardware warranty",
+            "text": "Lids, straws, and handles, covered for good."
+          }
+        },
+        "california": {
+          "type": "feature",
+          "settings": {
+            "icon": "pin",
+            "title": "Designed in California",
+            "text": "By a small team, since 2015."
+          }
+        },
+        "shipping": {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping over $75",
+            "text": "Ships in 1 to 2 business days."
+          }
+        }
+      },
+      "block_order": [
+        "steel",
+        "warranty",
+        "california",
+        "shipping"
+      ],
+      "settings": {
+        "padding_top": 40,
+        "padding_bottom": 0,
+        "padding_top_mobile": 32,
+        "padding_bottom_mobile": 0
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "form",
+    "custom",
+    "faq",
+    "talk",
+    "features"
+  ]
+}

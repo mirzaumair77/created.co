@@ -1,0 +1,182 @@
+{{ 'scout-story.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'scout-story.js' | asset_url }}" defer="defer"></script>
+
+<section class="scout-story" data-section-id="{{ section.id }}"
+  style="--ss-pt:{{ section.settings.pad_top_mobile | default: 24 }}px; --ss-pb:{{ section.settings.pad_bottom_mobile | default: 24 }}px; --ss-pt-d:{{ section.settings.pad_top_desktop | default: 40 }}px; --ss-pb-d:{{ section.settings.pad_bottom_desktop | default: 40 }}px;">
+  <div class="scout-story__inner">
+
+    <div class="scout-story__head">
+      <div class="scout-story__intro">
+        {%- assign product_name = product.metafields.product_cards.product_card_title | default: product.title -%}
+        {% if section.settings.eyebrow != blank %}
+          <span class="scout-story__eyebrow">{{ section.settings.eyebrow | replace: '[product]', product_name }}</span>
+        {% endif %}
+        {% if section.settings.title != blank %}
+          <h2 class="scout-story__title">{{ section.settings.title | replace: '[product]', product_name }}</h2>
+        {% endif %}
+        {% if section.settings.text != blank %}
+          <p class="scout-story__text">{{ section.settings.text | replace: '[product]', product_name }}</p>
+        {% endif %}
+      </div>
+      <div class="scout-story__arrows">
+        <button type="button" class="scout-story__arrow" aria-label="Previous" js-prev-button>
+          <svg xmlns="http://www.w3.org/2000/svg" width="5" height="10" viewBox="0 0 5 10" fill="none">
+                <path d="M4.78125 9.59375H3.15625L7.45058e-08 4.90625V4.75H1.78125L4.78125 9.59375ZM4.78125 -3.57628e-07L1.78125 4.84375H7.45058e-08V4.6875L3.15625 -3.57628e-07H4.78125Z" fill="#CFD2D4"/>
+                </svg>
+        </button>
+        <button type="button" class="scout-story__arrow" aria-label="Next" js-next-button>
+          <svg xmlns="http://www.w3.org/2000/svg" width="5" height="10" viewBox="0 0 5 10" fill="none">
+            <path d="M7.45058e-08 9.59375L3 4.75H4.78125V4.90625L1.625 9.59375H7.45058e-08ZM7.45058e-08 -3.57628e-07H1.625L4.78125 4.6875V4.84375H3L7.45058e-08 -3.57628e-07Z" fill="#0E1F2A"/>
+            </svg>
+        </button>
+      </div>
+    </div>
+
+        <carousel-component
+        class="scout-story__slider"
+        data-options='{"cellSelector":"[js-carousel-slide]","cellAlign":"left","contain":true,"prevNextButtons":false,"pageDots":false,"groupCells":false,"wrapAround":false,"draggable":true,"dragThreshold":5,"freeScroll":false}'
+      >
+      <div js-carousel>
+        {%- for block in section.blocks -%}
+
+          {%- if block.type == 'single' -%}
+            <div class="scout-card scout-card--{{ block.settings.size | default: 'tall' }}" js-carousel-slide {{ block.shopify_attributes }}>
+              <div class="scout-card__media">
+                {%- if block.settings.video != blank -%}
+                  <video autoplay muted loop playsinline preload="metadata"
+                         {% if block.settings.image %}poster="{{ block.settings.image | image_url: width: 800 }}"{% endif %}>
+                    {%- for s in block.settings.video.sources -%}<source src="{{ s.url }}" type="{{ s.mime_type }}">{%- endfor -%}
+                  </video>
+                {%- elsif block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.image.alt | escape }}" loading="lazy">
+                {%- endif -%}
+                {%- if block.settings.product != blank -%}
+                  {%- assign sp = block.settings.product -%}
+                  {%- assign sv = sp.selected_or_first_available_variant -%}
+                  {%- capture single_form_id -%}scout-add-{{ block.id }}{%- endcapture -%}
+                  {%- if sv and sv.available -%}
+                    <product-form class="scout-card__form">
+                      {%- form 'product', sp, id: single_form_id, class: 'scout-card__addform', novalidate: 'novalidate' -%}
+                        <input type="hidden" name="id" value="{{ sv.id }}">
+                        <button type="submit" name="add" class="scout-card__bag" aria-label="Add {{ sp.title | escape }} to cart">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                                    <rect width="40" height="40" rx="20" fill="#9C9C9C"/>
+                                    <rect x="13.2" y="17.7" width="13.6" height="9.6" rx="1.3" stroke="white" stroke-width="1.4"/>
+                                    <circle cx="20" cy="16.5" r="3.8" stroke="white" stroke-width="1.4"/>
+                                    </svg>
+                          <loading-spinner style="--bg-opacity:100%; --size:1rem; --loading-color:#0E1F2A;"></loading-spinner>
+                        </button>
+                      {%- endform -%}
+                    </product-form>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            </div>
+
+          {%- elsif block.type == 'pair' -%}
+            <div class="scout-card scout-card--pair" js-carousel-slide {{ block.shopify_attributes }}>
+              {%- for n in (1..2) -%}
+                {%- assign img_key = 'image_' | append: n -%}
+                {%- assign vid_key = 'video_' | append: n -%}
+                {%- assign lnk_key = 'link_' | append: n -%}
+                {%- assign img = block.settings[img_key] -%}
+                {%- assign vid = block.settings[vid_key] -%}
+                {%- assign lnk = block.settings[lnk_key] -%}
+                {%- if img != blank or vid != blank -%}
+                  <div class="scout-card__media scout-card__media--half">
+                    {%- if vid != blank -%}
+                      <video autoplay muted loop playsinline preload="metadata" {% if img %}poster="{{ img | image_url: width: 600 }}"{% endif %}>
+                        {%- for s in vid.sources -%}<source src="{{ s.url }}" type="{{ s.mime_type }}">{%- endfor -%}
+                      </video>
+                    {%- else -%}
+                      <img src="{{ img | image_url: width: 600 }}" alt="{{ img.alt | escape }}" loading="lazy">
+                    {%- endif -%}
+                    {%- assign prod_key = 'product_' | append: n -%}
+                    {%- assign pp = block.settings[prod_key] -%}
+                    {%- if pp != blank -%}
+                      {%- assign pv = pp.selected_or_first_available_variant -%}
+                      {%- capture pair_form_id -%}scout-add-{{ block.id }}-{{ n }}{%- endcapture -%}
+                      {%- if pv and pv.available -%}
+                        <product-form class="scout-card__form">
+                          {%- form 'product', pp, id: pair_form_id, class: 'scout-card__addform', novalidate: 'novalidate' -%}
+                            <input type="hidden" name="id" value="{{ pv.id }}">
+                            <button type="submit" name="add" class="scout-card__bag" aria-label="Add {{ pp.title | escape }} to cart">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                                                <rect width="40" height="40" rx="20" fill="#9C9C9C"/>
+                                                <rect x="13.2" y="17.7" width="13.6" height="9.6" rx="1.3" stroke="white" stroke-width="1.4"/>
+                                                <circle cx="20" cy="16.5" r="3.8" stroke="white" stroke-width="1.4"/>
+                                                </svg>
+                              <loading-spinner style="--bg-opacity:100%; --size:1rem; --loading-color:#0E1F2A;"></loading-spinner>
+                            </button>
+                          {%- endform -%}
+                        </product-form>
+                      {%- endif -%}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+        {%- endfor -%}
+      </div>
+    </carousel-component>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "inspired stories",
+  "tag": "section",
+  "class": "scout-story-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE STORY", "info": "Use [product] for the product name." },
+    { "type": "text", "id": "title", "label": "Title", "default": "Live Inspired" },
+    { "type": "textarea", "id": "text", "label": "Intro text" },
+    { "type": "header", "content": "Section spacing" },
+    { "type": "range", "id": "pad_top_desktop", "min": 0, "max": 100, "step": 1, "unit": "px", "label": "Padding top (desktop)", "default": 40 },
+    { "type": "range", "id": "pad_bottom_desktop", "min": 0, "max": 100, "step": 1, "unit": "px", "label": "Padding bottom (desktop)", "default": 40 },
+    { "type": "range", "id": "pad_top_mobile", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top (mobile)", "default": 24 },
+    { "type": "range", "id": "pad_bottom_mobile", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom (mobile)", "default": 24 }
+  ],
+  "blocks": [
+    {
+      "type": "single",
+      "name": "Single card",
+      "settings": [
+        { "type": "select", "id": "size", "label": "Size", "default": "tall",
+          "options": [ { "value": "hero", "label": "Hero (big)" }, { "value": "tall", "label": "Tall (narrow)" } ] },
+        { "type": "image_picker", "id": "image", "label": "Image (also video poster)" },
+        { "type": "video", "id": "video", "label": "Video (autoplays muted)" },
+        { "type": "product", "id": "product", "label": "Add-to-cart product" }
+      ]
+    },
+    {
+      "type": "pair",
+      "name": "Stacked pair",
+      "settings": [
+        { "type": "header", "content": "Top" },
+        { "type": "image_picker", "id": "image_1", "label": "Image 1" },
+        { "type": "video", "id": "video_1", "label": "Video 1" },
+        { "type": "product", "id": "product_1", "label": "Add-to-cart product (top)" },
+        { "type": "header", "content": "Bottom" },
+        { "type": "image_picker", "id": "image_2", "label": "Image 2" },
+        { "type": "video", "id": "video_2", "label": "Video 2" },
+        { "type": "product", "id": "product_2", "label": "Add-to-cart product (bottom)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "inspired stories",
+      "blocks": [
+        { "type": "single", "settings": { "size": "hero" } },
+        { "type": "pair" },
+        { "type": "single", "settings": { "size": "tall" } },
+        { "type": "single", "settings": { "size": "tall" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

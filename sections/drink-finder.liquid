@@ -1,0 +1,2139 @@
+{%- comment -%}
+  Section: Drink Finder
+  BEM Root: drink-finder__
+
+  Search: a product is shown if the term exists in ANY of these fields
+    1. custom.search_keywords (metafield, list of single line text)
+    2. title
+    3. product type
+    4. description
+  Ranking (highest first): keywords > title > type > description (see FIELD_WEIGHTS in the script).
+
+  Page load: only header and search show, centered in the section. Filters, results and
+  "Our pick" appear (with a short pop-in) once the customer types or picks a filter, unless "Show results on page load" is on.
+
+  Placeholder: while the field is empty, unfocused and no filter is selected, the example phrases
+  type themselves in and out (setting "Typing phrases", one per line).
+
+  Filters: the selected filter writes "I need something that keeps [filter]" into the search field.
+  Typing a search selects the filter named in the text, else the filter that contains the top result.
+
+  Results: more than 3 matches turn into a slider.
+    Desktop: 3 per view, prev/next arrows outside the tray.
+    Mobile: swipe, 2 cards + peek, tray bleeds to the right screen edge.
+    Autoplay: moves one page every X seconds and loops back to the start. Pauses on hover,
+    keyboard focus, when off screen and with reduced motion. Restarts after a swipe or arrow click.
+{%- endcomment -%}
+
+{%- liquid
+  assign bg_image = section.settings.background_image
+  assign bg_image_mobile = section.settings.mobile_background_image | default: section.settings.background_image
+  assign overlay = section.settings.overlay
+
+  assign section_height = section.settings.section_height
+  assign mobile_section_height = section.settings.mobile_section_height
+
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign mobile_padding_top = section.settings.mobile_padding_top
+  assign mobile_padding_bottom = section.settings.mobile_padding_bottom
+
+  assign eyebrow_text = section.settings.eyebrow_text
+  assign heading = section.settings.heading
+  assign search_placeholder = section.settings.search_placeholder
+  assign typing_phrases = section.settings.typing_phrases
+  assign pill_search_template = section.settings.pill_search_template
+  assign show_on_load = section.settings.show_results_on_load
+  assign empty_text = section.settings.empty_text | default: 'No matches found. Try another search.'
+  assign pick_label = section.settings.pick_label
+  assign pick_button_label = section.settings.pick_button_label
+
+  assign autoplay = section.settings.autoplay
+  assign autoplay_speed = section.settings.autoplay_speed | default: 5
+
+  assign source_collection = section.settings.collection
+  if source_collection == blank
+    assign source_collection = collections.all
+  endif
+-%}
+
+{%- style -%}
+#drink-finder-{{ section.id }} {
+  padding-block: {{ mobile_padding_top }}px {{ mobile_padding_bottom }}px;
+}
+
+#drink-finder-{{ section.id }} [hidden] {
+  display: none !important;
+}
+
+#drink-finder-{{ section.id }}[data-mobile-height='small'] {
+  min-height: 420px;
+}
+
+#drink-finder-{{ section.id }}[data-mobile-height='medium'] {
+  min-height: 600px;
+}
+
+#drink-finder-{{ section.id }}[data-mobile-height='large'] {
+  min-height: 760px;
+}
+
+#drink-finder-{{ section.id }}[data-mobile-height='fit_screen'] {
+  min-height: 100vh;
+}
+
+#drink-finder-{{ section.id }}[data-mobile-height='auto'] {
+  min-height: 0;
+}
+@media (min-width: 769px) {
+  #drink-finder-{{ section.id }} {
+    padding-block: {{ padding_top }}px {{ padding_bottom }}px;
+  }
+
+  #drink-finder-{{ section.id }}[data-height='small'] {
+    min-height: 480px;
+  }
+
+  #drink-finder-{{ section.id }}[data-height='medium'] {
+    min-height: 680px;
+  }
+
+  #drink-finder-{{ section.id }}[data-height='large'] {
+    min-height: 860px;
+  }
+
+  #drink-finder-{{ section.id }}[data-height='fit_screen'] {
+    min-height: 100vh;
+  }
+
+  #drink-finder-{{ section.id }}[data-height='auto'] {
+    min-height: 0;
+  }
+}
+
+/* ---------- Base ---------- */
+.drink-finder {
+  --df-ink: #0e1f2a;
+  --df-glass: #ffffff24;
+  --df-glass-hover: #ffffff38;
+  --df-line: #ffffff38;
+  --df-line-soft: #ffffff2e;
+  --df-line-strong: #ffffff66;
+  --df-tray: #0e1f2a38;
+  --df-blur: 12px;
+  --df-gap: 9px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.drink-finder *,
+.drink-finder *::before,
+.drink-finder *::after {
+  box-sizing: border-box;
+}
+
+.drink-finder button:focus-visible,
+.drink-finder a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.drink-finder .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.drink-finder__background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.drink-finder__background-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.drink-finder .mobile-hide {
+  display: none;
+}
+
+.drink-finder__overlay {
+  position: absolute;
+  inset: 0;
+  background: #0E1F2A66;
+}
+
+.drink-finder__container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 640px;
+  margin-inline: auto;
+  padding-inline: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ---------- Header ---------- */
+.drink-finder__header {
+  padding-block-end: 24px;
+}
+
+.drink-finder__eyebrow {
+  padding-block-end: 12px;
+}
+
+.drink-finder__eyebrow span {
+  display: block;
+  color: #fff;
+  font-size: 11px;
+  line-height: 16.5px;
+  letter-spacing: 2.4px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.drink-finder__heading {
+  width: 100%;
+  max-width: 315px;
+}
+
+.drink-finder__heading h2 {
+  margin: 0;
+  font-family: canela, serif;
+  color: #fff;
+  font-size: 28px;
+  line-height: 36.4px;
+  font-weight: 300;
+  letter-spacing: -0.3px;
+  text-transform: capitalize;
+}
+
+/* ---------- Finder box ---------- */
+.drink-finder__finder {
+  border-radius: 18px;
+  background: #f5f5f538;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  padding: 16px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* Search bar */
+.drink-finder__search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drink-finder__search-icon {
+  display: flex;
+  flex-shrink: 0;
+  width: 18px;
+}
+
+.drink-finder__search-icon svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.drink-finder .drink-finder__search-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+  font-size: 13px;
+  line-height: 21px;
+  font-weight: 600;
+  text-align: left;
+  resize: none;
+  overflow: hidden;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.drink-finder .drink-finder__search-input:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.drink-finder .drink-finder__search-input::placeholder {
+  color: rgba(255, 255, 255, 0.92);
+  opacity: 1;
+}
+
+.drink-finder__search-submit {
+  -webkit-appearance: none;
+  appearance: none;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  background: #ffffff24;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  transition: background-color 0.2s ease;
+}
+
+.drink-finder__search-submit:hover {
+  background: var(--df-glass-hover);
+}
+
+.drink-finder__search-submit svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+/* Quick filter pills (mobile: above the search, wrapped, rounded tray) */
+.drink-finder__pills {
+  order: -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 7px;
+  background: #0e1f2a38;
+  border: 1px solid #ffffff38;
+  border-radius: 12px;
+  padding: 9px;
+}
+
+.drink-finder__pill {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 12px;
+  background: #ffffff24;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.drink-finder__pill--active {
+  border-color: #FFF;
+  background: #fff;
+}
+
+.drink-finder__pill--active .drink-finder__pill-label,
+.drink-finder__pill--active .drink-finder__pill-icon svg {
+  color: #0E1F2A;
+}
+
+.drink-finder__pill-icon {
+  display: flex;
+  flex-shrink: 0;
+  width: 16px;
+}
+
+.drink-finder__pill-icon svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.drink-finder__pill-label {
+  color: #FFF;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ---------- Results (mobile: swipe, 2 + peek, bleeds right) ---------- */
+.drink-finder__results {
+  align-self: stretch;
+  width: auto;
+  margin-block-start: 28px;
+  margin-inline-end: calc(50% - 50vw);
+}
+
+.drink-finder__results-list {
+  overflow: hidden;
+  border: 1px solid #ffffff38;
+  background: #0e1f2a38;
+  border-radius: 999px;
+  padding: 10px;
+}
+
+.drink-finder__results-track {
+  display: flex;
+  gap: var(--df-gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.drink-finder__results-track::-webkit-scrollbar {
+  display: none;
+}
+
+.drink-finder__results-track::after {
+  content: '';
+  flex: 0 0 1px;
+}
+
+.drink-finder__results-item {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 0 0 auto;
+  width: clamp(150px, 41vw, 190px);
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 7px 12px 7px 8px;
+  border: 1px solid var(--df-line-strong);
+  border-radius: 999px;
+  background: var(--df-glass);
+  color: #fff;
+  font: inherit;
+  text-align: left;
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.drink-finder__results-item:hover {
+  background: var(--df-glass-hover);
+}
+
+.drink-finder__results-item.is-selected {
+  background: #fff;
+  border-color: #fff;
+  color: var(--df-ink);
+}
+
+.drink-finder__results-thumb {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #ffffff2e;
+}
+
+.drink-finder__results-item.is-selected .drink-finder__results-thumb {
+  background: transparent;
+}
+
+.drink-finder__results-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.drink-finder__results-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.drink-finder__results-name {
+  display: block;
+  overflow: hidden;
+  color: inherit;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.drink-finder__results-price {
+  display: block;
+  color: #ffffffbf;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 500;
+}
+
+.drink-finder__results-item.is-selected .drink-finder__results-price {
+  color: #0e1f2abf;
+}
+
+.drink-finder__results-arrow {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  background: #f5f5f538;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.drink-finder__results-arrow:hover:not(:disabled) {
+  background: var(--df-glass-hover);
+}
+
+.drink-finder__results-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.drink-finder__results-arrow svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.drink-finder__results-empty {
+  margin: 24px 0 0;
+  color: #fff;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+/* ---------- Our pick (mobile: icon left, text + button stacked) ---------- */
+.drink-finder__pick {
+  width: 100%;
+  margin-block-start: 24px;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-areas:
+    'icon info'
+    'icon button';
+  align-items: center;
+  gap: 12px;
+  background: #ffffff1a;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: left;
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+}
+
+.drink-finder__pick-icon {
+  grid-area: icon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.drink-finder__pick-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.drink-finder__pick-icon span {
+  color: var(--df-ink);
+  font-family: canela, serif;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.drink-finder__pick-info {
+  grid-area: info;
+  min-width: 0;
+}
+
+.drink-finder__pick-label span {
+  display: block;
+  color: #fff;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.drink-finder__pick-product {
+  padding-block-start: 12px;
+}
+
+.drink-finder__pick-product span {
+  display: block;
+  font-family: canela, serif;
+  color: #fff;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.4px;
+  font-weight: 300;
+}
+
+.drink-finder__pick-button {
+  grid-area: button;
+  justify-self: start;
+}
+
+.drink-finder__pick-button a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff24;
+  border-radius: 999px;
+  padding: 8px 14px;
+  color: #fffffff2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.drink-finder__pick-button a:hover {
+  background: var(--df-glass-hover);
+}
+
+.drink-finder__pick-button-icon {
+  display: flex;
+  flex-shrink: 0;
+  width: 16px;
+}
+
+.drink-finder__pick-button-icon svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.drink-finder__pick-button-text {
+  font-size: 11px;
+  line-height: 16.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ---------- Pop-in when results / pick / empty message appear ---------- */
+@keyframes drink-finder-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.drink-finder__pills:not([hidden]),
+.drink-finder__results:not([hidden]),
+.drink-finder__results-empty:not([hidden]),
+.drink-finder__pick:not([hidden]) {
+  animation: drink-finder-pop 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.drink-finder__pick:not([hidden]) {
+  animation-delay: 0.08s;
+}
+
+/* ---------- Desktop ---------- */
+@media (min-width: 769px) {
+  .drink-finder .desktop-hide {
+    display: none;
+  }
+
+  .drink-finder .mobile-hide {
+    display: block;
+  }
+
+  .drink-finder__container {
+    max-width: 768px;
+  }
+
+  .drink-finder__header {
+    padding-block-end: 42px;
+  }
+
+  .drink-finder__eyebrow {
+    padding-block-end: 18px;
+  }
+
+  .drink-finder__eyebrow span {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  .drink-finder__heading h2 {
+    font-size: 32px;
+    line-height: 34px;
+  }
+
+  .drink-finder__finder {
+    row-gap: 24px;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+
+  .drink-finder__search-bar {
+    gap: 22px;
+  }
+
+  .drink-finder__search-icon {
+    width: 22px;
+  }
+
+  .drink-finder .drink-finder__search-input {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .drink-finder__search-submit {
+    width: 40px;
+    height: 40px;
+  }
+
+  .drink-finder__search-submit svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .drink-finder__pills {
+    order: 0;
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 99px;
+  }
+
+  .drink-finder__pill {
+    flex: 1 1 auto;
+    gap: 10px;
+    padding: 18px 6px 18px 20px;
+  }
+
+  .drink-finder__pill:hover {
+    border-color: #FFF;
+    background: #fff;
+  }
+
+  .drink-finder__pill--active:hover {
+    border-color: #FFF;
+    background: #fff;
+  }
+
+  .drink-finder__pill-icon {
+    width: 20px;
+  }
+
+  .drink-finder__pill-label {
+    font-size: 14px;
+  }
+
+  .drink-finder__pill:hover .drink-finder__pill-label,
+  .drink-finder__pill--active:hover .drink-finder__pill-label,
+  .drink-finder__pill:hover .drink-finder__pill-icon svg,
+  .drink-finder__pill--active:hover .drink-finder__pill-icon svg {
+    color: #0E1F2A;
+  }
+
+  /* Results: [prev] [tray 624px, 3 per view] [next] */
+  .drink-finder__results {
+    align-self: center;
+    width: 100%;
+    margin-block-start: 29px;
+    margin-inline-end: 0;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 624px) 40px;
+    column-gap: 12px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .drink-finder__results-arrow {
+    display: flex;
+    visibility: hidden;
+    grid-row: 1;
+  }
+
+  .drink-finder__results.has-slider .drink-finder__results-arrow {
+    visibility: visible;
+  }
+
+  .drink-finder__results-arrow--prev {
+    grid-column: 1;
+  }
+
+  .drink-finder__results-list {
+    grid-row: 1;
+    grid-column: 2;
+    padding: 12px;
+  }
+
+  .drink-finder__results-arrow--next {
+    grid-column: 3;
+  }
+
+  .drink-finder__results-track::after {
+    display: none;
+  }
+
+  .drink-finder__results:not(.has-slider) .drink-finder__results-track {
+    justify-content: center;
+  }
+
+  /* 3 cards + 2 gaps = exactly one page, so each slide lands on the next 3 */
+  .drink-finder__results-item {
+    width: calc((100% - 2 * var(--df-gap)) / 3);
+    padding: 11px 14px;
+    gap: 9px;
+  }
+
+  .drink-finder__results-thumb {
+    width: 32px;
+    height: 32px;
+  }
+
+  .drink-finder__pick {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 618px;
+    margin-block-start: 29px;
+    border-radius: 999px;
+    padding: 16px;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+  }
+
+  .drink-finder__pick-icon {
+    width: 56px;
+    height: 56px;
+    flex: 0 0 56px;
+  }
+
+  .drink-finder__pick-info {
+    flex: 1 1 auto;
+  }
+
+  .drink-finder__pick-product {
+    padding-block-start: 5px;
+  }
+
+  .drink-finder__pick-product span {
+    font-size: 22px;
+  }
+
+  .drink-finder__pick-button {
+    flex-shrink: 0;
+  }
+
+  .drink-finder__pick-button a {
+    padding: 13px 18px;
+  }
+
+  .drink-finder__pick-button-icon {
+    width: 20px;
+  }
+
+  .drink-finder__pick-button-text {
+    font-size: 14px;
+    line-height: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drink-finder *,
+  .drink-finder *::before,
+  .drink-finder *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+{%- endstyle -%}
+
+{%- comment -%}
+  Pills are captured first so the search field can start with the sentence of the default pill.
+  A pill only starts active when "Show results on page load" is on.
+{%- endcomment -%}
+{%- liquid
+  assign active_pill_found = false
+  assign active_placeholder = search_placeholder
+-%}
+{%- capture pills_markup -%}
+  {%- comment -%}
+    Search sentence per pill: its own text, else the section template with [filter] = pill label (first letter lowercase).
+  {%- endcomment -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'filter_pill' -%}
+      {%- liquid
+        assign pill_icon = block.settings.icon
+        assign pill_label = block.settings.label
+        assign pill_filter = block.settings.filter_tag | default: pill_label
+
+        assign pill_active = false
+        if show_on_load and block.settings.default_active and active_pill_found == false
+          assign pill_active = true
+        endif
+
+        assign pill_text = block.settings.search_text
+        if pill_text == blank and pill_search_template != blank
+          assign pill_name_first = pill_label | slice: 0 | downcase
+          assign pill_name_rest = pill_label | slice: 1, 250
+          assign pill_name = pill_name_first | append: pill_name_rest
+          assign pill_text = pill_search_template | replace: '[filter]', pill_name
+        endif
+        if pill_text == blank
+          assign pill_text = search_placeholder
+        endif
+
+        if pill_active
+          assign active_pill_found = true
+          assign active_placeholder = pill_text
+        endif
+      -%}
+      <button
+        class="drink-finder__pill{% if pill_active %} drink-finder__pill--active{% endif %}"
+        type="button"
+        data-drink-finder-pill
+        data-filter-tag="{{ pill_filter | escape }}"
+        data-search-text="{{ pill_text | escape }}"
+        aria-pressed="{{ pill_active }}"
+        {{ block.shopify_attributes }}
+      >
+        <span class="drink-finder__pill-icon" aria-hidden="true">
+          {%- case pill_icon -%}
+            {%- when 'clock' -%}
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15.5 14"></polyline>
+              </svg>
+            {%- when 'sparkle' -%}
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 3V17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.2002 6.59961L15.8002 13.3996" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15.8002 6.59961L4.2002 13.3996" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.0004 5.5998L8.40039 4.2998" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 5.60005L11.6 4.30005" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.0004 14.4004L8.40039 15.7004" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 14.4004L11.6 15.7004" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            {%- when 'droplet' -%}
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10.0004 3.40039C10.0004 3.40039 14.6004 8.10039 14.6004 11.0004C14.6004 12.2204 14.1157 13.3904 13.2531 14.2531C12.3904 15.1157 11.2204 15.6004 10.0004 15.6004C8.78039 15.6004 7.61037 15.1157 6.7477 14.2531C5.88503 13.3904 5.40039 12.2204 5.40039 11.0004C5.40039 8.10039 10.0004 3.40039 10.0004 3.40039Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            {%- when 'pin' -%}
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10.0004 17.2004C10.0004 17.2004 15.1004 12.5004 15.1004 9.00039C15.1004 7.64779 14.5631 6.35058 13.6066 5.39415C12.6502 4.43771 11.353 3.90039 10.0004 3.90039C8.64779 3.90039 7.35058 4.43771 6.39415 5.39415C5.43771 6.35058 4.90039 7.64779 4.90039 9.00039C4.90039 12.5004 10.0004 17.2004 10.0004 17.2004Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.0004 10.6004C10.4247 10.6004 10.8317 10.4318 11.1318 10.1318C11.4318 9.8317 11.6004 9.42474 11.6004 9.00039C11.6004 8.57604 11.4318 8.16908 11.1318 7.86902C10.8317 7.56896 10.4247 7.40039 10.0004 7.40039C9.57604 7.40039 9.16908 7.56896 8.86902 7.86902C8.56896 8.16908 8.40039 8.57604 8.40039 9.00039C8.40039 9.42474 8.56896 9.8317 8.86902 10.1318C9.16908 10.4318 9.57604 10.6004 10.0004 10.6004Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            {%- when 'coffee' -%}
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M4.5 7.5H13.5V12.5C13.5 13.4283 13.1313 14.3185 12.4749 14.9749C11.8185 15.6313 10.9283 16 10 16H8C7.07174 16 6.1815 15.6313 5.52513 14.9749C4.86875 14.3185 4.5 13.4283 4.5 12.5V7.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.5 8.5H14.7C15.31 8.5 15.895 8.74232 16.3263 9.17365C16.7577 9.60499 17 10.19 17 10.8C17 11.41 16.7577 11.995 16.3263 12.4263C15.895 12.8577 15.31 13.1 14.7 13.1H13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7.2002 4.99961C7.2002 4.19961 7.8002 3.89961 7.8002 3.09961" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 4.99961C10 4.19961 10.6 3.89961 10.6 3.09961" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+          {%- endcase -%}
+        </span>
+        <span class="drink-finder__pill-label">{{ pill_label | escape }}</span>
+      </button>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+<div
+  class="drink-finder"
+  id="drink-finder-{{ section.id }}"
+  data-drink-finder
+  data-height="{{ section_height }}"
+  data-mobile-height="{{ mobile_section_height }}"
+  data-autoplay="{{ autoplay }}"
+  data-autoplay-speed="{{ autoplay_speed }}"
+>
+  {%- if bg_image -%}
+    <div class="drink-finder__background">
+      {{
+        bg_image
+        | image_url: width: 2550
+        | image_tag:
+          class: 'drink-finder__background-image mobile-hide',
+          loading: 'lazy',
+          widths: '750, 1200, 1920, 2550',
+          sizes: '100vw'
+      }}
+      {{
+        bg_image_mobile
+        | image_url: width: 1200
+        | image_tag:
+          class: 'drink-finder__background-image desktop-hide',
+          loading: 'lazy',
+          widths: '375, 550, 750, 1200',
+          sizes: '100vw'
+      }}
+      {%- if overlay == true -%}
+        <div class="drink-finder__overlay"></div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="drink-finder__container">
+    {%- if eyebrow_text != blank or heading != blank -%}
+      <div class="drink-finder__header">
+        {%- if eyebrow_text != blank -%}
+          <div class="drink-finder__eyebrow">
+            <span>{{ eyebrow_text }}</span>
+          </div>
+        {%- endif -%}
+        {%- if heading != blank -%}
+          <div class="drink-finder__heading">
+            <h2>{{ heading }}</h2>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="drink-finder__finder">
+      <div class="drink-finder__search-bar">
+        <div class="drink-finder__search-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M10.01 16.72C11.7896 16.72 13.4963 16.0131 14.7547 14.7547C16.013 13.4964 16.72 11.7897 16.72 10.01C16.72 8.23045 16.013 6.52373 14.7547 5.26536C13.4963 4.00699 11.7896 3.30005 10.01 3.30005C8.23039 3.30005 6.52367 4.00699 5.2653 5.26536C4.00693 6.52373 3.29999 8.23045 3.29999 10.01C3.29999 11.7897 4.00693 13.4964 5.2653 14.7547C6.52367 16.0131 8.23039 16.72 10.01 16.72Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18.26 18.26L14.74 14.74" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <label class="visually-hidden" for="drink-finder-search-{{ section.id }}">
+          {{- search_placeholder | default: 'Search' | escape -}}
+        </label>
+        <textarea
+          class="drink-finder__search-input"
+          id="drink-finder-search-{{ section.id }}"
+          rows="1"
+          placeholder="{{ active_placeholder | escape }}"
+          data-default-placeholder="{{ search_placeholder | escape }}"
+          data-typing-phrases="{{ typing_phrases | escape }}"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          enterkeyhint="search"
+          data-drink-finder-input
+        ></textarea>
+        <button class="drink-finder__search-submit" type="button" aria-label="Search" data-drink-finder-submit>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4.19995 10H15.2" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.2 6L15.2 10L11.2 14" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <div
+          class="drink-finder__pills"
+          role="group"
+          aria-label="Quick filters"
+          data-drink-finder-pills
+          {% unless active_pill_found %}hidden{% endunless %}
+        >
+          {{ pills_markup }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="drink-finder__results" data-drink-finder-results hidden>
+      <button
+        class="drink-finder__results-arrow drink-finder__results-arrow--prev"
+        type="button"
+        aria-label="Previous products"
+        data-drink-finder-prev
+        disabled
+      >
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M10 3.5L5.5 8L10 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="drink-finder__results-list">
+        <div class="drink-finder__results-track" data-drink-finder-track></div>
+      </div>
+      <button
+        class="drink-finder__results-arrow drink-finder__results-arrow--next"
+        type="button"
+        aria-label="Next products"
+        data-drink-finder-next
+      >
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <p class="drink-finder__results-empty" data-drink-finder-empty hidden>{{ empty_text | escape }}</p>
+    <p class="visually-hidden" data-drink-finder-status aria-live="polite"></p>
+
+    <div class="drink-finder__pick" data-drink-finder-pick hidden>
+      <div class="drink-finder__pick-icon" data-drink-finder-pick-icon></div>
+      <div class="drink-finder__pick-info">
+        <div class="drink-finder__pick-label">
+          <span>{{ pick_label | escape }}</span>
+        </div>
+        <div class="drink-finder__pick-product">
+          <span data-drink-finder-pick-product></span>
+        </div>
+      </div>
+      <div class="drink-finder__pick-button">
+        <a href="#" data-drink-finder-pick-button>
+          <span class="drink-finder__pick-button-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M9.9998 3.40039L11.4498 7.15039L15.1998 8.60039L11.4498 10.0504L9.9998 13.8004L8.5498 10.0504L4.7998 8.60039L8.5498 7.15039L9.9998 3.40039Z" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15.3001 13.0996L15.9201 14.6996L17.5201 15.3196L15.9201 15.9396L15.3001 17.5396L14.6801 15.9396L13.0801 15.3196L14.6801 14.6996L15.3001 13.0996Z" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="drink-finder__pick-button-text">{{ pick_button_label | escape }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%}
+    paginate lifts the default 50 product limit of collection.products to 250.
+  {%- endcomment -%}
+  <script type="application/json" data-drink-finder-products>
+    [
+      {%- paginate source_collection.products by 250 -%}
+        {%- for product in source_collection.products -%}
+          {%- assign df_keywords = product.metafields.custom.search_keywords.value -%}
+          {
+            "title": {{ product.title | json }},
+            "url": {{ product.url | json }},
+            "image": {%- if product.featured_image -%}{{ product.featured_image | image_url: width: 160 | json }}{%- else -%}""{%- endif -%},
+            "price": {{ product.price | money_without_trailing_zeros | strip_html | json }},
+            "type": {{ product.type | json }},
+            "text": {{ product.description | strip_html | strip_newlines | json }},
+            "keywords": {%- if df_keywords != blank -%}{{ df_keywords | json }}{%- else -%}[]{%- endif -%}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      {%- endpaginate -%}
+    ]
+  </script>
+</div>
+
+<script>
+  (function () {
+    // Field order = ranking. Any score > 0 means the product is shown.
+    var FIELDS = ['keywords', 'title', 'type', 'text'];
+    var FIELD_WEIGHTS = { keywords: 4, title: 3, type: 2, text: 1 };
+    var STOPWORDS = toSet(
+      'a all an and any are at be but by can do for from get have i im in is it its just keep keeps like looking me my need of on or please should so some something that the this to want which with you your'.split(
+        ' '
+      )
+    );
+    var BOUNDARY = (function () {
+      try {
+        new RegExp('[^\\p{L}\\p{N}]', 'u');
+        return { cls: '[^\\p{L}\\p{N}]', flags: 'u' };
+      } catch (e) {
+        return { cls: '[^a-z0-9\\u00c0-\\u024f]', flags: '' };
+      }
+    })();
+
+    // Typing placeholder timing (ms).
+    var TYPE_MS = 55;
+    var DELETE_MS = 25;
+    var HOLD_MS = 1800;
+    var NEXT_MS = 400;
+
+    function toSet(list) {
+      var set = {};
+      list.forEach(function (word) {
+        set[word] = true;
+      });
+      return set;
+    }
+
+    function normalize(value) {
+      var str = String(value == null ? '' : value).toLowerCase();
+      if (str.normalize) str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      return str.replace(/\s+/g, ' ').trim();
+    }
+
+    function valueList(value) {
+      if (Array.isArray(value)) return value;
+      if (value == null || value === '') return [];
+      return [value];
+    }
+
+    function escapeRegExp(str) {
+      return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    // Matches at a word start ("tumb" finds "tumbler", "ice" does not find "price").
+    // wholeWord: exact word only (used by the quick filter pills).
+    function termRegExp(term, wholeWord) {
+      return new RegExp(
+        '(?:^|' + BOUNDARY.cls + ')' + escapeRegExp(term) + (wholeWord ? '(?=$|' + BOUNDARY.cls + ')' : ''),
+        BOUNDARY.flags
+      );
+    }
+
+    function tokenize(query) {
+      return query.split(new RegExp(BOUNDARY.cls + '+', BOUNDARY.flags)).filter(function (token) {
+        return token.length > 1 && !STOPWORDS[token];
+      });
+    }
+
+    function fieldScore(index, re) {
+      var score = 0;
+      for (var i = 0; i < FIELDS.length; i++) {
+        if (re.test(index[FIELDS[i]])) score += FIELD_WEIGHTS[FIELDS[i]];
+      }
+      return score;
+    }
+
+    // Free text: full phrase first, then single meaningful words
+    // ("I need something that keeps ice all day" -> "ice", "day").
+    function searchMatcher(rawQuery) {
+      var query = normalize(rawQuery);
+      if (!query) return null;
+      var phrase = termRegExp(query, false);
+      var tokens = tokenize(query);
+      var useTokens = tokens.length > 1 || (tokens.length === 1 && tokens[0] !== query);
+      var tokenRes = useTokens
+        ? tokens.map(function (token) {
+            return termRegExp(token, false);
+          })
+        : [];
+      return function (index) {
+        var score = fieldScore(index, phrase) * 10;
+        for (var i = 0; i < tokenRes.length; i++) score += fieldScore(index, tokenRes[i]);
+        return score;
+      };
+    }
+
+    function splitTerms(rawTerms) {
+      return String(rawTerms || '')
+        .split(',')
+        .map(normalize)
+        .filter(Boolean);
+    }
+
+    // Pill: comma separated terms, whole word match in any of the 4 fields.
+    function pillMatcher(terms) {
+      var res = terms.map(function (term) {
+        return termRegExp(term, true);
+      });
+      if (!res.length) return null;
+      return function (index) {
+        var score = 0;
+        for (var i = 0; i < res.length; i++) score += fieldScore(index, res[i]);
+        return score;
+      };
+    }
+
+    function initDrinkFinder(root) {
+      if (!root || root.getAttribute('data-drink-finder-ready') === 'true') return;
+      root.setAttribute('data-drink-finder-ready', 'true');
+
+      var dataScript = root.querySelector('[data-drink-finder-products]');
+      var input = root.querySelector('[data-drink-finder-input]');
+      var submit = root.querySelector('[data-drink-finder-submit]');
+      var pills = Array.prototype.slice.call(root.querySelectorAll('[data-drink-finder-pill]'));
+      var resultsWrap = root.querySelector('[data-drink-finder-results]');
+      var track = root.querySelector('[data-drink-finder-track]');
+      var prevBtn = root.querySelector('[data-drink-finder-prev]');
+      var nextBtn = root.querySelector('[data-drink-finder-next]');
+      var emptyEl = root.querySelector('[data-drink-finder-empty]');
+      var statusEl = root.querySelector('[data-drink-finder-status]');
+      var pickWrap = root.querySelector('[data-drink-finder-pick]');
+      var pickIcon = root.querySelector('[data-drink-finder-pick-icon]');
+      var pickProduct = root.querySelector('[data-drink-finder-pick-product]');
+      var pickButton = root.querySelector('[data-drink-finder-pick-button]');
+      var pillsWrap = root.querySelector('[data-drink-finder-pills]');
+      var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var products = [];
+      try {
+        products = JSON.parse(dataScript ? dataScript.textContent : '[]');
+      } catch (e) {
+        products = [];
+      }
+      if (!Array.isArray(products)) products = [];
+
+      var catalog = products.map(function (product, order) {
+        return {
+          product: product,
+          order: order,
+          index: {
+            keywords: valueList(product.keywords).map(normalize).join(' | '),
+            title: normalize(product.title),
+            type: normalize(product.type),
+            text: normalize(product.text),
+          },
+        };
+      });
+
+      // Per pill: its filter (which products belong to the tab) and its words (to recognise it in a search).
+      var pillData = pills.map(function (pill) {
+        var terms = splitTerms(pill.getAttribute('data-filter-tag'));
+        var labelEl = pill.querySelector('.drink-finder__pill-label');
+        var labelWords = tokenize(normalize(labelEl ? labelEl.textContent : ''));
+        var words = tokenize(terms.join(' ')).concat(labelWords);
+        return {
+          el: pill,
+          scorer: terms.length ? pillMatcher(terms) : null,
+          termRes: terms.map(function (term) {
+            return termRegExp(term, true);
+          }),
+          labelRes: labelWords.map(function (word) {
+            return termRegExp(word, true);
+          }),
+          words: words,
+        };
+      });
+
+      var defaultPlaceholder = input.getAttribute('data-default-placeholder') || input.getAttribute('placeholder') || '';
+      var activePill = null;
+      var matches = [];
+      var debounceId = null;
+      var arrowFrame = null;
+      var sizer = null;
+      var desktopMq = null;
+      var inView = true;
+      var inputFocused = false;
+
+      // ---------- Typing placeholder ----------
+      var typingPhrases = String(input.getAttribute('data-typing-phrases') || '')
+        .split(/\r?\n/)
+        .map(function (line) {
+          return line.trim();
+        })
+        .filter(Boolean);
+      var longestPhrase = typingPhrases.reduce(function (longest, phrase) {
+        return phrase.length > longest.length ? phrase : longest;
+      }, '');
+      var typing = { timer: null, running: false, phrase: 0, chars: 0, deleting: false };
+
+      function setPlaceholder(text) {
+        if (input.getAttribute('placeholder') !== text) input.setAttribute('placeholder', text);
+      }
+
+      function canType() {
+        return (
+          typingPhrases.length > 0 &&
+          !reduceMotion &&
+          !activePill &&
+          !input.value &&
+          !inputFocused &&
+          inView &&
+          !document.hidden
+        );
+      }
+
+      function stopTyping() {
+        window.clearTimeout(typing.timer);
+        typing.timer = null;
+        typing.running = false;
+      }
+
+      function typeTick() {
+        if (!canType()) {
+          stopTyping();
+          refreshPlaceholder();
+          return;
+        }
+        var phrase = typingPhrases[typing.phrase];
+        if (!typing.deleting) {
+          typing.chars += 1;
+          setPlaceholder(phrase.slice(0, typing.chars));
+          if (typing.chars >= phrase.length) {
+            typing.deleting = true;
+            typing.timer = window.setTimeout(typeTick, HOLD_MS);
+          } else {
+            typing.timer = window.setTimeout(typeTick, TYPE_MS);
+          }
+        } else {
+          typing.chars -= 1;
+          setPlaceholder(phrase.slice(0, Math.max(0, typing.chars)));
+          if (typing.chars <= 0) {
+            typing.deleting = false;
+            typing.chars = 0;
+            typing.phrase = (typing.phrase + 1) % typingPhrases.length;
+            typing.timer = window.setTimeout(typeTick, NEXT_MS);
+          } else {
+            typing.timer = window.setTimeout(typeTick, DELETE_MS);
+          }
+        }
+      }
+
+      // Placeholder priority: active tab sentence > typing phrases > static placeholder.
+      function refreshPlaceholder() {
+        if (activePill) {
+          stopTyping();
+          setPlaceholder(activePill.getAttribute('data-search-text') || defaultPlaceholder);
+        } else if (!typingPhrases.length) {
+          setPlaceholder(defaultPlaceholder);
+        } else if (canType()) {
+          if (!typing.running) {
+            typing.running = true;
+            typing.chars = 0;
+            typing.deleting = false;
+            setPlaceholder('');
+            typing.timer = window.setTimeout(typeTick, NEXT_MS);
+          }
+          return;
+        } else {
+          // Paused (focused, off screen, reduced motion): show the current phrase in full.
+          stopTyping();
+          setPlaceholder(typingPhrases[typing.phrase]);
+        }
+        if (!input.value) fitInput();
+      }
+
+      function dataFor(pill) {
+        for (var i = 0; i < pillData.length; i++) {
+          if (pillData[i].el === pill) return pillData[i];
+        }
+        return null;
+      }
+
+      // Active tab -> "I need something that keeps [filter]" in the search field.
+      function setActivePill(pill) {
+        activePill = pill || null;
+        pills.forEach(function (item) {
+          var on = item === activePill;
+          item.classList.toggle('drink-finder__pill--active', on);
+          item.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        refreshPlaceholder();
+        syncPills();
+      }
+
+      // Filters stay hidden until the customer types; they stay visible while a filter is selected.
+      function syncPills() {
+        if (!pillsWrap) return;
+        var show = !!normalize(input.value) || !!activePill;
+        if (pillsWrap.hidden === !show) return;
+        pillsWrap.hidden = !show;
+      }
+
+      // How strongly a search names a tab: filter term (3), label word (2), typed start of a word (1).
+      function directPillScore(data, query, tokens) {
+        var score = 0;
+        var i;
+        for (i = 0; i < data.termRes.length; i++) {
+          if (data.termRes[i].test(query)) score += 3;
+        }
+        for (i = 0; i < data.labelRes.length; i++) {
+          if (data.labelRes[i].test(query)) score += 2;
+        }
+        for (i = 0; i < tokens.length; i++) {
+          for (var j = 0; j < data.words.length; j++) {
+            if (data.words[j].indexOf(tokens[i]) === 0) {
+              score += 1;
+              break;
+            }
+          }
+        }
+        return score;
+      }
+
+      // Best score wins, on a tie the current tab stays.
+      function choosePill(candidates) {
+        if (!candidates.length) return null;
+        var best = 0;
+        candidates.forEach(function (c) {
+          if (c.score > best) best = c.score;
+        });
+        var top = candidates.filter(function (c) {
+          return c.score === best;
+        });
+        for (var i = 0; i < top.length; i++) {
+          if (top[i].data.el === activePill) return activePill;
+        }
+        return top[0].data.el;
+      }
+
+      // Search -> tab: 1) the text names a tab, 2) else the tab that contains the top result, 3) else none.
+      function resolvePill(rawQuery, topEntry) {
+        var query = normalize(rawQuery);
+        var tokens = tokenize(query);
+        var named = [];
+        pillData.forEach(function (data) {
+          var score = directPillScore(data, query, tokens);
+          if (score > 0) named.push({ data: data, score: score });
+        });
+        if (named.length) return choosePill(named);
+        if (!topEntry) return null;
+        var containing = [];
+        pillData.forEach(function (data) {
+          if (data.scorer && data.scorer(topEntry.index) > 0) containing.push({ data: data, score: 1 });
+        });
+        return choosePill(containing);
+      }
+
+      // ---------- Autoplay ----------
+      var autoplayOn = root.getAttribute('data-autoplay') === 'true';
+      var autoplayMs = Math.max(2, parseFloat(root.getAttribute('data-autoplay-speed')) || 5) * 1000;
+      var autoplayTimer = null;
+      var hoverPause = false;
+      var focusPause = false;
+
+      function canAutoplay() {
+        return (
+          autoplayOn &&
+          !reduceMotion &&
+          !resultsWrap.hidden &&
+          track.scrollWidth - track.clientWidth > 2 &&
+          !hoverPause &&
+          !focusPause &&
+          inView &&
+          !document.hidden
+        );
+      }
+
+      function stopAutoplay() {
+        window.clearTimeout(autoplayTimer);
+        autoplayTimer = null;
+      }
+
+      // (Re)starts the countdown, so a manual slide or swipe gets the full interval.
+      function scheduleAutoplay() {
+        stopAutoplay();
+        if (!canAutoplay()) return;
+        autoplayTimer = window.setTimeout(function () {
+          autoplayTimer = null;
+          if (!canAutoplay()) return;
+          var max = track.scrollWidth - track.clientWidth;
+          if (track.scrollLeft >= max - 2) {
+            scrollToStart();
+          } else {
+            slide(1);
+          }
+          scheduleAutoplay();
+        }, autoplayMs);
+      }
+
+      function hideAll() {
+        matches = [];
+        track.innerHTML = '';
+        resultsWrap.hidden = true;
+        emptyEl.hidden = true;
+        pickWrap.hidden = true;
+        statusEl.textContent = '';
+        stopAutoplay();
+      }
+
+      function selectItem(position) {
+        var product = matches[position];
+        if (!product) return;
+        Array.prototype.forEach.call(track.children, function (item, i) {
+          var on = i === position;
+          item.classList.toggle('is-selected', on);
+          item.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        pickIcon.innerHTML = '';
+        if (product.image) {
+          var img = document.createElement('img');
+          img.src = product.image;
+          img.alt = '';
+          img.width = 56;
+          img.height = 56;
+          pickIcon.appendChild(img);
+        } else {
+          var letter = document.createElement('span');
+          letter.textContent = (product.title || '').charAt(0).toUpperCase();
+          pickIcon.appendChild(letter);
+        }
+        pickProduct.textContent = product.title + ' — ' + product.price;
+        pickButton.setAttribute('href', product.url);
+        pickWrap.hidden = false;
+      }
+
+      function buildItem(product, position) {
+        var item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'drink-finder__results-item';
+        item.setAttribute('aria-pressed', 'false');
+
+        var thumb = document.createElement('span');
+        thumb.className = 'drink-finder__results-thumb';
+        if (product.image) {
+          var img = document.createElement('img');
+          img.src = product.image;
+          img.alt = '';
+          img.width = 32;
+          img.height = 32;
+          img.loading = 'lazy';
+          thumb.appendChild(img);
+        }
+
+        var text = document.createElement('span');
+        text.className = 'drink-finder__results-text';
+        var name = document.createElement('span');
+        name.className = 'drink-finder__results-name';
+        name.textContent = product.title;
+        var price = document.createElement('span');
+        price.className = 'drink-finder__results-price';
+        price.textContent = product.price;
+        text.appendChild(name);
+        text.appendChild(price);
+
+        item.appendChild(thumb);
+        item.appendChild(text);
+        item.addEventListener('click', function () {
+          selectItem(position);
+        });
+        return item;
+      }
+
+      function updateArrows() {
+        var max = track.scrollWidth - track.clientWidth;
+        prevBtn.disabled = track.scrollLeft <= 2;
+        nextBtn.disabled = track.scrollLeft >= max - 2;
+      }
+
+      function gapSize() {
+        var styles = window.getComputedStyle(track);
+        return parseFloat(styles.columnGap || styles.gap) || 0;
+      }
+
+      // One click = one page of 3 cards.
+      function slide(direction) {
+        var distance = (track.clientWidth + gapSize()) * direction;
+        if (typeof track.scrollBy === 'function') {
+          track.scrollBy({ left: distance, behavior: reduceMotion ? 'auto' : 'smooth' });
+        } else {
+          track.scrollLeft += distance;
+        }
+      }
+
+      function scrollToStart() {
+        if (typeof track.scrollTo === 'function') {
+          track.scrollTo({ left: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+        } else {
+          track.scrollLeft = 0;
+        }
+      }
+
+      function render(list) {
+        matches = list;
+        track.innerHTML = '';
+        if (!list.length) {
+          resultsWrap.hidden = true;
+          pickWrap.hidden = true;
+          emptyEl.hidden = false;
+          statusEl.textContent = emptyEl.textContent.trim();
+          stopAutoplay();
+          return;
+        }
+        emptyEl.hidden = true;
+        var fragment = document.createDocumentFragment();
+        list.forEach(function (product, position) {
+          fragment.appendChild(buildItem(product, position));
+        });
+        track.appendChild(fragment);
+        resultsWrap.classList.toggle('has-slider', list.length > 3);
+        resultsWrap.hidden = false;
+        track.scrollLeft = 0;
+        statusEl.textContent = list.length + (list.length === 1 ? ' product found' : ' products found');
+        selectItem(0);
+        updateArrows();
+        scheduleAutoplay();
+      }
+
+      function run() {
+        var searchScorer = searchMatcher(input.value);
+        var activeData = activePill ? dataFor(activePill) : null;
+        var scorer = searchScorer || (activeData ? activeData.scorer : null);
+        if (!scorer) {
+          hideAll();
+          return;
+        }
+        var ranked = [];
+        catalog.forEach(function (entry) {
+          var score = scorer(entry.index);
+          if (score > 0) ranked.push({ entry: entry, score: score });
+        });
+        ranked.sort(function (a, b) {
+          return b.score - a.score || a.entry.order - b.entry.order;
+        });
+        if (searchScorer) setActivePill(resolvePill(input.value, ranked.length ? ranked[0].entry : null));
+        render(
+          ranked.map(function (row) {
+            return row.entry.product;
+          })
+        );
+      }
+
+      function runNow() {
+        window.clearTimeout(debounceId);
+        run();
+      }
+
+      // Mobile: search text wraps to max 2 lines (like the design), desktop stays 1 line via CSS.
+      desktopMq = window.matchMedia ? window.matchMedia('(min-width: 769px)') : null;
+      sizer = document.createElement('div');
+      sizer.setAttribute('aria-hidden', 'true');
+      sizer.style.cssText =
+        'position:absolute;left:-9999px;top:0;visibility:hidden;pointer-events:none;white-space:pre-wrap;overflow-wrap:break-word;';
+      root.appendChild(sizer);
+
+      function fitInput() {
+        if (!sizer) return;
+        if (desktopMq && desktopMq.matches) {
+          input.style.height = '';
+          return;
+        }
+        var styles = window.getComputedStyle(input);
+        var line = parseFloat(styles.lineHeight) || 21;
+        sizer.style.width = input.clientWidth + 'px';
+        sizer.style.fontFamily = styles.fontFamily;
+        sizer.style.fontSize = styles.fontSize;
+        sizer.style.fontWeight = styles.fontWeight;
+        sizer.style.letterSpacing = styles.letterSpacing;
+        sizer.style.lineHeight = styles.lineHeight;
+        // While phrases type in and out, size for the longest one so the field doesn't jump.
+        var placeholderText = !activePill && longestPhrase ? longestPhrase : input.getAttribute('placeholder');
+        sizer.textContent = input.value || placeholderText || ' ';
+        var lines = Math.max(1, Math.min(2, Math.round(sizer.scrollHeight / line)));
+        input.style.height = lines * line + 'px';
+      }
+
+      // Typing searches all products and selects the matching tab, a tab click clears the text.
+      input.addEventListener('input', function () {
+        syncPills();
+        refreshPlaceholder();
+        fitInput();
+        window.clearTimeout(debounceId);
+        debounceId = window.setTimeout(run, 200);
+      });
+      input.addEventListener('keydown', function (event) {
+        if (event.key !== 'Enter' || event.isComposing) return;
+        event.preventDefault();
+        runNow();
+      });
+      input.addEventListener('focus', function () {
+        inputFocused = true;
+        refreshPlaceholder();
+      });
+      input.addEventListener('blur', function () {
+        inputFocused = false;
+        refreshPlaceholder();
+      });
+      submit.addEventListener('click', runNow);
+
+      pills.forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          var hadText = !!normalize(input.value);
+          input.value = '';
+          fitInput();
+          setActivePill(pill === activePill && !hadText ? null : pill);
+          runNow();
+        });
+      });
+
+      fitInput();
+      if ('ResizeObserver' in window) {
+        var lastInputWidth = 0;
+        new ResizeObserver(function () {
+          if (input.clientWidth === lastInputWidth) return;
+          lastInputWidth = input.clientWidth;
+          fitInput();
+        }).observe(input);
+      } else {
+        window.addEventListener('resize', fitInput);
+      }
+      if (desktopMq && desktopMq.addEventListener) desktopMq.addEventListener('change', fitInput);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitInput);
+
+      prevBtn.addEventListener('click', function () {
+        slide(-1);
+        scheduleAutoplay();
+      });
+      nextBtn.addEventListener('click', function () {
+        slide(1);
+        scheduleAutoplay();
+      });
+      track.addEventListener(
+        'scroll',
+        function () {
+          if (arrowFrame) return;
+          arrowFrame = window.requestAnimationFrame(function () {
+            arrowFrame = null;
+            updateArrows();
+          });
+        },
+        { passive: true }
+      );
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(updateArrows).observe(track);
+      } else {
+        window.addEventListener('resize', updateArrows);
+      }
+
+      // Autoplay pauses: hover (desktop), keyboard focus inside the slider. A swipe restarts the countdown.
+      resultsWrap.addEventListener('mouseenter', function () {
+        hoverPause = true;
+        stopAutoplay();
+      });
+      resultsWrap.addEventListener('mouseleave', function () {
+        hoverPause = false;
+        scheduleAutoplay();
+      });
+      resultsWrap.addEventListener('focusin', function (event) {
+        var keyboard = false;
+        try {
+          keyboard = event.target.matches(':focus-visible');
+        } catch (e) {
+          keyboard = false;
+        }
+        focusPause = keyboard;
+        if (keyboard) stopAutoplay();
+      });
+      resultsWrap.addEventListener('focusout', function (event) {
+        if (event.relatedTarget && resultsWrap.contains(event.relatedTarget)) return;
+        focusPause = false;
+        scheduleAutoplay();
+      });
+      track.addEventListener('touchstart', scheduleAutoplay, { passive: true });
+
+      // Off screen or background tab: stop typing and autoplay, resume when back.
+      function onVisibilityChange() {
+        refreshPlaceholder();
+        scheduleAutoplay();
+      }
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          inView = entries[0].isIntersecting;
+          onVisibilityChange();
+        }).observe(root);
+      }
+      document.addEventListener('visibilitychange', onVisibilityChange);
+
+      // Page load: nothing selected and no results, unless "Show results on page load" set a default tab.
+      var defaultPill = null;
+      pills.forEach(function (pill) {
+        if (!defaultPill && pill.getAttribute('aria-pressed') === 'true') defaultPill = pill;
+      });
+      setActivePill(defaultPill);
+      if (defaultPill) run();
+    }
+
+    function initAll() {
+      Array.prototype.forEach.call(document.querySelectorAll('[data-drink-finder]'), function (root) {
+        initDrinkFinder(root);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+      initAll();
+    }
+    document.addEventListener('shopify:section:load', function (event) {
+      var root = event.target.querySelector('[data-drink-finder]');
+      if (root) initDrinkFinder(root);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Drink Finder",
+  "tag": "section",
+  "class": "section-drink-finder",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_background_image",
+      "label": "Background image (mobile)",
+      "info": "Optional. Falls back to the desktop image if not set."
+    },
+    {
+      "type": "checkbox",
+      "id": "overlay",
+      "label": "Overlay",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "Section height",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "fit_screen", "label": "Fit screen" },
+        { "value": "auto", "label": "Auto" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "select",
+      "id": "mobile_section_height",
+      "label": "Section height (Mobile)",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "fit_screen", "label": "Fit screen" },
+        { "value": "auto", "label": "Auto" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "Find Your Fit"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What Are You Drinking Today?"
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Products to search",
+      "info": "Leave empty to search all products (up to 250)."
+    },
+    {
+      "type": "textarea",
+      "id": "typing_phrases",
+      "label": "Typing phrases",
+      "default": "I need a tumbler that keeps my coffee warm for a long time\nI need a stainless steel coffee mug\nI am looking for a short coffee tumbler",
+      "info": "One per line. Typed in and out of the empty search field. Leave empty for a static placeholder."
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "I need something that keeps ice all day...",
+      "info": "Used when there are no typing phrases."
+    },
+    {
+      "type": "text",
+      "id": "pill_search_template",
+      "label": "Search text when a filter is selected",
+      "default": "I need something that keeps [filter]",
+      "info": "[filter] becomes the filter label, e.g. I need something that keeps morning coffee. A filter's own search text overrides this."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_results_on_load",
+      "label": "Show results on page load",
+      "default": false,
+      "info": "Off: results appear once the customer types or picks a filter. On: the filter marked 'Active by default' shows its results right away."
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "No results message",
+      "default": "No matches found. Try another search."
+    },
+    {
+      "type": "paragraph",
+      "content": "A product shows when the search term is found in any of: custom.search_keywords, title, product type or description. Ranking: keywords, title, type, description. A search also selects the matching filter: the one named in the text, else the one that contains the top result. More than 3 results turn into a slider: 3 per view on desktop, swipe on mobile."
+    },
+    {
+      "type": "header",
+      "content": "Results slider"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate",
+      "default": true,
+      "info": "Moves to the next set of products and loops back to the start. Pauses on hover."
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Change every",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Our pick"
+    },
+    {
+      "type": "paragraph",
+      "content": "The product shown here is not chosen in the customizer. The first result is picked automatically, a click on another result replaces it."
+    },
+    {
+      "type": "text",
+      "id": "pick_label",
+      "label": "Label",
+      "default": "Our Pick"
+    },
+    {
+      "type": "text",
+      "id": "pick_button_label",
+      "label": "Button label",
+      "default": "Design Your Scout"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top (mobile)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (mobile)",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "filter_pill",
+      "name": "Filter pill",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "coffee", "label": "Coffee" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "droplet", "label": "Droplet" },
+            { "value": "pin", "label": "Pin" },
+            { "value": "clock", "label": "Clock" }
+          ],
+          "default": "sparkle"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Something cold"
+        },
+        {
+          "type": "text",
+          "id": "filter_tag",
+          "label": "Filter terms",
+          "info": "Comma separated, e.g. cold, ice, iced. A product shows if one term appears as a whole word in its keywords, title, product type or description.",
+          "default": "cold"
+        },
+        {
+          "type": "text",
+          "id": "search_text",
+          "label": "Search text (optional)",
+          "info": "Shown in the search field when this filter is selected. Leave empty to use the section template."
+        },
+        {
+          "type": "checkbox",
+          "id": "default_active",
+          "label": "Active by default",
+          "default": false,
+          "info": "Only used when 'Show results on page load' is on."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Drink Finder",
+      "blocks": [
+        { "type": "filter_pill", "settings": { "icon": "coffee", "label": "Morning coffee", "filter_tag": "morning" } },
+        {
+          "type": "filter_pill",
+          "settings": { "icon": "sparkle", "label": "Something cold", "filter_tag": "cold", "default_active": true }
+        },
+        { "type": "filter_pill", "settings": { "icon": "droplet", "label": "All-day water", "filter_tag": "water" } },
+        { "type": "filter_pill", "settings": { "icon": "pin", "label": "On the go", "filter_tag": "go" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,14 @@
+{%- comment -%}
+  Payment badges for the cart drawer (Shop Pay / Apple Pay / PayPal).
+  Display only. Each one can be hidden in Theme settings → Cart drawer.
+  Used by sections/cart-drawer.liquid
+{%- endcomment -%}
+{%- if settings.cart_drawer_express_shoppay -%}
+  <span class="cd-pay cd-pay--shop" role="listitem"><span class="cd-pay__shop">shop</span>&nbsp;Pay</span>
+{%- endif -%}
+{%- if settings.cart_drawer_express_applepay -%}
+  <span class="cd-pay cd-pay--apple" role="listitem">Apple Pay</span>
+{%- endif -%}
+{%- if settings.cart_drawer_express_paypal -%}
+  <span class="cd-pay cd-pay--paypal" role="listitem">PayPal</span>
+{%- endif -%}

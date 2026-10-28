@@ -1,0 +1,123 @@
+{%- comment -%}
+  Contact page: "Quick answers" FAQ. Intro on the left, numbered questions
+  (question blocks) on the right. Native <details>, so it works without JS.
+{%- endcomment -%}
+{{ 'unit-contact.css' | asset_url | stylesheet_tag }}
+<style>
+  #UnitContactFaq-{{ section.id }} .uc-faq__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #UnitContactFaq-{{ section.id }} .uc-faq__icon svg{
+    width:15px;
+    height:15px;
+    
+  }
+  #UnitContactFaq-{{ section.id }} .uc-faq__icon-minus {
+    display: none;
+  }
+
+  #UnitContactFaq-{{ section.id }} details[open] .uc-faq__icon-plus {
+    display: none;
+  }
+
+  #UnitContactFaq-{{ section.id }} details[open] .uc-faq__icon-minus {
+    display: block;
+  }
+</style>
+<section
+  id="UnitContactFaq-{{ section.id }}"
+  class="uc uc-faq"
+  style="
+    --uc-pt: {{ section.settings.padding_top }}px;
+    --uc-pb: {{ section.settings.padding_bottom }}px;
+    --uc-pt-m: {{ section.settings.padding_top_mobile }}px;
+    --uc-pb-m: {{ section.settings.padding_bottom_mobile }}px;
+  "
+>
+  <div class="uc__container">
+    <div class="uc-faq__grid">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="uc-faq__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="uc-faq__title font-canela">{{ section.settings.title | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="uc-faq__text">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link | default: '#' }}" class="uc-btn uc-btn--outline uc-faq__btn">{{ section.settings.button_label | escape }}</a>
+        {%- endif -%}
+      </div>
+
+      <ul class="uc-faq__list" role="list">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}>
+            <details class="uc-faq__item"{% if forloop.first and section.settings.open_first %} open{% endif %}>
+              <summary>
+                <span class="uc-faq__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                <span class="uc-faq__q">{{ block.settings.question | escape }}</span>
+               
+                <span class="uc-faq__icon" aria-hidden="true">
+                  <svg class="uc-faq__icon-plus" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                    <rect y="6.84961" width="15" height="1.3" fill="currentColor" fill-opacity="0.75"/>
+                    <rect x="6.84961" width="1.3" height="15" fill="currentColor" fill-opacity="0.75"/>
+                  </svg>
+
+                  <svg class="uc-faq__icon-minus" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                    <rect y="6.84961" width="15" height="1.3" fill="currentColor" fill-opacity="0.75"/>
+                  </svg>
+                </span>
+              </summary>
+              <div class="uc-faq__a">{{ block.settings.answer }}</div>
+            </details>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Unit contact: FAQ",
+  "tag": "section",
+  "class": "section-unit-contact-faq",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "FAQs" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Quick Answers" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>The questions we hear most. Can't find yours? Call or email and we'll help.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Visit support center" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "checkbox", "id": "open_first", "label": "Open the first question", "default": true },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top padding (mobile)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom padding (mobile)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Where is my order?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Orders ship within 1-2 business days. You'll get a tracking link by email as soon as yours leaves our warehouse, and you can track it any time with your order number and email.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Unit contact: FAQ",
+      "blocks": [
+        { "type": "question", "settings": { "question": "Where is my order?" } },
+        { "type": "question", "settings": { "question": "How do I return or exchange something?", "answer": "<p>Add your answer here.</p>" } },
+        { "type": "question", "settings": { "question": "What does the lifetime hardware warranty cover?", "answer": "<p>Add your answer here.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

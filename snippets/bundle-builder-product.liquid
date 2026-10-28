@@ -1,0 +1,184 @@
+{%- comment -%}
+  Bundle builder product card (sections/bundle-builder.liquid)
+  Accepts:
+  - product: {Object} product
+  - bb_settings: {Object} section.settings
+  - bb_handles: {String} handles of every product in the section's collections, as |handle|handle|
+    (colour swatches only link to products from those collections, so the backend discount applies)
+
+  Colours are separate products linked with the variants.related_product_color_1..8 metafields.
+  The card's own product is option 0; bundle-builder.js swaps the card to another option
+  when a swatch is clicked (mobile).
+{%- endcomment -%}
+
+{%- liquid
+  assign seen = '|' | append: product.handle | append: '|'
+  assign options_count = 0
+  assign swatches_html = ''
+-%}
+
+{%- capture options_json -%}
+  {%- for n in (0..8) -%}
+    {%- liquid
+      if n == 0
+        assign option = product
+      else
+        assign key = 'related_product_color_' | append: n
+        assign option = product.metafields.variants[key].value
+        if option == blank
+          continue
+        endif
+        assign option_handle = '|' | append: option.handle | append: '|'
+        if seen contains option_handle
+          continue
+        endif
+        unless bb_handles contains option_handle
+          continue
+        endunless
+        if bb_settings.hide_sold_out and option.available == false
+          continue
+        endif
+        assign seen = seen | append: option.handle | append: '|'
+      endif
+
+      assign option_variant = option.selected_or_first_available_variant
+      assign option_title = option.metafields.product_cards.product_card_title.value | default: option.title
+      assign option_image = option.featured_image
+      assign option_srcset = ''
+      if option_image
+        assign src_200 = option_image | image_url: width: 200
+        assign src_300 = option_image | image_url: width: 300
+        assign src_500 = option_image | image_url: width: 500
+        assign option_srcset = src_200 | append: ' 200w, ' | append: src_300 | append: ' 300w, ' | append: src_500 | append: ' 500w'
+      endif
+      assign option_rating = option.metafields.reviews.rating.value.rating | default: 0
+      assign option_rating_count = option.metafields.reviews.rating_count.value | default: 0
+      assign options_count = options_count | plus: 1
+    -%}
+    {%- capture swatch -%}
+      <button
+        type="button"
+        class="bundle-builder__swatch{% if n == 0 %} is-active{% endif %}"
+        data-bundle-builder-swatch="{{ options_count | minus: 1 }}"
+        aria-pressed="{% if n == 0 %}true{% else %}false{% endif %}"
+        aria-label="{{ option_title | escape }}{% if option.metafields.info.subtitle.value != blank %} – {{ option.metafields.info.subtitle.value | escape }}{% endif %}"
+      >
+        {%- if option_image -%}
+          {{ option_image | image_url: width: 60 | image_tag: loading: 'lazy', alt: '', width: 20, height: 20 }}
+        {%- endif -%}
+      </button>
+    {%- endcapture -%}
+    {%- assign swatches_html = swatches_html | append: swatch -%}
+    {%- unless options_count == 1 -%},{%- endunless -%}
+    {
+      "variantId": {{ option_variant.id | json }},
+      "productId": {{ option.id | json }},
+      "title": {{ option_title | json }},
+      "subtitle": {{ option.metafields.info.subtitle.value | default: '' | json }},
+      "price": {{ option_variant.price | json }},
+      "compareAt": {% if option_variant.compare_at_price > option_variant.price %}{{ option_variant.compare_at_price | json }}{% else %}0{% endif %},
+      "available": {{ option_variant.available | json }},
+      "image": {% if option_image %}{{ option_image | image_url: width: 500 | json }}{% else %}""{% endif %},
+      "srcset": {{ option_srcset | json }},
+      "thumb": {% if option_image %}{{ option_image | image_url: width: 120 | json }}{% else %}""{% endif %},
+      "alt": {{ option_image.alt | default: option_title | json }},
+      "rating": {{ option_rating | json }},
+      "ratingCount": {{ option_rating_count | json }}
+    }
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign title = product.metafields.product_cards.product_card_title.value | default: product.title
+  assign subtitle = product.metafields.info.subtitle.value
+  assign rating = product.metafields.reviews.rating.value.rating
+  assign rating_count = product.metafields.reviews.rating_count.value | default: 0
+  assign rating_pct = 0
+  if rating
+    assign rating_pct = rating | times: 1.0 | divided_by: 5 | times: 100
+  endif
+-%}
+
+<div class="bundle-builder__slide" data-bundle-builder-slide data-product-id="{{ product.id }}">
+  <article class="bundle-builder__product" data-bundle-builder-product>
+    <script type="application/json" data-bundle-builder-options>[{{ options_json }}]</script>
+
+    <div class="bundle-builder__media" data-bundle-builder-media>
+      <span class="bundle-builder__badge">{{ bb_settings.badge_label | escape }}</span>
+      {%- if product.featured_image -%}
+        {{
+          product.featured_image
+          | image_url: width: 500
+          | image_tag:
+            widths: '200, 300, 500',
+            sizes: '(min-width: 769px) 220px, 80px',
+            loading: 'lazy',
+            class: 'bundle-builder__image',
+            alt: title,
+            data-bundle-builder-image: ''
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'bundle-builder__image bundle-builder__image--placeholder' }}
+      {%- endif -%}
+    </div>
+
+    <p class="bundle-builder__rating" data-bundle-builder-rating{% unless rating %} hidden{% endunless %}>
+      <span class="bundle-builder__stars" style="--bundle-builder-rating: {{ rating_pct }}%;" aria-hidden="true"></span>
+      <span data-bundle-builder-rating-value>{{ rating | default: 0 | round: 1 }}</span>
+      <span data-bundle-builder-rating-count>({{ rating_count }})</span>
+    </p>
+
+    <h3 class="bundle-builder__title" data-bundle-builder-title>{{ title | escape }}</h3>
+
+    <p class="bundle-builder__subtitle" data-bundle-builder-subtitle{% if subtitle == blank %} hidden{% endif %}>
+      {{- subtitle | escape -}}
+    </p>
+
+    <p class="bundle-builder__price">
+      <span class="bundle-builder__price-short" data-bundle-builder-price-short>
+        {{- variant.price | money_without_trailing_zeros -}}
+      </span>
+      <span class="bundle-builder__price-full" data-bundle-builder-price-full>{{ variant.price | money }}</span>
+      <s
+        class="bundle-builder__price-compare"
+        data-bundle-builder-price-compare
+        {% unless variant.compare_at_price > variant.price %}
+          hidden
+        {% endunless %}
+      >
+        {{- variant.compare_at_price | money_without_trailing_zeros -}}
+      </s>
+    </p>
+
+    {%- if options_count > 1 -%}
+      <div class="bundle-builder__swatches">{{ swatches_html }}</div>
+    {%- endif -%}
+
+    <button
+      type="button"
+      class="bundle-builder__toggle"
+      data-bundle-builder-toggle
+      aria-pressed="false"
+      aria-label="{{ bb_settings.add_label | escape }}: {{ title | escape }}"
+      {% unless variant.available %}
+        disabled
+      {% endunless %}
+    >
+      <svg class="bundle-builder__toggle-icon bundle-builder__toggle-icon--add" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <path d="M2.70834 6.5H10.2917" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+        <path d="M6.5 2.70831V10.2916" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+      </svg>
+      <svg class="bundle-builder__toggle-icon bundle-builder__toggle-icon--added" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <path d="M10.8333 3.25L4.875 9.20833L2.16666 6.5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+      </svg>
+      <span class="bundle-builder__toggle-label" data-bundle-builder-toggle-label>
+        {%- if variant.available -%}
+          {{- bb_settings.add_label | escape -}}
+        {%- else -%}
+          {{- 'products.product.sold_out' | t -}}
+        {%- endif -%}
+      </span>
+    </button>
+  </article>
+</div>

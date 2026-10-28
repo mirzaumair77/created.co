@@ -1,0 +1,67 @@
+{%- comment -%}
+  Search drawer bestsellers slider (theme settings > Search drawer > Bestsellers).
+  Used by the drawer's initial view and its "no results" view.
+  Accepts:
+  - sdb_id: {String} id of the slider track (unique per render)
+{%- endcomment -%}
+
+{%- if settings.search_drawer_bestseller_collection != blank -%}
+  {%- assign sd_collection = settings.search_drawer_bestseller_collection -%}
+  {%- if sd_collection.products_count > 0 -%}
+    <div
+      class="search-drawer__section search-drawer__bestseller"
+      data-search-drawer-slider
+    >
+      <div class="search-drawer__section-head">
+        <div class="search-drawer__intro">
+          {%- if settings.search_drawer_bestseller_subheading != blank -%}
+            <p class="search-drawer__eyebrow">{{ settings.search_drawer_bestseller_subheading | escape }}</p>
+          {%- endif -%}
+          {%- if settings.search_drawer_bestseller_heading != blank -%}
+            <h2 class="search-drawer__heading">{{ settings.search_drawer_bestseller_heading | escape }}</h2>
+          {%- endif -%}
+        </div>
+
+        <div class="search-drawer__arrows">
+          <button
+            type="button"
+            class="search-drawer__arrow search-drawer__arrow--chevron"
+            aria-label="Previous products"
+            aria-controls="{{ sdb_id }}"
+            data-search-drawer-prev
+            disabled
+          >
+            <svg width="5" height="10" viewBox="0 0 5 10" fill="none" aria-hidden="true" focusable="false">
+              <path d="M4.78125 9.59375H3.15625L7.45058e-08 4.90625V4.75H1.78125L4.78125 9.59375ZM4.78125 -3.57628e-07L1.78125 4.84375H7.45058e-08V4.6875L3.15625 -3.57628e-07H4.78125Z" fill="currentColor"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="search-drawer__arrow search-drawer__arrow--chevron"
+            aria-label="Next products"
+            aria-controls="{{ sdb_id }}"
+            data-search-drawer-next
+          >
+            <svg width="5" height="10" viewBox="0 0 5 10" fill="none" aria-hidden="true" focusable="false">
+              <path d="M7.45058e-08 9.59375L3 4.75H4.78125V4.90625L1.625 9.59375H7.45058e-08ZM7.45058e-08 -3.57628e-07H1.625L4.78125 4.6875V4.84375H3L7.45058e-08 -3.57628e-07Z" fill="currentColor"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="search-drawer__swiper swiper" data-search-drawer-swiper="products">
+        <ul
+          class="search-drawer__track search-drawer__track--products swiper-wrapper"
+          id="{{ sdb_id }}"
+          role="list"
+        >
+          {%- for product in sd_collection.products limit: settings.search_drawer_bestseller_limit -%}
+            <li class="search-drawer__slide search-drawer__slide--product swiper-slide">
+              {%- render 'product-item', product: product, layout: 'card', skip_style: true -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}

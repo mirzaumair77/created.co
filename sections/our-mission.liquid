@@ -1,0 +1,281 @@
+{%- liquid
+  assign background = section.settings.background
+  assign heading = section.settings.heading
+  assign lead = section.settings.lead
+  assign text = section.settings.text
+  assign signature = section.settings.signature
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign padding_top_mobile = section.settings.padding_top_mobile
+  assign padding_bottom_mobile = section.settings.padding_bottom_mobile
+-%}
+
+{% style %}
+#shopify-section-{{ section.id }} .our-mission {
+  --our-mission-bg: {{ background }};
+  --our-mission-pt: {{ padding_top }}px;
+  --our-mission-pb: {{ padding_bottom }}px;
+  --our-mission-pt-mobile: {{ padding_top_mobile }}px;
+  --our-mission-pb-mobile: {{ padding_bottom_mobile }}px;
+}
+
+.our-mission {
+  padding-top: var(--our-mission-pt-mobile);
+  padding-bottom: var(--our-mission-pb-mobile);
+  background: var(--our-mission-bg);
+}
+
+.our-mission__container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.our-mission__heading {
+  width: 100%;
+  max-width: 260px;
+  padding-block-end: 28px;
+}
+
+.our-mission__heading h2 {
+  margin: 0;
+  font-family: var(--font-canela), var(--font-body-family);
+  color: #000;
+  font-size: 34px;
+  line-height: 34.68px;
+  letter-spacing: -0.34px;
+  font-weight: 100;
+}
+
+.our-mission__heading strong {
+  font-family: var(--font-basis-grotesque), var(--font-body-family);
+  font-size: 30.222px;
+  letter-spacing: -0.907px;
+  font-weight: 700;
+}
+
+
+.our-mission__lead,
+.our-mission__text {
+  padding-block-end: 28px;
+}
+
+.our-mission__lead p,
+.our-mission__text p {
+  margin: 0;
+  font-family: var(--font-basis-grotesque), var(--font-body-family);
+  font-size: 15px;
+  line-height: 25.5px;
+  font-weight: 400;
+}
+
+.our-mission__lead p {
+  color: #000;
+}
+
+.our-mission__text p {
+  color: #6E797F;
+}
+
+.our-mission__text p {
+  margin: 0;
+}
+
+.our-mission__text p + p {
+  margin-top: 1em;
+}
+
+.our-mission__text a,
+.our-mission__lead a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+.our-mission__signature p {
+  margin: 0;
+  font-family: var(--font-canela), var(--font-body-family);
+  color: #000;
+  font-size: 20px;
+  line-height: normal;
+  font-weight: 300;
+  font-style: italic;
+}
+
+@media (min-width: 769px) {
+  .our-mission {
+    padding-top: var(--our-mission-pt);
+    padding-bottom: var(--our-mission-pb);
+  }
+
+  .our-mission__container {
+    display: grid;
+    grid-template-columns: minmax(0, 57fr) minmax(0, 43fr);
+    align-items: start;
+    padding: 0 clamp(40px, 7vw, 100px);
+  }
+
+  .our-mission__heading {
+    padding-block-end: 0;
+    padding-right: 40px;
+    max-width: 100%;
+  }
+
+  .our-mission__heading h2 {
+    font-size: 48px;
+    line-height: 48.96px;
+    letter-spacing: -0.48px;
+    font-weight: 300;
+  }
+
+  .our-mission__heading strong {
+    font-size: 48px;
+    letter-spacing: -1.44px;
+  }
+
+  .our-mission__content {
+    max-width: 470px;
+  }
+
+  .our-mission__lead,
+  .our-mission__text {
+    padding-block-end: 20px;
+  }
+
+  .our-mission__lead p {
+    font-weight: 500;
+  }
+
+  .our-mission__lead p,
+  .our-mission__text p {
+    font-size: 17px;
+    line-height: 28.9px;
+  }
+
+  .our-mission__signature p {
+    font-size: 22px;
+    font-style: normal;
+  }
+}
+{% endstyle %}
+
+<section class="our-mission">
+  <div class="our-mission__container">
+    {%- if heading != blank -%}
+      <div class="our-mission__heading">
+        <h2>{{ heading }}</h2>
+      </div>
+    {%- endif -%}
+
+    {%- if lead != blank or text != blank or signature != blank -%}
+      <div class="our-mission__content">
+        {%- if lead != blank -%}
+          <div class="our-mission__lead">
+            <p>{{ lead }}</p>
+          </div>
+        {%- endif -%}
+
+        {%- if text != blank -%}
+          <div class="our-mission__text">
+            {{ text }}
+          </div>
+        {%- endif -%}
+
+        {%- if signature != blank -%}
+          <div class="our-mission__signature">
+            <p>{{ signature | escape }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Our Mission",
+  "tag": "div",
+  "class": "section-our-mission",
+  "settings": [
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Inspiring, <strong>connecting,</strong> and empowering <strong>people.</strong>",
+      "info": "Bold text uses the sans-serif style."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "lead",
+      "label": "Intro text",
+      "default": "It’s our goal to help you discover, and rediscover, the creative, spiritual, and material things that inspire you to show up, be big, and feel alive."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>When you pick up one of our products, we hope you feel it in the weight of the materials and the community behind it. We’re here to help you create good in your community, in your art, in your business, and in your human connection.</p>"
+    },
+    {
+      "type": "text",
+      "id": "signature",
+      "label": "Signature",
+      "default": "Live inspired."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 124
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 68
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 66
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Mission"
+    }
+  ]
+}
+{% endschema %}

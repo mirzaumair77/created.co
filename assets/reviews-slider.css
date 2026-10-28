@@ -1,0 +1,275 @@
+/* ================= Reviews slider — mobile first ================= */
+.rv {
+  --rv-gap: 16px;
+  --rv-peek: 0.15;              /* how much of the 2nd card shows on mobile (0.15 = 15%) */
+  /* 1 card + gap + 15% of a card = full width */
+  --rv-card-w: calc((100% - var(--rv-gap)) / (1 + var(--rv-peek)));
+  padding: var(--rv-pt) 0 var(--rv-pb);
+  overflow: hidden;
+  overflow: clip;               /* never lets cards push the page wider */
+  color: #0E1F2A;
+}
+
+/* ---------- Head ---------- */
+.rv__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  text-align: center;
+}
+.rv__subheading {
+    margin: 0 0 16px;
+    color: #6E797F;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 15px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+.rv__heading {
+  margin: 0;
+  color: #0E1F2A;
+  text-align: center;
+  font-family: canela, serif;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 43.2px;
+  letter-spacing: -1.5px;
+}
+
+/* ---------- Stars (svg mask) ---------- */
+.rv-stars {
+  --star-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 66 11'%3E%3Cpath d='M5.61363 8.20809L2.12357 10.7287L3.49928 6.62925L-5.51343e-06 4.09942H4.28409L5.61363 -1.18017e-05L6.94318 4.09942H11.2273L7.72798 6.62925L9.10369 10.7287L5.61363 8.20809ZM19.2103 8.20809L15.7203 10.7287L17.096 6.62925L13.5967 4.09942H17.8808L19.2103 -1.18017e-05L20.5399 4.09942H24.8239L21.3247 6.62925L22.7004 10.7287L19.2103 8.20809ZM32.807 8.20809L29.3169 10.7287L30.6926 6.62925L27.1934 4.09942H31.4774L32.807 -1.18017e-05L34.1365 4.09942H38.4206L34.9213 6.62925L36.297 10.7287L32.807 8.20809ZM46.4037 8.20809L42.9136 10.7287L44.2893 6.62925L40.79 4.09942H45.0741L46.4037 -1.18017e-05L47.7332 4.09942H52.0173L48.518 6.62925L49.8937 10.7287L46.4037 8.20809ZM60.0004 8.20809L56.5103 10.7287L57.886 6.62925L54.3867 4.09942H58.6708L60.0004 -1.18017e-05L61.3299 4.09942H65.614L62.1147 6.62925L63.4904 10.7287L60.0004 8.20809Z'/%3E%3C/svg%3E");
+  position: relative;
+  display: inline-block;
+  width: 78px;
+  height: 13px;
+  margin-bottom: 16px;
+}
+.rv-stars::before,
+.rv-stars::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  -webkit-mask: var(--star-svg) left center / 78px 13px no-repeat;
+          mask: var(--star-svg) left center / 78px 13px no-repeat;
+}
+.rv-stars::before { width: 100%; background: #d9dcde; }
+.rv-stars::after { width: var(--rating); background: #E25702; }
+.rv--stars-none .rv-stars { display: none; }
+
+/* ---------- Slider ---------- */
+.rv__slider:focus { outline: none; }
+.rv__slider .flickity-viewport { overflow: hidden; }
+.rv__slider { position: relative; }
+/* before Flickity starts: same layout, clipped, so nothing jumps or overflows */
+.rv__slider:not(.flickity-enabled) {
+  display: flex;
+  overflow: hidden;
+}
+.rv__slider .flickity-viewport { position: relative; touch-action: pan-y; }
+.rv__slider .flickity-slider { position: absolute; width: 100%; height: 100%; }
+.rv__cell {
+  flex-shrink: 0;
+  width: var(--rv-card-w);
+  margin-right: var(--rv-gap);
+}
+
+/* ---------- Card ---------- */
+.rv-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 259px;
+  margin: 0;
+  padding: 32px;
+  border-radius: 60px;
+  background: #F5F5F5;
+}
+.rv-card__top { text-align: center; }
+.rv-card__quote {
+  margin: 0 0 16px;
+  padding: 0;
+  border: 0;
+  color: #000;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19px;
+}
+.rv-card__name {
+  margin: 0;
+  color: #0E1F2A;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.rv-card__product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding-top: 16px;
+  border-top: 1px solid rgba(14, 31, 42, 0.10);
+}
+.rv-card__thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 67px;
+  height: 67px;
+  border-radius: 16px;
+  background: #fff;
+  overflow: hidden;
+}
+.rv-card__thumb img,
+.rv-card__thumb svg { max-width: 100%; max-height: 80%; width: 51px; height: auto; object-fit: contain; }
+
+.rv-card__info { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 0; }
+.rv-card__title {
+  margin: 0;
+  color: #0E1F2A;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19.5px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.rv-card__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    color: rgba(14, 31, 42, 0.80);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 13px;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .2s, color .2s, border-color .2s;
+    border-radius: 36473400px;
+    border: 1px solid rgba(14, 31, 42, 0.35);
+}
+.rv-card__btn:hover { background: #0E1F2A; border-color: #0E1F2A; color: #fff; }
+.rv-card__btn:focus-visible { outline: 1px solid #0E1F2A; outline-offset: 2px; }
+
+/* ---------- Nav ---------- */
+.rv__nav { display: none; justify-content: center; gap: 10px; margin-top: 24px; }
+.rv__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  color: #0E1F2A;
+  cursor: pointer;
+  transition: background .2s;
+  border-radius: 999px;
+background: #E7E9EA;
+}
+.rv__arrow:hover { background: #dcdcdc; }
+.rv__arrow:disabled { opacity: .4; cursor: default; }
+.rv__arrow:focus-visible { outline: 1px solid #0E1F2A; outline-offset: 2px; }
+
+/* ================= Desktop ================= */
+@media (min-width: 769px) {
+  /* exactly 3 full cards inside site-container, no peek */
+  .rv {
+    --rv-gap: 9px;
+    --rv-card-w: calc((100% - 2 * var(--rv-gap)) / 3);
+    padding: var(--rv-pt-d) 0 var(--rv-pb-d);
+  }
+  .rv__slider .flickity-viewport { overflow: hidden; }
+  .rv__cell:last-child { margin-right: 0; }
+.rv-card__info {  gap: 15px;  }
+  .rv--stars-mobile .rv-stars { display: none; }
+
+  .rv__head { margin-bottom: 46px; }
+  .rv__subheading { margin-bottom: 20px; }
+  .rv__heading {
+    font-size: 51px;
+    line-height: 51px;
+    letter-spacing: -2.16px;
+  }
+.rv .rv--stars-mobile .site-container {
+    padding: 0 22px;
+}
+  .rv-card {
+    height: auto;
+    min-height: 370px;
+    padding: 64px 30px 44px;
+    border-radius: 98px;
+    gap: 49px;
+  }
+  .rv-card__top { padding: 0 20px; }
+  .rv-card__quote { margin-bottom: 25px; font-size: 15px; }
+  .rv-card__name { font-size: 15px; }
+
+  .rv-card__product {
+    gap: 15px;
+   
+    padding: 26px 0 0 26px;
+  }
+  .rv-card__thumb { flex-basis: 85px; height: 85px; border-radius: 24px; }
+  .rv-card__thumb img,
+.rv-card__thumb svg { width: 65px;  }
+  .rv-card__title { font-size: 15px; line-height:15px;}
+  .rv-card__btn { padding: 10px 10px 11px; font-size: 13px; line-height: 13px; /* 100% */
+ letter-spacing: 0.4px;
+ border-radius: 999px;
+}
+
+  .rv__nav { margin-top: 31px; display:flex;}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-card__btn, .rv__arrow { transition: none; }
+}
+
+
+/* ================= Small desktop / tablet: 769px – 950px → 2.5 cards ================= */
+@media (min-width: 769px) and (max-width: 950px) {
+  .rv {
+    --rv-gap: 10px;
+    --rv-card-w: calc((100% - 2 * var(--rv-gap)) / 2.5);
+  }
+  .rv__cell:last-child { margin-right: var(--rv-gap); }
+
+  .rv__head { margin-bottom: 36px; }
+  .rv__heading { font-size: 44px; line-height: 46px; letter-spacing: -1.8px; }
+
+  .rv-card {
+    min-height: 330px;
+    padding: 48px 22px 34px;
+    border-radius: 80px;
+  }
+  .rv-card__top { padding: 0 8px; }
+  .rv-card__quote { margin-bottom: 20px; font-size: 14px; }
+  .rv-card__name { font-size: 14px; }
+
+  .rv-card__product {
+    gap: 12px;
+ 
+    padding: 22px 0 0 10px;
+  }
+  .rv-card__thumb { flex-basis: 70px; height: 70px; border-radius: 20px; }
+  .rv-card__info { gap: 10px; }
+  .rv-card__title { font-size: 14px; }
+  .rv-card__btn { padding: 8px 12px; font-size: 12px; }
+}

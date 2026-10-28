@@ -1,0 +1,25 @@
+{%- comment -%}
+  Search drawer spelling index ("Did you mean …?").
+  Titles, types and tags of up to 250 products from the "all" collection, as JSON.
+  Fetched by search-drawer.js with the Section Rendering API
+  (/?section_id=search-drawer-index) once per session, only when a search needs a
+  suggestion. Larger catalogs fall back to predictive search lookups in the script.
+{%- endcomment -%}
+
+{%- paginate collections.all.products by 250 -%}
+  <script type="application/json" data-search-drawer-index>
+    [
+      {%- for product in collections.all.products -%}
+        {"title":{{ product.title | json }},"type":{{ product.type | json }},"tags":{{ product.tags | json }}}
+        {%- unless forloop.last %},{% endunless -%}
+      {%- endfor -%}
+    ]
+  </script>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Search drawer index",
+  "tag": "div"
+}
+{% endschema %}

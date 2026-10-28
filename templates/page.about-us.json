@@ -1,0 +1,364 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "art_department_hero_QNfLMd": {
+      "type": "art-department-hero",
+      "name": "Art Department hero",
+      "settings": {
+        "image": "shopify://shop_images/art-department__desktop.png",
+        "mobile_image": "shopify://shop_images/art-department__mobile.png",
+        "banner_height": "fit_screen",
+        "enable_overlay": true,
+        "badge_text": "Art Department",
+        "badge_text_mobile": "Art Department · Now live: Drop 03",
+        "heading": "Art Department. Made by artists.",
+        "description": "<p>Limited runs of drinkware designed with the artists, illustrators and makers we love. Every collection is made in small batches - and when a run is gone, it moves to the archive.</p>",
+        "primary_button_label": "Shop the latest drop",
+        "primary_button_url": "",
+        "secondary_button_label": "Browse collections",
+        "secondary_button_url": "shopify://collections/all",
+        "padding_top_mobile": 80,
+        "padding_bottom_mobile": 40,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "our_mission_A89ypq": {
+      "type": "our-mission",
+      "name": "Our Mission",
+      "settings": {
+        "background": "#ffffff",
+        "heading": "Inspiring, <strong>connecting,</strong> and empowering <strong>people.</strong>",
+        "lead": "It’s our goal to help you discover, and rediscover, the creative, spiritual, and material things that inspire you to show up, be big, and feel alive.",
+        "text": "<p>When you pick up one of our products, we hope you feel it in the weight of the materials and the community behind it. We’re here to help you create good in your community, in your art, in your business, and in your human connection.</p>",
+        "signature": "Live inspired.",
+        "padding_top": 120,
+        "padding_bottom": 110,
+        "padding_top_mobile": 64,
+        "padding_bottom_mobile": 64
+      }
+    },
+    "our_journey_eWjt9j": {
+      "type": "our-journey",
+      "blocks": {
+        "milestone_DFaC8b": {
+          "type": "milestone",
+          "settings": {
+            "label": "2015",
+            "image": "shopify://shop_images/our-journey__story-2015.png",
+            "title": "Created opens its doors",
+            "text": "<p>We opened with a handful of mug designs and one big hope: that our drinkware might help inspire, connect, and empower people over a cup of coffee.</p>"
+          }
+        },
+        "milestone_7pdVJi": {
+          "type": "milestone",
+          "settings": {
+            "label": "2016",
+            "image": "shopify://shop_images/our-values.png",
+            "title": "Created opens its doors",
+            "text": "<p>We opened with a handful of mug designs and one big hope: that our drinkware might help inspire, connect, and empower people over a cup of coffee.</p>"
+          }
+        },
+        "milestone_nXfJ6z": {
+          "type": "milestone",
+          "settings": {
+            "label": "2018",
+            "image": "shopify://shop_images/giving-back.png",
+            "title": "Created opens its doors",
+            "text": "<p>We opened with a handful of mug designs and one big hope: that our drinkware might help inspire, connect, and empower people over a cup of coffee.</p>"
+          }
+        },
+        "milestone_m9eawW": {
+          "type": "milestone",
+          "settings": {
+            "label": "Today",
+            "image": "shopify://shop_images/creative-collaborations.png",
+            "title": "Created opens its doors",
+            "text": "<p>We opened with a handful of mug designs and one big hope: that our drinkware might help inspire, connect, and empower people over a cup of coffee.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "milestone_DFaC8b",
+        "milestone_7pdVJi",
+        "milestone_nXfJ6z",
+        "milestone_m9eawW"
+      ],
+      "name": "Our journey",
+      "settings": {
+        "background": "#000000",
+        "heading": "Our <strong>story</strong>",
+        "padding_top": 84,
+        "padding_bottom": 80,
+        "padding_top_mobile": 64,
+        "padding_bottom_mobile": 64
+      }
+    },
+    "our_values_QGqbTq": {
+      "type": "our-values",
+      "blocks": {
+        "value_94pmVR": {
+          "type": "value",
+          "settings": {
+            "title": "Inspire",
+            "text": "Design that makes the everyday feel a little bigger."
+          }
+        },
+        "value_EeeH4G": {
+          "type": "value",
+          "settings": {
+            "title": "Connect",
+            "text": "Built for the cup you share across a table."
+          }
+        },
+        "value_zBdDnf": {
+          "type": "value",
+          "settings": {
+            "title": "Empower",
+            "text": "Custom goods that help small businesses stand out."
+          }
+        }
+      },
+      "block_order": [
+        "value_94pmVR",
+        "value_EeeH4G",
+        "value_zBdDnf"
+      ],
+      "name": "Our values",
+      "settings": {
+        "background": "#ffffff",
+        "image": "shopify://shop_images/our-values.png",
+        "heading_highlight": "More than a mug.",
+        "heading": "It’s Empowerment.\nIt’s Community.",
+        "text": "<p>When you’ve worked in hospitality, it’s always going to be part of who you are. We cut our teeth with entrepreneurs out to make their mark, and we’re still inspired by the drive behind creators like you. That’s why we look at you as colleagues, not clients.</p>",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 64,
+        "padding_bottom_mobile": 64
+      }
+    },
+    "creative_collaborations_GzPRyC": {
+      "type": "creative-collaborations",
+      "blocks": {
+        "partner_UbPcyq": {
+          "type": "partner",
+          "settings": {
+            "name": "Magnolia",
+            "category": "Cafe mugs",
+            "image": "shopify://shop_images/creative-collaborations.png"
+          }
+        },
+        "partner_4wT6kD": {
+          "type": "partner",
+          "settings": {
+            "name": "Stumptown Coffee",
+            "category": "Cafe mugs"
+          }
+        },
+        "partner_hdDyED": {
+          "type": "partner",
+          "settings": {
+            "name": "Big Face Coffee",
+            "category": "Tumblers and mugs"
+          }
+        },
+        "partner_8fbFiT": {
+          "type": "partner",
+          "settings": {
+            "name": "Verve",
+            "category": "Coffee roasters"
+          }
+        },
+        "partner_gXTd6p": {
+          "type": "partner",
+          "settings": {
+            "name": "The French Laundry",
+            "category": "Restaurant"
+          }
+        },
+        "partner_aCL7ti": {
+          "type": "partner",
+          "settings": {
+            "name": "Allagash Brewing",
+            "category": "Brewery"
+          }
+        }
+      },
+      "block_order": [
+        "partner_UbPcyq",
+        "partner_4wT6kD",
+        "partner_hdDyED",
+        "partner_8fbFiT",
+        "partner_gXTd6p",
+        "partner_aCL7ti"
+      ],
+      "name": "Creative collaborations",
+      "settings": {
+        "background": "#000000",
+        "heading_highlight": "In creativity,",
+        "heading": "there are no rules.",
+        "subheading": "But we still think you should bend, break, rewrite, and make them your own.",
+        "text": "<p>Co-Lab is where we work with inspired artists, brands, and designers to make products that change the game. These partners push the edges of culture, carve new paths, and inspire others to do the same. We’re honored to call them friends.</p>",
+        "cta_heading": "Let’s <em>Co-Lab</em> together.",
+        "cta_text": "A full custom set for your cafe, gear for your team, or something just for you. Orders start at 25 units.",
+        "button_label": "Start a custom order",
+        "button_link": "shopify://pages/custom-drinkware-landing",
+        "secondary_button_label": "See custom work",
+        "secondary_button_link": "",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 64,
+        "padding_bottom_mobile": 64
+      }
+    },
+    "giving_back_JCYgy8": {
+      "type": "giving-back",
+      "blocks": {
+        "stat_CTb3X7": {
+          "type": "stat",
+          "settings": {
+            "value": "2016",
+            "label": "Partners since"
+          }
+        },
+        "stat_9MCwrQ": {
+          "type": "stat",
+          "settings": {
+            "value": "10,000+",
+            "label": "People with clean water"
+          }
+        }
+      },
+      "block_order": [
+        "stat_CTb3X7",
+        "stat_9MCwrQ"
+      ],
+      "name": "Giving back",
+      "settings": {
+        "background": "#ffffff",
+        "image": "shopify://shop_images/giving-back.png",
+        "heading": "Giving <strong>back.</strong>",
+        "text": "<p>We were created to do good in the world. One of the best ways we know how is by giving our dollar to charity: water. Every time you support us, we help bring safe and clean drinking water to people in developing countries around the world.</p>",
+        "secondary_text": "<p>We chose charity: water because they share our values: transparency, relationship, and a long-term commitment to positive change.</p>",
+        "button_label": "Learn about charity: water",
+        "button_link": "shopify://pages/about",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 64,
+        "padding_bottom_mobile": 64
+      }
+    },
+    "product_design_bywrUA": {
+      "type": "product-design",
+      "name": "Product design",
+      "settings": {
+        "background": "#ffffff",
+        "heading": "Designed\nin-house.",
+        "text": "<p>We design every Created product ourselves, from the first sketch to the final lid.</p><p>Our team in California draws, prototypes and tests each shape by hand until every detail is right, so it feels just as good the hundredth time you pick it up.</p>",
+        "image_main": "shopify://shop_images/product-design__image-1.png",
+        "image_secondary": "shopify://shop_images/product-design__image-2.png",
+        "image_tertiary": "shopify://shop_images/product-design__image-3.png",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 64,
+        "padding_bottom_mobile": 64
+      }
+    },
+    "live_inspired_ihpTcz": {
+      "type": "live-inspired",
+      "name": "Live inspired",
+      "settings": {
+        "background": "#ffffff",
+        "heading": "Live inspired.",
+        "shop_heading_highlight": "Find your",
+        "shop_heading": "everyday cup.",
+        "shop_text": "Tumblers, mugs, and bottles built to go everywhere you do.",
+        "shop_image_1": "shopify://shop_images/live-inspired__image-1.png",
+        "shop_image_2": "shopify://shop_images/live-inspired__image-2.png",
+        "shop_button_label": "Shop best sellers",
+        "shop_button_link": "shopify://collections/best-sellers",
+        "shop_link_label": "Shop all",
+        "shop_link": "shopify://collections/all",
+        "custom_heading_highlight": "Make something",
+        "custom_heading": "fully you.",
+        "custom_text": "Custom drinkware for your cafe, your team, or your next drop. We handle sourcing, materials, and production.",
+        "custom_button_label": "Start a custom order",
+        "custom_button_link": "shopify://pages/custom-drinkware-landing",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "icon_with_text_VfyBQQ": {
+      "type": "icon-with-text",
+      "blocks": {
+        "item_kdfXPb": {
+          "type": "item",
+          "settings": {
+            "icon": "mug",
+            "title": "18/8 stainless",
+            "text": "Food-safe steel in every vessel."
+          }
+        },
+        "item_iRf3XG": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "Lifetime hardware warranty",
+            "text": "Lids, straws, and handles, covered for good."
+          }
+        },
+        "item_yCzWaM": {
+          "type": "item",
+          "settings": {
+            "icon": "pin",
+            "title": "Designed in California",
+            "text": "By a small team, since 2015."
+          }
+        },
+        "item_cm7Peq": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping over $75",
+            "text": "Ships in 1 to 2 business days."
+          }
+        }
+      },
+      "block_order": [
+        "item_kdfXPb",
+        "item_iRf3XG",
+        "item_yCzWaM",
+        "item_cm7Peq"
+      ],
+      "name": "Icon with text",
+      "settings": {
+        "background": "#ffffff",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0
+      }
+    }
+  },
+  "order": [
+    "art_department_hero_QNfLMd",
+    "our_mission_A89ypq",
+    "our_journey_eWjt9j",
+    "our_values_QGqbTq",
+    "creative_collaborations_GzPRyC",
+    "giving_back_JCYgy8",
+    "product_design_bywrUA",
+    "live_inspired_ihpTcz",
+    "icon_with_text_VfyBQQ"
+  ]
+}

@@ -1,0 +1,140 @@
+/* ================= In the press — mobile first ================= */
+.press {
+  padding: var(--press-pt) 0 var(--press-pb);
+}
+
+.press__heading {
+  margin: 0 0 24px;
+  color: #6E797F;
+  text-align: center;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16.5px;
+  letter-spacing: 2.2px;
+  font-family: var(--font-body-family);
+  text-transform: uppercase;
+}
+
+.press__viewport { overflow: hidden; }
+.press__track { display: flex; }
+
+/* ---------- Static row (base) ---------- */
+.press__list {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  margin: 0;
+  padding: 0 20px;
+  list-style: none;
+  box-sizing: border-box;
+}
+.press__list--clone { display: none; }
+.press__viewport {
+  max-width: 355px;
+  margin: 0 auto;
+}
+.press__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 var(--press-logo-w);
+  width: var(--press-logo-w);
+  min-width: 0;
+}
+.press__link { display: block; width: 100%; }
+.press__link:focus-visible { outline: 1px solid #6E797F; outline-offset: 4px; }
+
+.press__logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.press__logo--placeholder { height: 30px; fill: #c9cdd0; }
+
+/* ---------- Marquee (shared) ---------- */
+@keyframes pressMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---------- Mobile marquee ---------- */
+.press--marquee-mobile .press__track {
+  width: max-content;
+  animation: pressMarquee var(--press-speed) linear infinite;
+}
+.press--marquee-mobile .press__list {
+  width: auto;
+  justify-content: flex-start;
+  gap: 24px;
+}
+.press--marquee-mobile .press__item { flex: 0 0 var(--press-logo-w); }
+.press--marquee-mobile .press__list--clone { display: flex; }
+.press--marquee-mobile .press__viewport:hover .press__track,
+.press--marquee-mobile .press__viewport:focus-within .press__track { animation-play-state: paused; }
+
+/* ================= Desktop ================= */
+@media (min-width: 750px) {
+  .press { padding: var(--press-pt-d) 0 var(--press-pb-d); }
+
+  /* NEW: heading on the left, logos on the right — one line */
+  .press__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .press__heading {
+    flex-shrink: 0;
+    margin: 0;                 /* was margin-bottom: 24px (heading was above the logos) */
+    text-align: left;          /* was center */
+    line-height: 14px;
+  }
+
+  .press__viewport {
+    flex: 0 1 1000px;           /* takes up to 820px on the right, shrinks if needed */
+    max-width: 1000px;
+    margin: 0;                 /* was 0 auto (centred) */
+  }
+
+  .press__item { width: var(--press-logo-w-d); }
+
+  /* Static row: 820px, logos spread evenly */
+  .press:not(.press--marquee-desktop) .press__track { width: auto; animation: none; }
+  .press:not(.press--marquee-desktop) .press__list {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0;
+    padding: 0;
+  }
+  .press:not(.press--marquee-desktop) .press__list--clone { display: none; }
+  .press:not(.press--marquee-desktop) .press__item { flex: 0 1 var(--press-logo-w-d); }
+
+  /* Desktop marquee (optional) */
+  .press--marquee-desktop .press__track {
+    width: max-content;
+    animation: pressMarquee var(--press-speed) linear infinite;
+  }
+  .press--marquee-desktop .press__list {
+    width: auto;
+    justify-content: flex-start;
+    gap: 80px;
+  }
+  .press--marquee-desktop .press__item { flex: 0 0 var(--press-logo-w-d); }
+  .press--marquee-desktop .press__list--clone { display: flex; }
+  .press--marquee-desktop .press__viewport:hover .press__track,
+  .press--marquee-desktop .press__viewport:focus-within .press__track { animation-play-state: paused; }
+}
+
+/* ---------- Reduced motion: no auto-scroll, swipe instead ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .press__track { animation: none !important; }
+  .press--marquee-mobile .press__viewport,
+  .press--marquee-desktop .press__viewport { overflow-x: auto; }
+  .press__list--clone { display: none !important; }
+}

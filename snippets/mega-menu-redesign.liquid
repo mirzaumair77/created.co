@@ -1,0 +1,793 @@
+{%- comment -%}
+  Mega Menu Redesign
+
+  Renders the header navigation, mega menu panels and mobile drawer content
+  from the menu selected in the Header section setting "Menu".
+
+  Navigation hierarchy (from Shopify Navigation):
+  - First-level links: header links. Links with child links open a mega menu.
+  - Second-level links: left column headings (or plain links when they have no children).
+  - Third-level links: listed beneath their second-level heading.
+
+  "Mega Menu" header blocks match a third-level link by title. The first matched
+  link's content shows by default; hovering (desktop) or tapping (drawer) another
+  matched link replaces it. Links without a block keep the last content visible.
+
+  Mobile drawer panels:
+  1. First-level links, featured collections
+  2. The selected first-level link's second-level links (headings with their
+     third-level links), then the active matched link's collection groups, then
+     featured collections. No best sellers in the drawer.
+  3. Products of the collection tapped in panel 2
+
+  The best seller column (Header setting "Best seller collections") is desktop only.
+
+  Desktop markup reuses the header's .new_megamenu_item / .new_megamenu_main
+  hooks so header-redesign.js handles open, close and sticky state. The drawer
+  markup ships in a <template> that mega-menu-redesign.js mounts into the
+  existing #MobileNavDrawer.
+
+  Accepts:
+  - mmr_section: {Object} Header section (required for the main view)
+  - mmr_view: {String} 'products' | 'bestsellers' (internal, optional, default: main)
+  - mmr_collection: {Object} Collection for the 'products' view (internal)
+  - mmr_limit: {Number} Max products for the 'products' view, 0 = all (internal)
+  - mmr_bestsellers: {Array} Collections for the 'bestsellers' view (internal)
+  - mmr_heading: {String} Heading for the 'bestsellers' view (internal)
+  - mmr_variant: {String} 'desktop' | 'drawer' (internal)
+
+  Usage:
+  {% render 'mega-menu-redesign', mmr_section: section %}
+{%- endcomment -%}
+
+{%- case mmr_view -%}
+  {%- when 'products' -%}
+    {%- comment -%} Up to mmr_limit products (0 = all), skipping products tagged exactly "hidden-variant" {%- endcomment -%}
+    {%- assign mmr_count = 0 -%}
+    {%- assign mmr_limit = mmr_limit | default: 0 | plus: 0 -%}
+    <ul class="mega-menu-redesign__product-list" role="list">
+      {%- for mmr_product in mmr_collection.products -%}
+        {%- if mmr_product.tags contains 'hidden-variant' -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign mmr_count = mmr_count | plus: 1 -%}
+        {%- assign mmr_title = mmr_product.metafields.product_cards.product_card_title | default: mmr_product.title -%}
+
+        <li>
+          <a href="{{ mmr_product.url }}" class="mega-menu-redesign__product">
+            <span class="mega-menu-redesign__product-media">
+              {%- if mmr_product.featured_media -%}
+                {{
+                  mmr_product.featured_media
+                  | image_url: width: 250
+                  | image_tag: loading: 'lazy', alt: mmr_title, widths: '60, 120, 180, 250', sizes: '60px'
+                }}
+              {%- endif -%}
+            </span>
+            <span class="mega-menu-redesign__product-info">
+              <span class="mega-menu-redesign__product-title">{{ mmr_title | escape }}</span>
+              <span class="mega-menu-redesign__product-price">
+                {{- mmr_product.price | money_without_trailing_zeros -}}
+              </span>
+            </span>
+            {%- if mmr_variant == 'drawer' -%}
+              <span class="mega-menu-redesign__chevron">{% render 'icon-caret' %}</span>
+            {%- endif -%}
+          </a>
+        </li>
+
+        {%- if mmr_limit > 0 and mmr_count >= mmr_limit -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+
+  {%- when 'bestsellers' -%}
+    {%- comment -%}
+      Desktop only. Collection cards (max 6). Image: custom.mega_menu_image_v2 > featured_image.
+      Title: custom.sub_heading > collection title.
+    {%- endcomment -%}
+    {%- if mmr_bestsellers != blank and mmr_bestsellers.size > 0 -%}
+      {%- assign mmr_count = 0 -%}
+      {%- assign mmr_split = '<!--mmr-card-->' -%}
+      {%- assign mmr_card_cta = 'general.mega_menu.shop_collection' | t -%}
+      {%- capture mmr_cards -%}
+        {%- for mmr_collection in mmr_bestsellers limit: 6 -%}
+          {%- liquid
+            assign mmr_count = mmr_count | plus: 1
+            assign mmr_image = mmr_collection.metafields.custom.mega_menu_image_v2.value
+            if mmr_image == blank
+              assign mmr_image = mmr_collection.featured_image
+            endif
+            assign mmr_title = mmr_collection.metafields.custom.sub_heading.value | default: mmr_collection.title
+          -%}
+
+            <a href="{{ mmr_collection.url }}" class="mega-menu-redesign__card">
+              <span class="mega-menu-redesign__card-media">
+                {%- if mmr_image != blank -%}
+                  {{
+                    mmr_image
+                    | image_url: width: 640
+                    | image_tag:
+                      loading: 'lazy',
+                      alt: mmr_collection.title,
+                      widths: '320, 480, 640',
+                      sizes: '160px'
+                  }}
+                {%- endif -%}
+              </span>
+              <span class="mega-menu-redesign__card-title">{{ mmr_title | escape }}</span>
+              <span class="mega-menu-redesign__card-text">{{ mmr_card_cta | escape }}</span>
+            </a>
+          {{- mmr_split -}}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {%- comment -%}
+        Two cards are visible; more than two become a Swiper slider (initialised in mega-menu-redesign.js).
+      {%- endcomment -%}
+      {%- if mmr_count > 0 -%}
+        {%- assign mmr_card_list = mmr_cards | split: mmr_split -%}
+        <div
+          class="mega-menu-redesign__bestsellers"
+          {% if mmr_count > 2 %}
+            data-mmr-swiper
+          {% endif %}
+        >
+          <div class="mega-menu-redesign__bestsellers-head">
+            {%- if mmr_heading != blank -%}
+              <p class="mega-menu-redesign__label">{{ mmr_heading | escape }}</p>
+            {%- endif -%}
+            {%- if mmr_count > 2 -%}
+              <div class="mega-menu-redesign__slider-nav">
+                <button
+                  type="button"
+                  class="mega-menu-redesign__slider-button mega-menu-redesign__slider-button--prev"
+                  data-mmr-swiper-prev
+                  aria-label="{{ 'general.pagination.previous' | t }}"
+                >
+                  {%- render 'icon-caret' -%}
+                </button>
+                <button
+                  type="button"
+                  class="mega-menu-redesign__slider-button mega-menu-redesign__slider-button--next"
+                  data-mmr-swiper-next
+                  aria-label="{{ 'general.pagination.next' | t }}"
+                >
+                  {%- render 'icon-caret' -%}
+                </button>
+              </div>
+            {%- endif -%}
+          </div>
+
+          {%- if mmr_count > 2 -%}
+            <div class="swiper mega-menu-redesign__slider" data-mmr-swiper-container>
+              <ul class="swiper-wrapper" role="list">
+                {%- for mmr_card in mmr_card_list -%}
+                  <li class="swiper-slide">{{ mmr_card }}</li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- else -%}
+            <ul class="mega-menu-redesign__cards" role="list">
+              {%- for mmr_card in mmr_card_list -%}
+                <li>{{ mmr_card }}</li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- elsif request.design_mode -%}
+      {%- comment -%} Theme editor only: explain the empty column instead of leaving it blank {%- endcomment -%}
+      <p class="mega-menu-redesign__label">{{ mmr_heading | escape }}</p>
+      <p class="mega-menu-redesign__editor-hint">Select collections in Header › Mega menu › Best seller collections.</p>
+    {%- endif -%}
+
+  {%- else -%}
+    {%- liquid
+      assign mmr_menu = mmr_section.settings.menu
+      assign mmr_blocks = mmr_section.blocks | where: 'type', 'mega_menu'
+    -%}
+
+    {%- if mmr_menu != blank and mmr_menu.links.size > 0 -%}
+      {%- liquid
+        assign mmr_settings = mmr_section.settings
+        assign mmr_search_label = 'general.search.search' | t
+        assign mmr_close_label = 'accessibility.close' | t
+        assign mmr_footer_style = '--mmr-footer-bg: ' | append: mmr_settings.mega_menu_footer_bg | append: ';'
+      -%}
+
+      {%- capture mmr_arrow -%}
+        <svg class="mega-menu-redesign__arrow" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3.33325 8H12.6666M8.66658 12L12.6666 8L8.66658 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+        </svg>
+      {%- endcapture -%}
+
+      {%- capture mmr_chevron -%}
+        <span class="mega-menu-redesign__chevron">{% render 'icon-caret' %}</span>
+      {%- endcapture -%}
+
+      {%- capture mmr_footer_promo -%}
+        {%- if mmr_settings.mega_menu_footer_text != blank -%}
+          <span class="mega-menu-redesign__footer-text">{{ mmr_settings.mega_menu_footer_text | escape }}</span>
+        {%- endif -%}
+        {%- if mmr_settings.mega_menu_footer_link_label != blank -%}
+          <a href="{{ mmr_settings.mega_menu_footer_link | default: '#' }}" class="mega-menu-redesign__footer-link">
+            <span>{{ mmr_settings.mega_menu_footer_link_label | escape }}</span>
+            {{- mmr_arrow -}}
+          </a>
+        {%- endif -%}
+      {%- endcapture -%}
+
+      {%- comment -%} Every drawer panel ends with the same footer bar {%- endcomment -%}
+      {%- capture mmr_drawer_footer -%}
+        {%- if mmr_footer_promo != blank -%}
+          <div class="mega-menu-redesign__footer mega-menu-redesign__footer--drawer" style="{{ mmr_footer_style }}">
+            {{- mmr_footer_promo -}}
+          </div>
+        {%- endif -%}
+      {%- endcapture -%}
+
+      {%- capture mmr_close_button -%}
+        <button type="button" class="mega-menu-redesign-drawer__icon-button" data-mmr-close aria-label="{{ mmr_close_label }}">
+          {%- render 'icon-close' -%}
+        </button>
+      {%- endcapture -%}
+
+      {%- comment -%} Best sellers: desktop mega menu only (never rendered in the drawer) {%- endcomment -%}
+      {%- capture mmr_bestseller_desktop -%}
+        {%- render 'mega-menu-redesign',
+          mmr_view: 'bestsellers',
+          mmr_bestsellers: mmr_settings.mm_bestseller_collection,
+          mmr_heading: mmr_settings.mega_menu_bestseller_heading
+        -%}
+      {%- endcapture -%}
+
+      {%- comment -%} Featured collections: drawer panels 1 and 2 only {%- endcomment -%}
+      {%- capture mmr_drawer_featured -%}
+        {%- assign mmr_featured = mmr_settings.drawer_featured_collections -%}
+        {%- if mmr_featured != blank and mmr_featured.size > 0 -%}
+          <div class="mega-menu-redesign__group mega-menu-redesign-drawer__featured">
+            {%- if mmr_settings.drawer_featured_heading != blank -%}
+              <p class="mega-menu-redesign__label">{{ mmr_settings.drawer_featured_heading | escape }}</p>
+            {%- endif -%}
+            <ul class="mega-menu-redesign__cards mega-menu-redesign__cards--featured" role="list">
+              {%- for mmr_collection in mmr_featured -%}
+                {%- assign mmr_image = mmr_collection.metafields.custom.mega_menu_image_v2.value -%}
+                {%- if mmr_image == blank -%}
+                  {%- assign mmr_image = mmr_collection.featured_image -%}
+                {%- endif -%}
+                {%- assign mmr_card_title = mmr_collection.metafields.custom.sub_heading.value | default: mmr_collection.title -%}
+                <li>
+                  <a href="{{ mmr_collection.url }}" class="mega-menu-redesign__card">
+                    <span class="mega-menu-redesign__card-media">
+                      {%- if mmr_image != blank -%}
+                        {{
+                          mmr_image
+                          | image_url: width: 480
+                          | image_tag: loading: 'lazy', alt: '', widths: '280, 480', sizes: '140px'
+                        }}
+                      {%- endif -%}
+                    </span>
+                    <span class="mega-menu-redesign__card-name">{{ mmr_card_title | escape }}</span>
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endcapture -%}
+
+      {{ 'mega-menu-redesign.css' | asset_url | stylesheet_tag }}
+      <script src="{{ 'mega-menu-redesign.js' | asset_url }}" defer="defer"></script>
+
+      {%- comment -%} Drawer markup is collected while the desktop menu renders {%- endcomment -%}
+      {%- assign mmr_drawer_menu = '' -%}
+      {%- assign mmr_drawer_views = '' -%}
+
+      <div class="mega-menu-redesign" data-mega-menu-redesign>
+        {%- for link in mmr_menu.links -%}
+          {%- liquid
+            assign mmr_p = forloop.index
+            assign mmr_id = 'new_megamenu_item_mmr_' | append: mmr_p
+            assign mmr_view_id = 'mmr-' | append: mmr_p
+          -%}
+
+          {%- comment -%} First-level link without children: normal header link {%- endcomment -%}
+          {%- if link.links.size == 0 -%}
+            <div class="created-header__item mega-menu-redesign__item {% if link.active %}created-header__item--active{% endif %}">
+              <a
+                href="{{ link.url }}"
+                class="new_single_item"
+                {% if link.active %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{- link.title | escape -}}
+              </a>
+            </div>
+
+            {%- capture mmr_drawer_item -%}
+              <li>
+                <a href="{{ link.url }}" class="mega-menu-redesign-drawer__menu-link"{% if link.active %} aria-current="page"{% endif %}>
+                  <span>{{ link.title | escape }}</span>
+                </a>
+              </li>
+            {%- endcapture -%}
+            {%- assign mmr_drawer_menu = mmr_drawer_menu | append: mmr_drawer_item -%}
+            {%- continue -%}
+          {%- endif -%}
+
+          {%- liquid
+            assign mmr_left = ''
+            assign mmr_block_panels = ''
+            assign mmr_drawer_nav = ''
+            assign mmr_drawer_nav_mega = ''
+            assign mmr_mega_sections = ''
+            assign mmr_default_id = ''
+            assign mmr_first_url = ''
+            assign mmr_first_title = ''
+          -%}
+
+          {%- comment -%} Second-level links {%- endcomment -%}
+          {%- for child in link.links -%}
+            {%- assign mmr_s = forloop.index -%}
+
+            {%- if child.links.size == 0 -%}
+              {%- if mmr_first_url == blank -%}
+                {%- assign mmr_first_url = child.url -%}
+                {%- assign mmr_first_title = child.title -%}
+              {%- endif -%}
+
+              {%- capture mmr_left_group -%}
+                <div class="mega-menu-redesign__group">
+                  <ul class="mega-menu-redesign__links" role="list">
+                    <li>
+                      <a href="{{ child.url }}" class="mega-menu-redesign__link"{% if child.active %} aria-current="page"{% endif %}>{{ child.title | escape }}</a>
+                    </li>
+                  </ul>
+                </div>
+              {%- endcapture -%}
+              {%- assign mmr_left = mmr_left | append: mmr_left_group -%}
+
+              {%- capture mmr_drawer_group -%}
+                <a href="{{ child.url }}" class="mega-menu-redesign-drawer__row mega-menu-redesign-drawer__row--primary"{% if child.active %} aria-current="page"{% endif %}>
+                  <span>{{ child.title | escape }}</span>
+                  {{- mmr_chevron -}}
+                </a>
+              {%- endcapture -%}
+              {%- assign mmr_drawer_nav = mmr_drawer_nav | append: mmr_drawer_group -%}
+              {%- continue -%}
+            {%- endif -%}
+
+            {%- liquid
+              assign mmr_rows = ''
+              assign mmr_level3_mega_rows = ''
+              assign mmr_level3_plain_rows = ''
+              assign mmr_swap_title = ''
+              assign mmr_group_primary = ''
+            -%}
+
+            {%- comment -%} Third-level links {%- endcomment -%}
+            {%- for grand in child.links -%}
+              {%- liquid
+                assign mmr_t = forloop.index
+
+                if mmr_first_url == blank
+                  assign mmr_first_url = grand.url
+                  assign mmr_first_title = grand.title
+                endif
+
+                assign mmr_block = false
+                for mmr_candidate in mmr_blocks
+                  assign mmr_match_link = mmr_candidate.settings.third_level_link | handleize
+                  if mmr_match_link != blank and mmr_match_link == grand.handle
+                    assign mmr_block = mmr_candidate
+                    break
+                  endif
+                endfor
+
+                assign mmr_pair_id = ''
+                assign mmr_is_default = false
+                if mmr_block
+                  assign mmr_pair_id = mmr_view_id | append: '-' | append: mmr_s | append: '-' | append: mmr_t
+                  if mmr_default_id == blank
+                    assign mmr_default_id = mmr_pair_id
+                    assign mmr_is_default = true
+                  endif
+                endif
+              -%}
+
+              {%- if mmr_block -%}
+                {%- liquid
+                  assign mmr_pair_groups = ''
+                  assign mmr_pair_products = ''
+                  assign mmr_active_set = false
+                -%}
+
+                {%- comment -%} Title / Collection list pairs — each renders independently {%- endcomment -%}
+                {%- for n in (1..3) -%}
+                  {%- liquid
+                    assign mmr_title_key = 'title_' | append: n
+                    assign mmr_list_key = 'collection_list_' | append: n
+                    assign mmr_display_key = 'product_display_' | append: n
+                    assign mmr_limit_key = 'product_limit_' | append: n
+                    assign mmr_group_title = mmr_block.settings[mmr_title_key]
+                    assign mmr_collections = mmr_block.settings[mmr_list_key]
+                    assign mmr_limit = 0
+                    if mmr_block.settings[mmr_display_key] == 'limited'
+                      assign mmr_limit = mmr_block.settings[mmr_limit_key]
+                    endif
+                  -%}
+
+                  {%- if mmr_collections == blank or mmr_collections.size == 0 -%}
+                    {%- continue -%}
+                  {%- endif -%}
+
+                  {%- capture mmr_group_rows -%}
+                    {%- for mmr_collection in mmr_collections -%}
+                      {%- liquid
+                        assign mmr_group_id = mmr_pair_id | append: '-' | append: n | append: '-' | append: forloop.index
+                        assign mmr_image = mmr_collection.metafields.custom.mega_menu_image_v2.value
+                        if mmr_image == blank
+                          assign mmr_image = mmr_collection.featured_image
+                        endif
+                        # Each field falls back on its own:
+                        # title: custom.sub_heading, else collection.title
+                        # description: custom.short_description, else collection.description
+                        # (plain text, capped at 90 characters; CSS clamps the lines)
+                        assign mmr_card_title = mmr_collection.metafields.custom.sub_heading.value | default: mmr_collection.title
+                        assign mmr_description = mmr_collection.metafields.custom.short_description.value
+                        if mmr_description == blank
+                          assign mmr_description = mmr_collection.description | strip_html | strip_newlines | strip
+                        endif
+                        assign mmr_description = mmr_description | strip_html | strip | truncate: 90
+                        assign mmr_collection_title = mmr_collection.title | downcase
+                        assign mmr_shop_all = 'general.mega_menu.shop_all' | t: title: mmr_collection_title
+                        assign mmr_is_active = false
+                        unless mmr_active_set
+                          assign mmr_is_active = true
+                          assign mmr_active_set = true
+                        endunless
+                      -%}
+                      <li>
+                        <a
+                          href="{{ mmr_collection.url }}"
+                          class="mega-menu-redesign__collection{% if mmr_is_active %} is-active{% endif %}"
+                          data-mmr-collection="{{ mmr_group_id }}"
+                        >
+                          <span class="mega-menu-redesign__collection-media">
+                            {%- if mmr_image != blank -%}
+                              {{
+                                mmr_image
+                                | image_url: width: 250
+                                | image_tag: loading: 'lazy', alt: '', widths: '60, 120, 180, 250', sizes: '60px'
+                              }}
+                            {%- endif -%}
+                          </span>
+                          <span class="mega-menu-redesign__collection-info">
+                            <span class="mega-menu-redesign__collection-title">{{ mmr_card_title | escape }}</span>
+                            {%- if mmr_description != blank -%}
+                              <span class="mega-menu-redesign__collection-text">{{ mmr_description | escape }}</span>
+                            {%- endif -%}
+                          </span>
+                          {{- mmr_chevron -}}
+                        </a>
+                      </li>
+
+                      {%- capture mmr_product_group -%}
+                        <div class="mega-menu-redesign__products" data-mmr-products="{{ mmr_group_id }}" {% unless mmr_is_active %}hidden{% endunless %}>
+                          <p class="mega-menu-redesign__label">{{ mmr_collection.title | escape }}</p>
+                          {%- render 'mega-menu-redesign', mmr_view: 'products', mmr_collection: mmr_collection, mmr_limit: mmr_limit, mmr_variant: 'desktop' -%}
+                          <a href="{{ mmr_collection.url }}" class="mega-menu-redesign__shop-all">{{ mmr_shop_all | escape }}</a>
+                        </div>
+                      {%- endcapture -%}
+                      {%- assign mmr_pair_products = mmr_pair_products | append: mmr_product_group -%}
+
+                      {%- comment -%} Drawer panel 3: this collection's products, back goes to panel 2 {%- endcomment -%}
+                      {%- capture mmr_drawer_view -%}
+                        <div class="mega-menu-redesign-drawer__view" data-mmr-view="{{ mmr_group_id }}" data-mmr-parent="{{ mmr_view_id }}" hidden>
+                          <div class="mega-menu-redesign-drawer__topbar">
+                            <button type="button" class="mega-menu-redesign-drawer__icon-button mega-menu-redesign-drawer__icon-button--back" data-mmr-back aria-label="{{ link.title | escape }}">
+                              {%- render 'icon-caret' -%}
+                            </button>
+                            <p class="mega-menu-redesign-drawer__title">{{ mmr_collection.title | escape }}</p>
+                            {{- mmr_close_button -}}
+                          </div>
+                          <div class="mega-menu-redesign-drawer__body">
+                            <p class="mega-menu-redesign__label">{{ mmr_collection.title | escape }}</p>
+                            {%- render 'mega-menu-redesign', mmr_view: 'products', mmr_collection: mmr_collection, mmr_limit: mmr_limit, mmr_variant: 'drawer' -%}
+                            <a href="{{ mmr_collection.url }}" class="mega-menu-redesign-drawer__row mega-menu-redesign-drawer__row--primary">
+                              <span>{{ mmr_shop_all | escape }}</span>
+                              {{- mmr_chevron -}}
+                            </a>
+                          </div>
+                          {{- mmr_drawer_footer -}}
+                        </div>
+                      {%- endcapture -%}
+                      {%- assign mmr_drawer_views = mmr_drawer_views | append: mmr_drawer_view -%}
+                    {%- endfor -%}
+                  {%- endcapture -%}
+
+                  {%- capture mmr_group -%}
+                    <div class="mega-menu-redesign__group">
+                      {%- if mmr_group_title != blank -%}
+                        <p class="mega-menu-redesign__label">{{ mmr_group_title | escape }}</p>
+                      {%- endif -%}
+                      <ul class="mega-menu-redesign__collection-list" role="list">{{ mmr_group_rows }}</ul>
+                    </div>
+                  {%- endcapture -%}
+                  {%- assign mmr_pair_groups = mmr_pair_groups | append: mmr_group -%}
+                {%- endfor -%}
+
+                {%- capture mmr_block_panel -%}
+                  <div class="mega-menu-redesign__block" data-mmr-block="{{ mmr_pair_id }}" {{ mmr_block.shopify_attributes }} {% unless mmr_is_default %}hidden{% endunless %}>
+                    <div class="mega-menu-redesign__col mega-menu-redesign__col--collections">{{ mmr_pair_groups }}</div>
+                    <div class="mega-menu-redesign__col mega-menu-redesign__col--products">{{ mmr_pair_products }}</div>
+                  </div>
+                {%- endcapture -%}
+                {%- assign mmr_block_panels = mmr_block_panels | append: mmr_block_panel -%}
+
+                {%- comment -%}
+                  Drawer panel 2: the navigation stays together at the top; this link's
+                  collection groups (with their titles) go to the content area at the
+                  bottom. One section is visible at a time (the first by default). Tapping
+                  an inactive matched link shows its section; tapping the active one follows its link.
+                {%- endcomment -%}
+                {%- capture mmr_mega_section -%}
+                  <div class="mega-menu-redesign-drawer__mega" id="{{ mmr_pair_id }}" data-mmr-drawer-block="{{ mmr_pair_id }}" aria-label="{{ grand.title | escape }}"{% unless mmr_is_default %} hidden{% endunless %}>
+                    {{- mmr_pair_groups -}}
+                  </div>
+                {%- endcapture -%}
+                {%- assign mmr_mega_sections = mmr_mega_sections | append: mmr_mega_section -%}
+
+                {%- comment -%}
+                  Drawer only: the group's first mega menu link moves above its second-level
+                  heading as a bold primary row (the heading position), so the heading sits
+                  where the link was. Titles and URLs stay with their own items, and the row
+                  still switches to this link's collection content. The Shopify menu is unchanged.
+                {%- endcomment -%}
+                {%- capture mmr_level3_row -%}
+                  <a
+                    href="{{ grand.url }}"
+                    class="mega-menu-redesign-drawer__row{% if mmr_swap_title == blank %} mega-menu-redesign-drawer__row--primary{% endif %}{% if mmr_is_default %} is-active{% endif %}"
+                    data-mmr-drawer-target="{{ mmr_pair_id }}"
+                    aria-controls="{{ mmr_pair_id }}"
+                    aria-expanded="{% if mmr_is_default %}true{% else %}false{% endif %}"
+                  >
+                    <span>{{ grand.title | escape }}</span>
+                    {{- mmr_chevron -}}
+                  </a>
+                {%- endcapture -%}
+                {%- if mmr_swap_title == blank -%}
+                  {%- assign mmr_swap_title = grand.title -%}
+                  {%- assign mmr_group_primary = mmr_level3_row -%}
+                {%- else -%}
+                  {%- assign mmr_level3_mega_rows = mmr_level3_mega_rows
+                    | append: '<li>'
+                    | append: mmr_level3_row
+                    | append: '</li>'
+                  -%}
+                {%- endif -%}
+              {%- else -%}
+                {%- capture mmr_level3_row -%}
+                  <li>
+                    <a href="{{ grand.url }}" class="mega-menu-redesign-drawer__row"{% if grand.active %} aria-current="page"{% endif %}>
+                      <span>{{ grand.title | escape }}</span>
+                      {{- mmr_chevron -}}
+                    </a>
+                  </li>
+                {%- endcapture -%}
+                {%- assign mmr_level3_plain_rows = mmr_level3_plain_rows | append: mmr_level3_row -%}
+              {%- endif -%}
+
+              {%- capture mmr_row -%}
+                <li>
+                  <a
+                    href="{{ grand.url }}"
+                    class="mega-menu-redesign__link{% if mmr_is_default %} is-active{% endif %}"
+                    {% if mmr_block %}data-mmr-target="{{ mmr_pair_id }}"{% endif %}
+                    {% if grand.active %}aria-current="page"{% endif %}
+                  >
+                    {{- grand.title | escape -}}
+                  </a>
+                </li>
+              {%- endcapture -%}
+              {%- assign mmr_rows = mmr_rows | append: mmr_row -%}
+            {%- endfor -%}
+
+            {%- capture mmr_label -%}
+              {%- if child.url != blank and child.url != '#' -%}
+                <a href="{{ child.url }}" class="mega-menu-redesign__label">{{ child.title | escape }}</a>
+              {%- else -%}
+                <p class="mega-menu-redesign__label">{{ child.title | escape }}</p>
+              {%- endif -%}
+            {%- endcapture -%}
+
+            {%- capture mmr_left_group -%}
+              <div class="mega-menu-redesign__group">
+                {{- mmr_label -}}
+                <ul class="mega-menu-redesign__links" role="list">{{ mmr_rows }}</ul>
+              </div>
+            {%- endcapture -%}
+            {%- assign mmr_left = mmr_left | append: mmr_left_group -%}
+
+            {%- comment -%}
+              Drawer panel 2 navigation: [first mega link as primary row] heading, then the
+              third-level links. Other links with mega menu data come first, then the rest;
+              each keeps its menu order.
+            {%- endcomment -%}
+            {%- capture mmr_drawer_group -%}
+              <div class="mega-menu-redesign__group mega-menu-redesign-drawer__links">
+                {{- mmr_group_primary -}}
+                {{- mmr_label -}}
+                <ul class="mega-menu-redesign-drawer__rows" role="list">{{ mmr_level3_mega_rows }}{{ mmr_level3_plain_rows }}</ul>
+              </div>
+            {%- endcapture -%}
+
+            {%- comment -%} Groups containing a mega menu link go above the other second-level items {%- endcomment -%}
+            {%- if mmr_swap_title != blank -%}
+              {%- assign mmr_drawer_nav_mega = mmr_drawer_nav_mega | append: mmr_drawer_group -%}
+            {%- else -%}
+              {%- assign mmr_drawer_nav = mmr_drawer_nav | append: mmr_drawer_group -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          <div class="created-header__item mega-menu-redesign__item">
+            <a
+              href="{{ link.url }}"
+              class="new_megamenu_item mega-menu-redesign__trigger"
+              id="{{ mmr_id }}"
+              aria-expanded="false"
+              aria-haspopup="true"
+            >
+              <span>{{ link.title | escape }}</span>
+              {% render 'icon-caret' %}
+            </a>
+          </div>
+
+          <div class="new_megamenu_main mega-menu-redesign__panel" data-id="{{ mmr_id }}" data-mmr-panel>
+            <div class="mega-menu-redesign__grid">
+              <div class="mega-menu-redesign__col mega-menu-redesign__col--links">{{ mmr_left }}</div>
+              {{- mmr_block_panels -}}
+              <div class="mega-menu-redesign__col mega-menu-redesign__col--bestsellers">
+                {{- mmr_bestseller_desktop -}}
+              </div>
+            </div>
+
+            <div class="mega-menu-redesign__footer" style="{{ mmr_footer_style }}">
+              <div class="mega-menu-redesign__footer-promo">{{ mmr_footer_promo }}</div>
+              {%- if mmr_first_url != blank -%}
+                <a
+                  href="{{ mmr_first_url }}"
+                  class="mega-menu-redesign__footer-link mega-menu-redesign__footer-link--plain"
+                >
+                  <span>{{ mmr_first_title | escape }}</span>
+                  {{- mmr_arrow -}}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+
+          {%- comment -%} Drawer panel 1 row → opens panel 2 {%- endcomment -%}
+          {%- capture mmr_drawer_item -%}
+            <li>
+              <button type="button" class="mega-menu-redesign-drawer__menu-link" data-mmr-open="{{ mmr_view_id }}"{% if link.active or link.child_active %} aria-current="true"{% endif %}>
+                <span>{{ link.title | escape }}</span>
+                {{- mmr_chevron -}}
+              </button>
+            </li>
+          {%- endcapture -%}
+          {%- assign mmr_drawer_menu = mmr_drawer_menu | append: mmr_drawer_item -%}
+
+          {%- comment -%}
+            Drawer panel 2, in order: navigation, the active link's collection groups, featured.
+            Collection rows open panel 3 (that collection's products). No best sellers here.
+          {%- endcomment -%}
+          {%- capture mmr_drawer_view -%}
+            <div class="mega-menu-redesign-drawer__view" data-mmr-view="{{ mmr_view_id }}" data-mmr-parent="root" hidden>
+              <div class="mega-menu-redesign-drawer__topbar">
+                <button type="button" class="mega-menu-redesign-drawer__icon-button mega-menu-redesign-drawer__icon-button--back" data-mmr-back aria-label="{{ mmr_menu.title | escape }}">
+                  {%- render 'icon-caret' -%}
+                </button>
+                <p class="mega-menu-redesign-drawer__title">{{ link.title | escape }}</p>
+                {{- mmr_close_button -}}
+              </div>
+              <div class="mega-menu-redesign-drawer__body">
+                <div class="mega-menu-redesign-drawer__nav">{{ mmr_drawer_nav_mega }}{{ mmr_drawer_nav }}</div>
+                {%- if mmr_mega_sections != blank -%}
+                  <div class="mega-menu-redesign-drawer__mega-area">{{ mmr_mega_sections }}</div>
+                {%- endif -%}
+                {{- mmr_drawer_featured -}}
+              </div>
+              {{- mmr_drawer_footer -}}
+            </div>
+          {%- endcapture -%}
+          {%- assign mmr_drawer_views = mmr_drawer_view | append: mmr_drawer_views -%}
+        {%- endfor -%}
+
+        <template data-mmr-drawer-template>
+          <div
+            class="mega-menu-redesign-drawer"
+            data-mmr-drawer
+            data-search-url="{{ routes.predictive_search_url }}"
+            data-search-page-url="{{ routes.search_url }}"
+            data-money-format="{{ shop.money_format | strip_html | escape }}"
+            data-text-loading="{{ 'accessibility.loading' | t | escape }}"
+            data-text-empty="{{ 'templates.search.no_results' | t: terms: '[terms]' | escape }}"
+            data-text-error="{{ mmr_settings.drawer_search_error | escape }}"
+            data-text-view-all="{{ 'templates.search.search_for' | t: terms: '[terms]' | escape }}"
+            data-text-products="{{ 'templates.search.products' | t | escape }}"
+          >
+            {%- comment -%} Drawer panel 1: search + first-level links {%- endcomment -%}
+            <div class="mega-menu-redesign-drawer__view is-active" data-mmr-view="root">
+              <div class="mega-menu-redesign-drawer__body mega-menu-redesign-drawer__body--root">
+                <form
+                  action="{{ routes.search_url }}"
+                  method="get"
+                  role="search"
+                  class="mega-menu-redesign-drawer__search"
+                  data-mmr-search-form
+                >
+                  <svg
+                    class="mega-menu-redesign-drawer__search-icon"
+                    aria-hidden="true"
+                    focusable="false"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                  >
+                    <path d="M8.24 3a5.24 5.24 0 1 0 0 10.49A5.24 5.24 0 0 0 8.24 3ZM12.37 12.37l3.37 3.37" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <label class="visually-hidden sr-only" for="MegaMenuRedesignSearch">{{ mmr_search_label }}</label>
+                  <input
+                    id="MegaMenuRedesignSearch"
+                    class="mega-menu-redesign-drawer__search-input"
+                    type="search"
+                    name="q"
+                    placeholder="{{ mmr_settings.drawer_search_placeholder | default: mmr_search_label | escape }}"
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    aria-haspopup="dialog"
+                    aria-controls="SearchDrawer"
+                    data-mmr-search-input
+                    data-search-drawer-trigger
+                  >
+                  <input type="hidden" name="options[prefix]" value="last">
+                  <button
+                    type="button"
+                    class="mega-menu-redesign-drawer__search-clear"
+                    data-mmr-search-clear
+                    aria-label="{{ mmr_close_label }}"
+                    hidden
+                  >
+                    {%- render 'icon-close' -%}
+                  </button>
+                </form>
+
+                <div
+                  class="mega-menu-redesign-drawer__results"
+                  id="MegaMenuRedesignSearchResults"
+                  data-mmr-search-results
+                  aria-live="polite"
+                  hidden
+                ></div>
+
+                <div data-mmr-root-menu>
+                  <ul class="mega-menu-redesign-drawer__menu" role="list">
+                    {{ mmr_drawer_menu }}
+                  </ul>
+                  {{- mmr_drawer_featured -}}
+                </div>
+              </div>
+
+              {{- mmr_drawer_footer -}}
+            </div>
+
+            {{ mmr_drawer_views }}
+          </div>
+        </template>
+      </div>
+    {%- endif -%}
+{%- endcase -%}

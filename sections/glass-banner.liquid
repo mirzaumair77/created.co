@@ -1,0 +1,112 @@
+{% comment %}
+  Section: Glass banner ("Make Your Mark")
+  - Rounded image inside site-container, frosted glass card with eyebrow, heading, text, button
+  - Desktop: card on the left (or right), vertically centred
+  - Mobile: card sits across the bottom of the image
+{% endcomment %}
+
+{{ 'glass-banner.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign img = section.settings.image
+  assign img_m = section.settings.image_mobile | default: section.settings.image
+  assign img_pos = ''
+  if img != blank
+    assign img_pos = 'object-position: ' | append: img.presentation.focal_point
+  endif
+  assign img_m_pos = ''
+  if img_m != blank
+    assign img_m_pos = 'object-position: ' | append: img_m.presentation.focal_point
+  endif
+-%}
+
+<style>
+  #GlassBanner-{{ section.id }} {
+    --gb-pt: {{ section.settings.padding_top_mobile }}px;
+    --gb-pb: {{ section.settings.padding_bottom_mobile }}px;
+    --gb-pt-d: {{ section.settings.padding_top }}px;
+    --gb-pb-d: {{ section.settings.padding_bottom }}px;
+    --gb-h: {{ section.settings.height_mobile }}px;
+    --gb-h-d: {{ section.settings.height }}px;
+    --gb-overlay: {{ section.settings.overlay | divided_by: 100.0 }};
+  }
+</style>
+
+<section id="GlassBanner-{{ section.id }}" class="gb gb--{{ section.settings.card_position }}">
+  <div class="site-container">
+    <div class="gb__banner">
+      {%- if img != blank -%}
+        {{ img | image_url: width: 2400 | image_tag: class: 'gb__img gb__img--desktop', loading: 'lazy', widths: '1000, 1400, 1800, 2400', sizes: '100vw', alt: img.alt, style: img_pos }}
+      {%- endif -%}
+      {%- if img_m != blank -%}
+        {{ img_m | image_url: width: 1200 | image_tag: class: 'gb__img gb__img--mobile', loading: 'lazy', widths: '400, 600, 800, 1000, 1200', sizes: '100vw', alt: img_m.alt, style: img_m_pos }}
+      {%- endif -%}
+      {%- if img == blank and img_m == blank -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'gb__img gb__img--placeholder' }}
+      {%- endif -%}
+      <span class="gb__overlay" aria-hidden="true"></span>
+
+      <div class="gb__card">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="gb__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="gb__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="gb__text gb__text--desktop">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- assign text_m = section.settings.text_mobile | default: section.settings.text -%}
+        {%- if text_m != blank -%}
+          <div class="gb__text gb__text--mobile">{{ text_m }}</div>
+        {%- endif -%}
+        {%- if section.settings.btn_label != blank -%}
+          <a href="{{ section.settings.btn_link | default: '#' }}" class="gb__btn">{{ section.settings.btn_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Glass banner",
+  "tag": "div",
+  "class": "section-glass-banner",
+  "settings": [
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Desktop image", "info": "Recommended 2400 × 900px. Set the focal point on the image." },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Recommended 1000 × 1000px. Uses the desktop image if empty." },
+    { "type": "range", "id": "overlay", "label": "Dark overlay", "min": 0, "max": 60, "step": 5, "unit": "%", "default": 0 },
+
+    { "type": "header", "content": "Card" },
+    {
+      "type": "select",
+      "id": "card_position",
+      "label": "Card position (desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Custom drinkware" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Make Your Mark" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Everyone is creative. At Created, we want your creativity to thrive. We make the process seamless from start to finish.</p>" },
+    { "type": "richtext", "id": "text_mobile", "label": "Mobile text (optional)", "default": "<p>Everyone is creative. At Created, we want your creativity to thrive.</p>", "info": "Shorter text for mobile. Uses the main text if empty." },
+    { "type": "text", "id": "btn_label", "label": "Button label", "default": "Go custom" },
+    { "type": "url", "id": "btn_link", "label": "Button link" },
+
+    { "type": "header", "content": "Size – desktop" },
+    { "type": "range", "id": "height", "label": "Banner height", "min": 360, "max": 800, "step": 10, "unit": "px", "default": 520 },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 2, "unit": "px", "default": 40 },
+
+    { "type": "header", "content": "Size – mobile" },
+    { "type": "range", "id": "height_mobile", "label": "Banner min height", "min": 280, "max": 700, "step": 10, "unit": "px", "default": 360 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top padding", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom padding", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 24 }
+  ],
+  "presets": [{ "name": "Glass banner" }]
+}
+{% endschema %}

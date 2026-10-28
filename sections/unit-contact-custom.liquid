@@ -1,0 +1,138 @@
+{%- comment -%}
+  Contact page: "Custom drinkware" call-out with popular uses (pill blocks),
+  two buttons and a numbered "How it works" list (step blocks).
+{%- endcomment -%}
+{{ 'unit-contact.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign uses = section.blocks | where: 'type', 'use'
+  assign steps = section.blocks | where: 'type', 'step'
+-%}
+
+<section
+  id="UnitContactCustom-{{ section.id }}"
+  class="uc uc-custom"
+  style="
+    --uc-pt: {{ section.settings.padding_top }}px;
+    --uc-pb: {{ section.settings.padding_bottom }}px;
+    --uc-pt-m: {{ section.settings.padding_top_mobile }}px;
+    --uc-pb-m: {{ section.settings.padding_bottom_mobile }}px;
+    --uc-custom-bg: {{ section.settings.bg }};
+    --uc-custom-text: {{ section.settings.text_color }};
+  "
+>
+  <div class="uc__container">
+    <div class="uc-custom__grid">
+      <div class="uc-custom__content">
+        {%- if section.settings.title != blank -%}
+          <h2 class="uc-custom__title font-canela">{{ section.settings.title | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="uc-custom__text">{{ section.settings.text }}</div>
+        {%- endif -%}
+
+        {%- if uses.size > 0 -%}
+          <div class="uc-custom__uses">
+            {%- if section.settings.uses_label != blank -%}
+              <p class="uc-custom__label">{{ section.settings.uses_label | escape }}</p>
+            {%- endif -%}
+            <ul class="uc-custom__pills" role="list">
+              {%- for block in uses -%}
+                <li {{ block.shopify_attributes }}>{{ block.settings.label | escape }}</li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank or section.settings.link_label != blank -%}
+          <div class="uc-custom__actions">
+            {%- if section.settings.button_label != blank -%}
+              <a href="{{ section.settings.button_link | default: '#' }}" class="uc-btn uc-custom__btn">{{ section.settings.button_label | escape }}</a>
+            {%- endif -%}
+            {%- if section.settings.link_label != blank -%}
+              <a href="{{ section.settings.link_url | default: '#' }}" class="uc-custom__link">{{ section.settings.link_label | escape }}</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+
+      {%- if steps.size > 0 -%}
+        <div class="uc-custom__process">
+          {%- if section.settings.steps_title != blank -%}
+            <h3 class="uc-custom__steps-title">{{ section.settings.steps_title | escape }}</h3>
+          {%- endif -%}
+          <ol class="uc-custom__steps" role="list">
+            {%- for block in steps -%}
+              <li class="uc-custom__step" {{ block.shopify_attributes }}>
+                <span class="uc-custom__step-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                <div>
+                  <p class="uc-custom__step-title font-canela">{{ block.settings.title | escape }}</p>
+                  {%- if block.settings.text != blank -%}
+                    <p class="uc-custom__step-text">{{ block.settings.text | escape }}</p>
+                  {%- endif -%}
+                </div>
+              </li>
+            {%- endfor -%}
+          </ol>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Unit contact: custom",
+  "tag": "section",
+  "class": "section-unit-contact-custom",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Heading", "default": "Custom Drinkware, Made With You." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Laser engraving or full-color print on our tumblers, bottles and mugs. Orders start at 25 units.</p>" },
+    { "type": "text", "id": "uses_label", "label": "Popular uses label", "default": "Popular uses" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Start a custom inquiry" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "link_label", "label": "Second link label", "default": "See past custom work" },
+    { "type": "url", "id": "link_url", "label": "Second link" },
+    { "type": "text", "id": "steps_title", "label": "Steps heading", "default": "How it works" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg", "label": "Background", "default": "#000000" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#FFFFFF" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top padding (mobile)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom padding (mobile)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 36 }
+  ],
+  "blocks": [
+    {
+      "type": "use",
+      "name": "Popular use",
+      "settings": [{ "type": "text", "id": "label", "label": "Label", "default": "Corporate gifts" }]
+    },
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Tell us about your project" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Quantity, products, your logo and the date you need them." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Unit contact: custom",
+      "blocks": [
+        { "type": "use", "settings": { "label": "Corporate gifts" } },
+        { "type": "use", "settings": { "label": "Employee onboarding" } },
+        { "type": "use", "settings": { "label": "Events and conferences" } },
+        { "type": "use", "settings": { "label": "Retail merch" } },
+        { "type": "use", "settings": { "label": "Weddings" } },
+        { "type": "step", "settings": { "title": "Tell us about your project", "text": "Quantity, products, your logo and the date you need them." } },
+        { "type": "step", "settings": { "title": "Get a mockup and quote", "text": "Usually within 2 business days, with no commitment." } },
+        { "type": "step", "settings": { "title": "Approve and we make it", "text": "Production takes about 3-4 weeks after approval." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

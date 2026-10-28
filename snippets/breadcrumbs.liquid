@@ -1,0 +1,114 @@
+
+<nav class="breadcrumbs" aria-label="breadcrumb">
+  <ol class="breadcrumbs__list" role="list">
+
+    {%- comment %} Home {% endcomment -%}
+    <li class="breadcrumbs__item">
+      <a class="breadcrumbs__link" href="{{ routes.root_url }}">
+        {% comment %} {{- 'general.breadcrumbs.home' | t | default: 'Home' -}} {% endcomment %}
+         Home
+      </a>
+    </li>
+
+    {%- case template.name -%}
+
+      {%- when 'collection' -%}
+        <li class="breadcrumbs__item breadcrumbs__item--current" aria-current="page">
+          <span class="breadcrumbs__text">{{ collection.title }}</span>
+        </li>
+
+      {%- when 'product' -%}
+        {%- if collection != blank -%}
+          <li class="breadcrumbs__item">
+            <a class="breadcrumbs__link" href="{{ collection.url }}">{{ collection.title }}</a>
+          </li>
+        {%- endif -%}
+        <li class="breadcrumbs__item breadcrumbs__item--current" aria-current="page">
+          <span class="breadcrumbs__text">{{ product.title }}</span>
+        </li>
+
+      {%- when 'page' -%}
+        <li class="breadcrumbs__item breadcrumbs__item--current" aria-current="page">
+          <span class="breadcrumbs__text">{{ page.title }}</span>
+        </li>
+
+      {%- when 'blog' -%}
+        <li class="breadcrumbs__item breadcrumbs__item--current" aria-current="page">
+          <span class="breadcrumbs__text">{{ blog.title }}</span>
+        </li>
+
+      {%- when 'article' -%}
+        <li class="breadcrumbs__item">
+          <a class="breadcrumbs__link" href="{{ blog.url }}">{{ blog.title }}</a>
+        </li>
+        <li class="breadcrumbs__item breadcrumbs__item--current" aria-current="page">
+          <span class="breadcrumbs__text">{{ article.title }}</span>
+        </li>
+
+      {%- when 'search' -%}
+        <li class="breadcrumbs__item breadcrumbs__item--current" aria-current="page">
+          {% comment %} <span class="breadcrumbs__text">{{ 'general.search.title' | t | default: 'Search' }}</span> {% endcomment %}
+           Search
+        </li>
+
+    {%- endcase -%}
+
+  </ol>
+</nav>
+
+<style>
+  .breadcrumbs {
+    margin-bottom: 1rem;
+  }
+
+  .breadcrumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .breadcrumbs__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .breadcrumbs__item + .breadcrumbs__item::before {
+    content: '/';
+    flex-shrink: 0;
+    color: #6E797F;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+  }
+
+  .breadcrumbs__link {
+    text-decoration: none;
+    color: #6E797F;
+  
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+  }
+
+  .breadcrumbs__link:hover {
+    text-decoration-color: currentColor;
+  }
+  .breadcrumbs__item--current .breadcrumbs__text {
+    color: #0E1F2A;
+  
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+  }
+</style>

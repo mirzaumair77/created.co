@@ -1,0 +1,505 @@
+{{ 'inside-scout.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'inside-scout.js' | asset_url }}" defer="defer"></script>
+
+{%- comment -%}
+  Per-product overrides: product metafield custom.inside_product (metaobject "Inside product").
+  Field keys can be Shopify's automatic ones (image_height, vertical_position, zoom, overlap_over_cards,
+  image_height_mobile, vertical_position_mobile, zoom_mobile, space_below_heading, space_below_heading_mobile)
+  or the short ones (img_height, img_pos_y, img_zoom, overlap, ...); both work.
+  Any field filled in on that metaobject wins for that product; empty fields use the
+  template settings below. Hotspots come from the metaobject's "hotspots" list when it
+  has any, otherwise from the hotspot blocks.
+{%- endcomment -%}
+{%- liquid
+  assign io = product.metafields.custom.inside_product.value
+
+  assign img_height = section.settings.img_height | default: 450
+  if io.image_height.value != blank
+    assign img_height = io.image_height.value
+  elsif io.img_height.value != blank
+    assign img_height = io.img_height.value
+  endif
+  assign img_pos_y = section.settings.img_pos_y | default: 50
+  if io.vertical_position.value != blank
+    assign img_pos_y = io.vertical_position.value
+  elsif io.img_pos_y.value != blank
+    assign img_pos_y = io.img_pos_y.value
+  endif
+  assign img_zoom = section.settings.img_zoom | default: 100
+  if io.zoom.value != blank
+    assign img_zoom = io.zoom.value
+  elsif io.img_zoom.value != blank
+    assign img_zoom = io.img_zoom.value
+  endif
+  assign overlap = section.settings.overlap | default: 0
+  if io.overlap_over_cards.value != blank
+    assign overlap = io.overlap_over_cards.value
+  elsif io.overlap.value != blank
+    assign overlap = io.overlap.value
+  endif
+
+  assign img_height_m = section.settings.img_height_mobile | default: 280
+  if io.image_height_mobile.value != blank
+    assign img_height_m = io.image_height_mobile.value
+  elsif io.img_height_mobile.value != blank
+    assign img_height_m = io.img_height_mobile.value
+  endif
+  assign img_pos_y_m = section.settings.img_pos_y_mobile | default: 50
+  if io.vertical_position_mobile.value != blank
+    assign img_pos_y_m = io.vertical_position_mobile.value
+  elsif io.img_pos_y_mobile.value != blank
+    assign img_pos_y_m = io.img_pos_y_mobile.value
+  endif
+  assign img_zoom_m = section.settings.img_zoom_mobile | default: 100
+  if io.zoom_mobile.value != blank
+    assign img_zoom_m = io.zoom_mobile.value
+  elsif io.img_zoom_mobile.value != blank
+    assign img_zoom_m = io.img_zoom_mobile.value
+  endif
+
+  assign head_mb = section.settings.head_margin_size
+  if io.space_below_heading.value != blank
+    assign head_mb = io.space_below_heading.value
+  elsif io.head_margin_size.value != blank
+    assign head_mb = io.head_margin_size.value
+  endif
+  assign head_mb_m = section.settings.head_margin_size_mobile
+  if io.space_below_heading_mobile.value != blank
+    assign head_mb_m = io.space_below_heading_mobile.value
+  elsif io.head_margin_size_mobile.value != blank
+    assign head_mb_m = io.head_margin_size_mobile.value
+  endif
+
+  assign is_title = section.settings.title
+  if io.title.value != blank
+    assign is_title = io.title.value
+  endif
+  assign is_text = section.settings.text
+  if io.text.value != blank
+    assign is_text = io.text.value
+  endif
+
+  assign zoom_d = img_zoom | divided_by: 100.0
+  assign zoom_m = img_zoom_m | divided_by: 100.0
+
+  assign use_mo_hotspots = false
+  assign hotspots = section.blocks | where: 'type', 'hotspot'
+  if io.hotspots.value.size > 0
+    assign use_mo_hotspots = true
+    assign hotspots = io.hotspots.value
+  endif
+-%}
+
+<section
+  class="iscout"
+  data-section-id="{{ section.id }}"
+  style="
+    --is-accent: {{ section.settings.accent | default: '#FF6E15' }};
+    --is-pt: {{ section.settings.padding_top | default: 56 }}px;
+    --is-pb: {{ section.settings.padding_bottom | default: 56 }}px;
+    --is-pt-m: {{ section.settings.padding_top_mobile | default: 32 }}px;
+    --is-pb-m: {{ section.settings.padding_bottom_mobile | default: 32 }}px;
+    --is-overlap: {{ overlap }}px;
+    --is-h: {{ img_height }}px;
+    --is-pos-y: {{ img_pos_y }}%;
+    --is-zoom: {{ zoom_d }};
+    --is-h-m: {{ img_height_m }}px;
+    --is-pos-y-m: {{ img_pos_y_m }}%;
+    --is-zoom-m: {{ zoom_m }};
+  "
+>
+  <div class="site-container">
+
+    <div
+      class="iscout__head{% if section.settings.head_margin %} has-margin{% endif %}"
+      style="--is-head-mb: {{ head_mb }}px; --is-head-mb-m: {{ head_mb_m }}px;"
+    >
+      {%- assign product_name = product.metafields.product_cards.product_card_title | default: product.title -%}
+      {%- if is_title != blank -%}
+        <h2 class="iscout__title">
+          {{ is_title | replace: '[product]', product_name }}
+        </h2>
+      {%- endif -%}
+
+      {%- if is_text != blank -%}
+        <p class="iscout__text">
+          {{ is_text | replace: '[product]', product_name }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div class="iscout__stage">
+      {%- liquid
+        # metaobject images first (separate desktop / mobile), then the product's
+        # featured image, then the template images
+        assign desktop_image = io.desktop_image.value | default: product.featured_image | default: section.settings.image
+        assign mobile_image = io.mobile_image.value | default: io.desktop_image.value | default: product.featured_image | default: section.settings.mobile_image
+
+        if desktop_image == blank
+          assign desktop_image = mobile_image
+        endif
+
+        if mobile_image == blank
+          assign mobile_image = desktop_image
+        endif
+      -%}
+
+      {%- if desktop_image != blank -%}
+        <picture class="iscout__picture">
+          {%- if mobile_image != blank -%}
+            <source
+              media="(max-width: 749px)"
+              srcset="
+                {{ mobile_image | image_url: width: 375 }} 375w,
+                {{ mobile_image | image_url: width: 550 }} 550w,
+                {{ mobile_image | image_url: width: 750 }} 750w
+              "
+              sizes="360px"
+            >
+          {%- endif -%}
+
+          {{
+            desktop_image
+            | image_url: width: 1200
+            | image_tag:
+              class: 'iscout__img',
+              loading: 'lazy',
+              widths: '550, 750, 900, 1200',
+              sizes: '(max-width: 749px) 360px, 750px',
+              alt: desktop_image.alt
+          }}
+        </picture>
+      {%- endif -%}
+
+      {%- for hs in hotspots -%}
+        {%- render 'inside-scout-hotspot', hs: hs, use_mo: use_mo_hotspots, index: forloop.index, first: forloop.first, product_name: product_name, part: 'marker' -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="iscout__cards">
+      <div class="iscout__cards-track" js-carousel>
+        {%- for hs in hotspots -%}
+          {%- render 'inside-scout-hotspot', hs: hs, use_mo: use_mo_hotspots, index: forloop.index, first: forloop.first, product_name: product_name, part: 'card' -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Inside Scout",
+  "tag": "section",
+  "class": "inside-scout-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "These settings are the default for every product. To change one product only, fill in its \"Inside section\" metaobject (product metafield custom.inside_product); filled-in fields win for that product."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Inside Scout"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Intro text",
+      "default": "Thoughtfully designed by artists in California — minimalist aesthetics, maximum functionality."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile product image",
+      "info": "If empty, the desktop image will be used on mobile."
+    },
+    {
+      "type": "color",
+      "id": "accent",
+      "label": "Active card colour",
+      "default": "#FF6E15"
+    },
+    {
+      "type": "header",
+      "content": "Heading spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "head_margin",
+      "label": "Add space below heading",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "head_margin_size",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Space below heading (desktop)",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "head_margin_size_mobile",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Space below heading (mobile)",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Image crop — desktop"
+    },
+    {
+      "type": "range",
+      "id": "img_height",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Image height",
+      "default": 450,
+      "info": "Lower = cuts more empty space above and below the product."
+    },
+    {
+      "type": "range",
+      "id": "img_pos_y",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical position",
+      "default": 50,
+      "info": "Higher = product moves up. Lower = product moves down."
+    },
+    {
+      "type": "range",
+      "id": "img_zoom",
+      "min": 100,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "label": "Zoom",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "overlap",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Product overlap over cards",
+      "default": 0,
+      "info": "How far the product base sits over the cards."
+    },
+    {
+      "type": "header",
+      "content": "Image crop — mobile"
+    },
+    {
+      "type": "range",
+      "id": "img_height_mobile",
+      "min": 150,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Image height",
+      "default": 280
+    },
+    {
+      "type": "range",
+      "id": "img_pos_y_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical position",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "img_zoom_mobile",
+      "min": 100,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "label": "Zoom",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Desktop padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    },
+    {
+      "type": "header",
+      "content": "Mobile padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 32
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Day to night"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Scout goes from studio desk to trail without changing anything but where you set it down."
+        },
+        {
+          "type": "header",
+          "content": "Desktop position"
+        },
+        {
+          "type": "range",
+          "id": "x_desktop",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Horizontal position",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "y_desktop",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Vertical position",
+          "default": 50
+        },
+        {
+          "type": "header",
+          "content": "Mobile position"
+        },
+        {
+          "type": "range",
+          "id": "x_mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Horizontal position",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "y_mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Vertical position",
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Inside Scout",
+      "blocks": [
+        {
+          "type": "hotspot",
+          "settings": {
+            "title": "Day to night",
+            "x_desktop": 48,
+            "y_desktop": 20,
+            "x_mobile": 48,
+            "y_mobile": 20
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "title": "Comfort",
+            "x_desktop": 52,
+            "y_desktop": 32,
+            "x_mobile": 52,
+            "y_mobile": 32
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "title": "Storage",
+            "x_desktop": 54,
+            "y_desktop": 55,
+            "x_mobile": 54,
+            "y_mobile": 55
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "title": "Material",
+            "x_desktop": 46,
+            "y_desktop": 72,
+            "x_mobile": 46,
+            "y_mobile": 72
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

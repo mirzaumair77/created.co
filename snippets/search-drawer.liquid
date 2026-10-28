@@ -1,0 +1,241 @@
+{%- comment -%}
+  Search drawer
+  Accepts:
+  - sd_section: {Object} the header section (search error message only)
+
+  Settings: theme settings > Search drawer (config/settings_schema.json)
+
+  Typing renders sections/search-drawer-results.liquid (products, pages, trending
+  searches) into [data-search-drawer-results]; Enter opens the search page.
+
+  Opened by search-drawer.js from:
+  - the desktop header search input
+  - the mobile header search icon
+  - [data-search-drawer-trigger] (search input inside the mobile menu drawer)
+
+  FAQ content comes from the 'search_drawer_faq' metaobject
+  (fields: question = single line text, answer = rich text).
+{%- endcomment -%}
+
+{%- liquid
+  assign sd_settings = settings
+  assign sd_faqs = shop.metaobjects.search_drawer_faq.values
+  assign sd_suggestions = sd_settings.search_drawer_suggestions | split: ','
+  assign sd_search_label = 'general.search.search' | t
+  assign sd_close_label = 'accessibility.close' | t
+  assign sd_placeholder = sd_settings.search_drawer_placeholder | default: sd_search_label
+  assign sd_placeholder_mobile = sd_settings.search_drawer_placeholder_mobile | default: sd_placeholder
+-%}
+
+{{ 'product-item.css' | asset_url | stylesheet_tag }}
+{{ 'search-drawer.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Swiper: the theme's existing swiper-bundle.min.js (not a new CDN). Its stylesheet is not
+  loaded on purpose: it would restyle the header mega menu's .swiper markup. search-drawer.css
+  holds the Swiper core rules scoped to the drawer.
+{%- endcomment -%}
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'search-drawer.js' | asset_url }}" defer="defer"></script>
+
+<div
+  id="SearchDrawer"
+  class="search-drawer"
+  data-search-drawer
+  data-search-url="{{ routes.predictive_search_url }}"
+  data-search-page-url="{{ routes.search_url }}"
+  data-placeholder="{{ sd_placeholder | escape }}"
+  data-placeholder-mobile="{{ sd_placeholder_mobile | escape }}"
+  data-text-loading="{{ 'accessibility.loading' | t | escape }}"
+  data-text-error="{{ sd_section.settings.drawer_search_error | escape }}"
+  data-results-section="search-drawer-results"
+  data-text-faq="{{ sd_settings.search_drawer_faq_heading | escape }}"
+  aria-hidden="true"
+  inert
+>
+  <div class="search-drawer__overlay" data-search-drawer-close></div>
+
+  <div
+    class="search-drawer__panel"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{{ sd_search_label }}"
+    tabindex="-1"
+  >
+    <div class="search-drawer__header">
+      <form
+        action="{{ routes.search_url }}"
+        method="get"
+        role="search"
+        class="search-drawer__search"
+        data-search-drawer-form
+      >
+        <svg class="search-drawer__search-icon" aria-hidden="true" focusable="false xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M14.9999 9.16666C14.9999 12.3883 12.3882 15 9.16659 15C5.94492 15 3.33325 12.3883 3.33325 9.16666C3.33325 5.945 5.94492 3.33333 9.16659 3.33333C12.3882 3.33333 14.9999 5.945 14.9999 9.16666Z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+          <path d="M16.6667 16.6667L13.75 13.75" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+        </svg>
+        <label class="visually-hidden" for="SearchDrawerInput">{{ sd_search_label }}</label>
+        <input
+          id="SearchDrawerInput"
+          class="search-drawer__input"
+          type="search"
+          name="q"
+          placeholder="{{ sd_placeholder | escape }}"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          enterkeyhint="search"
+          aria-controls="SearchDrawerResults"
+          data-search-drawer-input
+        >
+        <input type="hidden" name="options[prefix]" value="last">
+      </form>
+
+      <button type="button" class="search-drawer__close" aria-label="{{ sd_close_label }}" data-search-drawer-close>
+        <svg
+          class="search-drawer__close-icon"
+          aria-hidden="true"
+          focusable="false"
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+        >
+          <path d="M13.5 4.5L9 9M9 9L4.5 13.5M9 9L4.5 4.5M9 9L13.5 13.5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+        </svg>
+        <span class="search-drawer__close-text" aria-hidden="true">
+          {{- sd_settings.search_drawer_cancel_text | default: sd_close_label | escape -}}
+        </span>
+      </button>
+    </div>
+
+    <div class="search-drawer__body">
+      <div
+        class="search-drawer__results"
+        id="SearchDrawerResults"
+        aria-live="polite"
+        data-search-drawer-results
+        hidden
+      ></div>
+
+      <div class="search-drawer__default" data-search-drawer-default>
+        {%- comment -%} Suggested searches {%- endcomment -%}
+        {%- if sd_suggestions.size > 0 -%}
+          <div class="search-drawer__section search-drawer__suggestions">
+            {%- if sd_settings.search_drawer_suggestion_heading != blank -%}
+              <h2 class="search-drawer__heading">{{ sd_settings.search_drawer_suggestion_heading | escape }}</h2>
+            {%- endif -%}
+
+            <ul class="search-drawer__suggestion-list" role="list">
+              {%- for suggestion in sd_suggestions -%}
+                {%- assign sd_term = suggestion | strip -%}
+                {%- if sd_term != blank -%}
+                  <li class="search-drawer__suggestion-item">
+                    <a
+                      href="{{ routes.search_url }}?q={{ sd_term | url_encode }}&options%5Bprefix%5D=last"
+                      class="search-drawer__suggestion"
+                      data-search-drawer-suggestion="{{ sd_term | escape }}"
+                    >
+                      {{- sd_term | escape -}}
+                    </a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Bestsellers {%- endcomment -%}
+        {%- render 'search-drawer-bestseller', sdb_id: 'SearchDrawerBestsellers' -%}
+
+        {%- comment -%} FAQs (metaobject: search_drawer_faq) {%- endcomment -%}
+        {%- if sd_faqs.size > 0 -%}
+          {%- assign sd_read_more = sd_settings.search_drawer_faq_read_more | default: 'Read more' -%}
+          {%- assign sd_read_less = sd_settings.search_drawer_faq_read_less | default: 'Read less' -%}
+
+          <div class="search-drawer__section search-drawer__faq" data-search-drawer-slider>
+            <div class="search-drawer__section-head search-drawer__section-head--baseline">
+              {%- if sd_settings.search_drawer_faq_heading != blank -%}
+                <h2 class="search-drawer__heading">{{ sd_settings.search_drawer_faq_heading | escape }}</h2>
+              {%- endif -%}
+
+              {%- if sd_settings.search_drawer_faq_show_all_text != blank
+                and sd_settings.search_drawer_faq_show_all_link != blank
+              -%}
+                <a href="{{ sd_settings.search_drawer_faq_show_all_link }}" class="search-drawer__show-all">
+                  {{- sd_settings.search_drawer_faq_show_all_text | escape -}}
+                </a>
+              {%- endif -%}
+            </div>
+
+            <div class="search-drawer__swiper swiper" data-search-drawer-swiper="faq">
+              <ul
+                class="search-drawer__track search-drawer__track--faq swiper-wrapper"
+                id="SearchDrawerFaqs"
+                role="list"
+              >
+                {%- for entry in sd_faqs -%}
+                  {%- assign sd_question = entry.question.value -%}
+                  {%- if sd_question != blank -%}
+                    <li class="search-drawer__slide search-drawer__slide--faq swiper-slide">
+                      <article class="search-drawer__faq-item" data-search-drawer-faq>
+                        <h3 class="search-drawer__faq-question">{{ sd_question | escape }}</h3>
+                        <div class="search-drawer__faq-answer" id="SearchDrawerFaqAnswer-{{ forloop.index }}">
+                          {{- entry.answer | metafield_tag -}}
+                        </div>
+                        <button
+                          type="button"
+                          class="search-drawer__faq-toggle"
+                          aria-expanded="false"
+                          aria-controls="SearchDrawerFaqAnswer-{{ forloop.index }}"
+                          data-search-drawer-faq-toggle
+                          data-text-more="{{ sd_read_more | escape }}"
+                          data-text-less="{{ sd_read_less | escape }}"
+                        >
+                          {{- sd_read_more | escape -}}
+                        </button>
+                      </article>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+
+            <div class="search-drawer__nav">
+              <button
+                type="button"
+                class="search-drawer__arrow search-drawer__arrow--line"
+                aria-label="Previous FAQs"
+                aria-controls="SearchDrawerFaqs"
+                data-search-drawer-prev
+                disabled
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                  <g opacity="0.35">
+                    <path d="M17.4166 11H4.58325M10.0833 16.5L4.58325 11L10.0833 5.5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+                  </g>
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="search-drawer__arrow search-drawer__arrow--line"
+                aria-label="Next FAQs"
+                aria-controls="SearchDrawerFaqs"
+                data-search-drawer-next
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                  <path d="M4.58325 11H17.4166M11.9166 16.5L17.4166 11L11.9166 5.5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
+                </svg>
+              </button>
+              <div class="search-drawer__progress" aria-hidden="true">
+                <span class="search-drawer__progress-bar" data-search-drawer-progress></span>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+

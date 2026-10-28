@@ -1,0 +1,167 @@
+{% comment %}
+  Section: Reviews slider ("Better Every Day.")
+  - Review blocks: quote, name, product (image + title + View product)
+  - Product title: product_cards.product_card_title metafield (fallback: product title)
+  - Flickity from theme.js, custom prev/next buttons
+{% endcomment %}
+
+{{ 'reviews-slider.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'reviews-slider.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign reviews = section.blocks | where: 'type', 'review'
+  assign rating_pct = section.settings.rating | times: 20
+-%}
+
+<style>
+  #Reviews-{{ section.id }} {
+    --rv-pt: {{ section.settings.padding_top_mobile }}px;
+    --rv-pb: {{ section.settings.padding_bottom_mobile }}px;
+    --rv-pt-d: {{ section.settings.padding_top }}px;
+    --rv-pb-d: {{ section.settings.padding_bottom }}px;
+  }
+</style>
+
+<section
+  id="Reviews-{{ section.id }}"
+  class="rv rv--stars-{{ section.settings.show_stars }}"
+  aria-label="{{ section.settings.heading | default: 'Customer reviews' | escape }}"
+>
+  <div class="site-container">
+    <div class="rv__head">
+      {%- if section.settings.show_stars != 'none' and section.settings.rating > 0 -%}
+        <span class="rv-stars" style="--rating: {{ rating_pct }}%;" aria-hidden="true"></span>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="rv__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="rv__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+
+    <div class="rv__slider js-rv-slider">
+      {%- for block in reviews -%}
+        {%- liquid
+          assign p = block.settings.product
+          assign p_title = block.settings.product_title
+          if p_title == blank and p != blank
+            assign p_title = p.metafields.product_cards.product_card_title.value | default: p.title
+          endif
+          assign p_img = block.settings.product_image | default: p.featured_media
+          assign p_link = block.settings.link | default: p.url
+        -%}
+        <div class="rv__cell" {{ block.shopify_attributes }}>
+          <figure class="rv-card">
+            <div class="rv-card__top">
+              {%- if block.settings.quote != blank -%}
+                <blockquote class="rv-card__quote">{{ block.settings.quote }}</blockquote>
+              {%- endif -%}
+              {%- if block.settings.name != blank -%}
+                <figcaption class="rv-card__name">{{ block.settings.name }}</figcaption>
+              {%- endif -%}
+            </div>
+
+            {%- if p_title != blank or p_img != blank -%}
+              <div class="rv-card__product">
+                <div class="rv-card__thumb">
+                  {%- if p_img != blank -%}
+                    {{ p_img | image_url: width: 200 | image_tag: loading: 'lazy', sizes: '84px', widths: '100, 200', alt: '' }}
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  {%- endif -%}
+                </div>
+                <div class="rv-card__info">
+                  {%- if p_title != blank -%}
+                    <p class="rv-card__title">{{ p_title }}</p>
+                  {%- endif -%}
+                  {%- if p_link != blank and section.settings.btn_label != blank -%}
+                    <a href="{{ p_link }}" class="rv-card__btn">
+                      {{- section.settings.btn_label -}}
+                      <span class="visually-hidden"> – {{ p_title }}</span>
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          </figure>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if reviews.size > 1 -%}
+      <div class="rv__nav">
+        <button type="button" class="rv__arrow js-rv-prev" aria-label="Previous review">
+          <svg xmlns="http://www.w3.org/2000/svg" width="5" height="10" viewBox="0 0 5 10" fill="none" aria-hidden="true">
+            <path d="M4.78125 9.59375L1.78125 4.75H5.96046e-08V4.90625L3.15625 9.59375H4.78125ZM4.78125 -3.57628e-07H3.15625L5.96046e-08 4.6875V4.84375H1.78125L4.78125 -3.57628e-07Z" fill="currentColor"/>
+          </svg>
+        </button>
+        <button type="button" class="rv__arrow js-rv-next" aria-label="Next review">
+          <svg xmlns="http://www.w3.org/2000/svg" width="5" height="10" viewBox="0 0 5 10" fill="none" aria-hidden="true">
+            <path d="M7.45058e-08 9.59375L3 4.75H4.78125V4.90625L1.625 9.59375H7.45058e-08ZM7.45058e-08 -3.57628e-07H1.625L4.78125 4.6875V4.84375H3L7.45058e-08 -3.57628e-07Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Reviews slider",
+  "tag": "div",
+  "class": "section-reviews-slider",
+  "max_blocks": 16,
+  "settings": [
+    {
+      "type": "select",
+      "id": "show_stars",
+      "label": "Show stars",
+      "options": [
+        { "value": "mobile", "label": "Mobile only" },
+        { "value": "all", "label": "Desktop and mobile" },
+        { "value": "none", "label": "Hidden" }
+      ],
+      "default": "mobile"
+    },
+    { "type": "range", "id": "rating", "label": "Stars", "min": 0, "max": 5, "step": 0.5, "default": 5 },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "142 verified 5-star reviews" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Better Every Day." },
+    { "type": "text", "id": "btn_label", "label": "Product button label", "default": "View product" },
+
+    { "type": "header", "content": "Spacing – desktop" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 198, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 198, "step": 2, "unit": "px", "default": 80 },
+
+    { "type": "header", "content": "Spacing – mobile" },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top padding", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom padding", "min": 0, "max": 120, "step": 2, "unit": "px", "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Review", "default": "The quality feels premium and the results feel real. Created has become part of my daily ritual." },
+        { "type": "text", "id": "name", "label": "Name", "default": "David Wong" },
+        { "type": "header", "content": "Product" },
+        { "type": "product", "id": "product", "label": "Product", "info": "Image, title and link come from the product unless overridden." },
+        { "type": "text", "id": "product_title", "label": "Title override" },
+        { "type": "image_picker", "id": "product_image", "label": "Image override" },
+        { "type": "url", "id": "link", "label": "Link override" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews slider",
+      "blocks": [
+        { "type": "review", "settings": { "quote": "The quality feels premium and the results feel real. Created has become part of my daily ritual.", "name": "David Wong", "product_title": "40oz Scout" } },
+        { "type": "review", "settings": { "quote": "Since adding the Nomad Flip to my routine, the lid has never leaked once — not in two years.", "name": "Michael Brooks", "product_title": "12oz Nomad Flip" } },
+        { "type": "review", "settings": { "quote": "I started with the Wander and quickly noticed the difference. It travels everywhere with me now.", "name": "Olivia Bennett", "product_title": "26oz Wander" } },
+        { "type": "review", "settings": { "quote": "Keeps my coffee hot through the whole commute and still looks brand new.", "name": "Sarah Mitchell", "product_title": "22oz Roam Mug" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

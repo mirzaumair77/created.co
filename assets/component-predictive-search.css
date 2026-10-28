@@ -1,7 +1,7 @@
 .predictive-search {
   display: none;
   position: absolute;
-  top: calc(100% + 0.1rem);
+  top: calc(100% + 0.5rem);
   left: -0.1rem;
   background: var(--color-base-background-1);
   z-index: 3;

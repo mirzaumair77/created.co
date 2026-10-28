@@ -1,0 +1,349 @@
+{% comment %}
+  Section: Build Your Own Bundle (final design)
+  - Page part: eyebrow, heading, text, image slider (desktop) / 2×2 grid (mobile), "Build bundle" button
+  - Popup with 2 modes (toggle):
+    Mode 1 "Day routine": "Bundle step" blocks, 1 collection each, customer picks 1 product per step
+    Mode 2 "Actual bundle": one product grid with quantity steppers, any mix of [min]–[max] pieces
+  - Each mode has its own discount % (shown in the summary) and discount code
+  - Build bundle → cart permalink straight to checkout with that mode's discount code
+  - Cart is cleared when the customer comes back (snippet: byb-cart-reset in theme.liquid)
+{% endcomment %}
+
+{{ 'build-your-bundle.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'build-your-bundle.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign slides = section.blocks | where: 'type', 'image'
+  assign steps = section.blocks | where: 'type', 'step'
+
+  assign has_m1 = false
+  if steps.size > 0
+    assign has_m1 = true
+  endif
+
+  assign has_m2 = false
+  assign m2_source = ''
+  if section.settings.m2_products != blank and section.settings.m2_products.size > 0
+    assign has_m2 = true
+    assign m2_source = 'list'
+  elsif section.settings.m2_collection != blank and section.settings.m2_collection.products_count > 0
+    assign has_m2 = true
+    assign m2_source = 'collection'
+  endif
+
+  assign active_mode = section.settings.default_mode
+  if active_mode == '1' and has_m1 == false
+    assign active_mode = '2'
+  endif
+  if active_mode == '2' and has_m2 == false
+    assign active_mode = '1'
+  endif
+
+  assign show_toggle = false
+  if has_m1 and has_m2
+    assign show_toggle = true
+  endif
+
+  assign m2_min_s = section.settings.m2_min | append: ''
+  assign m2_max_s = section.settings.m2_max_item | append: ''
+  assign m2_pct_s = section.settings.m2_percent | append: ''
+  assign m2_text = section.settings.m2_text | replace: '[min]', m2_min_s | replace: '[max]', m2_max_s | replace: '[percent]', m2_pct_s
+-%}
+
+<section
+  id="Bundle-{{ section.id }}"
+  class="byb"
+  style="--byb-pad-top: {{ section.settings.padding_top }}px; --byb-pad-bottom: {{ section.settings.padding_bottom }}px; --byb-pad-top-mobile: {{ section.settings.padding_top_mobile }}px; --byb-pad-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;"
+>
+  <div class="site-container">
+    {%- comment -%} ========== PAGE PART ========== {%- endcomment -%}
+    <div class="byb__head">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="byb__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="byb__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.text != blank -%}
+        <div class="byb__text">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if slides.size > 0 -%}
+      <div class="byb__slider js-byb-slider">
+        {%- for block in slides -%}
+          <div class="byb__slide" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(max-width: 749px) 50vw, 25vw', widths: '300, 450, 600, 900' }}
+            {%- else -%}
+              <span class="byb__slide-empty"></span>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="byb__foot">
+      <button type="button" class="byb__btn js-byb-open" aria-haspopup="dialog" aria-controls="BundleDialog-{{ section.id }}">
+        {{- section.settings.open_label -}}
+      </button>
+      {%- if slides.size > 1 -%}
+        <div class="byb__arrows">
+          <button type="button" class="byb__arrow js-byb-prev" aria-label="Previous image">
+            <svg width="7" height="11" viewBox="0 0 7 11" fill="none" aria-hidden="true"><path d="M6 1 1.5 5.5 6 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <button type="button" class="byb__arrow js-byb-next" aria-label="Next image">
+            <svg width="7" height="11" viewBox="0 0 7 11" fill="none" aria-hidden="true"><path d="m1 1 4.5 4.5L1 10" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ========== POPUP ========== {%- endcomment -%}
+  <dialog class="byb-dialog js-byb-dialog" id="BundleDialog-{{ section.id }}" aria-labelledby="BundleDialogTitle-{{ section.id }}">
+    <div class="byb-dialog__inner">
+      <button type="button" class="byb-dialog__close js-byb-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 1l12 12M13 1 1 13" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+
+      <div class="byb__head byb__head--dialog">
+        <div class="byb__head-main">
+          {%- if section.settings.popup_eyebrow != blank -%}
+            <p class="byb__eyebrow">{{ section.settings.popup_eyebrow }}</p>
+          {%- endif -%}
+          <h2 class="byb__heading" id="BundleDialogTitle-{{ section.id }}">{{ section.settings.popup_heading }}</h2>
+        </div>
+        {%- if section.settings.popup_text != blank -%}
+          <div class="byb__text">{{ section.settings.popup_text }}</div>
+        {%- endif -%}
+        {%- if show_toggle -%}
+          <div class="byb-toggle" role="tablist" aria-label="Bundle type">
+            <button type="button" role="tab" class="byb-toggle__btn js-byb-mode{% if active_mode == '1' %} is-active{% endif %}" data-bundle="1" aria-selected="{% if active_mode == '1' %}true{% else %}false{% endif %}">
+              {{- section.settings.m1_label -}}
+            </button>
+            <button type="button" role="tab" class="byb-toggle__btn js-byb-mode{% if active_mode == '2' %} is-active{% endif %}" data-bundle="2" aria-selected="{% if active_mode == '2' %}true{% else %}false{% endif %}">
+              {{- section.settings.m2_label -}}
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="byb-builder">
+        <div class="byb-bundles">
+          {%- comment -%} ----- Mode 1: Day routine (steps) ----- {%- endcomment -%}
+          {%- if has_m1 -%}
+            <div
+              class="byb-steps js-byb-bundle"
+              data-bundle="1"
+              data-type="steps"
+              data-label="{{ section.settings.m1_label | escape }}"
+              data-percent="{{ section.settings.m1_percent }}"
+              data-code="{{ section.settings.m1_code | strip | escape }}"
+              data-note="{{ section.settings.m1_note | escape }}"
+              {% if active_mode != '1' %}hidden{% endif %}
+            >
+              {%- for block in steps -%}
+                {%- assign step_index = forloop.index0 -%}
+                <div class="byb-step" data-step="{{ step_index }}" {{ block.shopify_attributes }}>
+                  <div class="byb-step__info">
+                    {%- if section.settings.show_step_labels -%}
+                      <span class="byb-step__pill">{{ block.settings.step_label | default: 'Step' }}</span>
+                    {%- endif -%}
+                    <h3 class="byb-step__heading" id="StepHeading-{{ block.id }}">{{ block.settings.heading }}</h3>
+                    {%- if block.settings.text != blank -%}
+                      <p class="byb-step__text">{{ block.settings.text }}</p>
+                    {%- endif -%}
+                  </div>
+                  <div class="byb-step__products" role="group" aria-labelledby="StepHeading-{{ block.id }}">
+                    {%- if block.settings.collection != blank and block.settings.collection.products_count > 0 -%}
+                      {%- for product in block.settings.collection.products limit: block.settings.limit -%}
+                        {%- render 'byb-tile', product: product, mode: '1', step: step_index -%}
+                      {%- endfor -%}
+                    {%- else -%}
+                      <p class="byb-step__empty">Select a collection for this step.</p>
+                    {%- endif -%}
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} ----- Mode 2: Actual bundle (any pieces, any quantity) ----- {%- endcomment -%}
+          {%- if has_m2 -%}
+            <div
+              class="byb-pick js-byb-bundle"
+              data-bundle="2"
+              data-type="qty"
+              data-label="{{ section.settings.m2_label | escape }}"
+              data-percent="{{ section.settings.m2_percent }}"
+              data-code="{{ section.settings.m2_code | strip | escape }}"
+              data-min="{{ section.settings.m2_min }}"
+              data-max-item="{{ section.settings.m2_max_item }}"
+              data-note="{{ section.settings.m2_note | escape }}"
+              {% if active_mode != '2' %}hidden{% endif %}
+            >
+              <div class="byb-pick__head">
+                {%- if section.settings.m2_heading != blank -%}
+                  <h3 class="byb-pick__heading" id="PickHeading-{{ section.id }}">{{ section.settings.m2_heading }}</h3>
+                {%- endif -%}
+                {%- if m2_text != blank -%}
+                  <p class="byb-pick__text">{{ m2_text }}</p>
+                {%- endif -%}
+              </div>
+              <div class="byb-pick__grid" role="group" aria-labelledby="PickHeading-{{ section.id }}">
+                {%- if m2_source == 'list' -%}
+                  {%- for product in section.settings.m2_products -%}
+                    {%- render 'byb-tile', product: product, mode: '2' -%}
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for product in section.settings.m2_collection.products limit: section.settings.m2_limit -%}
+                    {%- render 'byb-tile', product: product, mode: '2' -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- unless has_m1 or has_m2 -%}
+            <p class="byb-step__empty">Add a "Bundle step" block, or pick products for Bundle 2, in the theme editor.</p>
+          {%- endunless -%}
+        </div>
+
+        {%- comment -%} ========== SUMMARY (empty by default) ========== {%- endcomment -%}
+        <aside class="byb-summary" aria-label="{{ section.settings.summary_title | escape }}">
+          <h3 class="byb-summary__title">{{ section.settings.summary_title }}</h3>
+
+          <ul class="byb-summary__list js-byb-list" aria-live="polite"></ul>
+          {%- if section.settings.empty_text != blank -%}
+            <p class="byb-summary__empty js-byb-empty">{{ section.settings.empty_text }}</p>
+          {%- endif -%}
+
+          <div class="byb-summary__lines">
+            <p class="byb-summary__line">
+              <span>Subtotal</span>
+              <span class="js-byb-subtotal">{{ 0 | money }}</span>
+            </p>
+            <p class="byb-summary__line byb-summary__line--saving js-byb-saving-row" hidden>
+              <span>Bundle saving · <span class="js-byb-pct"></span>%</span>
+              <span class="js-byb-saving"></span>
+            </p>
+          </div>
+
+          <div class="byb-summary__total">
+            <p class="byb-summary__total-label">Bundle total</p>
+            <p class="byb-summary__total-value js-byb-total">{{ 0 | money }}</p>
+            <p class="byb-summary__note js-byb-note"></p>
+          </div>
+
+          <button type="button" class="byb__btn byb__btn--full js-byb-build" disabled aria-describedby="BundleHint-{{ section.id }}">
+            {{- section.settings.build_label -}}
+          </button>
+          <p class="byb-summary__hint js-byb-hint" id="BundleHint-{{ section.id }}" aria-live="polite"></p>
+        </aside>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="application/json" class="js-byb-money">{{ shop.money_format | json }}</script>
+</section>
+
+{% schema %}
+{
+  "name": "Build your own bundle",
+  "tag": "div",
+  "class": "section-build-bundle",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "header", "content": "Section" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Start with a bundle" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Build Your Own Bundle" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Build your own bundle to experience the best of Created Co. and save up to 20% on your order.</p>" },
+    { "type": "text", "id": "open_label", "label": "Button label", "default": "Build bundle" },
+
+    { "type": "header", "content": "Popup" },
+    { "type": "text", "id": "popup_eyebrow", "label": "Eyebrow", "default": "Start with a bundle" },
+    { "type": "text", "id": "popup_heading", "label": "Heading", "default": "Build Your Own Bundle" },
+    { "type": "richtext", "id": "popup_text", "label": "Text", "default": "<p>Build your own bundle to experience the best of Created Co. and save up to 20% on your order.</p>" },
+    {
+      "type": "select",
+      "id": "default_mode",
+      "label": "Open on",
+      "options": [
+        { "value": "1", "label": "Bundle 1 (Day routine)" },
+        { "value": "2", "label": "Bundle 2 (Actual bundle)" }
+      ],
+      "default": "1"
+    },
+
+    { "type": "header", "content": "Bundle 1 – Day routine" },
+    { "type": "paragraph", "content": "Add one \"Bundle step\" block per step. The customer picks 1 product in every step." },
+    { "type": "text", "id": "m1_label", "label": "Toggle label", "default": "Day routine" },
+    { "type": "checkbox", "id": "show_step_labels", "label": "Show step labels (Step 01, 02…)", "default": true },
+    { "type": "range", "id": "m1_percent", "label": "Discount shown", "min": 0, "max": 50, "step": 1, "unit": "%", "default": 20 },
+    { "type": "text", "id": "m1_code", "label": "Discount code", "default": "DAYROUTINE20", "info": "Create this code in Discounts with the same %." },
+    { "type": "text", "id": "m1_note", "label": "Summary note", "default": "Save up to [percent]% when you build a bundle of three pieces or more.", "info": "[percent] is replaced with the discount." },
+
+    { "type": "header", "content": "Bundle 2 – Actual bundle" },
+    { "type": "text", "id": "m2_label", "label": "Toggle label", "default": "Actual bundle" },
+    { "type": "text", "id": "m2_heading", "label": "Heading", "default": "Pick any pieces, in any quantity" },
+    { "type": "text", "id": "m2_text", "label": "Text", "default": "Top sellers. Add the same product more than once — [min] pieces or more unlock the [percent]% bundle saving.", "info": "[min], [max] and [percent] are replaced with the settings below." },
+    { "type": "product_list", "id": "m2_products", "label": "Products", "limit": 24, "info": "Picked products are used first. Leave empty to use the collection below." },
+    { "type": "collection", "id": "m2_collection", "label": "Or a collection" },
+    { "type": "range", "id": "m2_limit", "label": "Products from collection", "min": 4, "max": 24, "step": 1, "default": 18 },
+    { "type": "range", "id": "m2_min", "label": "Minimum pieces", "min": 1, "max": 10, "step": 1, "default": 3 },
+    { "type": "range", "id": "m2_max_item", "label": "Max per product", "min": 1, "max": 20, "step": 1, "default": 10, "info": "If a product has less stock than this, the stock is the limit." },
+    { "type": "range", "id": "m2_percent", "label": "Discount shown", "min": 0, "max": 50, "step": 1, "unit": "%", "default": 20 },
+    { "type": "text", "id": "m2_code", "label": "Discount code", "default": "BUNDLE20", "info": "Create this code in Discounts with the same %." },
+    { "type": "text", "id": "m2_note", "label": "Summary note", "default": "[min] pieces or more — any mix, or the same product — unlock [percent]% off. Up to [max] of each product.", "info": "[min], [max] and [percent] are replaced." },
+
+    { "type": "header", "content": "Summary" },
+    { "type": "text", "id": "summary_title", "label": "Title", "default": "Your bundle" },
+    { "type": "text", "id": "empty_text", "label": "Empty text", "default": "Your picks will show here." },
+    { "type": "text", "id": "build_label", "label": "Button label", "default": "Build bundle" },
+
+    { "type": "header", "content": "Desktop padding" },
+    { "type": "range", "id": "padding_top", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "header", "content": "Mobile padding" },
+    { "type": "range", "id": "padding_top_mobile", "label": "Top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Slider image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Bundle step",
+      "settings": [
+        { "type": "text", "id": "step_label", "label": "Step label", "default": "Step 01" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Choose your hydration piece" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Start with an 18/8 stainless base. Double-wall vacuum insulation on every size." },
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "range", "id": "limit", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 4 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Build your own bundle",
+      "blocks": [
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "step", "settings": { "step_label": "Step 01", "heading": "Choose your hydration piece", "text": "Start with an 18/8 stainless base. Double-wall vacuum insulation on every size." } },
+        { "type": "step", "settings": { "step_label": "Step 02", "heading": "Add a ceramic", "text": "Hand-finished ceramic interiors keep the taste of your drink unchanged." } },
+        { "type": "step", "settings": { "step_label": "Step 03", "heading": "Finish with glass", "text": "Cove glassware, drawn and refined by artists in California." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

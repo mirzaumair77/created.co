@@ -1,0 +1,1041 @@
+/* ==============================
+   Mega Menu Redesign
+   Scoped to .mega-menu-redesign* — loaded only when the redesign is enabled.
+   Emphasis uses font-weight 700: the theme maps grotesque 600 to a light cut.
+   ============================== */
+
+.mega-menu-redesign {
+  --mmr-text: #0e1f2a;
+  --mmr-muted: #6b7378;
+  --mmr-border: #e6e8ea;
+  --mmr-tile: #f4f4f2;
+  --mmr-active: #dde5e973;
+  --mmr-font: grotesque, sans-serif;
+  --mmr-serif: canela, serif;
+  display: contents;
+}
+
+/* ---------- Trigger ---------- */
+
+.created-header__item > .mega-menu-redesign__trigger svg {
+  position: relative;
+  top: 1px;
+  width: 12px;
+  height: 12px;
+  transition: transform 0.3s ease;
+}
+
+.created-header__item > .mega-menu-redesign__trigger.is-open svg {
+  transform: rotate(180deg);
+}
+
+/* ---------- Panel ---------- */
+
+/* Open/close state comes from header-redesign.css (.new_megamenu_main / .is-open) */
+.created-header .mega-menu-redesign__panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  border-top: 1px solid var(--mmr-border);
+  border-bottom: 0;
+  background: #fff;
+  color: var(--mmr-text);
+  font-family: var(--mmr-font);
+  white-space: normal;
+  text-align: left;
+}
+
+/* Page overlay below the open panel (the panel only displays while open) */
+.created-header .mega-menu-redesign__panel::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 100vh;
+  background: rgba(14, 31, 42, 0.45);
+  pointer-events: none;
+}
+
+.mega-menu-redesign__panel a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mega-menu-redesign__panel ul,
+.mega-menu-redesign-drawer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mega-menu-redesign__grid {
+  display: grid;
+  grid-template-columns:
+    minmax(150px, 0.6fr)
+    minmax(210px, 0.85fr)
+    minmax(210px, 0.9fr)
+    minmax(260px, 1fr);
+  padding: 40px 36px 44px 36px;
+}
+
+.mega-menu-redesign__col {
+  min-width: 0;
+  padding: 0 32px;
+}
+
+.mega-menu-redesign__col--links {
+  padding-left: 0;
+}
+
+/* Always the last column, even when no third-level link has mega menu content */
+.mega-menu-redesign__col--bestsellers {
+  grid-column: 4;
+  grid-row: 1;
+  padding-right: 0;
+}
+
+.mega-menu-redesign__col--links,
+.mega-menu-redesign__col--collections {
+  border-right: 1px solid var(--mmr-border);
+}
+
+.mega-menu-redesign__label {
+  margin: 0 0 22px;
+  color: var(--mmr-muted);
+  font-family: var(--mmr-font);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Left links */
+.mega-menu-redesign__links {
+  display: grid;
+  gap: 25px;
+}
+
+.mega-menu-redesign__link {
+  display: inline-block;
+  font-family: var(--font-body-family);
+  color: var(--mmr-text);
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 400;
+  transition: opacity 0.2s ease;
+}
+
+.mega-menu-redesign__link.is-active {
+  font-weight: 700;
+}
+
+.mega-menu-redesign__link:hover {
+  opacity: 0.6;
+}
+
+/* Second-level headings (may be links) */
+.mega-menu-redesign__col--links .mega-menu-redesign__group .mega-menu-redesign__label {
+  margin-bottom: 26.5px;
+}
+
+/* Block content spans the collections + products columns */
+.mega-menu-redesign__block {
+  display: contents;
+}
+
+.mega-menu-redesign__block[hidden] {
+  display: none;
+}
+
+/* Collection groups */
+.mega-menu-redesign__group + .mega-menu-redesign__group {
+  margin-top: 36px;
+}
+
+.mega-menu-redesign__group .mega-menu-redesign__label {
+  margin-bottom: 16px;
+}
+
+.mega-menu-redesign__collection-list {
+  display: grid;
+  gap: 4px;
+}
+
+.mega-menu-redesign__collection {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 12px;
+  margin: 0 -8px;
+  padding: 8px 12px 8px 8px;
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.mega-menu-redesign__collection.is-active,
+.mega-menu-redesign__collection:focus-visible {
+  background: var(--mmr-active);
+}
+
+.mega-menu-redesign__collection-media,
+.mega-menu-redesign__product-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #F5F5F2;
+  aspect-ratio: 1/1;
+}
+
+.mega-menu-redesign__collection-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mega-menu-redesign__product-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+.mega-menu-redesign__collection-info,
+.mega-menu-redesign__product-info {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mega-menu-redesign__collection-title,
+.mega-menu-redesign__product-title {
+  font-family: var(--font-body-family);
+  color: var(--mmr-text);
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 500;
+}
+
+.mega-menu-redesign__collection-text,
+.mega-menu-redesign__product-price {
+  color: var(--mmr-muted);
+  font-family: var(--font-body-family);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+}
+
+/* Collection description: at most two lines, then an ellipsis */
+.mega-menu-redesign__collection-text {
+  display: -webkit-box;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.mega-menu-redesign__chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  color: var(--mmr-text);
+}
+
+.mega-menu-redesign__chevron svg {
+  width: 8px;
+  height: auto;
+  transform: rotate(-90deg);
+}
+
+.mega-menu-redesign__panel .mega-menu-redesign__collection .mega-menu-redesign__chevron {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.mega-menu-redesign__panel .mega-menu-redesign__collection.is-active .mega-menu-redesign__chevron {
+  opacity: 1;
+}
+
+/* Products column */
+.mega-menu-redesign__products[hidden] {
+  display: none;
+}
+
+.mega-menu-redesign__products {
+  animation: mega-menu-redesign-fade 0.2s ease;
+}
+
+.mega-menu-redesign__product-list {
+  display: grid;
+}
+
+/*
+  Desktop: show at most 6 products (72px rows: 56px image + 8px padding top
+  more scroll inside the list instead of growing the panel.
+*/
+.mega-menu-redesign__panel .mega-menu-redesign__product-list {
+  max-height: calc(6 * 72px + 5);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.mega-menu-redesign__product {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px 8px 8px;
+  transition: opacity 0.2s ease;
+}
+
+.mega-menu-redesign__product:hover {
+  opacity: 0.7;
+}
+
+.mega-menu-redesign__shop-all {
+  margin-block-start: 28.5px;
+  display: inline-block;
+  font-family: var(--mmr-font);
+  color: var(--mmr-text);
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 600;
+}
+
+.mega-menu-redesign__shop-all:hover {
+  opacity: 0.6;
+}
+
+/* Best seller (desktop) / featured (drawer) cards */
+.mega-menu-redesign__cards {
+  display: grid;
+  grid-auto-columns: 153px;
+  grid-auto-flow: column;
+  gap: 12px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.mega-menu-redesign__cards::-webkit-scrollbar {
+  display: none;
+}
+
+.mega-menu-redesign__cards > li {
+  scroll-snap-align: start;
+}
+
+.mega-menu-redesign__card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.mega-menu-redesign__card-media {
+  display: block;
+  aspect-ratio: 153 / 196;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--mmr-tile);
+}
+
+.mega-menu-redesign__card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.mega-menu-redesign__card:hover .mega-menu-redesign__card-media img {
+  transform: scale(1.03);
+}
+
+.mega-menu-redesign__card-title {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--mmr-serif);
+  color: var(--mmr-text);
+  font-size: 26px;
+  line-height: normal;
+  font-weight: 300;
+}
+
+.mega-menu-redesign__card-text {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: var(--font-body-family);
+  color: var(--mmr-muted);
+  font-size: 14px;
+  line-height: normal;
+  font-weight: 400;
+  text-decoration-line: underline;
+  text-underline-position: from-font;
+}
+
+.mega-menu-redesign__editor-hint {
+  margin: 0;
+  color: var(--mmr-muted);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.mega-menu-redesign__card-name {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+/* Desktop best sellers: two cards visible, the rest in a Swiper slider */
+.mega-menu-redesign__bestsellers {
+  --mmr-card-gap: 12px;
+  min-width: 0;
+}
+
+.mega-menu-redesign__bestsellers-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block-end: 16px;
+}
+
+.mega-menu-redesign__bestsellers-head .mega-menu-redesign__label {
+  margin: 0;
+}
+
+.mega-menu-redesign__bestsellers .mega-menu-redesign__cards {
+  grid-auto-flow: row;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mmr-card-gap);
+  overflow: visible;
+}
+
+.mega-menu-redesign__slider {
+  overflow: hidden;
+}
+
+.mega-menu-redesign__slider .swiper-wrapper {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Before Swiper initialises, lay slides out two-up so nothing jumps */
+.mega-menu-redesign__slider:not(.swiper-initialized) .swiper-slide {
+  width: calc((100% - var(--mmr-card-gap)) / 2);
+  margin-right: var(--mmr-card-gap);
+}
+
+.mega-menu-redesign__slider-nav {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.mega-menu-redesign__slider-button {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--mmr-border);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--mmr-text);
+  cursor: pointer;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.mega-menu-redesign__slider-button:hover {
+  border-color: var(--mmr-text);
+}
+
+.mega-menu-redesign__slider-button svg {
+  width: 8px;
+  height: auto;
+}
+
+.mega-menu-redesign__slider-button--prev svg {
+  transform: rotate(90deg);
+}
+
+.mega-menu-redesign__slider-button--next svg {
+  transform: rotate(-90deg);
+}
+
+.mega-menu-redesign__slider-button.swiper-button-disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+.mega-menu-redesign__slider-button.swiper-button-lock {
+  display: none;
+}
+
+/* Footer bar */
+.mega-menu-redesign__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 42px;
+  padding: 18px 36px;
+  background: var(--mmr-footer-bg, #B8CDD8);
+  font-family: var(--font-body-family);
+  color: var(--mmr-text);
+  font-size: 14px;
+  line-height: normal;
+  font-weight: 400;
+}
+
+.mega-menu-redesign__footer-promo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+}
+
+.mega-menu-redesign__footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mega-menu-redesign__footer-link span {
+  text-decoration-line: underline;
+  text-underline-position: from-font;
+}
+
+.mega-menu-redesign__panel .mega-menu-redesign__footer-promo .mega-menu-redesign__arrow {
+  display: none;
+}
+
+.mega-menu-redesign__footer-link--plain {
+  font-weight: 500;
+}
+
+.mega-menu-redesign__footer-link--plain span {
+  text-decoration: none;
+}
+
+.mega-menu-redesign__arrow {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+@keyframes mega-menu-redesign-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ==============================
+   Mobile drawer
+   ============================== */
+
+/*
+  Layout: the drawer host is a fixed box below the header. It does not scroll;
+  each panel is a full-height flex column whose body scrolls on its own while
+  the top bar and footer bar stay in place.
+*/
+#MobileNavDrawer.mega-menu-redesign-host {
+  /* --mmr-drawer-offset: the header's bottom edge in the drawer's containing block,
+     --mmr-drawer-top: the drawer's real top in the viewport; both set by mega-menu-redesign.js */
+  top: var(--mmr-drawer-offset, var(--header-height, 0px));
+  /* Keep the slide-in transition, but follow the header without lag */
+  transition-property: all, top;
+  transition-duration: 0.15s, 0s;
+  height: calc(100vh - var(--mmr-drawer-top, var(--header-height, 0px)));
+  height: calc(100dvh - var(--mmr-drawer-top, var(--header-height, 0px)));
+  overflow: hidden;
+  background: #fff;
+}
+
+#MobileNavDrawer.mega-menu-redesign-host > :not(.mega-menu-redesign-drawer) {
+  display: none !important;
+}
+
+.mega-menu-redesign-drawer {
+  --mmr-text: #0E1F2A;
+  --mmr-muted: #6E797F;
+  --mmr-border: #0e1f2a1a;
+  --mmr-tile: #f4f4f2;
+  --mmr-font: grotesque, sans-serif;
+  --mmr-serif: canela, serif;
+  height: 100%;
+  background: #fff;
+  color: var(--mmr-text);
+  font-family: var(--mmr-font);
+  text-align: left;
+}
+
+/* Zero-specificity resets so component classes below always win */
+:where(.mega-menu-redesign-drawer) a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:where(.mega-menu-redesign-drawer) button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.mega-menu-redesign-drawer__view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.mega-menu-redesign-drawer__view[hidden] {
+  display: none;
+}
+
+.mega-menu-redesign-drawer__view.is-entering {
+  animation: mega-menu-redesign-slide 0.25s ease;
+}
+
+.mega-menu-redesign-drawer__view.is-entering-back {
+  animation: mega-menu-redesign-slide-back 0.25s ease;
+}
+
+.mega-menu-redesign-drawer__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 0px 20px 28px;
+}
+
+.mega-menu-redesign-drawer__topbar,
+.mega-menu-redesign-drawer .mega-menu-redesign__footer--drawer {
+  flex: 0 0 auto;
+}
+
+.mega-menu-redesign-drawer__body--root {
+  padding-top: 16px;
+}
+
+.mega-menu-redesign-drawer .mega-menu-redesign__label {
+  margin: 0 0 12px;
+  color: var(--mmr-muted);
+  font-size: 12px;
+  line-height: normal;
+  letter-spacing: 0.96px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.mega-menu-redesign-drawer .mega-menu-redesign__group {
+  margin-top: 20px;
+}
+
+.mega-menu-redesign-drawer .mega-menu-redesign__group + .mega-menu-redesign__group {
+  margin-top: 20px;
+}
+
+/* Top bar */
+.mega-menu-redesign-drawer__topbar {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 4px;
+  border-bottom: 1px solid var(--mmr-border);
+  background: #fff;
+}
+
+.mega-menu-redesign-drawer__title {
+  margin: 0;
+  overflow: hidden;
+  color: var(--mmr-text);
+  font-size: 17px;
+  line-height: normal;
+  font-weight: 500;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mega-menu-redesign-drawer__icon-button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+}
+
+.mega-menu-redesign-drawer__icon-button svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mega-menu-redesign-drawer__icon-button--back svg {
+  width: 16px;
+  height: auto;
+  transform: rotate(90deg);
+}
+
+/* Search */
+.mega-menu-redesign-drawer__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  margin: 0 0 8px;
+  border-radius: 999px;
+  background: #eff1f3;
+}
+
+.mega-menu-redesign-drawer__search:focus-within {
+  outline: 1px solid var(--mmr-text);
+  outline-offset: 2px;
+}
+
+.mega-menu-redesign-drawer__search-icon {
+  position: absolute;
+  left: 18px;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+.mega-menu-redesign-drawer .mega-menu-redesign-drawer__search-input {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0 46px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  box-shadow: none;
+  outline: 0;
+  color: var(--mmr-text);
+  -webkit-text-fill-color: var(--mmr-text);
+  font-family: var(--mmr-font);
+  font-size: 15px;
+  line-height: normal;
+  font-weight: 400;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.mega-menu-redesign-drawer__search-input::placeholder {
+  color: var(--mmr-muted);
+  -webkit-text-fill-color: var(--mmr-muted);
+  opacity: 1;
+}
+
+.mega-menu-redesign-drawer__search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.mega-menu-redesign-drawer__search-clear {
+  position: absolute;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+}
+
+.mega-menu-redesign-drawer__search-clear[hidden] {
+  display: none;
+}
+
+.mega-menu-redesign-drawer__search-clear svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Search results */
+.mega-menu-redesign-drawer__results[hidden],
+.mega-menu-redesign-drawer [data-mmr-root-menu][hidden] {
+  display: none;
+}
+
+.mega-menu-redesign-drawer__results {
+  padding-top: 16px;
+}
+
+.mega-menu-redesign-drawer__status {
+  margin: 0;
+  padding: 24px 0;
+  color: var(--mmr-muted);
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.mega-menu-redesign-drawer__status--loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mega-menu-redesign-drawer__spinner {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--mmr-border);
+  border-top-color: var(--mmr-text);
+  border-radius: 50%;
+  animation: mega-menu-redesign-spin 0.7s linear infinite;
+}
+
+/* Root menu */
+.mega-menu-redesign-drawer__menu > li {
+  border-bottom: 1px solid var(--mmr-border);
+}
+
+.mega-menu-redesign-drawer__menu-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 13.5px 0;
+  font-family: var(--mmr-serif) !important;
+  font-size: 30px !important;
+  font-weight: 300;
+  line-height: normal !important;
+  text-align: left;
+}
+
+.mega-menu-redesign-drawer__menu-link .mega-menu-redesign__chevron svg {
+  width: 20px;
+}
+
+.mega-menu-redesign-drawer .mega-menu-redesign__group:has(.mega-menu-redesign__cards--featured) {
+  margin-top: 28px;
+}
+
+.mega-menu-redesign__cards--featured {
+  grid-auto-columns: 156px;
+  gap: 12px;
+  padding-right: 20px;
+}
+
+.mega-menu-redesign__cards--featured .mega-menu-redesign__card-media {
+  aspect-ratio: 140 / 186;
+}
+
+/* Rows */
+.mega-menu-redesign-drawer__rows > li,
+.mega-menu-redesign-drawer .mega-menu-redesign__collection-list > li,
+.mega-menu-redesign-drawer .mega-menu-redesign__product-list > li {
+  border-bottom: 1px solid var(--mmr-border);
+}
+
+.mega-menu-redesign-drawer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 0;
+  color: var(--mmr-text);
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 400;
+}
+
+button.mega-menu-redesign-drawer__row {
+  width: 100%;
+  text-align: left;
+}
+
+.mega-menu-redesign-drawer a.mega-menu-redesign__label {
+  display: block;
+}
+
+.mega-menu-redesign-drawer__row--primary {
+  border-bottom: 1px solid var(--mmr-border);
+  font-weight: 700;
+}
+
+/* Active third-level link (its mega menu content is shown below the navigation) */
+.mega-menu-redesign-drawer__row.is-active,
+.mega-menu-redesign-drawer__row[aria-current] {
+  font-weight: 700;
+}
+
+/* Panel 3: collection heading below the top bar */
+.mega-menu-redesign-drawer__body > .mega-menu-redesign__label:first-child {
+  margin-top: 16px;
+}
+
+/* Panel 2: navigation starts right under the top bar; a heading after the primary row sits 20px below it */
+.mega-menu-redesign-drawer__nav > :first-child {
+  margin-top: 0;
+}
+
+.mega-menu-redesign-drawer .mega-menu-redesign-drawer__row .mega-menu-redesign__chevron svg {
+  width: 11px;
+}
+
+.mega-menu-redesign-drawer__links > .mega-menu-redesign-drawer__row--primary {
+  padding-block: 10px;
+}
+
+.mega-menu-redesign-drawer__links > .mega-menu-redesign-drawer__row--primary + .mega-menu-redesign__label {
+  margin: 24px 0 0;
+}
+
+/* Panel 2 content area: the active link's collection groups, below the navigation */
+.mega-menu-redesign-drawer__mega[hidden] {
+  display: none;
+}
+
+.mega-menu-redesign-drawer__mega {
+  animation: mega-menu-redesign-fade 0.2s ease;
+}
+
+.mega-menu-redesign-drawer .mega-menu-redesign__collection-list,
+.mega-menu-redesign-drawer .mega-menu-redesign__product-list {
+  gap: 0;
+}
+
+.mega-menu-redesign-drawer .mega-menu-redesign__collection {
+  grid-template-columns: 52px minmax(0, 1fr) 12px;
+  margin: 0;
+  padding: 10px 0;
+  border-radius: 0;
+  background: none;
+}
+
+/* Drawer rows show the description on one line */
+.mega-menu-redesign-drawer .mega-menu-redesign__collection-title,
+.mega-menu-redesign-drawer .mega-menu-redesign__product-title {
+  font-family: var(--mmr-font);
+}
+
+.mega-menu-redesign-drawer .mega-menu-redesign__collection-text {
+  font-size: 13px;
+  line-height: normal;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+}
+
+.mega-menu-redesign-drawer .mega-menu-redesign__product {
+  grid-template-columns: 52px minmax(0, 1fr) 12px;
+  margin: 0;
+  padding: 10px 0;
+}
+
+.mega-menu-redesign-drawer .mega-menu-redesign__product-list + .mega-menu-redesign-drawer__row--primary {
+  margin-top: 0;
+}
+
+/* Drawer footer */
+.mega-menu-redesign__footer--drawer {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  min-height: 0;
+  padding: 20px;
+  font-size: 15px;
+}
+
+@keyframes mega-menu-redesign-slide {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mega-menu-redesign-slide-back {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mega-menu-redesign-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .mega-menu-redesign__grid {
+    grid-template-columns:
+      minmax(130px, 0.55fr)
+      minmax(200px, 0.85fr)
+      minmax(190px, 0.85fr)
+      minmax(240px, 1fr);
+    padding-inline: 24px;
+  }
+
+  .mega-menu-redesign__col {
+    padding: 0 20px;
+  }
+
+  .mega-menu-redesign__col--links {
+    padding-left: 0;
+  }
+
+  .mega-menu-redesign__col--bestsellers {
+    padding-right: 0;
+  }
+}
+
+/* Touch screens keep :hover after a tap; only show hover feedback where hover exists */
+@media (hover: none) {
+  .mega-menu-redesign__link:hover,
+  .mega-menu-redesign__product:hover,
+  .mega-menu-redesign__shop-all:hover {
+    opacity: 1;
+  }
+
+  .mega-menu-redesign__card:hover .mega-menu-redesign__card-media img {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mega-menu-redesign *,
+  .mega-menu-redesign-drawer * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

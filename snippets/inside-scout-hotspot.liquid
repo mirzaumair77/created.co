@@ -1,0 +1,68 @@
+{%- comment -%}
+  One hotspot of the "Inside" section (sections/inside-scout.liquid), as a marker or a card.
+  Reads either a hotspot block (template) or an "Inside hotspot" metaobject (per product).
+
+  Params:
+    hs            block or metaobject
+    use_mo        true when hs is a metaobject
+    index, first  forloop.index / forloop.first
+    product_name  replaces [product] in the text
+    part          'marker' or 'card'
+{%- endcomment -%}
+{%- liquid
+  if use_mo
+    assign hs_id = 'mo-' | append: index
+    assign hs_title = hs.title.value
+    assign hs_text = hs.description.value
+    assign x_d = hs.x_desktop.value | default: 50
+    assign y_d = hs.y_desktop.value | default: 50
+    assign x_m = hs.x_mobile.value | default: x_d
+    assign y_m = hs.y_mobile.value | default: y_d
+  else
+    assign hs_id = hs.id
+    assign hs_title = hs.settings.title
+    assign hs_text = hs.settings.text
+    assign x_d = hs.settings.x_desktop
+    assign y_d = hs.settings.y_desktop
+    assign x_m = hs.settings.x_mobile
+    assign y_m = hs.settings.y_mobile
+  endif
+  assign hs_title = hs_title | replace: '[product]', product_name
+  assign hs_text = hs_text | replace: '[product]', product_name
+-%}
+
+{%- if part == 'marker' -%}
+  <button
+    type="button"
+    class="iscout__marker{% if first %} is-active{% endif %}"
+    data-target="hs-{{ hs_id }}"
+    style="
+      --marker-x-desktop: {{ x_d }}%;
+      --marker-y-desktop: {{ y_d }}%;
+      --marker-x-mobile: {{ x_m }}%;
+      --marker-y-mobile: {{ y_m }}%;
+    "
+    aria-label="{{ hs_title | escape }}"
+    {% unless use_mo %}{{ hs.shopify_attributes }}{% endunless %}
+  >
+    <span class="iscout__dot"></span>
+    {%- if hs_title != blank -%}
+      <span class="iscout__pin-label">{{ hs_title }}</span>
+    {%- endif -%}
+  </button>
+{%- else -%}
+  <div
+    class="iscout__card{% if first %} is-active{% endif %}"
+    id="hs-{{ hs_id }}"
+    data-index="{{ index | minus: 1 }}"
+    js-carousel-slide
+    {% unless use_mo %}{{ hs.shopify_attributes }}{% endunless %}
+  >
+    {%- if hs_title != blank -%}
+      <strong class="iscout__card-title">{{ hs_title }}</strong>
+    {%- endif -%}
+    {%- if hs_text != blank -%}
+      <span class="iscout__card-text">{{ hs_text }}</span>
+    {%- endif -%}
+  </div>
+{%- endif -%}

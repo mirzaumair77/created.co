@@ -1,0 +1,137 @@
+/* ================= Glass banner — mobile first ================= */
+.gb {
+  padding: var(--gb-pt) 0 var(--gb-pb);
+  color: #fff;
+}
+
+.gb__banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: var(--gb-h);
+  overflow: hidden;
+    border-radius: 12px;
+    isolation: isolate;
+    padding: 46.588px 19.971px 19.374px 19.99px;
+}
+
+.gb__img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gb__img--desktop { display: none; }
+.gb__img--placeholder { background: #c9cdd0; }
+.gb__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(14, 31, 42, 0.00) 0%, rgba(14, 31, 42, 0.54) 100%),
+    rgba(0, 0, 0, var(--gb-overlay));   /* optional extra darkening from the customizer */
+  pointer-events: none;
+}
+
+/* ---------- Glass card (mobile: across the bottom) ---------- */
+.gb__card {
+    position: relative;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, .25);
+   border-radius: 20px;
+background: rgba(0, 0, 0, 0.15);
+}
+
+.gb__eyebrow {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 15px;
+  text-transform: uppercase;
+}
+.gb__heading {
+  margin: 0 0 16px;
+  color: inherit;
+  font-family: canela, serif;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 36px;
+  letter-spacing: -1px;
+}
+.gb__text {
+  max-width: 34ch;
+  font-size: 13px;
+  line-height: 19px;
+  font-weight:500;
+}
+.gb__text p { margin: 0; }
+.gb__text--desktop { display: none; }
+
+.gb__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 139px;
+  min-height: 41px;
+  margin-top: 16px;
+  padding: 0 24px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 19.5px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background .2s, color .2s;
+  border-radius: 36473400px;
+background: rgba(255, 255, 255, 0.14);
+}
+.gb__btn:hover { background: #fff; color: #0E1F2A; }
+.gb__btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* ================= Desktop ================= */
+@media (min-width: 769px) {
+  .gb { padding: var(--gb-pt-d) 0 var(--gb-pb-d); }
+
+  .gb__banner {
+    justify-content: flex-end;
+    align-items: flex-start;
+    min-height: 0;
+    height: var(--gb-h-d);
+    padding: 0 31px;
+    border-radius: 14px;
+  }
+  .gb--right .gb__banner { align-items: flex-end; }
+
+  .gb__img--desktop { display: block; }
+  .gb__img--mobile { display: none; }
+
+  .gb__card {
+        width: min(437px, 100%);
+        bottom: 44px;
+        padding: 35px 33px;
+        border-radius: 20px;
+  }
+
+  .gb__eyebrow { margin-bottom: 16px; font-size: 12px; line-height: 15px;}
+  .gb__heading {
+            margin-bottom: 15px;
+        font-size: 32px;
+        line-height: 50px;
+        letter-spacing: -1.8px;
+   }
+  .gb__text { font-size: 14px; line-height: 19px; }
+  .gb__text--desktop { display: block; }
+  .gb__text--mobile { display: none; }
+  .gb__btn { min-width: 154px; min-height: 46px; margin-top: 31px;  font-size: 14px;
+  line-height: 16px;
+border-radius: 999px;
+background: rgba(255, 255, 255, 0.14);}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gb__btn { transition: none; }
+}

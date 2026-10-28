@@ -1,0 +1,63 @@
+{% comment %}
+  One product tile in the bundle popup.
+  - mode: '1' (Day routine, tap to pick) or '2' (Actual bundle, quantity stepper)
+  - step: step index (mode 1 only)
+  Usage: {% render 'byb-tile', product: product, mode: '1', step: step_index %}
+{% endcomment %}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign p_title = product.metafields.product_cards.product_card_title.value | default: product.title
+
+  comment
+    Stock the customer can buy: only limited when Shopify tracks inventory
+    and "continue selling when out of stock" is off. Empty = no stock limit.
+  endcomment
+  assign stock = ''
+  if v.inventory_management == 'shopify' and v.inventory_policy == 'deny'
+    assign stock = v.inventory_quantity | at_least: 0
+  endif
+-%}
+<div
+  class="byb-card js-byb-tile{% if mode == '2' %} byb-card--qty{% endif %}{% unless v.available %} is-soldout{% endunless %}"
+  {% if mode == '1' %}data-step="{{ step }}"{% endif %}
+  data-variant="{{ v.id }}"
+  data-price="{{ v.price }}"
+  data-stock="{{ stock }}"
+  data-title="{{ p_title | escape }}"
+  data-image="{{ product.featured_media | image_url: width: 120 }}"
+>
+  <span class="byb-card__check" aria-hidden="true">
+    <svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="m1 3.5 2.3 2.3L8 1" stroke="#fff" stroke-width="1.3"/></svg>
+  </span>
+
+  {%- capture tile_inner -%}
+    <span class="byb-card__media">
+      {%- if product.featured_media -%}
+        {{ product.featured_media | image_url: width: 300 | image_tag: loading: 'lazy', sizes: '120px', alt: '' }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </span>
+    <span class="byb-card__title">{{ p_title }}</span>
+    <span class="byb-card__price">
+      {%- if v.available -%}{{ v.price | money_without_trailing_zeros }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+    </span>
+  {%- endcapture -%}
+
+  {%- if mode == '1' -%}
+    <button type="button" class="byb-card__select js-byb-select" aria-pressed="false" {% unless v.available %}disabled{% endunless %}>
+      {{- tile_inner -}}
+    </button>
+  {%- else -%}
+    <div class="byb-card__select">{{- tile_inner -}}</div>
+    <div class="byb-qty" role="group" aria-label="Quantity for {{ p_title | escape }}">
+      <button type="button" class="byb-qty__btn js-byb-minus" aria-label="Remove one {{ p_title | escape }}" disabled>
+        <svg width="9" height="1" viewBox="0 0 9 1" fill="none" aria-hidden="true"><path d="M0 .5h9" stroke="currentColor"/></svg>
+      </button>
+      <span class="byb-qty__value js-byb-qty-value" aria-live="polite">0</span>
+      <button type="button" class="byb-qty__btn js-byb-plus" aria-label="Add one {{ p_title | escape }}" {% unless v.available %}disabled{% endunless %}>
+        <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M4.5 0v9M0 4.5h9" stroke="currentColor"/></svg>
+      </button>
+    </div>
+  {%- endif -%}
+</div>

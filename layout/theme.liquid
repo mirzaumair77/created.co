@@ -2,9 +2,11 @@
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
   <head>
-  {% comment %}Loads Shogun Analytics. Removing this will disrupt analytics data collection.{% endcomment %}
-  <script type="text/javascript" async src="https://na.shgcdn3.com/pixel-collector.js"></script>
-    <link rel="icon" type="image/x-icon" href="https://cdn.shopify.com/s/files/1/0662/7045/files/CreatedBadge_60x.png?v=1736876721">
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://cdn.shopify.com/s/files/1/0662/7045/files/CreatedBadge_60x.png?v=1736876721"
+    >
     {% render 'pagefly-head' %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,13 +15,20 @@
     <link rel="canonical" href="{{ canonical_url }}">
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 
- <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NSGFN6G4');</script>
-<!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-TVNXDPM9');
+    </script>
+    <!-- End Google Tag Manager -->
 
     {%- unless settings.type_header_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
@@ -41,6 +50,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
       assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
     %}
+    {{ 'InterVariable.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
 
     {% style %}
       {{ settings.type_body_font | font_face: font_display: 'swap' }}
@@ -48,6 +58,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       {{ body_font_italic | font_face: font_display: 'swap' }}
       {{ body_font_bold_italic | font_face: font_display: 'swap' }}
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
+          @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 100 900;
+            font-display: swap;
+            src: url({{ 'InterVariable.woff2' | asset_url }}) format('woff2');
+          }
 
       :root {
         font-size: 16px;
@@ -84,6 +101,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         --grid-desktop-horizontal-spacing: 8px;
         --grid-mobile-vertical-spacing: 4px;
         --grid-mobile-horizontal-spacing: 4px;
+        --font-body: 'Inter', sans-serif;
+
       }
 
       *,
@@ -110,13 +129,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         font-style: var(--font-body-style);
         font-weight: var(--font-body-weight);
       }
+      .font-inter {
+        font-family: var(--font-body-family);
+      }
+
+      @font-face {
+        font-family: 'Instrument Serif';
+        src: url('{{ "InstrumentSerif-Regular.woff2" | asset_url }}') format('woff2');
+        font-style: normal;
+        font-display: swap;
+      }
+
+      :root {
+        --font-instrument-serif: 'Instrument Serif', serif;
+      }
     {% endstyle %}
 
     {% comment %}{{ 'base.css' | asset_url | stylesheet_tag }}{% endcomment %}
     {{ 'vendor.css' | asset_url | stylesheet_tag }}
     {{ 'theme.css' | asset_url | stylesheet_tag }}
-    
-   {{ 'dl-style.css' | asset_url | stylesheet_tag }}
+
+    {{ 'dl-style.css' | asset_url | stylesheet_tag }}
     {%- unless settings.type_body_font.system? -%}
       <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
@@ -124,44 +157,47 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
 
-
-
-  
-    
     <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
     </script>
 
     {% render 'shogun-head' %}
 
-    
-
-    
-    {{ 'new_mega_menu.css' | asset_url | stylesheet_tag }}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-     <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=41d6b240"></script>
-    
+    <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=41d6b240"></script>
+    {% render 'byb-cart-reset' %}
   </head>
 
-  <body class="{{ template.suffix }} font-grotesque{% if template == 'page.collab' %} collab-page{% endif %}">
+  <body class="{{ template.suffix }} font-inter{% if template == 'page.collab' %} collab-page{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSGFN6G4"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-TVNXDPM9"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    {% section 'announcement-bar' %}
     {% section 'header' %}
 
     {% comment %}
-    {% render 'mobile-nav-drawer' %}
+      {% render 'mobile-nav-drawer' %}
     {% endcomment %}
-    
-    {% render 'cart-drawer' %}
 
-    <main id="MainContent" class="main  grid min-h-header tablet:min-h-header-footer" role="main">
+    {% section 'cart-drawer' %}
+
+    <main
+      id="MainContent"
+      class="main  grid min-h-header tablet:min-h-header-footer"
+      role="main"
+      style="grid-template-columns: 100%;"
+    >
       {{ content_for_layout }}
     </main>
 
@@ -177,19 +213,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         cart_add_url: '{{ routes.cart_add_url }}',
         cart_change_url: '{{ routes.cart_change_url }}',
         cart_update_url: '{{ routes.cart_update_url }}',
-        predictive_search_url: '{{ routes.predictive_search_url }}'
+        predictive_search_url: '{{ routes.predictive_search_url }}',
       };
 
       window.cartStrings = {
         error: `{{ 'sections.cart.cart_error' | t }}`,
-        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t }}`
-      }
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t }}`,
+      };
 
       window.variantStrings = {
         addToCart: `{{ 'products.product.add_to_cart' | t }}`,
         soldOut: `{{ 'products.product.sold_out' | t }}`,
         unavailable: `{{ 'products.product.unavailable' | t }}`,
-      }
+      };
     </script>
 
     <script src="{{ 'slider.js' | asset_url }}" defer="defer"></script>
@@ -203,66 +239,117 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <script>
       var Shopify = Shopify || {};
-// ---------------------------------------------------------------------------
-// Money format handler
-// ---------------------------------------------------------------------------
-Shopify.money_format = "{{ shop.money_format }}";
-Shopify.formatMoney = function(cents, format) {
-  if (typeof cents == 'string') { cents = cents.replace('.',''); }
-  var value = '';
-  var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
-  var formatString = (format || this.money_format);
+      // ---------------------------------------------------------------------------
+      // Money format handler
+      // ---------------------------------------------------------------------------
+      Shopify.money_format = '{{ shop.money_format }}';
+      Shopify.formatMoney = function (cents, format) {
+        if (typeof cents == 'string') {
+          cents = cents.replace('.', '');
+        }
+        var value = '';
+        var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+        var formatString = format || this.money_format;
 
-  function defaultOption(opt, def) {
-     return (typeof opt == 'undefined' ? def : opt);
-  }
+        function defaultOption(opt, def) {
+          return typeof opt == 'undefined' ? def : opt;
+        }
 
-  function formatWithDelimiters(number, precision, thousands, decimal) {
-    precision = defaultOption(precision, 2);
-    thousands = defaultOption(thousands, ',');
-    decimal   = defaultOption(decimal, '.');
+        function formatWithDelimiters(number, precision, thousands, decimal) {
+          precision = defaultOption(precision, 2);
+          thousands = defaultOption(thousands, ',');
+          decimal = defaultOption(decimal, '.');
 
-    if (isNaN(number) || number == null) { return 0; }
+          if (isNaN(number) || number == null) {
+            return 0;
+          }
 
-    number = (number/100.0).toFixed(precision);
+          number = (number / 100.0).toFixed(precision);
 
-    var parts   = number.split('.'),
-        dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands),
-        cents   = parts[1] ? (decimal + parts[1]) : '';
+          var parts = number.split('.'),
+            dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands),
+            cents = parts[1] ? decimal + parts[1] : '';
 
-    return dollars + cents;
-  }
+          return dollars + cents;
+        }
 
-  switch(formatString.match(placeholderRegex)[1]) {
-    case 'amount':
-      value = formatWithDelimiters(cents, 2);
-      break;
-    case 'amount_no_decimals':
-      value = formatWithDelimiters(cents, 0);
-      break;
-    case 'amount_with_comma_separator':
-      value = formatWithDelimiters(cents, 2, '.', ',');
-      break;
-    case 'amount_no_decimals_with_comma_separator':
-      value = formatWithDelimiters(cents, 0, '.', ',');
-      break;
-case "amount_with_apostrophe_separator":
-        value = formatWithDelimiters(cents, 2, "'", ".");
-        break;
+        switch (formatString.match(placeholderRegex)[1]) {
+          case 'amount':
+            value = formatWithDelimiters(cents, 2);
+            break;
+          case 'amount_no_decimals':
+            value = formatWithDelimiters(cents, 0);
+            break;
+          case 'amount_with_comma_separator':
+            value = formatWithDelimiters(cents, 2, '.', ',');
+            break;
+          case 'amount_no_decimals_with_comma_separator':
+            value = formatWithDelimiters(cents, 0, '.', ',');
+            break;
+          case 'amount_with_apostrophe_separator':
+            value = formatWithDelimiters(cents, 2, "'", '.');
+            break;
+        }
 
-  }
-
-  return formatString.replace(placeholderRegex, value);
-};
-
+        return formatString.replace(placeholderRegex, value);
+      };
     </script>
 
- <!-- Rebuy START -->
+    <!-- Rebuy START (widgets only — cart uses the theme's custom cart drawer) -->
     {% render 'rebuy-extensions' %}
-    {% render 'rebuy-cart-template' %}
-  <!-- Rebuy END -->
+    {% if settings.cart_drawer_provider == 'rebuy' %}{% render 'rebuy-cart-template' %}{% endif %}
+    <!-- Rebuy END -->
 
- 
-    
+    <script>
+      (function () {
+        var root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+
+        /* ---------- 1. Cart drawer: see sections/cart-drawer.liquid + assets/cart-drawer.js ---------- */
+
+        /* ---------- 2. Keep the header count in sync ---------- */
+        var timer;
+        function setCount(count) {
+          document.querySelectorAll('.created-header__count, [js-open-cart-drawer] > span').forEach(function (el) {
+            el.textContent = count;
+            el.hidden = count < 1;
+          });
+        }
+        function refreshCount() {
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            fetch(root + 'cart.js', { headers: { Accept: 'application/json' } })
+              .then(function (r) {
+                return r.json();
+              })
+              .then(function (cart) {
+                setCount(cart.item_count);
+              })
+              .catch(function () {});
+          }, 150);
+        }
+
+        [
+          'rebuy:cart.change',
+          'rebuy:cart.add',
+          'cart:refresh',
+          'cart:add:complete',
+          'cart:update:complete',
+        ].forEach(function (name) {
+          document.addEventListener(name, refreshCount);
+        });
+
+        if ('PerformanceObserver' in window) {
+          new PerformanceObserver(function (list) {
+            list.getEntries().forEach(function (entry) {
+              if (/\/cart\/(add|change|update|clear)/.test(entry.name)) refreshCount();
+            });
+          }).observe({ type: 'resource', buffered: false });
+        }
+
+        window.addEventListener('pageshow', function (e) {
+          if (e.persisted) refreshCount();
+        });
+      })();
+    </script>
   </body>
 </html>

@@ -1,0 +1,580 @@
+{%- comment -%}
+  sections/shop-all-grid.liquid
+  Standalone collection grid for the shop-all-v1 template.
+  - Top bar: product count (left) + Dawn sort (right), preserves active filters
+  - Grid: 3 cols desktop / 2 cols mobile
+  - Inline banner from section settings: 6th cell on desktop, after 4 items on mobile
+  - Uses the swatch product card (snippet: product-card-swatch)
+  All layout CSS is scoped under .shopall so it cannot affect other sections.
+{%- endcomment -%}
+
+{{ 'product-card-swatch.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-card-swatch.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'shopall-pager.js' | asset_url }}" defer="defer"></script>
+
+{%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+
+{%- comment -%}
+  hidden-variant colour products are rendered but marked hidden; JS paginates
+  the VISIBLE ones client-side, `per_page` at a time (12 by default), and drives
+  the pager. Liquid can't read a custom page param, so paging is done in JS.
+{%- endcomment -%}
+{%- assign per_page = section.settings.products_per_page | default: 12 -%}
+{%- assign visible_count = 0 -%}
+{%- for product in collection.products -%}
+  {%- unless product.tags contains 'hidden-variant' -%}
+    {%- assign visible_count = visible_count | plus: 1 -%}
+  {%- endunless -%}
+{%- endfor -%}
+
+<style>
+  .shopall { --sa-gap: 16px; }
+  .shopall * , .shopall *::before, .shopall *::after { box-sizing: border-box; }
+
+  .shopall__bar {
+    border-bottom:1px solid #E7E9EA;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0 14px 0;
+  }
+
+  .shopall__count { 
+    font-size: 14px;
+    color: #6E797F;
+    line-height: 19.6px;
+    font-weight: 400;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+  .shopall__count strong { 
+      font-weight: 700;
+      color: #0E1F2A;
+   }
+  .shopall__sort { display: flex; align-items: center; gap: 8px; }
+  .shopall__sort label { 
+    color: #6E797F;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19.6px;
+}
+  .shopall__select {
+    position: relative;
+    border: 1px solid #E7E9EA;
+    border-radius: 999px;
+    padding: 7px 34px 7px 12px;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 19.6px;
+    color: #0E1F2A;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%230E1F2A' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid #CFD2D4;
+  }
+
+  .shopall__facets { 
+      display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top:14px;
+    padding-bottom:0px;
+  }
+  .shopall__pill {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+    border: 1px solid #E7E9EA; border-radius: 999px; padding: 6px 13px;
+    font-size: 12px; color: #0E1F2A; background: #fff;
+  }
+  .shopall__pill svg { 
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    padding: 4px;
+    background: #F5F5F5; 
+  }
+  .shopall__clear {     font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    color: #0E1F2A;
+    text-decoration: none;
+    align-self: center;
+  }
+
+  .shopall__content { min-height: 240px; }
+  .shopall__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 420px;
+    margin: 20px 0 40px;
+    padding: 48px 24px;
+    border: 1px solid #E7E9EA;
+    border-radius: 16px;
+    background: #FAFAFA;
+    text-align: center;
+  }
+  .shopall__empty-icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 20px;
+    color: #0E1F2A;
+    background: #FFF;
+    border: 1px solid #E7E9EA;
+    border-radius: 50%;
+  }
+  .shopall__empty-icon svg { width: 26px; height: 26px; }
+  .shopall__empty-title {
+    margin: 0 0 10px;
+    color: #0E1F2A;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .shopall__empty-text {
+    max-width: 460px;
+    margin: 0 0 22px;
+    color: #6E797F;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .shopall__empty-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 12px 24px;
+    color: #FFF;
+    background: #0E1F2A;
+    border: 1px solid #0E1F2A;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    transition: color .2s ease, background-color .2s ease;
+  }
+  .shopall__empty-clear:hover { color: #0E1F2A; background: #FFF; }
+
+  /* grid */
+  .shopall__grid {
+    list-style: none; 
+    display: grid; grid-template-columns: repeat(2, 1fr); 
+    row-gap:16px; 
+    column-gap:11px;
+    padding-top:20px;
+  }
+  .shopall__item { min-width: 0; border-radius: 16px;
+border: 0.8px solid #E7E9EA;
+background: #FFF;}
+
+  /* promo tile */
+  .shopall__promo { border-radius: 16px; overflow: hidden; position: relative; min-height: 380px; display: flex; }
+  .shopall__promo a { display: block; width: 100%; height: 100%; text-decoration: none; }
+  .shopall__promo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .shopall__promo-inner {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 0 33px 41px 33px;
+    color: #fff;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .4) 100%);
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+  }
+  .shopall__promo-title {    
+     margin: 0 0 7px;
+    color: #FFF;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 32px;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+   }
+  .shopall__promo-text {    
+     font-size: 14px;
+    margin: 0 0 18px;
+    opacity: .95;
+    color: #CFD2D4;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    max-width: 320px; 
+  }
+  .shopall__promo-cta { 
+      border-bottom: 1px solid #fff;
+    padding-bottom: 14px;
+    display: inline-block;
+    color: #FFF;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    min-width: 182px;
+    max-width:fit-content;
+  }
+
+.inner_pcs__head {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+  @media (max-width: 749px) {
+    .shopall__promo { grid-column: 1 / -1; }
+    .shopall .pcs__head{ margin-top:12px;}
+    .shopall .pcs__head { flex-direction: column; align-items: flex-start; gap: 0px; }
+    .shopall .pcs__price-wrap { margin-top: 4px; }
+    .shopall .pcs__price { 
+      font-size: 15px;
+      line-height:26px;
+        margin-bottom: 12px;
+       }  
+      .shopall__promo-inner {
+            padding: 20px 20px 24px 20px;
+  } .shopall__promo-title {    
+     margin: 0 0 6px;
+    font-size: 22px;
+   }  
+   .shopall__promo-text {    
+    font-size: 13px;
+    margin: 0 0 20px;
+    max-width: 300px; 
+  } 
+   .shopall__promo-cta { 
+      padding-bottom: 10px;
+      font-size: 12px;
+      min-width: 140px;
+  }
+  .shopall__empty { min-height: 340px; margin-bottom: 24px; padding: 40px 20px; }
+  .shopall__empty-title { font-size: 22px; }
+}
+
+  @media (min-width: 750px) {
+    .shopall { --sa-gap: 24px; }
+    .shopall__grid { grid-template-columns: repeat(3, 1fr);  }
+    .shopall__promo { grid-column: 3; grid-row: 2; }
+     section.shopall .site-container {
+    padding: 0 30px;
+   }  
+   .shopall__bar {
+    border-bottom:unset;
+    padding: 26px 0 18px 0;
+  }  .shopall__select {
+    padding: 8px 34px 8px 14px;
+    font-size: 14px;
+  } 
+  .shopall__facets{
+    padding-top:0px;
+    padding-bottom:18px;
+  }
+   .shopall__grid {
+    gap: 40px 16px;
+    padding: 0 2px;
+  }}
+</style>
+
+<section class="shopall" data-section-id="{{ section.id }}">
+<div class="site-container">
+  {%- comment -%} ---------- TOP BAR: count + sort ---------- {%- endcomment -%}
+  <div class=" shopall__bar">
+    {%- if section.settings.show_count -%}
+      <div class="shopall__count"><strong>{{ visible_count }}</strong> {{ 'products' }}</div>
+    {%- else -%}
+      <div></div>
+    {%- endif -%}
+
+    {%- if section.settings.enable_sorting -%}
+      <form method="get" class="shopall__sort">
+        {%- comment -%} preserve active filters when sorting {%- endcomment -%}
+        {%- for filter in collection.filters -%}
+          {%- for v in filter.active_values -%}
+            <input type="hidden" name="{{ v.param_name }}" value="{{ v.value }}">
+          {%- endfor -%}
+          {%- if filter.type == 'price_range' -%}
+            {%- if filter.min_value.value -%}<input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}">{%- endif -%}
+            {%- if filter.max_value.value -%}<input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}">{%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        <label for="SortBy-{{ section.id }}">Sort</label>
+       <select id="SortBy-{{ section.id }}" name="sort_by" class="shopall__select">
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
+          {%- endfor -%}
+        </select>
+      </form>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} Determine whether any storefront filter is active. {%- endcomment -%}
+  {%- assign has_active = false -%}
+  {%- for filter in collection.filters -%}
+    {%- if filter.active_values.size > 0 or filter.min_value.value or filter.max_value.value -%}{%- assign has_active = true -%}{%- endif -%}
+  {%- endfor -%}
+
+  {%- comment -%} ---------- GRID ---------- {%- endcomment -%}
+  <div class="shopall__content" data-shopall-content data-per-page="{{ per_page }}">
+  {%- paginate collection.products by 250 -%}
+    {%- if collection.products.size == 0 -%}
+      <div class="shopall__empty" role="status" aria-live="polite">
+        <span class="shopall__empty-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M16 16L21 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <h2 class="shopall__empty-title font-canela font-thin">No products found</h2>
+        {%- if has_active -%}
+          <p class="shopall__empty-text">No products match the selected category or filters. Clear the filters to explore the complete collection.</p>
+        {%- else -%}
+          <p class="shopall__empty-text">There are currently no products available in this collection.</p>
+        {%- endif -%}
+        <a class="shopall__empty-clear" href="{{ collection.url }}?sort_by={{ sort_by | url_encode }}" data-shopall-clear data-shopall-ajax-link>View all products</a>
+      </div>
+    {%- else -%}
+     {%- comment -%} ---------- APPLIED FILTER PILLS (above grid, per design) ---------- {%- endcomment -%}
+      {%- if has_active -%}
+        <div class="shopall__facets">
+          {%- for filter in collection.filters -%}
+            {%- for v in filter.active_values -%}
+              <a class="shopall__pill" href="{{ v.url_to_remove }}" data-shopall-ajax-link>{{ v.label | escape }} {% render 'icon-close-small' %}</a>
+            {%- endfor -%}
+            {%- if filter.type == 'price_range' -%}
+              {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+                <a class="shopall__pill" href="{{ filter.url_to_remove }}" data-shopall-ajax-link>
+                  {%- if filter.min_value.value -%}{{ filter.min_value.value | money }}{%- else -%}{{ 0 | money }}{%- endif -%}–{%- if filter.max_value.value -%}{{ filter.max_value.value | money }}{%- else -%}{{ filter.range_max | money }}{%- endif -%}
+                  {% render 'icon-close-small' %}
+                </a>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+          <a class="shopall__clear" href="{{ collection.url }}?sort_by={{ sort_by | url_encode }}" data-shopall-clear data-shopall-ajax-link>Clear all</a>
+        </div>
+      {%- endif -%}
+      {%- comment -%}
+        Render ALL products. Hidden-variant ones get data-hidden="true" so JS
+        can skip them. Visible ones get a running data-vindex (0-based) so JS
+        can slice them into pages of `per_page`. The promo tile carries
+        data-promo so JS can keep it as the 6th visible cell on page 1.
+      {%- endcomment -%}
+      <ul class="shopall__grid" id="shopall-grid-{{ section.id }}" data-shopall-grid>
+        {%- assign vindex = 0 -%}
+        {%- for product in collection.products -%}
+          {%- if product.tags contains 'hidden-variant' -%}
+            <li class="shopall__item" data-hidden="true" hidden>
+              {% render 'product-card-swatch', product: product %}
+            </li>
+          {%- else -%}
+            <li class="shopall__item" data-vindex="{{ vindex }}">
+              {% render 'product-card-swatch', product: product %}
+            </li>
+
+            {%- comment -%} promo after the 4th VISIBLE product (JS re-places per page) {%- endcomment -%}
+            {%- assign vnext = vindex | plus: 1 -%}
+            {%- if visible_count >= 5 and vnext == 4 and section.settings.promo_image != blank -%}
+              <li class="shopall__item shopall__promo" data-promo="true">
+                <a href="{{ section.settings.promo_link }}">
+                  <img
+                    src="{{ section.settings.promo_image | image_url: width: 900 }}"
+                    alt="{{ section.settings.promo_title | escape }}"
+                    loading="lazy"
+                    width="{{ section.settings.promo_image.width }}"
+                    height="{{ section.settings.promo_image.height }}"
+                  >
+                  <span class="shopall__promo-inner">
+                    {%- if section.settings.promo_title != blank -%}<span class="shopall__promo-title font-canela font-thin">{{ section.settings.promo_title }}</span>{%- endif -%}
+                    {%- if section.settings.promo_text != blank -%}<span class="shopall__promo-text">{{ section.settings.promo_text }}</span>{%- endif -%}
+                    {%- if section.settings.promo_cta != blank -%}<span class="shopall__promo-cta">{{ section.settings.promo_cta }}</span>{%- endif -%}
+                  </span>
+                </a>
+              </li>
+            {%- endif -%}
+
+            {%- assign vindex = vindex | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+
+      {%- comment -%} pager is built by JS from the visible cards {%- endcomment -%}
+      <nav class="shopall-pager" role="navigation" aria-label="Pagination" data-shopall-pager hidden>
+        <div class="shopall-pager__row">
+          <button type="button" class="shopall-pager__btn" data-pager-prev aria-label="Previous page">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <span class="shopall-pager__count" data-pager-count>1 / 1</span>
+          <button type="button" class="shopall-pager__btn" data-pager-next aria-label="Next page">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p class="shopall-pager__showing">Showing <span data-pager-shown>0</span> of <span data-pager-total>0</span> products</p>
+      </nav>
+    {%- endif -%}
+  {%- endpaginate -%}
+  </div>
+</div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop All Grid",
+  "tag": "section",
+  "class": "shop-all-grid-section",
+  "settings": [
+    { "type": "range", "id": "products_per_page", "min": 4, "max": 24, "step": 1, "default": 12, "label": "Visible products per page" },
+    { "type": "checkbox", "id": "show_count", "default": true, "label": "Show product count (left)" },
+    { "type": "checkbox", "id": "enable_sorting", "default": true, "label": "Show sort dropdown (right)" },
+
+    { "type": "header", "content": "Inline banner" },
+    { "type": "paragraph", "content": "Shows in the 6th cell on desktop and after the set number of products on mobile." },
+    { "type": "image_picker", "id": "promo_image", "label": "Banner image" },
+    { "type": "text", "id": "promo_title", "label": "Title", "default": "Built For The Long Haul" },
+    { "type": "textarea", "id": "promo_text", "label": "Text", "default": "Double-wall vacuum insulation, lids that seal, and hardware covered for life." },
+    { "type": "text", "id": "promo_cta", "label": "Button label", "default": "Shop the collection" },
+    { "type": "url", "id": "promo_link", "label": "Button link" },
+    { "type": "range", "id": "promo_after", "min": 2, "max": 12, "step": 1, "default": 4, "label": "Insert after N products (mobile position)", "info": "Desktop always shows it in the 6th cell." }
+  ],
+  "presets": [
+    { "name": "Shop All Grid" }
+  ]
+}
+{% endschema %}
+
+
+
+<script>
+
+(function () {
+  'use strict';
+
+  var section = document.querySelector('.shopall');
+  if (!section) return;
+
+  var state = { page: 1 };
+
+  function els() {
+    var content = section.querySelector('[data-shopall-content]');
+    if (!content) return null;
+    return {
+      content: content,
+      perPage: parseInt(content.getAttribute('data-per-page'), 10) || 12,
+      grid: content.querySelector('[data-shopall-grid]'),
+      pager: content.querySelector('[data-shopall-pager]'),
+      visible: Array.prototype.slice.call(
+        content.querySelectorAll('.shopall__item[data-vindex]')
+      ),
+      promo: content.querySelector('.shopall__item[data-promo]'),
+      hidden: Array.prototype.slice.call(
+        content.querySelectorAll('.shopall__item[data-hidden]')
+      )
+    };
+  }
+
+  function render() {
+    var e = els();
+    if (!e || !e.grid) return;
+
+    var total = e.visible.length;
+    var perPage = e.perPage;
+    var pages = Math.max(1, Math.ceil(total / perPage));
+    if (state.page > pages) state.page = pages;
+    if (state.page < 1) state.page = 1;
+
+    var start = (state.page - 1) * perPage;
+    var end = start + perPage;
+
+    // show/hide visible product cards for the current page
+    e.visible.forEach(function (li, i) {
+      var on = i >= start && i < end;
+      li.hidden = !on;
+      li.style.display = on ? '' : 'none';
+    });
+
+    // hidden-variant cards always stay hidden
+    e.hidden.forEach(function (li) { li.hidden = true; li.style.display = 'none'; });
+
+    // promo: only on page 1 (it sits after the 4th visible card in the DOM)
+    if (e.promo) {
+      var showPromo = state.page === 1 && total >= 5;
+      e.promo.hidden = !showPromo;
+      e.promo.style.display = showPromo ? '' : 'none';
+    }
+
+    // pager
+    if (e.pager) {
+      if (pages <= 1) {
+        e.pager.hidden = true;
+      } else {
+        e.pager.hidden = false;
+        var countEl = e.pager.querySelector('[data-pager-count]');
+        var prevBtn = e.pager.querySelector('[data-pager-prev]');
+        var nextBtn = e.pager.querySelector('[data-pager-next]');
+        if (countEl) countEl.textContent = state.page + ' / ' + pages;
+        if (prevBtn) { prevBtn.disabled = state.page <= 1; prevBtn.classList.toggle('is-disabled', state.page <= 1); }
+        if (nextBtn) { nextBtn.disabled = state.page >= pages; nextBtn.classList.toggle('is-disabled', state.page >= pages); }
+      }
+      // "Showing X of Y" — cards visible on THIS page / total visible
+      var shownCount = Math.min(end, total) - start;
+      if (shownCount < 0) shownCount = 0;
+      var shownEl = e.pager.querySelector('[data-pager-shown]');
+      var totalEl = e.pager.querySelector('[data-pager-total]');
+      if (shownEl) shownEl.textContent = shownCount;
+      if (totalEl) totalEl.textContent = total;
+    }
+  }
+
+  function bind() {
+    var e = els();
+    if (!e || !e.pager) return;
+    var prevBtn = e.pager.querySelector('[data-pager-prev]');
+    var nextBtn = e.pager.querySelector('[data-pager-next]');
+
+    if (prevBtn && !prevBtn._b) {
+      prevBtn._b = true;
+      prevBtn.addEventListener('click', function () {
+        if (state.page > 1) { state.page--; render(); scrollTop(); }
+      });
+    }
+    if (nextBtn && !nextBtn._b) {
+      nextBtn._b = true;
+      nextBtn.addEventListener('click', function () {
+        state.page++; render(); scrollTop();
+      });
+    }
+  }
+
+  function scrollTop() {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function run() {
+    state.page = 1;   // a fresh grid (load or AJAX) resets to page 1
+    render();
+    bind();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+
+  // after each AJAX grid swap, the grid is new -> re-run
+  document.addEventListener('shopall:updated', run);
+  window.addEventListener('load', run);
+})();
+
+
+</script>

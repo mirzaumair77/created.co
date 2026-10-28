@@ -1,0 +1,29 @@
+
+
+{%- assign options = product.metafields.custom.product_size_options.value -%}
+
+{%- if options != blank -%}
+  <div class="cpdp-size-group">
+    {%- for opt in options -%}
+      {%- assign sp = opt.product_url.value -%}
+      {%- assign target_url = sp.url -%}
+
+      {%- assign size_label = opt.label.value -%}
+      {%- if size_label == blank and sp != blank -%}
+        {%- assign size_label = sp.title | split: ' ' | first -%}
+      {%- endif -%}
+
+      {%- assign size_usage = opt.tag_line.value -%}
+      {%- assign full_name  = opt.prdouct_name_size.value -%}
+
+      <a href="{{ target_url }}"
+         class="cpdp-size{% if target_url == product.url %} is-active{% endif %}"
+         {% if full_name != blank %}aria-label="{{ full_name | escape }}"{% endif %}>
+        <strong class="cpdp-size__label">{{ size_label }}</strong>
+        {%- if size_usage != blank -%}
+          <span class="cpdp-size__usage">{{ size_usage }}</span>
+        {%- endif -%}
+      </a>
+    {%- endfor -%}
+  </div>
+{%- endif -%}

@@ -1,0 +1,659 @@
+{%- liquid
+  assign background = section.settings.background
+  assign heading = section.settings.heading
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign padding_top_mobile = section.settings.padding_top_mobile
+  assign padding_bottom_mobile = section.settings.padding_bottom_mobile
+
+  assign section_loading = 'lazy'
+  if section.index <= 2
+    assign section_loading = 'eager'
+  endif
+
+  assign milestone_count = section.blocks.size
+  assign timeline_markup = ''
+  assign slides_markup = ''
+-%}
+
+{%- for block in section.blocks -%}
+  {%- liquid
+    assign milestone_label = block.settings.label
+    assign milestone_title = block.settings.title
+    assign milestone_text = block.settings.text
+    assign milestone_image = block.settings.image
+
+    assign image_loading = 'lazy'
+    if forloop.first
+      assign image_loading = section_loading
+    endif
+
+    assign milestone_image_alt = milestone_image.alt | default: milestone_title | default: milestone_label
+  -%}
+
+  {%- capture point_html -%}
+    <button
+      type="button"
+      class="our-journey__point"
+      role="tab"
+      id="OurJourneyTab-{{ block.id }}"
+      aria-controls="OurJourneySlide-{{ block.id }}"
+      aria-selected="{{ forloop.first }}"
+      {% unless forloop.first %}
+        tabindex="-1"
+      {% endunless %}
+    >
+      {{- milestone_label | escape -}}
+    </button>
+  {%- endcapture -%}
+
+  {%- capture slide_html -%}
+    <div
+      class="our-journey__slide"
+      role="tabpanel"
+      id="OurJourneySlide-{{ block.id }}"
+      aria-labelledby="OurJourneyTab-{{ block.id }}"
+      tabindex="0"
+      {% unless forloop.first %}
+        hidden
+      {% endunless %}
+      {{ block.shopify_attributes }}
+    >
+      <div class="our-journey__media">
+        {%- if milestone_image != blank -%}
+          {{
+            milestone_image
+            | image_url: width: 1400
+            | image_tag:
+              loading: image_loading,
+              widths: '375, 550, 750, 1000, 1400',
+              sizes: '(min-width: 769px) 45vw, calc(100vw - 36px)',
+              alt: milestone_image_alt
+          }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag }}
+        {%- endif -%}
+      </div>
+
+      <div class="our-journey__content">
+        {%- if milestone_label != blank -%}
+          <div class="our-journey__year">
+            <p>{{ milestone_label | escape }}</p>
+          </div>
+        {%- endif -%}
+
+        {%- if milestone_title != blank -%}
+          <div class="our-journey__title">
+            <h3>{{ milestone_title | escape }}</h3>
+          </div>
+        {%- endif -%}
+
+        {%- if milestone_text != blank -%}
+          <div class="our-journey__text">
+            {{ milestone_text }}
+          </div>
+        {%- endif -%}
+
+        {%- if milestone_count > 1 -%}
+          <div class="our-journey__nav">
+            <button
+              type="button"
+              class="our-journey__arrow"
+              data-step="-1"
+              aria-label="Previous milestone"
+              {% if forloop.first %}
+                disabled
+              {% endif %}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="our-journey__arrow"
+              data-step="1"
+              aria-label="Next milestone"
+              {% if forloop.last %}
+                disabled
+              {% endif %}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endcapture -%}
+
+  {%- liquid
+    assign timeline_markup = timeline_markup | append: point_html
+    assign slides_markup = slides_markup | append: slide_html
+  -%}
+{%- endfor -%}
+
+<style>
+  #shopify-section-{{ section.id }} .our-journey {
+    --our-journey-bg: {{ background }};
+    --our-journey-pt: {{ padding_top }}px;
+    --our-journey-pb: {{ padding_bottom }}px;
+    --our-journey-pt-mobile: {{ padding_top_mobile }}px;
+    --our-journey-pb-mobile: {{ padding_bottom_mobile }}px;
+  }
+
+  .our-journey {
+    padding-top: var(--our-journey-pt-mobile);
+    padding-bottom: var(--our-journey-pb-mobile);
+    background: var(--our-journey-bg);
+    color: #fff;
+  }
+
+  .our-journey__container {
+    display: block;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 18px;
+  }
+
+  .our-journey__heading {
+    margin-bottom: 38px;
+  }
+
+  .our-journey__heading h2 {
+    margin: 0;
+    font-family: var(--font-canela), var(--font-body-family);
+    color: #FFF;
+    font-size: 34px;
+    line-height: 36.04px;
+    letter-spacing: -0.34px;
+    font-weight: 100;
+  }
+
+  .our-journey__heading strong {
+    font-weight: 700;
+    letter-spacing: -0.913px;
+  }
+
+  .our-journey__timeline {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 38px;
+  }
+
+  .our-journey__timeline::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    left: 6px;
+    height: 1px;
+    background: #ffffff4d;
+  }
+
+  .our-journey__point {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-basis-grotesque), var(--font-body-family);
+    color: #ffffff99;
+    font-size: 12px;
+    line-height: normal;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .our-journey__point:first-child {
+    align-items: flex-start;
+  }
+
+  .our-journey__point:last-child {
+    align-items: flex-end;
+  }
+
+  .our-journey__point::before {
+    content: '';
+    width: 13px;
+    height: 13px;
+    box-sizing: border-box;
+    border: 1.5px solid #fff;
+    border-radius: 50%;
+    background: #000;
+  }
+
+  .our-journey__point:hover,
+  .our-journey__point[aria-selected='true'] {
+    color: #fff;
+  }
+
+  .our-journey__point[aria-selected='true']::before {
+    background: #fff;
+  }
+
+  .our-journey__point:focus-visible,
+  .our-journey__slide:focus-visible,
+  .our-journey__arrow:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+
+  .our-journey__slide[hidden] {
+    display: none;
+  }
+
+  .our-journey__media {
+    aspect-ratio: 4 / 3;
+    margin-bottom: 40px;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #1a1a1a;
+  }
+
+  .our-journey__media img,
+  .our-journey__media svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .our-journey__media svg {
+    fill: #3a3a3a;
+  }
+
+  .our-journey__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+  }
+
+  .our-journey__year p {
+    margin: 0;
+    font-family: var(--font-canela), var(--font-body-family);
+    color: #FFF;
+    font-size: 72px;
+    line-height: 64.8px;
+    letter-spacing: -2.16px;
+    font-weight: 100;
+  }
+
+  .our-journey__title h3 {
+    margin: 0;
+    font-family: var(--font-basis-grotesque), var(--font-body-family);
+    color: #FFF;
+    font-size: 20px;
+    line-height: normal;
+    font-weight: 700;
+  }
+
+  .our-journey__text p {
+    margin: 0;
+    font-family: var(--font-basis-grotesque), var(--font-body-family);
+    color: #ffffffd9;
+    font-size: 15px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+
+  .our-journey__text p + p {
+    margin-top: 0.8em;
+  }
+
+  .our-journey__nav {
+    display: flex;
+    gap: 10px;
+  }
+
+  .our-journey__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid #ffffff66;
+    border-radius: 999px;
+    background: none;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .our-journey__arrow:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .our-journey__arrow:disabled {
+    border-color: #2e2e2e;
+    background: none;
+    color: #555;
+    cursor: default;
+  }
+
+  @media (min-width: 769px) {
+    .our-journey {
+      padding-top: var(--our-journey-pt);
+      padding-bottom: var(--our-journey-pb);
+    }
+
+    .our-journey__container {
+      padding: 0 36px;
+    }
+
+    .our-journey__header {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: start;
+      gap: clamp(40px, 5vw, 64px);
+      margin-bottom: 64px;
+      padding: 0 clamp(16px, 3.5vw, 52px);
+    }
+
+    .our-journey__heading {
+      margin-bottom: 0;
+    }
+
+    .our-journey__heading h2 {
+      transform: translateY(-0.28em);
+      font-size: 51px;
+      line-height: 54.06px;
+      letter-spacing: -0.51px;
+      font-weight: 300;
+      text-transform: capitalize;
+    }
+
+    .our-journey__heading strong {
+      font-family: inherit;
+      font-weight: inherit;
+      letter-spacing: -1.53px;
+    }
+
+    .our-journey__timeline {
+      margin-bottom: 0;
+    }
+
+    .our-journey__point {
+      gap: 14px;
+      font-size: 12.5px;
+    }
+
+    .our-journey__slide {
+      display: grid;
+      grid-template-columns: minmax(0, 48.2fr) minmax(0, 50fr);
+      align-items: center;
+      gap: clamp(40px, 4.6vw, 64px);
+    }
+
+    .our-journey__media {
+      margin-bottom: 0;
+    }
+
+    .our-journey__content {
+      max-width: 560px;
+      row-gap: 16px;
+    }
+
+    .our-journey__year p {
+      font-size: 96px;
+      line-height: 86.4px;
+      letter-spacing: -2.88px;
+      font-weight: 300;
+    }
+
+    .our-journey__title h3 {
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+    .our-journey__text p {
+      font-size: 16px;
+      line-height: 25.6px;
+    }
+  }
+</style>
+
+<section class="our-journey">
+  <our-journey-slider class="our-journey__container">
+    <div class="our-journey__header">
+      {%- if heading != blank -%}
+        <div class="our-journey__heading">
+          <h2>{{ heading }}</h2>
+        </div>
+      {%- endif -%}
+
+      {%- if milestone_count > 0 -%}
+        <div class="our-journey__timeline" role="tablist" aria-label="Timeline">
+          {{ timeline_markup }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if milestone_count > 0 -%}
+      <div class="our-journey__slides">
+        {{ slides_markup }}
+      </div>
+    {%- endif -%}
+  </our-journey-slider>
+</section>
+
+{% javascript %}
+  if (!customElements.get('our-journey-slider')) {
+    class OurJourneySlider extends HTMLElement {
+      connectedCallback() {
+        this.tabs = Array.from(this.querySelectorAll('[role="tab"]'));
+        this.slides = Array.from(this.querySelectorAll('[role="tabpanel"]'));
+        this.current = Math.max(0, this.slides.findIndex((slide) => !slide.hidden));
+
+        this.handleClick = this.handleClick.bind(this);
+        this.handleKeydown = this.handleKeydown.bind(this);
+        this.handleBlockSelect = this.handleBlockSelect.bind(this);
+
+        this.addEventListener('click', this.handleClick);
+        this.addEventListener('keydown', this.handleKeydown);
+        this.addEventListener('shopify:block:select', this.handleBlockSelect);
+      }
+
+      disconnectedCallback() {
+        this.removeEventListener('click', this.handleClick);
+        this.removeEventListener('keydown', this.handleKeydown);
+        this.removeEventListener('shopify:block:select', this.handleBlockSelect);
+      }
+
+      handleClick(event) {
+        const tab = event.target.closest('[role="tab"]');
+        if (tab) {
+          this.select(this.tabs.indexOf(tab));
+          return;
+        }
+
+        const arrow = event.target.closest('[data-step]');
+        if (!arrow || arrow.disabled) return;
+
+        const step = Number(arrow.dataset.step);
+        this.select(this.current + step);
+
+        const nav = this.slides[this.current].querySelectorAll('[data-step]');
+        const same = Array.from(nav).find((button) => Number(button.dataset.step) === step);
+        const target = same && !same.disabled ? same : Array.from(nav).find((button) => !button.disabled);
+        if (target) target.focus();
+      }
+
+      handleKeydown(event) {
+        const index = this.tabs.indexOf(event.target);
+        if (index === -1) return;
+
+        const last = this.tabs.length - 1;
+        const keys = {
+          ArrowRight: index === last ? 0 : index + 1,
+          ArrowLeft: index === 0 ? last : index - 1,
+          Home: 0,
+          End: last,
+        };
+
+        if (!(event.key in keys)) return;
+        event.preventDefault();
+        this.select(keys[event.key]);
+        this.tabs[this.current].focus();
+      }
+
+      handleBlockSelect(event) {
+        const slide = event.target.closest('[role="tabpanel"]');
+        if (slide) this.select(this.slides.indexOf(slide));
+      }
+
+      select(index) {
+        if (index < 0 || index >= this.slides.length) return;
+
+        this.current = index;
+        this.tabs.forEach((tab, i) => {
+          const isActive = i === index;
+          tab.setAttribute('aria-selected', isActive);
+          tab.tabIndex = isActive ? 0 : -1;
+          this.slides[i].hidden = !isActive;
+        });
+      }
+    }
+
+    customElements.define('our-journey-slider', OurJourneySlider);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Our journey",
+  "tag": "div",
+  "class": "section-our-journey",
+  "settings": [
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "#000000"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our <strong>story</strong>",
+      "info": "Bold text uses the sans-serif style on mobile."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 84
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "milestone",
+      "name": "Milestone",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Year",
+          "default": "2015",
+          "info": "Shown on the timeline and as the large title."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Created opens its doors"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>We opened with a handful of mug designs and one big hope: that our drinkware might help inspire, connect, and empower people over a cup of coffee.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Our journey",
+      "blocks": [
+        {
+          "type": "milestone",
+          "settings": {
+            "label": "2015"
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "label": "2016"
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "label": "2018"
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "label": "Today"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

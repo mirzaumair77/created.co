@@ -9,12 +9,593 @@
  */
 {
   "sections": {
+    "mian_product_info_eCPHbC": {
+      "type": "mian-product-info",
+      "blocks": {
+        "collapsible_XLmPA8": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Benefits",
+            "content": "<p>{{ product.metafields.details.description | metafield_tag }}</p>"
+          }
+        },
+        "collapsible_rJnGPJ": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Specifications",
+            "content": "<p>{{ product.metafields.details.features_list | metafield_tag }}</p>"
+          }
+        },
+        "benefit_hT4ikw": {
+          "type": "benefit",
+          "settings": {
+            "heading": "",
+            "video": "shopify://files/videos/Wine Cup.mp4"
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_XLmPA8",
+        "collapsible_rJnGPJ",
+        "benefit_hT4ikw"
+      ],
+      "name": "Custom PDP main",
+      "settings": {
+        "flag_text": "Ceramic Lined",
+        "show_tags": false,
+        "show_engraving": false,
+        "engraving_label": "Add engraving",
+        "engraving_property": "Engraving",
+        "engraving_price": "1000",
+        "show_dynamic_checkout": false,
+        "ship_text": "Ships free over $75.",
+        "arrives_text": "Ship out within 48 hours",
+        "ordering_title": "Ordering 25+?",
+        "ordering_subtitle": "Add your logo — bulk pricing.",
+        "ordering_button": "Go custom",
+        "ordering_link": "https://created.co/pages/custom#catalog",
+        "benefits_title": "Your Created, Your Way"
+      }
+    },
+    "sectiont_story_LPY6UW": {
+      "type": "sectiont-story",
+      "blocks": {
+        "single_iXcK6d": {
+          "type": "single",
+          "settings": {
+            "size": "hero",
+            "video": "shopify://files/videos/202407031213 (3) (2).mp4",
+            "product": "angle-drip-12oz-black"
+          }
+        },
+        "pair_4hyyjp": {
+          "type": "pair",
+          "settings": {
+            "video_1": "shopify://files/videos/Video(2).MOV",
+            "product_1": "angle-drip-12oz-blue-slate",
+            "video_2": "shopify://files/videos/Ceramics Landing Page Video.mp4",
+            "product_2": "everyday-tumbler-12oz-black"
+          }
+        },
+        "single_4NdrdL": {
+          "type": "single",
+          "settings": {
+            "size": "tall",
+            "video": "shopify://files/videos/Bouchon Bakery 12oz Nomad Flip - White - Gif 2.mp4",
+            "product": ""
+          }
+        },
+        "single_aG8EyR": {
+          "type": "single",
+          "settings": {
+            "size": "hero",
+            "video": "shopify://files/videos/Video(2).MOV",
+            "product": ""
+          }
+        },
+        "pair_3iUwyq": {
+          "type": "pair",
+          "settings": {
+            "video_1": "shopify://files/videos/Video(2).MOV",
+            "product_1": "angle-drip-12oz-black",
+            "video_2": "shopify://files/videos/Ceramics Landing Page Video.mp4",
+            "product_2": "cold-cup-16oz-pacific"
+          }
+        },
+        "single_zxnBXa": {
+          "type": "single",
+          "settings": {
+            "size": "tall",
+            "video": "shopify://files/videos/Bouchon Bakery 12oz Nomad Flip - White - Gif 2.mp4",
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "single_iXcK6d",
+        "pair_4hyyjp",
+        "single_4NdrdL",
+        "single_aG8EyR",
+        "pair_3iUwyq",
+        "single_zxnBXa"
+      ],
+      "name": "inspired stories",
+      "settings": {
+        "eyebrow": "THE STORY",
+        "title": "Live Inspired",
+        "text": "Our products wasn’t made for a treadmill life. It’s for the sunrise trail, the second pour, the studio session that runs long. Wherever the day takes you - take it with you.",
+        "pad_top_desktop": 43,
+        "pad_bottom_desktop": 30,
+        "pad_top_mobile": 40,
+        "pad_bottom_mobile": 40
+      }
+    },
+    "the_lid_RX4KpG": {
+      "type": "the-lid",
+      "blocks": {
+        "slide_EqD7AM": {
+          "type": "slide",
+          "settings": {
+            "badge": "GIF SLOT — STRAW COLLAPSE / LID DETACH LOOP",
+            "image": "shopify://shop_images/glide_slide_Pacific.png",
+            "button_label": "Design your Scout",
+            "button_link": ""
+          }
+        },
+        "slide_DfBxdz": {
+          "type": "slide",
+          "settings": {
+            "badge": "GIF SLOT — STRAW COLLAPSE / LID DETACH LOOP",
+            "image": "shopify://shop_images/glide_slide_Pacific.png",
+            "button_label": "Design your Scout",
+            "button_link": ""
+          }
+        },
+        "slide_gjwpfp": {
+          "type": "slide",
+          "settings": {
+            "badge": "GIF SLOT — STRAW COLLAPSE / LID DETACH LOOP",
+            "image": "shopify://shop_images/glide_slide_Pacific.png",
+            "button_label": "Design your Scout",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_EqD7AM",
+        "slide_DfBxdz",
+        "slide_gjwpfp"
+      ],
+      "disabled": true,
+      "name": "The Lid Slider",
+      "settings": {
+        "eyebrow": "Why Stainless",
+        "title": "Hot Stays Hot, Cold Stays Cold",
+        "text": "18/8 stainless steel, double-walled and vacuum insulated. Thoughtfully designed by artists in California.",
+        "bg_color": "#0e1f2a",
+        "text_color": "#ffffff",
+        "pad_top_desktop": 68,
+        "pad_bottom_desktop": 40,
+        "pad_top_mobile": 40,
+        "pad_bottom_mobile": 60
+      }
+    },
     "shogun-helper": {
       "type": "shogun-helper",
       "settings": {}
     },
+    "scout_story_4gbnnT": {
+      "type": "scout-story",
+      "blocks": {
+        "image_with_text_BEBPfH": {
+          "type": "image-with-text",
+          "settings": {
+            "image": "shopify://shop_images/slide_Free_shipping_over_75.png",
+            "title": "Free shipping over $75",
+            "text": "<p>We always ship to your door free of charge on every order over $75 — no matter what you buy.</p>"
+          }
+        },
+        "image_with_text_DNaztD": {
+          "type": "image-with-text",
+          "settings": {
+            "image": "shopify://shop_images/slide_Lifetime_hardware_warranty.png",
+            "title": "Lifetime hardware warranty",
+            "text": "<p>Lids, straws and handles are covered for as long as you own your [product]. Replacement parts are stocked.</p>"
+          }
+        },
+        "image_with_text_Ag9yPt": {
+          "type": "image-with-text",
+          "settings": {
+            "image": "shopify://shop_images/slide_Designed_in_California.png",
+            "title": "Designed in California",
+            "text": "<p>Thoughtfully designed by artists in California with minimalist aesthetics and maximum functionality.</p>"
+          }
+        },
+        "image_with_text_AFJGpK": {
+          "type": "image-with-text",
+          "settings": {
+            "image": "shopify://shop_images/slide_Free_shipping_over_75.png",
+            "title": "Personal customer service",
+            "text": "<p>Our team is ready to help — call 714.869.7416 or write to hello@created.co, every working day.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "image_with_text_BEBPfH",
+        "image_with_text_DNaztD",
+        "image_with_text_Ag9yPt",
+        "image_with_text_AFJGpK"
+      ],
+      "name": "Scout Story",
+      "settings": {
+        "bg_color": "#ffffff",
+        "subtitle": "",
+        "heading": "Why choose us?",
+        "description": "<p>We only sleep well when you do - so every [product] ships with the same promises, from a small studio in California.</p>",
+        "top_padding": 40,
+        "bottom_padding": 40,
+        "top_padding_mb": 40,
+        "bottom_padding_mb": 40
+      }
+    },
+    "inside_scout_xxrbHg": {
+      "type": "inside-scout",
+      "blocks": {
+        "hotspot_cUfVKh": {
+          "type": "hotspot",
+          "settings": {
+            "title": "Temperature",
+            "text": "Double-walled, vacuum-insulated construction keeps hot drinks hot and cold drinks cold.",
+            "x_desktop": 65,
+            "y_desktop": 43,
+            "x_mobile": 40,
+            "y_mobile": 45
+          }
+        },
+        "hotspot_qJa3yk": {
+          "type": "hotspot",
+          "settings": {
+            "title": "Material",
+            "text": "18/8 stainless steel - globally-minded, BPA free and built to last.",
+            "x_desktop": 61,
+            "y_desktop": 55,
+            "x_mobile": 65,
+            "y_mobile": 55
+          }
+        },
+        "hotspot_ra8MkP": {
+          "type": "hotspot",
+          "settings": {
+            "title": "Design",
+            "text": "Thoughtfully designed by artists in California, in a curated range of colorways.",
+            "x_desktop": 65,
+            "y_desktop": 65,
+            "x_mobile": 30,
+            "y_mobile": 65
+          }
+        },
+        "hotspot_ekVQTU": {
+          "type": "hotspot",
+          "settings": {
+            "title": "Care",
+            "text": "Wash before your first use. Don’t microwave. Don’t freeze. Otherwise? Have fun.",
+            "x_desktop": 65,
+            "y_desktop": 75,
+            "x_mobile": 59,
+            "y_mobile": 74
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_cUfVKh",
+        "hotspot_qJa3yk",
+        "hotspot_ra8MkP",
+        "hotspot_ekVQTU"
+      ],
+      "name": "Inside Scout",
+      "settings": {
+        "title": "Inside [product]",
+        "text": "Portable, comfortable and elevated. Step into the parts that make the Wine Cup work.",
+        "image": "shopify://shop_images/3-20-25_Created_Co._Ecom58015_2000x_cd38b815-9c09-4a47-a4b5-d81b72331b2d.png",
+        "mobile_image": "shopify://shop_images/3-20-25_Created_Co._Ecom58015_2000x_cd38b815-9c09-4a47-a4b5-d81b72331b2d.png",
+        "accent": "#ff6e15",
+        "head_margin": false,
+        "head_margin_size": 70,
+        "head_margin_size_mobile": 24,
+        "img_height": 600,
+        "img_pos_y": 50,
+        "img_zoom": 100,
+        "overlap": 0,
+        "img_height_mobile": 280,
+        "img_pos_y_mobile": 50,
+        "img_zoom_mobile": 100,
+        "padding_top": 52,
+        "padding_bottom": 116,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "product_specification_BVGEhC": {
+      "type": "product-specification",
+      "blocks": {
+        "accordion_item_Y6hNDk": {
+          "type": "accordion_item",
+          "settings": {
+            "border_top": true,
+            "border_bottom": false,
+            "title": "General",
+            "content": "<p>Wherever the gathering takes you, the Wine Cup is the perfect vessel for raising a glass. From chilled whites to bold reds, cocktails to mocktails, it delivers a versatile, glass-free experience. The twist-on lid and slider-sip mechanism help minimize spills and maintain optimal temperature. Featuring our premium ceramic-lined interior, designed for a durable yet elevated drinking experience that preserves the subtle tasting notes of your beverage. Portable, comfortable, and elevated.</p>"
+          }
+        },
+        "accordion_item_Q9nfhx": {
+          "type": "accordion_item",
+          "settings": {
+            "border_top": true,
+            "border_bottom": false,
+            "title": "Materials",
+            "content": "<p>18/8 stainless steel, double-walled, vacuum insulated. Finish: Ceramic-coated interior, color-matched interior/exterior.</p>"
+          }
+        },
+        "accordion_item_HPhBMJ": {
+          "type": "accordion_item",
+          "settings": {
+            "border_top": true,
+            "border_bottom": true,
+            "title": "Care",
+            "content": "<p>Top-rack dishwasher safe; handwash recommended. Don’t microwave. Don’t freeze.</p>"
+          }
+        },
+        "accordion_item_4iRMcE": {
+          "type": "accordion_item",
+          "settings": {
+            "border_top": true,
+            "border_bottom": true,
+            "title": "In the box",
+            "content": "<p>1 x Wine Cup with twist-on slider lid</p>"
+          }
+        }
+      },
+      "block_order": [
+        "accordion_item_Y6hNDk",
+        "accordion_item_Q9nfhx",
+        "accordion_item_HPhBMJ",
+        "accordion_item_4iRMcE"
+      ],
+      "name": "Product Specification",
+      "settings": {
+        "background_color": "#FFFFFF",
+        "heading": "Specification Of [product]",
+        "description": "<p>A versatile, glass-free way to raise a glass, from chilled whites to bold reds, cocktails to mocktails. The ceramic-lined interior preserves subtle tasting notes.</p>",
+        "product_image": "shopify://shop_images/3-20-25_Created_Co._Ecom58015_2000x_cd38b815-9c09-4a47-a4b5-d81b72331b2d.png",
+        "mobile_product_image": "shopify://shop_images/3-20-25_Created_Co._Ecom58015_2000x_cd38b815-9c09-4a47-a4b5-d81b72331b2d.png",
+        "img_crop": false,
+        "img_height": 420,
+        "img_pos_y": 50,
+        "img_zoom": 100,
+        "img_height_mobile": 300,
+        "img_pos_y_mobile": 50,
+        "img_zoom_mobile": 100,
+        "padding_top": 48,
+        "padding_bottom": 76,
+        "padding_top_mobile": 40,
+        "mobile_padding_bottom": 40
+      }
+    },
+    "bundle_builder_v3_YEmYND": {
+      "type": "bundle-builder-v3",
+      "blocks": {
+        "collection_BUtcFz": {
+          "type": "collection",
+          "settings": {
+            "collection": "tumblers",
+            "label": ""
+          }
+        },
+        "collection_LKVnyD": {
+          "type": "collection",
+          "settings": {
+            "collection": "cold-cups",
+            "label": ""
+          }
+        },
+        "collection_W7KzkW": {
+          "type": "collection",
+          "settings": {
+            "collection": "camp-mugs",
+            "label": "Mugs"
+          }
+        },
+        "collection_iMeUKz": {
+          "type": "collection",
+          "settings": {
+            "collection": "crescent-collection",
+            "label": "Crescent"
+          }
+        },
+        "collection_8wXBf4": {
+          "type": "collection",
+          "settings": {
+            "collection": "drip-collection-1",
+            "label": "Drip"
+          }
+        }
+      },
+      "block_order": [
+        "collection_BUtcFz",
+        "collection_LKVnyD",
+        "collection_W7KzkW",
+        "collection_iMeUKz",
+        "collection_8wXBf4"
+      ],
+      "name": "Bundle Builder",
+      "settings": {
+        "eyebrow": "Start with a bundle",
+        "heading": "Build Your Own Bundle",
+        "heading_mobile": "Build your bundle",
+        "show_all_tab": true,
+        "all_tab_label": "All",
+        "products_per_collection": 24,
+        "hide_sold_out": true,
+        "max_items": 5,
+        "tier_1_quantity": 3,
+        "tier_1_percent": 20,
+        "tier_2_quantity": 5,
+        "tier_2_percent": 25,
+        "progress_add": "Add *[remaining] more [pieces]* to save [percent]%",
+        "progress_unlocked": "*[percent]% off unlocked* · add [remaining] more to save [next_percent]%",
+        "progress_max": "*[percent]% off unlocked*",
+        "tier_label_desktop": "[quantity] pcs · [percent]%",
+        "tier_label_mobile": "[quantity] pieces · [percent]% off",
+        "piece_singular": "piece",
+        "piece_plural": "pieces",
+        "badge_label": "In your bundle",
+        "add_label": "Add",
+        "added_label": "Added",
+        "summary_title": "Your bundle",
+        "count_below": "[count] of [min] pieces",
+        "count_applied": "[count] pieces · [percent]% off applied",
+        "note_add": "Add [remaining] more to save [percent]%",
+        "note_save": "You save [amount] ([percent]% off)",
+        "note_min": "Add [remaining] more [pieces] to complete your bundle",
+        "note_limit": "Your bundle is full ([max] pieces max)",
+        "submit_label": "Add bundle to cart",
+        "footnote": "Save 20% on 3+ pieces · Free shipping over $65",
+        "after_add": "drawer",
+        "background_color": "#f5f5f5",
+        "gradient_color": "#c9d7e0",
+        "accent_color": "#e25702",
+        "background_desktop": "linear-gradient(180deg, #B8CDD8 0%, rgba(246, 241, 236, 0.00) 32%), #FFF",
+        "background_mobile": "#FFF",
+        "mobile_list_height": 450,
+        "padding_top": 56,
+        "padding_bottom": 80,
+        "padding_top_mobile": 38,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "custom_faq_UYTkar": {
+      "type": "custom-faq",
+      "blocks": {
+        "faq_item_gwHBTd": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is it dishwasher safe?",
+            "answer": "<p>Top-rack dishwasher safe; handwash recommended.</p>"
+          }
+        },
+        "faq_item_WKJPLE": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I microwave or freeze it?",
+            "answer": "<p>No. Don’t microwave. Don’t freeze.</p>"
+          }
+        },
+        "faq_item_haJMiB": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does it keep drinks hot or cold?",
+            "answer": "<p>Double-walled vacuum insulation keeps beverages at the desired temperature for up to 10+ hours.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_gwHBTd",
+        "faq_item_WKJPLE",
+        "faq_item_haJMiB"
+      ],
+      "name": "Custom FAQ",
+      "settings": {
+        "image": "shopify://shop_images/faq_image_b56f0890-535b-493b-83d7-872c47f715c4.png",
+        "heading": "The answers to your questions.",
+        "tag": "Your questions",
+        "bg_color": "#ffffff"
+      }
+    },
+    "1717687094bcadf09f": {
+      "type": "apps",
+      "blocks": {
+        "okendo_reviews_widget_ERE4xn": {
+          "type": "shopify://apps/okendo/blocks/reviews-widget/bb689e69-ea70-4661-8fb7-ad24a2e23c29",
+          "settings": {
+            "product": "{{product}}",
+            "widget_type": "reviews_widget"
+          }
+        }
+      },
+      "block_order": [
+        "okendo_reviews_widget_ERE4xn"
+      ],
+      "settings": {
+        "include_margins": false
+      }
+    },
+    "product_recommended_c6K7qe": {
+      "type": "product-recommended",
+      "name": "Product recommended",
+      "settings": {
+        "background_color": "#FFFFFF",
+        "heading": "You might also like",
+        "description": "<p>Made in the same 18/8 stainless steel, finished in the same colourways.</p>",
+        "padding_top": 56,
+        "padding_bottom": 72,
+        "padding_top_mobile": 40,
+        "mobile_padding_bottom": 40
+      }
+    },
+    "store_benefits_qBGdd8": {
+      "type": "store-benefits",
+      "blocks": {
+        "icon_with_text_ArzdLV": {
+          "type": "icon-with-text",
+          "settings": {
+            "icon": "shopify://shop_images/Free_shipping.svg",
+            "title": "Free shipping over $75",
+            "text": "Ships in 1–2 business days"
+          }
+        },
+        "icon_with_text_KGW8B7": {
+          "type": "icon-with-text",
+          "settings": {
+            "icon": "shopify://shop_images/returns_Icon_d8e30cac-4502-4b1e-ab45-82e8a14ccd65.svg",
+            "title": "30-day returns",
+            "text": "Unused items, any reason"
+          }
+        },
+        "icon_with_text_Tq8kbg": {
+          "type": "icon-with-text",
+          "settings": {
+            "icon": "shopify://shop_images/warranty_Icon_7fb92b6a-ec4e-452e-93d8-4a32acb02f0c.svg",
+            "title": "Lifetime hardware warranty",
+            "text": "Lids, straws and handles"
+          }
+        },
+        "icon_with_text_9tN9rk": {
+          "type": "icon-with-text",
+          "settings": {
+            "icon": "shopify://shop_images/human_support.svg",
+            "title": "Real human support",
+            "text": "714.869.7416 · hello@created.co"
+          }
+        }
+      },
+      "block_order": [
+        "icon_with_text_ArzdLV",
+        "icon_with_text_KGW8B7",
+        "icon_with_text_Tq8kbg",
+        "icon_with_text_9tN9rk"
+      ],
+      "name": "Store Benefits",
+      "settings": {
+        "bg_color": "#ffffff",
+        "top_padding": 0,
+        "bottom_padding": 63,
+        "top_padding_mb": 0,
+        "bottom_padding_mb": 32
+      }
+    },
     "shogun-above": {
       "type": "shogun-above",
+      "disabled": true,
       "settings": {}
     },
     "main": {
@@ -39,6 +620,7 @@
         "vendor",
         "subtitle"
       ],
+      "disabled": true,
       "settings": {
         "picker_type": "button",
         "enable_sticky_info": true,
@@ -84,6 +666,17 @@
         "404bf96d-31fb-4985-8aca-ed7fac8a311b",
         "1f61d945-8706-4cfd-b5a8-ef2fa00e1218"
       ],
+      "disabled": true,
+      "settings": {}
+    },
+    "shogun-below": {
+      "type": "shogun-below",
+      "disabled": true,
+      "settings": {}
+    },
+    "shogun-optimizer": {
+      "type": "shogun-optimizer",
+      "disabled": true,
       "settings": {}
     },
     "product-recommendations": {
@@ -96,42 +689,26 @@
         "add_image_padding": false,
         "show_vendor": false
       }
-    },
-    "shogun-below": {
-      "type": "shogun-below",
-      "settings": {}
-    },
-    "shogun-optimizer": {
-      "type": "shogun-optimizer",
-      "settings": {}
-    },
-    "1717687094bcadf09f": {
-      "type": "apps",
-      "blocks": {
-        "okendo_reviews_widget_ERE4xn": {
-          "type": "shopify://apps/okendo/blocks/reviews-widget/bb689e69-ea70-4661-8fb7-ad24a2e23c29",
-          "settings": {
-            "product": "{{product}}",
-            "widget_type": "reviews_widget"
-          }
-        }
-      },
-      "block_order": [
-        "okendo_reviews_widget_ERE4xn"
-      ],
-      "settings": {
-        "include_margins": false
-      }
     }
   },
   "order": [
+    "mian_product_info_eCPHbC",
+    "sectiont_story_LPY6UW",
+    "the_lid_RX4KpG",
     "shogun-helper",
+    "scout_story_4gbnnT",
+    "inside_scout_xxrbHg",
+    "product_specification_BVGEhC",
+    "bundle_builder_v3_YEmYND",
+    "custom_faq_UYTkar",
+    "1717687094bcadf09f",
+    "product_recommended_c6K7qe",
+    "store_benefits_qBGdd8",
     "shogun-above",
     "main",
     "product-details",
-    "product-recommendations",
     "shogun-below",
-    "1717687094bcadf09f",
-    "shogun-optimizer"
+    "shogun-optimizer",
+    "product-recommendations"
   ]
 }

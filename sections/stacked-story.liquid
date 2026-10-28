@@ -1,0 +1,219 @@
+{{ 'stacked-story.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'stacked-story.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign reviews = section.blocks | where: 'type', 'review'
+  assign points = section.blocks | where: 'type', 'point'
+  assign rating_pct = section.settings.intro_rating | times: 20
+-%}
+
+<style>
+  #Stack-{{ section.id }} {
+    --stk-top: {{ section.settings.sticky_top }}px;
+    --stk-grad-top: {{ section.settings.grad_top }};
+    --stk-grad-bottom: {{ section.settings.grad_bottom }};
+    --stk-star: {{ section.settings.star_color }};
+  }
+</style>
+
+<section
+  id="Stack-{{ section.id }}"
+  class="stk{% if section.settings.shrink %} stk--shrink{% endif %}"
+  data-stack="{{ section.settings.enable_stack }}"
+>
+  {%- comment -%} ================= ROW 1 ================= {%- endcomment -%}
+  <div class="stk__row js-stk-panel" data-row="1">
+
+    {%- comment -%} Tile 1 — reviews intro {%- endcomment -%}
+    <div class="stk__tile stk__tile--intro js-stk-tile" data-order="1">
+      <div class="stk__center">
+        {%- if section.settings.intro_rating > 0 -%}
+          <span class="stk-stars stk-stars--lg" style="--rating: {{ rating_pct }}%;" aria-hidden="true"></span>
+        {%- endif -%}
+        {%- if section.settings.intro_eyebrow != blank -%}
+          <p class="stk__eyebrow">{{ section.settings.intro_eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.intro_heading != blank -%}
+          <h2 class="stk__heading">{{ section.settings.intro_heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.intro_btn_label != blank -%}
+          <a href="{{ section.settings.intro_btn_link | default: '#' }}" class="stk__btn">{{ section.settings.intro_btn_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} Tile 2 — testimonial slider on image {%- endcomment -%}
+    <div class="stk__tile stk__tile--media js-stk-tile" data-order="2">
+      {%- render 'stk-image', image: section.settings.reviews_image, image_mobile: section.settings.reviews_image_mobile -%}
+
+      {%- if reviews.size > 0 -%}
+        <div class="stk-glass stk-reviews js-stk-reviews" aria-roledescription="carousel" aria-label="Customer reviews">
+          <div class="stk-reviews__track">
+            {%- for block in reviews -%}
+              {%- assign r_pct = block.settings.rating | times: 20 -%}
+              <figure
+                class="stk-review js-stk-review{% if forloop.first %} is-active{% endif %}"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="{{ forloop.index }} of {{ reviews.size }}"
+                {% unless forloop.first %}aria-hidden="true"{% endunless %}
+                {{ block.shopify_attributes }}
+              >
+                <blockquote class="stk-review__quote">{{ block.settings.quote }}</blockquote>
+                <figcaption>
+                  <p class="stk-review__rating">
+                    <span class="stk-stars stk-stars--light" style="--rating: {{ r_pct }}%;" aria-hidden="true"></span>
+                    <span>{{ block.settings.rating }}</span>
+                    {%- if block.settings.count != blank -%}<span>({{ block.settings.count }})</span>{%- endif -%}
+                    <span class="visually-hidden">Rated {{ block.settings.rating }} out of 5</span>
+                  </p>
+                  {%- if block.settings.name != blank -%}
+                    <p class="stk-review__name">{{ block.settings.name }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.meta != blank -%}
+                    <p class="stk-review__meta">{{ block.settings.meta }}</p>
+                  {%- endif -%}
+                </figcaption>
+              </figure>
+            {%- endfor -%}
+          </div>
+
+          {%- if reviews.size > 1 -%}
+            <div class="stk-reviews__nav">
+              <button type="button" class="stk-reviews__arrow js-stk-prev" aria-label="Previous review">
+                <svg width="5" height="10" viewBox="0 0 5 10" fill="none" aria-hidden="true"><path d="M4.78 9.6H3.16L0 4.9v-.15h1.78l3 4.85ZM4.78 0 1.78 4.84H0v-.15L3.16 0h1.62Z" fill="currentColor"/></svg>
+              </button>
+              <button type="button" class="stk-reviews__arrow js-stk-next" aria-label="Next review">
+                <svg width="5" height="10" viewBox="0 0 5 10" fill="none" aria-hidden="true"><path d="M0 9.6 3 4.75h1.78v.15L1.63 9.6H0ZM0 0h1.63l3.15 4.69v.15H3L0 0Z" fill="currentColor"/></svg>
+              </button>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ================= ROW 2 ================= {%- endcomment -%}
+  <div class="stk__row js-stk-panel" data-row="2">
+
+    {%- comment -%} Tile 3 — philosophy card on image {%- endcomment -%}
+    <div class="stk__tile stk__tile--media stk__tile--philosophy js-stk-tile" data-order="3">
+      {%- render 'stk-image', image: section.settings.philosophy_image, image_mobile: section.settings.philosophy_image_mobile -%}
+
+      <div class="stk-glass stk-philosophy">
+        {%- if section.settings.philosophy_title != blank -%}
+          <h3 class="stk-philosophy__title">{{ section.settings.philosophy_title }}</h3>
+        {%- endif -%}
+        {%- if points.size > 0 -%}
+          <ol class="stk-philosophy__list">
+            {%- for block in points -%}
+              <li class="stk-point" {{ block.shopify_attributes }}>
+                <span class="stk-point__num" aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+                <div>
+                  <p class="stk-point__title">{{ block.settings.title }}</p>
+                  <p class="stk-point__text">{{ block.settings.text }}</p>
+                </div>
+              </li>
+            {%- endfor -%}
+          </ol>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} Tile 4 — about circle {%- endcomment -%}
+    <div class="stk__tile stk__tile--about js-stk-tile" data-order="4">
+      <div class="stk-circle">
+        {%- if section.settings.about_heading != blank -%}
+          <div class="stk__heading stk__heading--xl">{{ section.settings.about_heading }}</div>
+        {%- endif -%}
+        {%- if section.settings.about_subheading != blank -%}
+          <p class="stk-circle__sub">{{ section.settings.about_subheading }}</p>
+        {%- endif -%}
+        {%- if section.settings.about_text != blank -%}
+          <div class="stk-circle__text">{{ section.settings.about_text }}</div>
+        {%- endif -%}
+        {%- if section.settings.about_btn_label != blank -%}
+          <a href="{{ section.settings.about_btn_link | default: '#' }}" class="stk__btn">{{ section.settings.about_btn_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stacked story",
+  "tag": "div",
+  "class": "section-stacked-story",
+  "max_blocks": 16,
+  "settings": [
+    { "type": "header", "content": "Scroll effect" },
+    { "type": "checkbox", "id": "enable_stack", "label": "Stack on scroll", "default": true, "info": "Row 1 sticks and row 2 scrolls over it. On mobile each tile stacks." },
+    { "type": "checkbox", "id": "shrink", "label": "Shrink and dim the covered row", "default": true },
+    { "type": "range", "id": "sticky_top", "label": "Sticky top offset", "min": 0, "max": 150, "step": 2, "unit": "px", "default": 0, "info": "Use your header height if the header is sticky." },
+
+    { "type": "header", "content": "Tile 1 — Reviews intro" },
+    { "type": "range", "id": "intro_rating", "label": "Stars", "min": 0, "max": 5, "step": 0.5, "default": 5 },
+    { "type": "text", "id": "intro_eyebrow", "label": "Eyebrow", "default": "142 verified 5-star reviews" },
+    { "type": "text", "id": "intro_heading", "label": "Heading", "default": "Better Every Day." },
+    { "type": "text", "id": "intro_btn_label", "label": "Button label", "default": "Explore all" },
+    { "type": "url", "id": "intro_btn_link", "label": "Button link" },
+
+    { "type": "header", "content": "Tile 2 — Reviews slider" },
+    { "type": "image_picker", "id": "reviews_image", "label": "Desktop image" },
+    { "type": "image_picker", "id": "reviews_image_mobile", "label": "Mobile image" },
+    { "type": "paragraph", "content": "Add reviews with the Review blocks." },
+
+    { "type": "header", "content": "Tile 3 — Philosophy" },
+    { "type": "image_picker", "id": "philosophy_image", "label": "Desktop image" },
+    { "type": "image_picker", "id": "philosophy_image_mobile", "label": "Mobile image" },
+    { "type": "text", "id": "philosophy_title", "label": "Card title", "default": "Our philosophy" },
+    { "type": "paragraph", "content": "Add points with the Philosophy point blocks (numbered automatically)." },
+
+    { "type": "header", "content": "Tile 4 — About" },
+    { "type": "richtext", "id": "about_heading", "label": "Heading", "default": "<h2>Drinkware, Thoughtfully Designed.</h2>" },
+    { "type": "text", "id": "about_subheading", "label": "Subheading", "default": "About Created" },
+    { "type": "richtext", "id": "about_text", "label": "Text", "default": "<p>At Created we believe drinkware should feel simple, intentional and built to last. Every vessel is designed by artists in California and made to be used every single day.</p>" },
+    { "type": "text", "id": "about_btn_label", "label": "Button label", "default": "Read more" },
+    { "type": "url", "id": "about_btn_link", "label": "Button link" },
+
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "grad_top", "label": "Gradient top", "default": "#B8CDD8" },
+    { "type": "color", "id": "grad_bottom", "label": "Gradient bottom", "default": "#FFFFFF" },
+    { "type": "color", "id": "star_color", "label": "Stars (tile 1)", "default": "#E25702" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "“Two years of daily use and the Scout still looks new. The lid never leaks and it fits my car cup holder — which nothing else did.”" },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 0.5, "default": 5 },
+        { "type": "text", "id": "count", "label": "Review count", "default": "1" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Sarah M." },
+        { "type": "text", "id": "meta", "label": "Details", "default": "Verified buyer • 40oz Scout" }
+      ]
+    },
+    {
+      "type": "point",
+      "name": "Philosophy point",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Design first" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Rooted in mid-century design, but built for now — drawn and refined by artists in California." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stacked story",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review", "settings": { "name": "James R.", "meta": "Verified buyer • 26oz Wander" } },
+        { "type": "point", "settings": { "title": "Design first", "text": "Rooted in mid-century design, but built for now — drawn and refined by artists in California." } },
+        { "type": "point", "settings": { "title": "Quality without compromise", "text": "18/8 stainless steel, double-wall vacuum insulation and a lifetime hardware warranty." } },
+        { "type": "point", "settings": { "title": "One system, endlessly yours", "text": "Each Nomad lid is interchangeable with each Nomad base, so the cup changes as you do." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

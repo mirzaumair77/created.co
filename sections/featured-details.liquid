@@ -1,0 +1,319 @@
+{% style %}
+.featured-details__{{ section.id }}{
+    background-color:{{ section.settings.background_color }};
+    padding-top:{{ section.settings.padding_top_mob }}px;
+    padding-bottom:{{ section.settings.padding_bottom_mob }}px;
+}
+@media(min-width:769px){
+.featured-details__{{ section.id }}{
+    padding-top:{{ section.settings.padding_top }}px;
+    padding-bottom:{{ section.settings.padding_bottom }}px;
+}
+}
+.featured-details__header{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    flex-direction:column;
+    gap:21px;
+    padding-bottom:12px;
+
+}
+.featured-details__wrap{
+    width:100%;
+    max-width:100%;
+    
+}
+.featured-details__subtitle p{
+    color:#6E797F;
+    font-size: 12px;
+    line-height: 15px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    margin:0;
+
+}
+.featured-details__heading{
+    padding-top:13px;
+}
+.featured-details__heading h2{
+    font-family: canela, serif;
+    color:#0E1F2A;
+    font-size: 30.6px;
+    line-height: 30.6px;
+    font-weight: 300;
+    letter-spacing: -1.3px;
+    margin:0;
+
+}
+.featured-details__description{
+    width:100%;
+    max-width:100%;
+}
+.featured-details__description p{
+    color:#6E797F;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0px;
+    margin:0;
+}
+.featured-details__main{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:16px;
+    
+}
+.featured-details__card{
+    border-radius:12px;
+    overflow:hidden;
+    position:relative;
+}
+.featured-details__card-image img{
+    width:100%;
+    height:auto;
+    object-fit:cover;
+}
+.featured-details__card-content{
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius:20px;
+    position:absolute;
+    bottom:15px;
+    left:15px;
+    right:16px;
+    padding:20px 42px 23px 24px;
+     backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+    background: #0E1F2A26;
+}
+.featured-details__card-title{
+    border-bottom:1px solid #0E1F2A1F;
+    width:100%;
+    max-width:100%;
+    padding-bottom:9px;
+}
+.featured-details__card-title h4{
+    color:#FFFFFF;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 17px;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+
+}
+.featured-details__card-text{
+    padding-top:11px;
+}
+.featured-details__card-text p{
+    color:#FFFFFF;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: 0px;
+    margin:0;
+}
+@media(min-width:769px){
+.featured-details__header{
+    flex-direction:row;
+    padding-bottom:31px;
+
+}
+.featured-details__wrap{
+    max-width:720px;
+    
+}
+.featured-details__heading{
+    padding-top:20px;
+}
+.featured-details__heading h2{
+    font-size: 51px;
+    line-height: 51px;
+    letter-spacing: -2.16px;
+
+}
+.featured-details__description{
+    max-width:532px;
+}
+.featured-details__description p{
+    font-size: 16px;
+    line-height: 22px;
+}
+.featured-details__main{
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+    
+}
+.featured-details__card-content{
+    bottom:14px;
+    left:15px;
+    right:18px;
+    padding:25px 27px 26px 27px;
+}
+.featured-details__card-title{
+    max-width:250px;
+    padding-bottom:8px;
+}
+.featured-details__card-title h4{
+    font-size: 17px;
+}
+.featured-details__card-text{
+    padding-top:9px;
+}
+}
+{% endstyle %}
+<div class="featured-details featured-details__{{ section.id }}">
+    <div class="site-container" >
+        <div class="featured-details__header">
+            <div class="featured-details__wrap">
+                {% if section.settings.subtitle !=blank %}
+                  <div class="featured-details__subtitle">
+                    <p>{{ section.settings.subtitle }} </p>
+                </div>
+                {% endif %}
+                {% if section.settings.heading !=blank %}
+                  <div class="featured-details__heading">
+                    <h2>{{ section.settings.heading }} </h2>
+                </div>
+                {% endif %}
+                
+            </div>
+            {% if section.settings.description !=blank %}
+                <div class="featured-details__description">
+                     {{ section.settings.description }} 
+                </div>
+                {% endif %}
+        </div>
+        <div class="featured-details__main">
+            {% for block in section.blocks %}
+              <div class="featured-details__card">
+                {% if block.settings.image !=blank %}
+                  <div class="featured-details__card-image">
+                    {{ block.settings.image | image_url: width: 500 | image_tag: alt:block.settings.image.alt }}
+                  </div>
+                {% endif %}
+                <div class="featured-details__card-content">
+                    {% if block.settings.title !=blank %}
+                  <div class="featured-details__card-title">
+                    <h4>{{ block.settings.title }} </h4>
+                  </div>
+                {% endif %}
+                 {% if block.settings.text !=blank %}
+                  <div class="featured-details__card-text">
+                     {{ block.settings.text }}
+                  </div>
+                {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% schema %}
+{
+  "name": "Featured Details",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "FEATURED DETAILS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<h2>Inside Every Scout</h2>"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Every detail in a created vessel is drawn, tested and refined in-house before it ships.</p>"
+    },
+    {
+        "type": "header",
+        "content": "Color",
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+     {
+        "type": "header",
+        "content": "Padding",
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 53
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "label": "Top padding Mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mb",
+      "label": "Bottom Padding Mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Feature card",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Select a Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Details",
+    }
+  ]
+}
+{% endschema %}
