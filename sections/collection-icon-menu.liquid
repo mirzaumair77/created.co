@@ -1,0 +1,123 @@
+{% if collection.handle == "ceramics" or collection.handle == "accessories-1" %}{% else %}
+
+<div class="max-w-1440 mx-auto collectionChildNav">
+<style>
+.collectionChildNav {
+	margin-top: 2.5rem;
+	margin-bottom: 2.5rem;
+}
+ul#subCollection {
+	display: flex;
+	justify-content: center;
+    gap: 10px;
+	padding: 0 1rem;
+}
+.collection-title {
+	margin-top: 8px;
+    text-transform:uppercase;
+  border-bottom: 1px solid transparent;
+}
+
+li.collection-item {
+	width: 15%;
+	text-align: center;
+}
+li.collection-item img {
+	margin: auto;
+	width:100%;
+}
+.collection-icon {
+	display: flex;
+    align-items: center;
+}
+.collection-item-active .collection-title{
+      border-bottom: 1px solid #000;
+      display: inline-block;
+}
+@media(max-width:1024px){
+ul#subCollection {
+		  justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+          padding-bottom: 20px;
+	}
+      li.collection-item {
+        flex: 0 0 20%;
+    }
+}
+  
+@media (max-width: 768px) {
+	ul#subCollection {
+		width: 100%;
+		padding-bottom: 16px;
+	}
+
+	li.collection-item {
+		flex: 0 0 30%;
+		max-width: 100%;
+        order: 2;
+	}
+  li.collection-item.collection-item-active {
+    order: 1;
+}
+}
+@media (max-width: 500px) {
+  li.collection-item {
+		flex: 0 0 33%;
+	}
+}
+</style>  
+
+
+  {%- for block in section.blocks -%}
+      <ul id="subCollection">
+        {% for link in block.settings.collection_menu.links %}
+          {% assign collection_handle = link.object.handle %}
+          {% assign collectionSlug = collections[collection_handle] %}
+          {% assign menu_link = link.url | remove:"/collections/" %}
+          <li class="collection-item  {% if collection.handle == menu_link %} collection-item-active {% endif %}">
+            <a href="{{ link.url }}">
+              {% if collectionSlug.metafields.custom.collection_icon %}
+                <div class="collection-icon"><img src="{{ collectionSlug.metafields.custom.collection_icon | img_url: '100x100' }}" alt="{{ link.title }} icon"></div>
+              {% endif %}
+              <div class="collection-title">{{ link.title }}</div>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% schema %}
+ {
+    "name": "Collection Icon Menu",
+    "settings": [
+    
+    ],
+   "blocks": [
+    {
+      "name": "Menu",
+      "type": "menu",
+      "settings": [
+        {
+          "type": "html",
+          "id": "collection_handle",
+          "label": "Collection Handle",
+          "info": "add collection handle with comma sperated ( eg. collecton_1,collection2)"
+        },
+        {
+          "type": "link_list",
+          "id": "collection_menu",
+          "label": "Collection Menu"
+        }
+      ]
+    }
+  ],
+    "presets": [
+      {
+        "name": "Collection Icon Menu"
+      }
+    ]
+  }
+{% endschema %}

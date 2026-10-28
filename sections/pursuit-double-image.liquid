@@ -1,0 +1,168 @@
+<style>
+  .double_image_{{ section.id }} {
+    padding:100px 0;
+  }
+  .double_image_{{ section.id }} .di_inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+        justify-items: center;
+}
+ .double_image_{{ section.id }}  .di_media_item_width {
+    max-width: 460px;
+}
+  @media(min-width:769px){
+ .double_image_{{ section.id }}   img.double_img {
+    display: block;
+    margin: 0 auto;
+} 
+  }
+  
+.double_image_{{ section.id }} .di_content {
+    margin-top: 44px;
+}
+.double_image_{{ section.id }}  .di_content p {
+    font-family: grotesque, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: 18px;
+} 
+
+  @media(max-width:769px){
+  .double_image_{{ section.id }}   .di_content.double_hide_mobile{
+      display:none;
+    }
+   .double_image_{{ section.id }}  .di_inner {
+    grid-template-columns: 1fr;
+    justify-items: unset;
+}
+   .double_image_{{ section.id }}  .double_image {
+    padding: 66px 0;
+}
+   .double_image_{{ section.id }}  .di_content {
+    margin-top: 30px;
+}
+  .double_image_{{ section.id }}   .di_inner {
+    row-gap: 61px;
+}
+
+  .double_image_{{ section.id }}   img.double_img {
+    display: unset;
+}
+ .double_image_{{ section.id }}    .di_media_item_width {
+    /* float: right; */
+    max-width: 80%;
+}
+ .double_image_{{ section.id }}  .flot_left {
+    float: left;
+}
+ .double_image_{{ section.id }}  .flot_right {
+    float: right;
+}
+  }  
+</style>
+
+
+<section class=" double_image double_image_{{ section.id }}" style="background:{{ section.settings.bg_color }};">
+  <div class="double-image-main site-container">
+    <div class="di_inner {% if section.settings.reverse_row == true %}double_mobile_revers {% endif %}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'media_with_content' -%}
+            <div class="di_media_item di_media_with_content">
+              <div class="di_media_item_width flot_{{ forloop.index }} {% if block.settings.image_align_mobile == "left" %} flot_left{% else %}flot_right{% endif %}">
+              {% if block.settings.image != blank %}
+              <div class="di_media">
+                <img src="{{ block.settings.image | image_url }}" class="double_img" width="" height="" alt="{{ block.settings.image.alt }}">
+              </div>
+              {% endif %}
+              {% if block.settings.description != blank %}
+              <div class="di_content {% if block.settings.hide_text_mobile == true %} double_hide_mobile{% endif %}" style="color:{{ block.settings.text_color }};" >
+                 {{ block.settings.description }} 
+              </div>
+              {% endif %}
+              </div>
+            </div>
+          
+        {% endcase %}  
+      {% endfor %} 
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+{% schema %}
+  {
+  "name": "Pursuit double image",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "BG Color",
+      "default": "#fff"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse_row",
+      "label": "Row Reverse Mobile",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Media with content",
+      "type": "media_with_content",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "image_align_mobile",
+          "label": "Image Align Mobile",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#000"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_text_mobile",
+          "label": "Hide Text Mobile",
+          "default": false
+        }
+      ]
+    },
+    
+  ],
+  "presets": [
+    {
+      "name": "Pursuit double image"
+    }
+  ]
+}  
+{% endschema %}

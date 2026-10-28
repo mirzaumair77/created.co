@@ -1,0 +1,121 @@
+<div class="wholesale-page">
+  <section class="wholesale__header px-16 tablet:px-32 laptop:pt-16 max-w-screen-desktop mx-auto">
+    {% if section.settings.img == blank and section.settings.img_desktop == blank %}
+      {% assign no_image = true %}
+    {% endif %}
+    <div class="wholesale-header__banner relative flex justify-center items-center">
+      {% if section.settings.title_one != blank or section.settings.title_two != blank %}
+        <div class="wholesale-header__title text-38 tablet:text-70 desktop:text-98 text-center leading-tight w-3/4
+          {% if no_image %}text-black{% else %} absolute text-white{% endif %}">
+          <span class="font-canela">{{ section.settings.title_one }}</span>
+          <span class="font-grotesque text-40 tablet:text-72 desktop:text-100 font-semibold">{{ section.settings.title_two }}</span>
+        </div>
+      {% endif %}
+      {% if no_image != true %}
+        <div class="wholesale-header__img w-full">
+          {% render 'lazy-image', image: section.settings.img, image_desktop: section.settings.img_desktop %}
+        </div>
+      {% endif %}
+    </div>
+    {% if section.settings.text != blank %}
+      <p class="wholesale-header__text text-18 py-24 border-b border-black mb-16 laptop:py-38 laptop:mb-20">
+        {{ section.settings.text }}
+      </p>
+    {% endif %}
+  </section>
+  <section class="wholesale__contact-form px-16 tablet:px-32 max-w-screen-desktop mx-auto">
+    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
+<script>
+  hbspt.forms.create({
+    region: "na1",
+    portalId: "41774798",
+    formId: "6973e4c1-e9f7-44c3-a061-72313cd36bf8"
+  });
+</script>
+    <!-- <form name="insightly_web_to_lead" action="https://crm.na1.insightly.com/WebToLead/Create" method="post">
+      <input type="hidden" name="formId" value="M1uHRJsHGrikHA/DK9dM5Q==" />
+      <div class="tablet:grid tablet:grid-cols-2 tablet:gap-x-28">
+        <div class="mb-20 tablet:mb-16">
+          <label for="insightly_firstName" class="form__label">Name</label>
+          <input id="insightly_firstName" class="form__element" name="FirstName" type="text" placeholder="First" />
+        </div>
+        <div class="mb-16 tablet:flex tablet:items-end">
+          <label for="insightly_lastName" class="form__label visually-hidden">Last Name: </label>
+          <input id="insightly_lastName" class="form__element" name="LastName" type="text" placeholder="Last" />
+        </div>
+        <div class="mb-16">
+          <label for="insightly_organization" class="form__label">Company Name</label>
+          <input id="insightly_organization" class="form__element" name="OrganizationName" type="text" />
+        </div>
+        <div class="mb-16">
+          <label for="insightly_Email" class="form__label">Email</label>
+          <input id="insightly_Email" class="form__element" name="email" type="text" />
+        </div>
+        <div>
+          <label for="insightly_Phone" class="form__label">Phone Number</label>
+          <input id="insightly_Phone" class="form__element" name="phone" type="text" />
+        </div>
+        <div class="visually-hidden">
+          <label for="insightly_Title" class="form__label">Title</label>
+          <input id="insightly_Title" class="form__element" name="Title" type="text" />
+        </div>
+        <div class="visually-hidden">
+          <label for="insightly_Description" class="form__label">Description</label>
+          <textarea id="insightly_Description" class="form__element" name="Description" type="text"></textarea>
+        </div>
+      </div>
+      <input type="hidden" id="insightly_ResponsibleUser" name="ResponsibleUser" value="1271080" />
+      <input type="hidden" id="insightly_LeadSource" name="LeadSource" value="2107862" />
+      <div class="mt-32 laptop:mt-24 text-center tablet:flex tablet:justify-between tablet:items-center">
+        <input type="submit" value="Submit" class="btn px-36" />
+        <p class="text-14 mt-16 tablet:mt-0">Already a wholesale customer? Click 
+          <a href="/account/login" class="underline laptop:hover:no-underline">here</a> to login.</p>
+      </div>
+    </form> -->
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Wholesale Page",
+  "settings": [
+      {
+        "type": "header",
+        "content": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "img",
+        "label": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "img_desktop",
+        "label": "Image - Desktop"
+      },
+      {
+        "type": "header",
+        "content": "Title"
+      },
+      {
+        "type": "text",
+        "id": "title_one",
+        "label": "Title - 1"
+      },
+      {
+        "type": "text",
+        "id": "title_two",
+        "label": "Title - 2"
+      },
+      {
+        "type": "header",
+        "content": "Description"
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "Description"
+      }
+    ]
+}
+{% endschema %}

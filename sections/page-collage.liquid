@@ -1,0 +1,119 @@
+<section class="collage mt-120">
+	{% if section.settings.section_title != blank or section.settings.section_title_2 != blank %}
+		<h2 class="text-center mb-60"><span class="text-62">{{ section.settings.section_title | upcase }}</span><br class="block tablet:hidden"><span class="text-60 font-canela font-thin"> {{ section.settings.section_title_2 | upcase }}</span></h2>
+	{% endif %}
+	{% if section.settings.subtitle != blank %}
+		<span class="block text-30 tablet:text-42 font-canela font-thin text-center">{{ section.settings.subtitle }}</span>
+	{% endif %}
+	<div class="collab__images relative overflow-hidden px-16 desktop:px-0 pb-72 desktop:pb-0">
+		{% for block in section.blocks %}
+			<div class="collab-image__item absolute my-24 desktop:my-0 max-w-full" style="--top: {{ block.settings.top }}%; --left: {{ block.settings.left }}%; --max-width: {{ block.settings.width }}px; --z-index: {{ block.settings.z_index }}; --mob-top: {{ block.settings.mob_top }}%; --mob-left: {{ block.settings.mob_left }}%; --mob-max-width: {{ block.settings.mob_width }}px; --mob-z-index: {{ block.settings.mob_z_index }};">
+				{% render 'lazy-image', image: block.settings.image %}
+			</div>
+		{% endfor %}
+	</div>
+</section>
+
+{% schema %}
+{
+	"name": "Collage",
+	"settings": [
+		{
+			"type": "text",
+			"id": "section_title",
+			"label": "Section title 1",
+			"info": "Grotesque off-white"
+		},
+		{
+			"type": "text",
+			"id": "section_title_2",
+			"label": "Section title 2",
+			"info": "Canela thin"
+		},
+		{
+			"type": "richtext",
+			"id": "subtitle",
+			"label": "Subtitle"
+		}
+	],
+	"blocks": [
+		{
+			"name": "Collage Image",
+			"type": "collage_image",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image"
+				},
+				{
+					"type": "header",
+					"content": "Desktop Values"
+				},
+				{
+					"type": "range",
+					"id": "top",
+					"label": "Top",
+					"default": 0,
+					"min": 0,
+					"max": 100,
+					"step": 1
+				},
+				{
+					"type": "range",
+					"id": "left",
+					"label": "Left",
+					"default": 0,
+					"min": 0,
+					"max": 100,
+					"step": 1
+				},
+				{
+					"type": "text",
+					"id": "width",
+					"label": "Width in pixels"
+				},
+				{
+					"type": "text",
+					"id": "z_index",
+					"label": "Z-Index",
+					"default": "1"
+				},
+				{
+					"type": "header",
+					"content": "Mobile Values"
+				},
+				{
+					"type": "range",
+					"id": "mob_top",
+					"label": "Top (Mobile)",
+					"default": 0,
+					"min": 0,
+					"max": 100,
+					"step": 1
+				},
+				{
+					"type": "range",
+					"id": "mob_left",
+					"label": "Left (Mobile)",
+					"default": 0,
+					"min": 0,
+					"max": 100,
+					"step": 1
+				},
+				{
+					"type": "text",
+					"id": "mob_width",
+					"label": "Width in pixels (Mobile)"
+				},
+				{
+					"type": "text",
+					"id": "mob_z_index",
+					"label": "Z-Index (Mobile)",
+					"default": "1"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

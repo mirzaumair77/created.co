@@ -1,0 +1,140 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "cafe-cups",
+      "blocks": {
+        "19507bcd-681c-4f23-a831-facbf64314d4": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/created-co-stainless-family-group-01.jpg",
+            "title_1": "STAINLESS",
+            "title_2": "COLLECTION",
+            "body_text": "Where form meets function. When it came to designing our travel mugs, we couldn’t compromise — not just because we want them to be great, but because we need the objects we move through the world with to reflect our style and our values. \n<br>\n<br>\nCreated to withstand the realities of life, you only need one, but we spent a lot of time on color so we get it.",
+            "button_text": "Shop Collection",
+            "button_link": "#"
+          }
+        },
+        "6ae716c9-fed7-497e-bd63-64d1e9b44ef8": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/TheCreatedCo-1615-3000px_a78405b8-ebaf-49a2-9aa9-3c9df26ee745.jpg",
+            "title_1": "ANGULAR",
+            "title_2": "COLLECTION",
+            "body_text": "Made to be held, loved, and lingered over, the Angular Collection started with a theory and took its shape from there. A figure created by two lines extending from a common point — like us and you — we usually think they’re moving away from one another, but what if they were coming together? \n<br>\n<br>\nPurposefully created with sharp angles and bold lines, this collection can endure the long hours at work and happily cozy up at home.",
+            "button_text": "Shop Collection",
+            "button_link": "#"
+          }
+        },
+        "e7b7248a-4db9-4fc5-a909-685412ee03e9": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/J7A3733-3000px.jpg",
+            "title_1": "DRIP",
+            "title_2": "COLLECTION",
+            "body_text": "Rounded, inviting, organic. The Drip Collection is like a day with nowhere to be and all the time in the world. Like a cup of brewed coffee, it’s relaxed and free flowing — no complicated mechanics or fancy espresso machines necessary. \n<br>\n<br>\nSmooth edges, wide mouths, easy-to-grip handles.  Enjoy the space.",
+            "button_text": "Shop Collection",
+            "button_link": "#"
+          }
+        }
+      },
+      "block_order": [
+        "19507bcd-681c-4f23-a831-facbf64314d4",
+        "6ae716c9-fed7-497e-bd63-64d1e9b44ef8",
+        "e7b7248a-4db9-4fc5-a909-685412ee03e9"
+      ],
+      "settings": {
+        "hero_image": "shopify://shop_images/TheCreatedCo-1926-3000px_v2.png",
+        "hero_text_1": "",
+        "hero_text_2": "",
+        "icons_section_title": "",
+        "icon_svg_1": "",
+        "icon_title_1": "",
+        "icon_text_1": "",
+        "icon_svg_2": "",
+        "icon_title_2": "",
+        "icon_text_2": "",
+        "icon_svg_3": "",
+        "icon_title_3": "",
+        "icon_text_3": "",
+        "icon_svg_4": "",
+        "icon_title_4": "",
+        "icon_text_4": "",
+        "icons_button_text": "",
+        "icons_button_link": "#"
+      }
+    },
+    "carousel": {
+      "type": "text-with-carousel",
+      "blocks": {
+        "50055854-b127-4586-96fc-4dcb9384cf07": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/carouesl_desk_3x_551fbc35-1430-43d3-8a54-3a96a84e6753.png"
+          }
+        },
+        "93bd2f05-a2e6-46ae-af8f-fe59fdfb491a": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/carouesl_desk_3x_551fbc35-1430-43d3-8a54-3a96a84e6753.png"
+          }
+        },
+        "11ee177f-48fc-410e-b05c-f4e7fe4bfab9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/carouesl_desk_3x_551fbc35-1430-43d3-8a54-3a96a84e6753.png"
+          }
+        },
+        "fce701d8-4029-4f53-bff8-5dd4dca4f090": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/carouesl_desk_3x_551fbc35-1430-43d3-8a54-3a96a84e6753.png"
+          }
+        }
+      },
+      "block_order": [
+        "50055854-b127-4586-96fc-4dcb9384cf07",
+        "93bd2f05-a2e6-46ae-af8f-fe59fdfb491a",
+        "11ee177f-48fc-410e-b05c-f4e7fe4bfab9",
+        "fce701d8-4029-4f53-bff8-5dd4dca4f090"
+      ],
+      "settings": {
+        "svg_main_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 735.95 268.58\"><defs><style>.header-text-cls-1,.header-text-cls-14{font-size:116.3px;font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;font-weight:500;}.header-text-cls-1,.header-text-cls-10,.header-text-cls-14,.header-text-cls-7{fill:#e6e6e6;}.header-text-cls-2{letter-spacing:-0.02em;}.header-text-cls-3{letter-spacing:-0.01em;}.header-text-cls-4{letter-spacing:-0.1em;}.header-text-cls-5{letter-spacing:-0.02em;}.header-text-cls-6{letter-spacing:0em;}.header-text-cls-10,.header-text-cls-7{font-size:111.26px;font-weight:200;}.header-text-cls-7{font-family:Canela-ThinItalic, Canela;font-style:italic;}.header-text-cls-8{letter-spacing:0.02em;}.header-text-cls-9{letter-spacing:0em;}.header-text-cls-10{font-family:Canela-Thin, Canela;}.header-text-cls-11{letter-spacing:-0.03em;}.header-text-cls-12{letter-spacing:0.01em;}.header-text-cls-13{letter-spacing:0.02em;}.header-text-cls-14{letter-spacing:-0.01em;}.header-text-cls-15{letter-spacing:-0.01em;}</style></defs><title>Asset 5</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"header-text-cls-1\" transform=\"translate(0 98.86)\"><tspan class=\"header-text-cls-2\">C</tspan><tspan class=\"header-text-cls-3\" x=\"87.23\" y=\"0\">R</tspan><tspan x=\"164.68\" y=\"0\">E</tspan><tspan class=\"header-text-cls-4\" x=\"237.83\" y=\"0\">A</tspan><tspan x=\"311.22\" y=\"0\">T</tspan><tspan class=\"header-text-cls-5\" x=\"381.46\" y=\"0\">E</tspan><tspan class=\"header-text-cls-6\" x=\"452.76\" y=\"0\">D </tspan></text><text class=\"header-text-cls-7\" transform=\"translate(560.5 98.86)\"><tspan class=\"header-text-cls-8\">w</tspan><tspan class=\"header-text-cls-9\" x=\"60.19\" y=\"0\">it</tspan><tspan x=\"109.59\" y=\"0\">h </tspan></text><text class=\"header-text-cls-10\" transform=\"translate(67.06 227.81)\"><tspan class=\"header-text-cls-11\">Y</tspan><tspan class=\"header-text-cls-12\" x=\"60.19\" y=\"0\">O</tspan><tspan class=\"header-text-cls-13\" x=\"151.53\" y=\"0\">U</tspan><tspan x=\"229.86\" y=\"0\"> </tspan></text><text class=\"header-text-cls-7\" transform=\"translate(315.72 227.81)\">in </text><text class=\"header-text-cls-14\" transform=\"translate(402.95 227.76)\">MI<tspan class=\"header-text-cls-15\" x=\"135.84\" y=\"0\">N</tspan><tspan class=\"header-text-cls-6\" x=\"220.27\" y=\"0\">D</tspan></text></g></g></svg>",
+        "svg_body_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 557.06 112.01\"><defs><style>.body-text-cls-1{font-size:93.27px;font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;font-weight:500;}.body-text-cls-1,.body-text-cls-3{fill:#fff;}.body-text-cls-2{letter-spacing:0.01em;}.body-text-cls-3{font-size:90.26px;font-family:Canela-Thin, Canela;font-weight:200;}.body-text-cls-4{letter-spacing:0.02em;}.body-text-cls-5{letter-spacing:0.03em;}.body-text-cls-6{letter-spacing:0.03em;}.body-text-cls-7{letter-spacing:0.01em;}.body-text-cls-8{letter-spacing:0.02em;}</style></defs><title>Asset 6</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"body-text-cls-1\" transform=\"translate(0 79.28)\"><tspan class=\"body-text-cls-2\">G</tspan><tspan x=\"74.33\" y=\"0\">O</tspan></text><text class=\"body-text-cls-3\" transform=\"translate(148.11 79.28)\"><tspan class=\"body-text-cls-4\"> </tspan><tspan class=\"body-text-cls-5\" x=\"15.34\" y=\"0\">C</tspan><tspan class=\"body-text-cls-6\" x=\"85.47\" y=\"0\">U</tspan><tspan class=\"body-text-cls-7\" x=\"149.92\" y=\"0\">S</tspan><tspan class=\"body-text-cls-8\" x=\"198.84\" y=\"0\">TO</tspan><tspan x=\"332.87\" y=\"0\">M</tspan></text></g></g></svg>",
+        "body_text_1": "Lorem ipsum dolor sit amet, consectetur adipiscing elito, eiusmod tempor incididunt ut labore et dolore magna aliqua. Loom enim ad minim lorem ipsum polares.",
+        "body_text_2": "Eusmod tempor incididunt ut labore et dolore magna aliqua. Loom enim ad minim lorem ipsum polares.",
+        "button_url": "shopify://pages/created-custom",
+        "button_text": "Learn More"
+      }
+    },
+    "footer": {
+      "type": "page-footer",
+      "settings": {
+        "bg_color": "",
+        "footer_title_1": "SHOP COLLECTIONS",
+        "footer_title_2": "WHOLESALE",
+        "footer_svg_title": "",
+        "footer_text": "Created for the creators. We’re here to help stock you up. Whether you’ve got a coffee shop or just a ton of friends, we make it easy to look great and never compromise. Your merch should reflect your values and, of course, share your style. \n<br>\n<br>\nNot sure how much or what to buy? Don’t worry, you’re not the first.",
+        "font": "serif",
+        "footer_text_padding": true,
+        "footer_link": "#",
+        "footer_link_text": "SHOP WHOLESALE",
+        "extra_spacing": false,
+        "button_below": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "carousel",
+    "footer"
+  ]
+}

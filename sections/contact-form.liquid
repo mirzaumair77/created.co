@@ -1,0 +1,84 @@
+<div class="contact-form px-16 tablet:px-32 max-w-screen-desktop mx-auto">
+  {%- form 'contact', id: 'ContactForm' -%}
+    {%- if form.posted_successfully? -%}
+      <div class="form-status mb-16 font-canela" tabindex="-1" autofocus>{{ 'templates.contact.form.post_success' | t }}</div>
+    {%- elsif form.errors -%}
+      <ul class="form-status-list mb-16" role="list">
+        <li class="form__errors">
+          <a href="#ContactForm-email" class="link">
+            {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+          </a>
+        </li>
+      </ul>
+    {%- endif -%}
+    <div class="contact__fields">
+      <div class="tablet:flex tablet:gap-28 tablet:items-end">
+        <div class="field tablet:w-full">
+          <label class="form__label" for="ContactForm-fname">Name*</label>
+          <input class="form__element" autocomplete="first name" type="text" id="ContactForm-fname" name="contact[fname]" value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.fist_name }}{% endif %}" placeholder="First" required>
+        </div>
+        <div class="field tablet:w-full mt-20 tablet:mt-16">
+          <label class="form__label visually-hidden" for="ContactForm-lname">Last Name*</label>
+          <input class="form__element" autocomplete="last name" type="text" id="ContactForm-lname" name="contact[lname]" value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}" placeholder="Last" required>
+        </div>
+      </div>
+      <div class="field field--with-error mt-16">
+        <label class="form__label" for="ContactForm-email">Email<span aria-hidden="true">*</span></label>
+        <input
+          autocomplete="email"
+          type="email"
+          id="ContactForm-email"
+          class="form__element"
+          name="contact[email]"
+          spellcheck="false"
+          autocapitalize="off"
+          value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+          aria-required="true"
+          {% if form.errors contains 'email' %}
+            aria-invalid="true"
+            aria-describedby="ContactForm-email-error"
+          {% endif %}
+          required
+        >
+        {%- if form.errors contains 'email' -%}
+          <small class="contact__field-error" id="ContactForm-email-error">
+            <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+            <span class="form__message">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</span>
+          </small>
+        {%- endif -%}
+      </div>
+      <div class="field mt-16">
+        <label class="form__label" for="ContactForm-subject">Subject*</label>
+        <input class="form__element" autocomplete="subject" type="text" id="ContactForm-subject" name="contact[subject]" required>
+      </div>
+      <div class="field mt-16">
+        <label for="form__label" class="form__label">Message*</label>
+        <textarea
+          rows="5"
+          id="ContactForm-body"
+          class="text-area form__element resize-none"
+          name="contact[message]"
+          required
+        >
+          {{- form.body -}}
+        </textarea>
+      </div>
+    </div>
+    <div class="contact__button text-center mt-32 laptop:mt-24">
+      <button type="submit" class="button btn px-36">SUBMIT</button>
+    </div>
+  {%- endform -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.contact-form.name",
+  "tag": "section",
+  "class": "spaced-section",
+  "presets": [
+    {
+      "name": "t:sections.contact-form.presets.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,28 @@
+<drawer-component id="MobileNavDrawer" class="overflow-y-scroll" position='right' open="[js-open-mobile-nav]" close="[js-close-mobile-nav]">
+  <button js-close-mobile-nav class="text-white w-32 absolute top-32 right-32">{% render 'icon-close' %}</button>
+  <ul class="my-0 mx-auto px-8 py-16 px-32">
+    {% for link in linklists[settings.navigation_menu].links %}
+      <li class="text-white text-56 tablet:text-80 uppercase {% if forloop.first %}pt-36{% else %}pt-16{% endif %} pb-16 tablet:pt-62 tablet:pb-22 border-b border-b-white bg-black">
+        {% if link.levels > 0 %}
+        <s-accordion data-manual-collapse="false" js-accordion>
+          <div class="accordion-item leading-none tablet:flex items-end justify-items-start flex-wrap" js-accordion-item>
+            <button class="overflow-visible accordion-header inline-block tablet:leading-regulate uppercase tablet:pointer-events-none font-semibold" aria-expanded="false" aria-controls="accordion-content" js-accordion-header>{{ link.title }}</button>
+            <div id="accordion-content" class="accordion-content duration-500 overflow-hidden h-0 tablet:block" aria-hidden="true" js-accordion-content>
+              <ul class="flex flex-col tablet:flex-row items-start tablet:items-end justify-items-start tablet:pt-0 pl-16 w-full tablet:w-auto">
+                {% for child_link in link.links %}
+                  <li class="text-white uppercase text-20 font-light leading-none pt-16{% unless forloop.last %} tablet:pb-0 tablet:pr-8{% endunless %} tablet:block"><a href="{{ child_link.url }}">{{ child_link.title }}</a></li>
+                  {% unless forloop.last %}<span class="text-20 pr-8 font-light leading-none hidden tablet:block">|</span>{% endunless %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </s-accordion>
+        {% else %}
+          <div class="leading-none">
+            <a href="{{ link.url }}" class="inline-block leading-none uppercase font-semibold text-56 tablet:text-80 tablet:leading-regulate">{{ link.title }}</a>
+          </div>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</drawer-component>

@@ -1,0 +1,580 @@
+<style>
+    .bundle-discount_list {
+    background: #efefef;
+    position: relative;
+}
+  
+  .discount_section.bundle-discount_{{ section.id }} {
+    background: {{ section.settings.bg_color }};
+  }
+
+  .discount_section.bundle-discount_{{ section.id }} .discount_heading h2 {
+    font-size: {{ section.settings.heading_size }}px;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .discount_section.bundle-discount_{{ section.id }} .discount_result .heading h2 {
+    font-size: {{ section.settings.result_heading_size }}px;
+    color: {{ section.settings.result_heading_color }};
+  }
+
+  .discount_section.bundle-discount_{{ section.id }} .discount_result .discount_button button {
+    font-size: {{ section.settings.button_size }}px;
+    color: {{ section.settings.button_text_color }};
+    background: {{ section.settings.button_bg_color }};
+  }
+
+  @media only screen and (max-width: 500px) {
+
+    .discount_section.bundle-discount_{{ section.id }} .discount_heading h2 {
+      font-size: {{ section.settings.heading_size_mb }}px;
+    }
+
+    .discount_section.bundle-discount_{{ section.id }} .discount_result .heading h2 {
+      font-size: {{ section.settings.result_heading_size_mb }}px;
+    }
+
+    .discount_section.bundle-discount_{{ section.id }} .discount_result .discount_button button {
+      font-size: {{ section.settings.button_size_mb }}px;
+    }
+  }
+
+  .discount_section.bundle-discount_{{ section.id }} {
+    border-top: 2px solid #000000;
+    padding: 13px 16px 17px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    background-color: #fff;
+  }
+
+  .discount_section .container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .discount_section_bundle_main .discount_heading h2 {
+    font-family: canela, serif;
+    line-height: normal;
+    text-align: center;
+  }
+
+  .discount_section_bundle_main .discount_products_main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 15px 0 0;
+    position: sticky;
+    top: 0;
+  }
+
+  .discount_section_bundle_main .discount_products_main .discount_list img {
+    width: 100%;
+    max-width: 83px;
+    display: flex;
+  }
+
+  .discount_section_bundle_main .discount_result .heading h2 {
+    font-family: canela, serif;
+    line-height: normal;
+    text-align: center;
+    padding: 20px 0 14px;
+  }
+
+  .discount_section_bundle_main .discount_result .discount_button {
+    text-align: center;
+  }
+
+  .discount_section_bundle_main .discount_result .discount_button button {
+    max-width: 230px;
+    width: 100%;
+    display: inline-block;
+    padding: 15px 10px;
+    font-family: grotesque, sans-serif;
+    font-weight: 700;
+    line-height: normal;
+    text-align: center;
+    min-height: 32px;
+  }
+    .remove_product {
+    position: absolute;
+    right: 12px;
+    top: 2px;
+}
+  .remove_product svg {
+    color: #000;
+    width: 15px;
+}
+.discount_button_atc[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+  .bundle-total_price {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+  .bundle-total_price .original_price {
+    text-decoration: line-through;
+}
+</style>
+
+<div class="discount_section bundle-discount_{{ section.id }}">
+  <div class="container">
+    <div class="discount_section_bundle_main">
+      {% if section.settings.heading != blank %}
+        <div class="discount_heading">
+          <h2 class="font-thin">{{ section.settings.heading }}</h2>
+        </div>
+      {% endif %}
+      <div class="discount_products_main">
+        {% for block in section.blocks %}
+          {% if block.settings.image != blank %}
+            <div class="bundle-discount_list bundle-discount_list_{{ forloop.index }}" data-original-src="{{ block.settings.image | image_url: width: 100 }}">
+              <span class="remove_product" style="display: none;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" fill="currentColor"></path></svg></span>
+              <img class="bundle-discount_list_img" src="{{ block.settings.image | image_url: width: 100 }}" alt="{{ block.settings.image.alt }}">
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="discount_result">
+          <div class="heading">
+            <h2 class="font-thin bundle_save_heading bundle_2" data-discount="{{ section.settings.discount_percent_2 }}">{{ section.settings.result_heading_2 }}</h2>
+            <h2 class="font-thin bundle_save_heading bundle_3" data-discount="{{ section.settings.discount_percent_3 }}" style="display: none;">{{ section.settings.result_heading_3 }}</h2>
+            <h2 class="font-thin bundle_save_heading bundle_4" data-discount="{{ section.settings.discount_percent_4 }}" style="display: none;">{{ section.settings.result_heading_4 }}</h2>
+          </div>
+          <div class="discount_button">
+            <button class="discount_button_atc" disabled="disabled"><span class="discount_button_text">{{ section.settings.button_text | default: "Go to checkout" }}</span> <span class="bundle-total_price"></span></button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+
+    let pack = 2;
+    let packTotal = 4;
+ 
+    // var urlParams = new URLSearchParams(window.location.search);
+
+
+    // if (urlParams.get('bundle') === '2-pack') {
+    //    pack = 2;
+    //     $('.bundle-discount_list_3').hide();
+    //     $('.bundle-discount_list_4').hide();
+    //     $('.bundle_save_heading.bundle_2').show();
+    //     $('.bundle_save_heading.bundle_3').hide();
+    //     $('.bundle_save_heading.bundle_4').hide();
+    // } else if (urlParams.get('bundle') === '3-pack') {
+    //     pack = 3;
+    //     $('.bundle-discount_list_4').hide();
+    //   $('.bundle_save_heading.bundle_2').hide();
+    //   $('.bundle_save_heading.bundle_3').show();
+    //   $('.bundle_save_heading.bundle_4').hide();
+    // } else {
+    //     pack = 4;
+    //   $('.bundle_save_heading.bundle_2').hide();
+    //   $('.bundle_save_heading.bundle_3').hide();
+    //   $('.bundle_save_heading.bundle_4').show();
+    // }
+
+
+function generateUID() {
+  var firstPart = (Math.random() * 46656) | 0;
+  var secondPart = (Math.random() * 46656) | 0;
+  firstPart = ("000" + firstPart.toString(36)).slice(-3);
+  secondPart = ("000" + secondPart.toString(36)).slice(-3);
+  return firstPart + secondPart;
+}
+
+    $(".bundle_add_button_atc").on('click', function(event) {
+      event.preventDefault();
+      let varId = $(this).attr('data-variant');
+      let varPrice = $(this).attr('data-price');
+      let varImg = $(this).attr('data-img');
+      let priceTotal = parseInt(varPrice);
+      let listSize = $('.discount_list_selected').length;
+        $('.discount_list_selected').each(function(){
+          priceTotal += parseInt($(this).attr('data-price'));
+        })
+      
+        $('.bundle-total_price').attr('total-price', priceTotal)
+      
+        
+      
+        $(this).closest('.featured_product_list').addClass('added');
+        let added_counter = $(this).closest('.featured_product_list').find('.added_counter');
+        let counterGet = parseInt(added_counter.text());
+        added_counter.text(counterGet+1);
+        added_counter.css('display', 'flex');
+      
+      $('.bundle-discount_list').each(function(){
+        if (!$(this).hasClass('discount_list_selected')) {
+            $(this).attr('data-variant', varId);
+            $(this).attr('data-price', varPrice);
+            $(this).find('.bundle-discount_list_img').attr('src', varImg);
+            $(this).addClass('discount_list_selected'); 
+            setTimeout(() => {$(this).find('.remove_product').show()}, 200);
+          return false;
+        }
+      })
+
+      let listSizeUpdated = $('.discount_list_selected').length;
+      let dataDiscount = 0;
+          if (listSizeUpdated == 2) {
+            dataDiscount = parseFloat($('.bundle_save_heading.bundle_2').attr('data-discount'))/100;
+          } else if (listSizeUpdated == 3) {
+            dataDiscount = parseFloat($('.bundle_save_heading.bundle_3').attr('data-discount'))/100;
+          } else if (listSizeUpdated == 4) {
+            dataDiscount = parseFloat($('.bundle_save_heading.bundle_4').attr('data-discount'))/100;
+          }
+      
+        if (dataDiscount != 0) {
+          let dicountPrice = priceTotal * dataDiscount;
+          $('.bundle-total_price').html(` <span class="original_price">${Shopify.formatMoney(priceTotal)}</span> <span class="dicount_price"> ${Shopify.formatMoney(priceTotal - dicountPrice)}</span>`)
+        } else {
+          $('.bundle-total_price').html("  " + Shopify.formatMoney(priceTotal))
+        }
+      
+      
+        $('.bundle-total_price').show();
+      
+      updateATC()
+    });
+    
+    $(".remove_product").on('click', function(event) {
+      let parentElement = $(this).closest('.bundle-discount_list');
+      let varID = parentElement.attr('data-variant')
+      let varPrice = parseInt(parentElement.attr('data-price'))
+      $(this).hide();
+      let originalSRC = parentElement.attr('data-original-src');
+      parentElement.find('.bundle-discount_list_img').attr('src', originalSRC);
+      parentElement.removeAttr('data-variant');
+      parentElement.removeClass('discount_list_selected'); 
+      
+      let added_counter = $(`.featured_product_list.added[data-variant="${varID}"]`).find('.added_counter');
+      let counterGet = parseInt(added_counter.text());
+      
+      counterUpdated = counterGet - 1;
+      added_counter.text(counterUpdated);
+      if(counterUpdated > 0) {
+        added_counter.css('display', 'flex');
+      } else {
+        added_counter.css('display', 'none');
+      }
+      let totalPrice = parseInt($('.bundle-total_price').attr('total-price'));
+      let updatedPrice = totalPrice - varPrice;
+      if (updatedPrice > 0) {
+        $('.bundle-total_price').attr('total-price', updatedPrice)
+        let listSize = $('.discount_list_selected').length;
+        let dataDiscount = 0;
+          if (listSize == 2) {
+            dataDiscount = parseFloat($('.bundle_save_heading.bundle_2').attr('data-discount'))/100;
+          } else if (listSize == 3) {
+            dataDiscount = parseFloat($('.bundle_save_heading.bundle_3').attr('data-discount'))/100;
+          } else if (listSize == 4) {
+            dataDiscount = parseFloat($('.bundle_save_heading.bundle_4').attr('data-discount'))/100;
+          }
+        console.log(dataDiscount)
+        if (dataDiscount != 0) {
+          let dicountPrice = updatedPrice * dataDiscount;
+          $('.bundle-total_price').html(` <span class="original_price">${Shopify.formatMoney(updatedPrice)}</span> <span class="dicount_price"> ${Shopify.formatMoney(updatedPrice - dicountPrice)}</span>`)
+        } else {
+          $('.bundle-total_price').html(" " + Shopify.formatMoney(updatedPrice))
+        }
+      } else {
+        $('.bundle-total_price').attr('total-price', '0')
+        $('.bundle-total_price').hide();
+      }
+      updateATC();
+    });
+
+
+
+$('.discount_button_atc').on('click', async function(event) {
+    event.preventDefault();
+    let set_id = generateUID();
+    var product_data = [];
+    if ($('.discount_list_selected').length > 0) {
+        $('.discount_list_selected').each(function() {
+          let vID = $(this).attr('data-variant');
+          if (typeof vID !== 'undefined' && vID !== false) {
+            let prod_item = {};
+            prod_item["id"] = parseInt(vID);
+            prod_item["quantity"] = 1;
+            prod_item["properties"] = {
+                "_bundled-product": true,
+                _set_id: set_id,
+            };
+            product_data.push(prod_item);
+            }
+        });
+      
+    }
+
+    // AJAX request to Shopify's cart API
+    $.ajax({
+        url: `${routes.cart_add_url}`,
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({ items: product_data }),
+        success: function(response) {
+            // setTimeout(() => {$('[js-open-cart-drawer]').click();}, 100);
+          let listSize = $('.discount_list_selected').length;
+          if (listSize == 2) {
+            window.location.href = '/checkout?discount={{ section.settings.discount_code_2 }}';
+          } else if (listSize == 3) {
+            window.location.href = '/checkout?discount={{ section.settings.discount_code_3 }}';
+          } else {
+            window.location.href = '/checkout?discount={{ section.settings.discount_code_4 }}';
+          }
+          
+        },
+        error: function(xhr, status, error) {
+            console.error('Error adding items to cart:', xhr.responseText);
+        }
+    });
+});
+
+
+function updateATC() {
+  let listSize = $('.discount_list_selected').length;
+  if (listSize < 2) {
+    $('.discount_button_atc').attr("disabled", true);
+  } else {
+    $('.discount_button_atc').removeAttr("disabled");
+  }
+   if (listSize == 4) {
+    $('.bundle_add_button_atc.instock').attr("disabled", true);
+  } else {
+    $('.bundle_add_button_atc.instock').removeAttr("disabled");
+  }
+
+      if (listSize <= 2) {
+        $('.bundle_2').show();
+        $('.bundle_3').hide();
+        $('.bundle_4').hide();
+      } else if (listSize == 3) {
+        $('.bundle_2').hide();
+        $('.bundle_3').show();
+        $('.bundle_4').hide();
+      } else {
+        $('.bundle_2').hide();
+        $('.bundle_3').hide();
+        $('.bundle_4').show();
+      }
+  
+}
+    
+    // function addedProductCounter() {
+    //   $('.discount_list_selected').each(function(){
+    //     let selected_counter = 0;
+    //     let varID = parseInt($(this).attr('data-variant'));
+    //     if (typeof varID !== 'undefined' && varID !== false) {
+    //       $('.featured_product_list').each(function(){
+    //         let listVarID = parseInt($(this).attr('data-variant'));
+    //         if (varID == listVarID) {
+    //           selected_counter += 1;
+    //         } else {
+    //           $(this).find('.added_counter').hide();
+    //         }
+    //       })
+        
+    //       if (selected_counter > 0){
+    //         let added_counter = $(`.featured_product_list[data-variant="${varID}"]`).find('.added_counter');
+    //         added_counter.text(selected_counter);
+    //         added_counter.css('display', 'flex');
+    //       }
+    //     }
+    //   })
+    // }
+
+    
+  })
+</script>
+{% schema %}
+{
+  "name": "Bundle Discount",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "number",
+      "id": "discount_percent_2",
+      "default": 10,
+      "label": "2-BUNDLE Discount Percent"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "result_heading_2",
+      "default": "2-BUNDLE SET: YOU’RE SAVING 10%",
+      "label": "2-BUNDLE SET Heading"
+    },
+    {
+      "type": "text",
+      "id": "discount_code_2",
+      "label": "Discount code 2-BUNDLE"
+    },
+    {
+      "type": "number",
+      "id": "discount_percent_3",
+      "default": 15,
+      "label": "3-BUNDLE Discount Percent"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "result_heading_3",
+      "default": "3-BUNDLE SET: YOU’RE SAVING 15%",
+      "label": "3-BUNDLE SET Heading"
+    },
+    {
+      "type": "text",
+      "id": "discount_code_3",
+      "label": "Discount code 3-BUNDLE"
+    },
+    {
+      "type": "number",
+      "id": "discount_percent_4",
+      "default": 20,
+      "label": "4-BUNDLE Discount Percent"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "result_heading_4",
+      "default": "4-BUNDLE SET: YOU’RE SAVING 20%",
+      "label": "4-BUNDLE SET Heading"
+    },
+    {
+      "type": "text",
+      "id": "discount_code_4",
+      "label": "Discount code 4-BUNDLE"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "result_heading_color",
+      "label": "Result Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 0,
+      "max": 65,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mb",
+      "min": 0,
+      "max": 42,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size Mobile",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "result_heading_size",
+      "min": 0,
+      "max": 65,
+      "step": 1,
+      "unit": "px",
+      "label": "Result Heading Font Size",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "result_heading_size_mb",
+      "min": 0,
+      "max": 42,
+      "step": 1,
+      "unit": "px",
+      "label": "Result Heading Font Size Mobile",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Text Font Size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_size_mb",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Text Font Size Mobile",
+      "default": 18
+    }
+
+  ],
+  "blocks": [
+    {
+      "type": "bundle_discount",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Select image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle Discount"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,104 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "featured_product_banner_mhwwkX": {
+      "type": "featured_product-banner",
+      "settings": {
+        "bg_color": "",
+        "subheading": "",
+        "heading": "FEATURED PRODUCTS",
+        "description": "",
+        "subheading_color": "#000000",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "subheading_size": 42,
+        "subheading_size_mb": 32,
+        "heading_size": 50,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18
+      }
+    },
+    "featured_product_JRqPHq": {
+      "type": "featured__product",
+      "settings": {
+        "bg_color": "",
+        "heading": "THIS JUST IN",
+        "description": "<p>Shop our newest products.</p>",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "collection_products": "shop-all-old",
+        "product_limit": 12,
+        "button_text": "ADD TO CART",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "rgba(0,0,0,0)",
+        "title_size": 20,
+        "title_size_mb": 18,
+        "button_text_size": 16,
+        "button_text_size_mb": 15
+      }
+    },
+    "featured_product_image_jPczdB": {
+      "type": "featured-product-image",
+      "settings": {
+        "bg_color": "",
+        "bg_image": "shopify://shop_images/CC_NOMAD_Hero_Preview.png",
+        "image_url": "/collections/all",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "featured_product_aKnE8d": {
+      "type": "featured__product",
+      "custom_css": [
+        ".featured_products_new {padding-bottom: 80px;}"
+      ],
+      "settings": {
+        "bg_color": "",
+        "heading": "TRENDING FOR SPRING",
+        "description": "<p>Our most popular products for cooler weather and seasonal sipping.</p>",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "collection_products": "tumblers",
+        "product_limit": 12,
+        "button_text": "ADD TO CART",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "rgba(0,0,0,0)",
+        "title_size": 20,
+        "title_size_mb": 18,
+        "button_text_size": 16,
+        "button_text_size_mb": 15
+      }
+    }
+  },
+  "order": [
+    "main",
+    "featured_product_banner_mhwwkX",
+    "featured_product_JRqPHq",
+    "featured_product_image_jPczdB",
+    "featured_product_aKnE8d"
+  ]
+}

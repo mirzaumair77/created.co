@@ -1,0 +1,237 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1631277959cfa5b13c": {
+      "type": "hero",
+      "settings": {
+        "desktop_image": "shopify://shop_images/Desktop_-_5.png",
+        "mobile_image": "shopify://shop_images/Mobile_2_e6bb9de7-1b46-49a0-8f0b-0031868305a8.png",
+        "content_x_alignment": "items-start",
+        "content_y_alignment": "justify-center",
+        "text_alignment": "text-left",
+        "title-line-1": "NEW",
+        "title-line-2": "ARTIST COLLECTION",
+        "body_text": "Explore the latest Created artist series featuring playful designs from Jen Peters.",
+        "mobile_offset": 0,
+        "offset": 0,
+        "cta_url_1": "shopify://pages/custom-drinkware-landing",
+        "cta_text_1": "GO CUSTOM",
+        "cta_url_2": "shopify://collections/jen-peters",
+        "cta_text_2": "SHOP NOW"
+      }
+    },
+    "163310331302f0abcc": {
+      "type": "featured-collection-carousel",
+      "blocks": {
+        "a86fac9a-0473-4e6a-8d39-571e51bdf214": {
+          "type": "collection",
+          "settings": {
+            "collection": "hero-lider-collection",
+            "filter_text": "Stainless"
+          }
+        },
+        "01285e7d-7470-4298-b579-f11f248b6e86": {
+          "type": "collection",
+          "settings": {
+            "collection": "homepage-slider-collection-2",
+            "filter_text": "Ceramic"
+          }
+        }
+      },
+      "block_order": [
+        "a86fac9a-0473-4e6a-8d39-571e51bdf214",
+        "01285e7d-7470-4298-b579-f11f248b6e86"
+      ],
+      "settings": {}
+    },
+    "16351788315ad32cb8": {
+      "type": "text-with-carousel-home",
+      "blocks": {
+        "8a2ae643-9ff3-40db-8c73-5348da045daa": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/12-15-21_Created_Co0751.jpg"
+          }
+        },
+        "4acb7ceb-b021-4a21-8440-eb02a4bb83df": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/12-15-21_Created_Co0923.jpg"
+          }
+        },
+        "8b7c1008-2bc7-47f0-b60f-2d9808098155": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/12-15-21_Created_Co0890.jpg"
+          }
+        },
+        "43909962-ab4c-4a92-8185-a99072e0b62d": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/12-15-21_Created_Co0719.jpg"
+          }
+        },
+        "47d5772c-89ed-4481-8f4a-afff68b60e84": {
+          "type": "image",
+          "disabled": true,
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "8a2ae643-9ff3-40db-8c73-5348da045daa",
+        "4acb7ceb-b021-4a21-8440-eb02a4bb83df",
+        "8b7c1008-2bc7-47f0-b60f-2d9808098155",
+        "43909962-ab4c-4a92-8185-a99072e0b62d",
+        "47d5772c-89ed-4481-8f4a-afff68b60e84"
+      ],
+      "settings": {
+        "svg_main_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 557.06 112.01\"><defs><style>.body-text-cls-1{font-size:93.27px;font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;font-weight:500;}.body-text-cls-1,.body-text-cls-3{fill:#fff;}.body-text-cls-2{letter-spacing:0.01em;}.body-text-cls-3{font-size:90.26px;font-family:Canela-Thin, Canela;font-weight:200;}.body-text-cls-4{letter-spacing:0.02em;}.body-text-cls-5{letter-spacing:0.03em;}.body-text-cls-6{letter-spacing:0.03em;}.body-text-cls-7{letter-spacing:0.01em;}.body-text-cls-8{letter-spacing:0.02em;}</style></defs><title>Asset 6</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"body-text-cls-1\" transform=\"translate(0 79.28)\"><tspan class=\"body-text-cls-2\">G</tspan><tspan x=\"74.33\" y=\"0\">O</tspan></text><text class=\"body-text-cls-3\" transform=\"translate(148.11 79.28)\"><tspan class=\"body-text-cls-4\"> </tspan><tspan class=\"body-text-cls-5\" x=\"15.34\" y=\"0\">C</tspan><tspan class=\"body-text-cls-6\" x=\"85.47\" y=\"0\">U</tspan><tspan class=\"body-text-cls-7\" x=\"149.92\" y=\"0\">S</tspan><tspan class=\"body-text-cls-8\" x=\"198.84\" y=\"0\">TO</tspan><tspan x=\"332.87\" y=\"0\">M</tspan></text></g></g></svg>",
+        "svg_body_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 735.95 268.58\"><defs><style>.header-text-cls-1,.header-text-cls-14{font-size:116.3px;font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;font-weight:500;}.header-text-cls-1,.header-text-cls-10,.header-text-cls-14,.header-text-cls-7{fill:#e6e6e6;}.header-text-cls-2{letter-spacing:-0.02em;}.header-text-cls-3{letter-spacing:-0.01em;}.header-text-cls-4{letter-spacing:-0.1em;}.header-text-cls-5{letter-spacing:-0.02em;}.header-text-cls-6{letter-spacing:0em;}.header-text-cls-10,.header-text-cls-7{font-size:111.26px;font-weight:200;}.header-text-cls-7{font-family:Canela-ThinItalic, Canela;font-style:italic;}.header-text-cls-8{letter-spacing:0.02em;}.header-text-cls-9{letter-spacing:0em;}.header-text-cls-10{font-family:Canela-Thin, Canela;}.header-text-cls-11{letter-spacing:-0.03em;}.header-text-cls-12{letter-spacing:0.01em;}.header-text-cls-13{letter-spacing:0.02em;}.header-text-cls-14{letter-spacing:-0.01em;}.header-text-cls-15{letter-spacing:-0.01em;}</style></defs><title>Asset 5</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"header-text-cls-1\" transform=\"translate(0 98.86)\"><tspan class=\"header-text-cls-2\">C</tspan><tspan class=\"header-text-cls-3\" x=\"87.23\" y=\"0\">R</tspan><tspan x=\"164.68\" y=\"0\">E</tspan><tspan class=\"header-text-cls-4\" x=\"237.83\" y=\"0\">A</tspan><tspan x=\"311.22\" y=\"0\">T</tspan><tspan class=\"header-text-cls-5\" x=\"381.46\" y=\"0\">E</tspan><tspan class=\"header-text-cls-6\" x=\"452.76\" y=\"0\">D </tspan></text><text class=\"header-text-cls-7\" transform=\"translate(560.5 98.86)\"><tspan class=\"header-text-cls-8\">w</tspan><tspan class=\"header-text-cls-9\" x=\"60.19\" y=\"0\">it</tspan><tspan x=\"109.59\" y=\"0\">h </tspan></text><text class=\"header-text-cls-10\" transform=\"translate(67.06 227.81)\"><tspan class=\"header-text-cls-11\">Y</tspan><tspan class=\"header-text-cls-12\" x=\"60.19\" y=\"0\">O</tspan><tspan class=\"header-text-cls-13\" x=\"151.53\" y=\"0\">U</tspan><tspan x=\"229.86\" y=\"0\"> </tspan></text><text class=\"header-text-cls-7\" transform=\"translate(315.72 227.81)\">in </text><text class=\"header-text-cls-14\" transform=\"translate(402.95 227.76)\">MI<tspan class=\"header-text-cls-15\" x=\"135.84\" y=\"0\">N</tspan><tspan class=\"header-text-cls-6\" x=\"220.27\" y=\"0\">D</tspan></text></g></g></svg>",
+        "body_text_1": "Everyone is creative. At Created, we want your creativity to thrive. \n\nLearn more about how to launch your own custom drinkware line, made with  quality, integrity, and care.  We make the process seamless from start to finish.",
+        "body_text_2": "MAKE YOUR MARK",
+        "button_url": "shopify://pages/custom-drinkware-landing",
+        "button_text": "Get Started"
+      }
+    },
+    "1633099024f65d366f": {
+      "type": "image-banner",
+      "custom_css": [
+        "section.image-banner__section.pt-48 {margin-bottom: 50px;}"
+      ],
+      "settings": {
+        "title_1": "OUR",
+        "title_2": "STORY",
+        "desktop_image": "shopify://shop_images/CC_Collage_559f2688-e8d1-4181-af2c-7f9752eaa4d2.jpg",
+        "mobile_image": "shopify://shop_images/CC_Collage_559f2688-e8d1-4181-af2c-7f9752eaa4d2.jpg",
+        "banner_text": "<div class=\"w-full text-85 font-canela font-medium leading-none\" style=\"text-align: justify;\">\n<span>LIVE</span>\n<span class=\"italic\">INSPIRED</span>\n</div>",
+        "svg_text": "",
+        "svg_text_mobile": "",
+        "banner_text_color": "",
+        "mobile_offset": 0,
+        "offset": 0,
+        "column_1": "We started Created Co. as an excuse to get out of our ordinary. To shake the dust. To try something new. To break the norm. After all, life isn’t meant to feel like it’s on a treadmill.",
+        "column_2": "Created Co. is our way of helping you live a more inspired life. A life that reflects who you are, that captures your style, shares your words, celebrates your art, and makes what you do real.",
+        "button_url": "shopify://pages/our-story",
+        "button_text": "READ OUR STORY"
+      }
+    },
+    "text_with_carousel_home_DfL7ix": {
+      "type": "text-with-carousel-home",
+      "blocks": {
+        "image_cUAjmJ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Gallery_Image_1.jpg"
+          }
+        },
+        "image_wYaTt4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/galler_02.png"
+          }
+        },
+        "image_Tk9Ak9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Gallery_Image_3.jpg"
+          }
+        },
+        "image_fANa3P": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Gallery_Image_4.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_cUAjmJ",
+        "image_wYaTt4",
+        "image_Tk9Ak9",
+        "image_fANa3P"
+      ],
+      "custom_css": [],
+      "settings": {
+        "svg_main_text": "",
+        "svg_body_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 735.95 268.58\"><defs><style>.header-text-cls-1,.header-text-cls-14{font-size:116.3px;font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;font-weight:500;}.header-text-cls-1,.header-text-cls-10,.header-text-cls-14,.header-text-cls-7{fill:#e6e6e6;}.header-text-cls-2{letter-spacing:-0.02em;}.header-text-cls-3{letter-spacing:-0.01em;}.header-text-cls-4{letter-spacing:-0.1em;}.header-text-cls-5{letter-spacing:-0.02em;}.header-text-cls-6{letter-spacing:0em;}.header-text-cls-10,.header-text-cls-7{font-size:111.26px;font-weight:200;}.header-text-cls-7{font-family:Canela-ThinItalic, Canela;font-style:italic;}.header-text-cls-8{letter-spacing:0.02em;}.header-text-cls-9{letter-spacing:0em;}.header-text-cls-10{font-family:Canela-Thin, Canela;}.header-text-cls-11{letter-spacing:-0.03em;}.header-text-cls-12{letter-spacing:0.01em;}.header-text-cls-13{letter-spacing:0.02em;}.header-text-cls-14{letter-spacing:-0.01em;}.header-text-cls-15{letter-spacing:-0.01em;}</style></defs><title>Asset 5</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"header-text-cls-1\" transform=\"translate(0 98.86)\"><tspan class=\"header-text-cls-2\">S</tspan><tspan class=\"header-text-cls-3\" x=\"67.23\" y=\"0\">T</tspan><tspan x=\"120.68\" y=\"0\">A</tspan><tspan class=\"header-text-cls-4\" x=\"197.83\" y=\"0\">R</tspan><tspan x=\"270.22\" y=\"0\">T</tspan></text><text class=\"header-text-cls-7\" transform=\"translate(360.5 98.86)\"><tspan class=\"header-text-cls-8\">w</tspan><tspan class=\"header-text-cls-9\" x=\"60.19\" y=\"0\">it</tspan><tspan x=\"109.59\" y=\"0\">h </tspan></text><text class=\"header-text-cls-10\" transform=\"translate(67.06 227.81)\"><tspan class=\"header-text-cls-11\">A</tspan><tspan x=\"229.86\" y=\"0\"> </tspan></text><text class=\"header-text-cls-14\" transform=\"translate(170.95 227.76)\">bun<tspan class=\"header-text-cls-15\" x=\"197.84\" y=\"0\">d</tspan><tspan class=\"header-text-cls-6\" x=\"264.27\" y=\"0\">le</tspan></text></g></g></svg>",
+        "body_text_1": "Build your own bundle to experience the best of Created Co. and save up to 20% on your order.",
+        "body_text_2": "",
+        "button_url": "shopify://pages/meta-ads-landing-page",
+        "button_text": "Build Bundle"
+      }
+    },
+    "1631281167a6c25fe8": {
+      "type": "image-text-blocks",
+      "blocks": {
+        "image_and_text_wW8hQD": {
+          "type": "image_and_text",
+          "settings": {
+            "image": "shopify://shop_images/created-co-adventure_600x_1.jpg",
+            "title_1": "build your",
+            "title_2": "BUNDLE",
+            "body_text": "Build your own bundle to experience the best of Created Co. and save up to 20% on your order.",
+            "cta_url": "shopify://pages/bundle-landing-page",
+            "cta_text": "SHOP"
+          }
+        },
+        "8a827e22-572c-4e1d-9813-0dc593f6cdd8": {
+          "type": "image_and_text",
+          "settings": {
+            "image": "shopify://shop_images/created-co-regulars-1_600x_1.jpg",
+            "title_1": "for the",
+            "title_2": "REGULARS",
+            "body_text": "We live in coffee shops and cafes. From cups to mugs to merchandise, we can tell the difference and we’re here to help you dial it in.",
+            "cta_url": "shopify://collections/cafe-cups-old",
+            "cta_text": "SHOP"
+          }
+        },
+        "ab171736-c505-451a-b801-ba7e94e1c83a": {
+          "type": "image_and_text",
+          "settings": {
+            "image": "shopify://shop_images/created-co-you_600x_1.jpg",
+            "title_1": "for",
+            "title_2": "YOU",
+            "body_text": "Ergonomically designed for comfort and versatility. Discover the perfect drinkware companion for your day.",
+            "cta_url": "shopify://collections/drip-mugs",
+            "cta_text": "SHOP"
+          }
+        },
+        "image_and_text_zkx3z4": {
+          "type": "image_and_text",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/created-co-adventure_600x_1.jpg",
+            "title_1": "BUILD",
+            "title_2": "BUNDLE",
+            "body_text": "Build your own bundle to experience the best of Created Co. and save up to 20% on your order.",
+            "cta_url": "shopify://pages/meta-ads-landing-page",
+            "cta_text": "BULID BUNDLE"
+          }
+        }
+      },
+      "block_order": [
+        "image_and_text_wW8hQD",
+        "8a827e22-572c-4e1d-9813-0dc593f6cdd8",
+        "ab171736-c505-451a-b801-ba7e94e1c83a",
+        "image_and_text_zkx3z4"
+      ],
+      "disabled": true,
+      "settings": {}
+    }
+  },
+  "order": [
+    "1631277959cfa5b13c",
+    "163310331302f0abcc",
+    "16351788315ad32cb8",
+    "1633099024f65d366f",
+    "text_with_carousel_home_DfL7ix",
+    "1631281167a6c25fe8"
+  ]
+}

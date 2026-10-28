@@ -1,0 +1,104 @@
+<section class="text-with-carousel__section bg-black py-72 tablet:py-120 desktop:py-180 {% if section.settings.spacing_left %}lft_5{% endif %}">
+	{% if section.settings.svg_main_text != blank %}
+		<div class="main-text__container px-30 tablet:px-50 mx-auto max-w-700">
+			{{ section.settings.svg_main_text }}
+		</div>
+	{% endif %}
+	<div class="body-text__container flex flex-col tablet:grid tablet:grid-cols-2 tablet:gap-120 items-center max-w-1440 px-15 tablet:px-25 mx-auto mt-62 tablet:mt-142">
+		{% if section.settings.svg_body_text != blank %}
+			<div class="w-full mx-auto px-15 tablet:px-25">{{ section.settings.svg_body_text }}</div>
+		{% endif %}
+		{% if section.settings.body_text_1 != blank %}
+			<div class="w-full text-white text-center tablet:text-left mx-auto px-15 tablet:px-25{% if section.settings.svg_body_text != blank %} mt-24 tablet:mt-0{% endif %}">
+				<p class="text-20 font-semibold max-w-540">{{ section.settings.body_text_1 }}</p>
+			</div>
+		{% endif %}
+	</div>
+	{% if section.blocks.size > 0 %}
+		<div class="carousel__grid grid mt-60 tablet:mt-85">
+			<carousel-component class="grid__item w-full mx-auto overflow-hidden" data-options='{"cellSelector":"[js-carousel-slide]", "wrapAround":true, "imagesLoaded":true, "prevNextButtons":false, "autoPlay":true, "adaptiveHeight":false, "pageDots":false}'>
+				<div class="" js-carousel>
+					{% for block in section.blocks %}
+						<div class="w-8/12 tablet:w-6/12 px-8 tablet:px-20" js-carousel-slide>
+							{% render 'lazy-image' image: block.settings.image %}
+						</div>
+					{% endfor %}
+				</div>
+			</carousel-component>
+		</div>
+	{% endif %}
+	<div class="px-30 tablet:px-50 mx-auto text-center mt-30 tablet:mt-120">
+		{% if section.settings.body_text_2 != blank %}
+			<div class="text-20 text-white mx-auto max-w-450">
+				{{ section.settings.body_text_2 }}
+			</div>
+		{% endif %}
+		{% if section.settings.button_url !=blank and section.settings.button_text != blank %}
+			<a class="btn btn--black mx-auto mt-16 tablet:mt-48 py-8" href="{{ section.settings.button_url }}">{{ section.settings.button_text }}</a>
+		{% endif %}
+	</div>
+</section>
+
+{% schema %}
+{
+	"name": "Text section w/ Carousel",
+	"settings": [
+      {
+      "type": "checkbox",
+      "id": "spacing_left",
+      "label": "Add spacing on left",
+      "default": false
+    },
+		{
+			"type": "html",
+			"id": "svg_main_text",
+			"label": "Header text (SVG)"
+		},
+		{
+			"type": "html",
+			"id": "svg_body_text",
+			"label": "Additional SVG text"
+		},
+		{
+			"type": "textarea",
+			"id": "body_text_1",
+			"label": "Body text 1",
+			"info": "Right column before carousel"
+		},
+		{
+			"type": "textarea",
+			"id": "body_text_2",
+			"label": "Body text 2",
+			"info": "Beneath carousel"
+		},
+		{
+			"type": "url",
+			"id": "button_url",
+			"label": "Button link"
+		},
+		{
+			"type": "text",
+			"id": "button_text",
+			"label": "Button text"
+		}
+	],
+	"blocks": [
+		{
+			"type": "image",
+			"name": "Carousel Image",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Text section with Carousel"
+		}
+	]
+}
+{% endschema %}

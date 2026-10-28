@@ -1,0 +1,155 @@
+{% if section.settings.column_1 != blank or section.settings.column_2 != blank %}
+  {% assign no_text = false %}
+{% else %}
+  {% assign no_text = true %}
+{% endif %}
+
+<style>
+  .image-banner__content {
+    margin-bottom: var(--mobile-offset);
+  }
+  @media screen and (min-width: 768px) {
+    .image-banner__content {
+      margin-bottom: var(--offset);
+    }
+  }
+</style>
+
+<section class="image-banner__section pt-48 tablet:pt-100 relative">
+  <div class="absolute hidden tablet:block right-0 top-0 w-3/4 desktop:w-full h-full tablet:w-7/12 py-72 tablet:py-100 -z-10">
+    <div class="desktop:hidden" style="background: url('{{ section.settings.mobile_image |  image_url: width: 800 }}'); width: 100%; height: 100%; background-repeat: no-repeat; background-size: contain; background-position: top right;"></div>
+    <div class="hidden desktop:block" style="background: url('{{ section.settings.desktop_image |  image_url: width: 800 }}'); width: 100%; height: 100%; background-repeat: no-repeat; background-size: contain; background-position: top right;"></div>
+  </div>
+  <div class="image-banner__container site-container">
+    <div class="image-banner__content-wrapper flex flex-col">
+      <div
+        class="image-banner__content w-9/12 tablet:w-6/12 desktop:w-4/12 max-h-full"
+        style="--mobile-offset: {{ section.settings.mobile_offset }}px; --desktop-offset: {{ section.settings.offset }}px;"
+      >
+        {% if section.settings.svg_text != blank %}
+          <div class="w-full hidden tablet:block">{{ section.settings.svg_text }}</div>
+          <div class="w-full tablet:hidden text-85 font-canela font-medium leading-none">
+            <span>LIVE</span>
+            <span class="italic">INSPIRED</span>
+          </div>
+        {% elsif section.settings.banner_text != blank %}
+          <h3
+            class="hero__title normal-case m-0 text-36 tablet:text-72 leading-tight text-center"
+            style="color: {{section.settings.banner_text_color}};"
+          >
+            {{ section.settings.banner_text }}
+          </h3>
+        {% endif %}
+      </div>
+    </div>
+    {% unless no_text == true %}
+      <div class="image-banner__text-content text-18 font-grotesque flex flex-col gap-16 mt-24 tablet:mt-64">
+        {% if section.settings.column_1 != blank %}
+          <div class="tablet:w-1/2">
+            <p>{{ section.settings.column_1 }}</p>
+          </div>
+        {% endif %}
+        {% if section.settings.column_2 != blank %}
+          <div class="tablet:w-1/2">
+            <p>{{ section.settings.column_2 }}</p>
+          </div>
+        {% endif %}
+      </div>
+    {% endunless %}
+    {% if section.settings.button_url != blank and section.settings.button_text != blank %}
+      <div class="image-banner__link-container mt-28">
+        <a href="{{ section.settings.button_url }}" class="btn btn--black">{{ section.settings.button_text }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Image Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title 1",
+      "info": "Canela"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title 2",
+      "info": "Grotesque"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_text",
+      "label": "Banner text"
+    },
+    {
+      "type": "html",
+      "id": "svg_text",
+      "label": "SVG Text",
+      "info": "Overrides \"Banner text\" setting"
+    },
+    {
+      "type": "html",
+      "id": "svg_text_mobile",
+      "label": "SVG Text Mobile",
+      "info": "Overrides \"Banner text\" setting"
+    },
+    {
+      "type": "color",
+      "id": "banner_text_color",
+      "label": "Banner text color"
+    },
+    {
+      "type": "number",
+      "id": "mobile_offset",
+      "label": "Mobile text content offset (in pixels)",
+      "default": 0,
+      "info": "Positive values will move the text content up, negative values will move it down"
+    },
+    {
+      "type": "number",
+      "id": "offset",
+      "label": "Text content offset (in pixels)",
+      "default": 0,
+      "info": "Positive values will move the text content up, negative values will move it down"
+    },
+    {
+      "type": "textarea",
+      "id": "column_1",
+      "label": "Column 1"
+    },
+    {
+      "type": "textarea",
+      "id": "column_2",
+      "label": "Column 2"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Banner w/ Text Columns"
+    }
+  ]
+}
+{% endschema %}

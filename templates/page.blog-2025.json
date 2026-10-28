@@ -1,0 +1,57 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "image_with_text_JqwzEA": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_XYaEeE": {
+          "type": "heading",
+          "settings": {
+            "heading": "How Created Co. Helped Bluestone Lane Elevate Their Café Experience with Custom Ceramics"
+          }
+        },
+        "text_nfjzLq": {
+          "type": "text",
+          "settings": {
+            "text": "<p>At Created Co., we believe that every hospitality experience with ceramics should be a vessel that enhances experiences, both aesthetically and functionally. When Bluestone Lane, an Australian-inspired coffee and café brand with locations across major U.S. cities, approached us, they were facing a challenge that many hospitality brands encounter: finding durable, fully customized ceramics that could withstand the demands of a high-volume café environment while staying true to their brand’s identity.</p><h3><strong>The Challenge</strong></h3><h3></h3><p>Bluestone Lane needed ceramics that could keep up with their bustling café operations. Their previous solutions presented multiple pain points:</p><p></p><ul><li><strong>Durability Issues</strong>: Many of their ceramic wares chipped, cracked, or faded with frequent use, leading to costly and frequent replacements.<br/></li><li><strong>Customization Limitations</strong>: They wanted drinkware that reflected their brand’s modern yet inviting aesthetic, but most suppliers couldn’t provide a truly customized solution.<br/></li><li><strong>Inconsistency in Supply</strong>: With cafés across multiple cities, they struggled to find a supplier who could consistently deliver high-quality, custom-branded ceramics at scale.</li></ul><h3><strong>Our Solution: Created Co. Custom Ceramics</strong></h3><p>At Created Co., we specialize in providing restaurant-grade ceramics designed specifically for the hospitality industry. Our team worked closely with Bluestone Lane to develop a line of custom ceramics that not only met their durability requirements but also strengthened their brand presence.</p><p>Here’s how we helped:</p><ul><li><strong>Superior Craftsmanship & Durability</strong>: Our ceramics are built to last. Fired at high temperatures for enhanced strength, they are <strong>commercial dishwasher-safe, microwave-safe, and resistant to chipping and fading</strong>, making them ideal for high-volume café use.</li><li><strong>Fully Customizable Designs</strong>: Using <strong>high-fire printing</strong>, we ensured that Bluestone Lane’s branding was seamlessly integrated into each piece, allowing them to maintain their signature aesthetic across all locations.</li><li><strong>Sustainable & Thoughtful Production</strong>: As a brand that values sustainability, Bluestone Lane aligned perfectly with our commitment to eco-friendly practices. We offer <strong>ethically made ceramics, lead-free glazes, and carbon-neutral shipping options</strong>, ensuring that their custom drinkware was both beautiful and responsible.</li><li><strong>Reliable, Scalable Supply Chain</strong>: With our <strong>streamlined ordering process and ongoing inventory management support</strong>, we provided Bluestone Lane with a reliable source for their ceramics, eliminating supply chain frustrations and allowing them to focus on growing their business.</li></ul><h3><strong>The Impact</strong></h3><p>Through our partnership, Bluestone Lane was able to elevate their café experience while solving their operational challenges. The results?</p><ul><li><strong>Significant Cost Savings</strong>: With fewer replacements needed, they reduced their overall spend on drinkware.</li><li><strong>Stronger Brand Identity</strong>: Their custom-designed ceramics reinforced brand recognition and created a cohesive customer experience across all locations.</li><li><strong>Consistency & Reliability</strong>: They now have a dependable, long-term supplier that understands their needs and can scale with them as they grow.</li></ul><p>At Created Co., we don’t just make ceramics—we create experiences. By working with Bluestone Lane, we helped craft cafe moments that their customers can truly savor..</p><p><strong>Ready to bring your brand to life through custom ceramics?</strong> Visit our <a href=\"https://created.co/pages/ceramics-landing-page\"><span style=\"text-decoration:underline\">ceramics page</span></a> to learn more about how we can help you craft the perfect drinkware solution for your café, restaurant, or hospitality business.</p>"
+          }
+        },
+        "button_FpL6xB": {
+          "type": "button",
+          "settings": {
+            "button_label": "Request Custom Quote",
+            "button_link": "shopify://pages/ceramics-landing-page"
+          }
+        }
+      },
+      "block_order": [
+        "heading_XYaEeE",
+        "text_nfjzLq",
+        "button_FpL6xB"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/hero_case_study.png",
+        "height": "adapt",
+        "color_scheme": "background-1",
+        "layout": "text_first"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_JqwzEA"
+  ]
+}

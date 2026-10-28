@@ -1,0 +1,73 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": false,
+        "show_collection_image": false
+      }
+    },
+    "collection_icon_menu_tezxgT": {
+      "type": "collection-icon-menu",
+      "blocks": {
+        "menu_m37hRM": {
+          "type": "menu",
+          "settings": {
+            "collection_handle": "",
+            "collection_menu": "stainless-collection"
+          }
+        }
+      },
+      "block_order": [
+        "menu_m37hRM"
+      ],
+      "settings": {}
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "collection_link_list": "duplicate-seed-collection-links",
+        "products_per_page": 16,
+        "image_ratio": "adapt",
+        "show_secondary_image": false,
+        "add_image_padding": false,
+        "show_vendor": false,
+        "enable_filtering": true,
+        "enable_sorting": true
+      }
+    },
+    "1730446863b94410cb": {
+      "type": "apps",
+      "blocks": {
+        "okendo_star_rating_9ffypP": {
+          "type": "shopify://apps/okendo/blocks/star-rating/bb689e69-ea70-4661-8fb7-ad24a2e23c29",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "okendo_star_rating_9ffypP"
+      ],
+      "settings": {
+        "include_margins": false
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "collection_icon_menu_tezxgT",
+    "product-grid",
+    "1730446863b94410cb"
+  ]
+}

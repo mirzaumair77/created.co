@@ -1,0 +1,179 @@
+<style>
+  
+.testimonial_{{ section.id }} .testimonial-heading {
+       margin-bottom: 25px;
+    font-family: grotesque, sans-serif;
+    line-height: normal;
+    font-size: 28px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+.testimonial-item-txt {
+    margin-top: 20px;
+}
+  .client_name {
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-top: 15px;
+}
+  .testimonial_{{ section.id }} .testimonial-item-txt p {
+    font-family: grotesque, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: 24px;
+}
+  .testimonial-item {
+    display: flex;
+    align-items: center;
+    gap:20px;
+}
+  .testi_img_column img {
+    display: block;
+    margin: 0 auto;
+}
+  .testi_img_column {
+    max-width: 40%;
+    width: 100%;
+}
+  .testi_content_column {
+    max-width: 60%;
+    width: 100%;
+}
+  .text-item {
+    width: 100%;
+    max-width: 100%;
+}
+.testimonial_row {
+    max-width: 840px;
+    margin: 0 auto;
+}
+.testimonial_row  .flickity-prev-next-button.previous {
+    left: -45px;
+          background: transparent;
+}
+ .testimonial_row .flickity-prev-next-button.next {
+    right: -45px;
+           background: transparent;
+}
+
+ .testimonial_row .flickity-page-dots{
+    display: none;
+  } 
+@media(min-width:930px){ 
+.testi_img_column img {
+    min-height: 750px;
+}
+}
+  @media(max-width:600px){
+    .testimonial-item {
+    flex-direction: column-reverse;
+}
+    .testimonial_{{ section.id }} .testimonial-heading {
+    font-size: 24px;
+}
+    .testi_img_column {
+    display: none;
+}
+    .testi_img_column, .testi_content_column {
+    max-width: 100%;
+    width: 100%;
+}
+  
+.client_name {
+    font-size: 18px;
+}
+      .testimonial_{{ section.id }} .testimonial-item-txt p {
+    font-size: 18px;
+}
+    .client_name {
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-top: 15px;
+}
+.testimonial_row  .flickity-prev-next-button.previous  {
+            left: auto;
+        top: auto;
+        right: 45px;
+        bottom: -12%;
+}
+     .testimonial_row .flickity-prev-next-button.next {
+        top: auto;
+       right: 0;
+       bottom: -12%;
+     }
+  }
+
+</style>
+
+<section class=" testimonial testimonial_{{ section.id }}">
+  <div class="testimonial-main site-container ">
+    
+    <div class="testimonial_row">
+      {% for block in section.blocks %}
+        <div class="text-item">
+          <div class="testimonial-item  ">
+            <div class="testi_img_column">
+              <img src="{{ block.settings.image | image_url }}" class="testi-img">
+            </div>
+            <div class="testi_content_column">
+              <div class="testi_column">
+              {% if section.settings.heading != blank %}<h2 class="testimonial-heading">{{ section.settings.heading }}</h2>{% endif %}
+              <img src="https://cdn.shopify.com/s/files/1/0662/7045/files/da21dde662a19a4b8a6e17048660983a.png?v=1724745940" class="review_icon">
+              {% if block.settings.text != blank %}<div class="testimonial-item-txt">{{ block.settings.text }}</div>{% endif %}
+              {% if block.settings.name != blank %}  <div class="client_name">{{ block.settings.name }}</div>{% endif %}
+              </div>
+            </div>
+            
+         </div>
+        </div> 
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+
+{% schema %}
+  {
+  "name": "Testimonial",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default":"What our customers say"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Item",
+      "type": "item",
+      "settings": [
+        {
+          "type": "richtext",
+          "label": "Text",
+          "id": "text"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Testimonial image"
+        }
+        
+        
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial"
+    }
+  ]
+}  
+{% endschema %}

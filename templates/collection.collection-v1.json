@@ -1,0 +1,55 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": false,
+        "show_collection_image": false
+      }
+    },
+    "collection_icon_menu_bRgkmE": {
+      "type": "collection-icon-menu",
+      "blocks": {
+        "menu_LxWrEc": {
+          "type": "menu",
+          "settings": {
+            "collection_handle": "stainless-collection,roam-mug,cold-cups,nomad,camp-mugs,everyday-tumblers,wander-bottle",
+            "collection_menu": "stainless-collection"
+          }
+        }
+      },
+      "block_order": [
+        "menu_LxWrEc"
+      ],
+      "settings": {}
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "collection_link_list": "",
+        "products_per_page": 16,
+        "image_ratio": "adapt",
+        "show_secondary_image": false,
+        "add_image_padding": false,
+        "show_vendor": false,
+        "enable_filtering": true,
+        "enable_sorting": true
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "collection_icon_menu_bRgkmE",
+    "product-grid"
+  ]
+}

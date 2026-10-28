@@ -1,0 +1,127 @@
+<section class="product-details grid tablet:grid-cols-2 gap-20 tablet:gap-85 px-15 tablet:px-16 py-80 tablet:py-100 items-center">
+	{% for block in section.blocks %}
+		{% case block.type %}
+		{% when 'description' %}
+			<div class="px-15 tablet:px-16 mb-50 tablet:mb-0">
+				<h2 class="text-24 tablet:text-25 font-semibold uppercase mb-32">Product Details</h2>
+				<div class="text-16 tablet:text-20 font-semibold leading-normal">{{ block.settings.description }}</div>
+			</div>
+		{% when 'icons' %}
+			<div class="flex text-center px-15 tablet:px-16 mb-75 tablet:mb-0{% if block.settings.icon_1 == blank or block.settings.icon_2 == blank or block.settings.icon_3 == blank %} justify-evenly{% else %} justify-between{% endif %}">
+				{% if block.settings.icon_1 != blank %}
+					<div class="w-1/4">
+						<div class="product-detail-icon__container mb-20 tablet:mb-32 max-w-100 mx-auto">
+							{% render 'lazy-image' image: block.settings.icon_1 %}
+						</div>
+						<span class="font-semibold text-10 tablet:text-16">{{ block.settings.icon_text_1 }}</span>
+					</div>
+				{% endif %}
+				{% if block.settings.icon_2 != blank %}
+					<div class="w-1/4">
+						<div class="product-detail-icon__container mb-20 tablet:mb-32 max-w-100 mx-auto">
+							{% render 'lazy-image' image: block.settings.icon_2 %}
+						</div>
+						<span class="font-semibold text-10 tablet:text-16">{{ block.settings.icon_text_2 }}</span>
+					</div>
+				{% endif %}
+				{% if block.settings.icon_3 != blank %}
+					<div class="w-1/4">
+						<div class="product-detail-icon__container mb-20 tablet:mb-32 max-w-100 mx-auto">
+							{% render 'lazy-image' image: block.settings.icon_3 %}
+						</div>
+						<span class="font-semibold text-10 tablet:text-16">{{ block.settings.icon_text_3 }}</span>
+					</div>
+				{% endif %}
+			</div>
+		{% when 'image' %}
+			<div class="px-15 tablet:px-16 mb-75 tablet:mb-0">
+				{% render 'lazy-image' image: block.settings.image %}
+			</div>
+		{% when 'features' %}
+			<div class="px-15 tablet:px-16">
+				<h2 class="text-24 tablet:text-25 font-semibold uppercase mb-32">Product Features</h2>
+				<div class="text-16 tablet:text-20 font-semibold leading-normal">{{ block.settings.features_list }}</div>
+				<!-- <a href="#" class="btn bg-gray mt-32 tablet:mt-40">Learn More</a> -->
+			</div>
+		{% endcase %}
+	{% endfor %}
+</section>
+
+{% schema %}
+{
+	"name": "Product Details",
+	"tag": "section",
+	"class": "section bg-gray",
+	"blocks": [
+		{
+			"type": "description",
+			"name": "Description",
+			"settings": [
+				{
+					"type": "richtext",
+					"id": "description",
+					"label": "Description"
+				}
+			]
+		},
+		{
+			"type": "icons",
+			"name": "Icons",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "icon_1",
+					"label": "Icon 1"
+				},
+				{
+					"type": "text",
+					"id": "icon_text_1",
+					"label": "Icon Text 1"
+				},
+				{
+					"type": "image_picker",
+					"id": "icon_2",
+					"label": "Icon 2"
+				},
+				{
+					"type": "text",
+					"id": "icon_text_2",
+					"label": "Icon Text 2"
+				},
+				{
+					"type": "image_picker",
+					"id": "icon_3",
+					"label": "Icon 3"
+				},
+				{
+					"type": "text",
+					"id": "icon_text_3",
+					"label": "Icon Text 3"
+				}
+			]
+		},
+		{
+			"type": "image",
+			"name": "Image",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image"
+				}
+			]
+		},
+		{
+			"type": "features",
+			"name": "Features",
+			"settings": [
+				{
+					"type": "richtext",
+					"id": "features_list",
+					"label": "Features List"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

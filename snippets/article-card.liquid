@@ -1,0 +1,41 @@
+{% comment %}
+    Renders an article card for a given blog with settings to either show the image or not.
+
+    Accepts:
+    - blog: {Object} Blog object
+    - article: {Object} Article object
+    - show_image: {String} The setting either show the article image or not. If it's not included it will show the image by default
+
+    Usage:
+    {% render 'article-card' blog: blog, article: article, show_image: section.settings.show_image %}
+{% endcomment %}
+
+<article class="article-card h-full flex flex-col" aria-labelledby="Article-{{ article.id }}">
+  {%- if show_image == true and article.image -%}
+    <a href="{{ article.url }}" class="article-card__image block min-h-275 bg-cover" style="background-image: url('{{ article.image | img_url: 'large' }}');" ></a>
+  {%- endif -%}
+  <div class="article-card__info py-16 flex-grow flex flex-col justify-between">
+    <a href="{{ article.url }}">
+      <h2 class="article-card__title text-24 desktop:text-32 font-semibold leading-tight uppercase" id="Article-{{ article.id }}">
+        {{ article.title | escape }}
+      </h2>
+    </a>
+    {%- if article.excerpt.size > 0 or article.content.size > 0 -%}
+      <p class="article-card__excerpt my-20 font-canela text-18 desktop:text-24 font-light leading-tight">
+        {%- if article.excerpt.size > 0 -%}
+          {{ article.excerpt | strip_html | truncatewords: 15 }}
+        {%- else -%}
+          {{ article.content | strip_html | truncatewords: 15 }}
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+    <div class="article-card__footer flex justify-between items-center">
+      <a href="{{ article.url }}" class="article-card__link btn">
+        {{ link_title }}
+      </a>
+      <span class="article-card__date text-14 font-light pr-8">
+        {{- article.published_at | date: "%m/%d/%Y" -}}
+      </span>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,132 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "contact-header",
+      "custom_css": [
+        ".contact-header__title,.contact-header__title span {font-size: 60px !important; line-height: 1.1 !important;}",
+        ".contact-header__banner {height: auto !important; min-height: 0 !important; padding: 24px 0 !important;}",
+        "@media (max-width: 767px) {.contact-header__title, .contact-header__title span {font-size: 36px !important; }}"
+      ],
+      "settings": {
+        "title_one": "",
+        "title_two": "CONTACT",
+        "text_one": "",
+        "text_two": ""
+      }
+    },
+    "1789069485107a37f6": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_af02e95_byeafq": {
+          "type": "ai_gen_block_af02e95",
+          "settings": {
+            "order_heading": "ORDER SUPPORT",
+            "order_body": "<p>Placed an order on our website? Need help with tracking, order status, or a warranty claim — fill out the form below and our support team will get back to you!</p>",
+            "custom_heading": "LOOKING FOR CUSTOM DRINKWARE?",
+            "custom_body": "<p>Starting a custom project? Head to our custom page to get started!</p>",
+            "button_label": "START A CUSTOM INQUIRY →",
+            "button_link": "http://created.co/custom",
+            "desktop_width_percent": 75,
+            "column_gap": 56,
+            "box_padding": 32,
+            "body_size": 18,
+            "body_line_height": 24,
+            "heading_size": 14,
+            "text_color": "#000000",
+            "page_background": "#ffffff",
+            "box_background": "#faf1e9",
+            "button_background": "#000000",
+            "button_hover_background": "#445958",
+            "button_text_color": "#ffffff",
+            "rule_color": "#000000"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_af02e95_byeafq"
+      ],
+      "settings": {}
+    },
+    "17793985496b2f5120": {
+      "type": "apps",
+      "blocks": {
+        "hulk_form_builder_form_block_eWzAAm": {
+          "type": "shopify://apps/hulk-form-builder/blocks/form-block/b6b8dd14-356b-4725-a4ed-77232212b3c3",
+          "settings": {
+            "form_uuid": "l7Il3dBnxrg0OcbaBrOw_g",
+            "form_settings": false,
+            "font_color": "#000000",
+            "size": 14,
+            "input_background_color": "#fff",
+            "input_background_color_focus": "#f4dada",
+            "input_border_radius": 1,
+            "input_border_color": "#ebe9e9",
+            "input_border_color_focus": "#2d2727",
+            "input_font_color": "#3d3131",
+            "input_size": 14,
+            "border_color": "#121212",
+            "border_radius": 2,
+            "border": 1,
+            "fill_color": "#ebe9e9",
+            "padding": 35,
+            "form_width": 600,
+            "btn_text": "Submit",
+            "sub_btn_txt_color": "#f3f3f3",
+            "sub_btn_bg_color": "#3f3333",
+            "sub_btn_font_size": 14,
+            "sub_btn_bdr_color": "#ffffff",
+            "sub_btn_bdr_rad": 3,
+            "sub_btn_bdr_width": 1,
+            "fonts": "Times New Roman"
+          }
+        }
+      },
+      "block_order": [
+        "hulk_form_builder_form_block_eWzAAm"
+      ],
+      "settings": {
+        "include_margins": false
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "disabled": true,
+      "settings": {}
+    },
+    "178907160858544667": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_a95ec38_gaBdtY": {
+          "type": "ai_gen_block_a95ec38",
+          "settings": {
+            "spacing": 12,
+            "mobile_spacing": 8,
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_a95ec38_gaBdtY"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "1789069485107a37f6",
+    "17793985496b2f5120",
+    "form",
+    "178907160858544667"
+  ]
+}

@@ -1,0 +1,343 @@
+<style>
+
+  .bundle_featured_collection.bundle_collection_{{ section.id }} {
+    background: {{ section.settings.bg_color }};
+  }
+
+  .bundle_featured_collection.bundle_collection_{{ section.id }} .bundle_main_heading .heading p {
+    font-size: {{ section.settings.heading_size }}px;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .bundle_featured_collection.bundle_collection_{{ section.id }} .bundle_main_heading .description p {
+    font-size: {{ section.settings.description_size }}px;
+    color: {{ section.settings.description_color }};
+  }
+
+  .bundle_featured_collection.bundle_collection_{{ section.id }} .bundle_collection_main .featured_product_list .title h4 {
+    font-size: {{ section.settings.title_size }}px;
+    color: {{ section.settings.title_color }};
+  }
+
+  .bundle_featured_collection.bundle_collection_{{ section.id }} .bundle_collection_main .featured_product_list .bundle_add_button button  {
+    font-size: {{ section.settings.button_text_size }}px;
+    color: {{ section.settings.button_text_color }};
+    background: {{ section.settings.button_bg_color }};
+    display: inline-block;
+    padding: 20px 30px;
+    font-family: grotesque, sans-serif;
+    font-weight: 700;
+    line-height: normal;
+    text-align: center;
+    border: 1px solid #000000;
+    border-radius: 50px;
+  }
+  .bundle_featured_collection.bundle_collection_{{ section.id }} .bundle_collection_main .featured_product_list .bundle_add_button button:hover{
+    border: 1px solid #000000;
+    color: {{ section.settings.button_bg_color }};
+    background: {{ section.settings.button_text_color }};
+  }
+  @media only screen and (max-width: 500px) {
+
+    .bundle_featured_collection.bundle_collection_{{ section.id }} .bundle_main_heading .heading p {
+      font-size: {{ section.settings.heading_size_mb }}px;
+    }
+
+    .bundle_featured_collection.bundle_collection_{{ section.id }} .bundle_main_heading .description p {
+      font-size: {{ section.settings.description_size_mb }}px;
+    }
+
+    .bundle_featured_collection.bundle_collection_{{ section.id }} .bundle_collection_main .featured_product_list .title h4 {
+      font-size: {{ section.settings.title_size_mb }}px;
+    }
+
+    .bundle_featured_collection.bundle_collection_{{ section.id }} .bundle_collection_main .featured_product_list .bundle_add_button button  {
+      font-size: {{ section.settings.button_text_size_mb }}px;
+      padding: 10px 8px;
+    }
+  }
+
+   @media only screen and (max-width: 350px) {
+   .bundle_featured_collection.bundle_collection_{{ section.id }} .bundle_collection_main .featured_product_list .bundle_add_button button  {
+      font-size: 12px;
+    }
+ }
+  
+  .bundle_main_heading {
+    text-align:center;
+  } 
+  
+  @media only screen and (min-width: 768px) {
+    
+  .bundle_main_heading {
+      text-align: center;
+      max-width: 80%;
+      margin: 0 auto;
+  }
+} 
+@media only screen and (min-width: 1130px) {
+    .bundle_collection_main .flickity-viewport {
+      min-height: 450px !important;
+    }
+}  
+@media only screen and (min-width: 1000px) and (max-width: 1129px) {
+    .bundle_collection_main .flickity-viewport {
+      min-height: 425px !important;
+    }
+} 
+@media only screen and (min-width: 581px) and (max-width: 999px) {
+    .bundle_collection_main .flickity-viewport {
+      min-height: 400px !important;
+    }
+}   
+@media only screen and (max-width: 580px) {
+    .bundle_collection_main .flickity-viewport {
+      min-height: 335px !important;
+    }
+}  
+</style>
+
+<div class="bundle_featured_collection bundle_collection_{{ section.id }}">
+  <div class="container">
+    <div class="bundle_main_heading">
+      {% if section.settings.heading != blank %}
+        <div class="heading font-thin">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <div class="description">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="bundle_collection_main bundle_product_list_main">
+      {% assign collection = section.settings.collection_products %}
+      {% assign limit = section.settings.product_limit %}
+      {% for product in collection.products limit: limit %}
+        <div class="featured_product_list" data-variant="{{ product.selected_or_first_available_variant.id }}">
+          <span class="added_counter" style="display: none;">0</span>
+          {% if product.selected_or_first_available_variant.featured_image != blank %}
+            <div class="image">
+              <img src="{{ product.selected_or_first_available_variant.featured_image | img_url: 'master' }}">
+            </div>
+          {% elsif product.featured_image != blank %}
+            <div class="image">
+              <img src="{{ product.featured_image | img_url: 'master' }}">
+            </div>
+          {% endif %}
+          {% if product.title != blank %}
+            <div class="title">
+              <h4>{{ product.title }}</h4>
+            </div>
+          {% endif %}
+          {% if product.metafields.product_cards.product_card_details != blank %}
+            <div class="varinat_details">
+              <h5>{{ product.metafields.product_cards.product_card_details }}</h5>
+            </div>
+          {% endif %}
+          <div class="price_container">
+            <span class="original_price">{{ product.selected_or_first_available_variant.price | money }}</span>
+            {% if product.selected_or_first_available_variant.price < product.selected_or_first_available_variant.compare_at_price %}
+              <span class="compare_price"><del>{{ product.selected_or_first_available_variant.compare_at_price | money }}</del></span>
+            {% endif %}
+          </div>
+          {% if section.settings.button_text != blank %}
+            <div class="bundle_add_button">
+              <button
+                class="bundle_add_button_atc {% if product.selected_or_first_available_variant.available %}instock{% else %}soldout{% endif %}" 
+                {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+                data-variant="{{ product.selected_or_first_available_variant.id }}" 
+                data-price="{{ product.selected_or_first_available_variant.price }}" 
+                {% if product.variants.size > 1 and product.selected_or_first_available_variant.featured_image != blank %}
+                data-img="{{ product.selected_or_first_available_variant.featured_image | image_url: width: 100 }}"
+                {% else %}
+                data-img="{{ product.featured_image | image_url: width: 100 }}"
+                {% endif %}
+              >
+                {% if product.selected_or_first_available_variant.available %}
+                  {{ section.settings.button_text }}
+                {% else %}
+                  SOLD OUT
+                {% endif %}
+              </button>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+
+
+</script>
+
+{% schema %}
+{
+  "name": "Bundle Product",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "collection",
+      "id": "collection_products",
+      "label": "Select Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "label": "Product limit",
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "ADD TO BUNDLE"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button BG Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 0,
+      "max": 65,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mb",
+      "min": 0,
+      "max": 42,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size Mobile",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 0,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "label": "Descritpion Font Size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "description_size_mb",
+      "min": 0,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "label": "Descritpion Font Size Mobile",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "title_size_mb",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size Mobile",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size",
+      "default": 18
+     },
+      {
+      "type": "range",
+      "id": "button_text_size_mb",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size Mobile",
+      "default": 16
+     }
+  ],
+  "presets": [
+    {
+      "name": "Bundle Product"
+    }
+  ]
+}
+{% endschema %}

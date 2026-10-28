@@ -1,0 +1,666 @@
+<link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- if settings.predictive_search_enabled -%}
+  <link
+    rel="stylesheet"
+    href="{{ 'component-predictive-search.css' | asset_url }}"
+    media="print"
+    onload="this.media='all'"
+  >
+  <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
+  <link
+    rel="stylesheet"
+    href="{{ 'component-loading-overlay.css' | asset_url }}"
+    media="print"
+    onload="this.media='all'"
+  >
+{%- endif -%}
+
+{{ 'base-modal.css' | asset_url | stylesheet_tag }}
+{{ 'base-header.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="icon-search" viewbox="0 0 18 19" fill="none">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.03 11.68A5.784 5.784 0 112.85 3.5a5.784 5.784 0 018.18 8.18zm.26 1.12a6.78 6.78 0 11.72-.7l5.4 5.4a.5.5 0 11-.71.7l-5.41-5.4z" fill="currentColor"/>
+  </symbol>
+
+  <symbol id="icon-close" class="icon icon-close" fill="none" viewBox="0 0 18 17">
+    <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
+  </symbol>
+</svg>
+
+<div class="header-wrapper new_desktop_header">
+  <header class="site-header  flex items-center justify-between site-container">
+    <button js-open-mobile-nav class="w-48 h-38 desktop:hidden">{% render 'icon-menu' %}</button>
+    <button class="w-20 hidden custom_close">{% render 'icon-close' %}</button>
+
+    
+    <a href="/" class="header-logo__link w-118 desktop:w-140">
+      {% render 'icon-logotype-black' %}
+    </a>
+    <div class="flex items-center justify-end justify-self-end gap-28">
+      <div class="header-nav__container hidden">
+
+
+        {% for block in section.blocks %}
+          {% case block.type %}
+
+            {% when 'menu_item' %}
+              <a href="{{ block.settings.menu_link }}" class="new_single_item header-nav__item uppercase font-grotesque text-20 px-16">
+                {{- block.settings.menu_item_text -}}
+              </a>
+
+            {% when 'mega_menu' %}
+              <a href="{{ block.settings.menu_link }}" class="new_megamenu_item header-nav__item uppercase font-grotesque text-20 px-16" id="new_megamenu_item_{{ block.id }}">
+                <span>{{- block.settings.menu_item_text -}}</span>
+                {% render 'icon-caret' %}
+              </a>
+            {% when 'mega_menu_v2' %}
+              <a href="{{ block.settings.menu_link }}" class="new_megamenu_item header-nav__item uppercase font-grotesque text-20 px-16" id="new_megamenu_item_{{ block.id }}">
+                <span>{{- block.settings.menu_item_text -}}</span>
+                {% render 'icon-caret' %}
+              </a>
+            
+          {% endcase %}
+        {% endfor %}
+
+
+        
+        {% comment %}
+        {% for link in linklists[section.settings.menu].links %}
+          <a href="{{ link.url }}" class="header-nav__item uppercase font-grotesque text-20 px-16">
+            {{- link.title -}}
+          </a>
+        {% endfor %}
+
+          <button class="hidden desktop:inline-block header-nav__item uppercase font-grotesque px-10 relative" js-open-cart-drawer>
+            {% render 'icon-cart' %}
+            {% if cart.item_count > 0 %}
+              <span class="absolute -top-8 right-0 bg-black w-16 h-16 block text-10 rounded-full text-white">{{ cart.item_count }}</span>
+            {% endif %}
+          </button>
+        {% endcomment %}
+      </div>
+
+      <details-modal class="header__search">
+        <details>
+          <summary
+            class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle"
+            aria-haspopup="dialog"
+            aria-label="{{ 'general.search.search' | t }}"
+          >
+            <span>
+              {%- render 'icon-search' -%}
+              {% comment %}
+                <svg class="modal__toggle-close icon icon-close" aria-hidden="true" focusable="false" role="presentation">
+                  <use href="#icon-close"></use>
+                </svg>
+              {% endcomment %}
+            </span>
+          </summary>
+          <div
+            class="search-modal modal__content"
+            role="dialog"
+            aria-modal="true"
+            aria-label="{{ 'general.search.search' | t }}"
+          >
+            <div class="modal-overlay"></div>
+            <div
+              class="search-modal__content{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} search-modal__content-top{% else %} search-modal__content-bottom{% endif %}"
+              tabindex="-1"
+            >
+              {%- if settings.predictive_search_enabled -%}
+                <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
+              {%- endif -%}
+              <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
+                <div class="field">
+                  <input
+                    class="search__input field__input"
+                    id="Search-In-Modal"
+                    type="search"
+                    name="q"
+                    value=""
+                    placeholder="{{ 'general.search.search' | t }}"
+                    {%- if settings.predictive_search_enabled -%}
+                      role="combobox"
+                      aria-expanded="false"
+                      aria-owns="predictive-search-results-list"
+                      aria-controls="predictive-search-results-list"
+                      aria-haspopup="listbox"
+                      aria-autocomplete="list"
+                      autocorrect="off"
+                      autocomplete="off"
+                      autocapitalize="off"
+                      spellcheck="false"
+                    {%- endif -%}
+                  >
+                  <!-- next line adds the word "search" above search box -->
+                  <!-- <label class="field__label" for="Search-In-Modal">{{ 'general.search.search' | t }}</label> -->
+                  <input type="hidden" name="options[prefix]" value="last">
+                  <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+                    <svg class="icon icon-search" aria-hidden="true" focusable="false" role="presentation">
+                      <use href="#icon-search"></use>
+                    </svg>
+                  </button>
+                </div>
+
+                {%- if settings.predictive_search_enabled -%}
+                  <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+                    <div class="predictive-search__loading-state">
+                      <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        role="presentation"
+                        class="spinner"
+                        viewBox="0 0 66 66"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+                {%- endif -%}
+              </form>
+              {%- if settings.predictive_search_enabled -%}
+                </predictive-search>
+              {%- endif -%}
+              <button
+                type="button"
+                class="search-modal__close-button modal__close-button link link--text focus-inset"
+                aria-label="{{ 'accessibility.close' | t }}"
+              >
+                <svg class="icon icon-close" aria-hidden="true" focusable="false" role="presentation">
+                  <use href="#icon-close"></use>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </details>
+      </details-modal>
+      <button class="font-grotesque relative header__icon" js-open-cart-drawer>
+        {% render 'icon-cart' %}
+        {% if cart.item_count > 0 %}
+          <span class="absolute -top-8 right-0 bg-black w-16 h-16 block text-10 rounded-full text-white">
+            {{- cart.item_count -}}
+          </span>
+        {% endif %}
+      </button>
+    </div>
+  </header>
+
+  {% for block in section.blocks %}
+    {% case block.type %} 
+      {% when 'mega_menu_v2' %}
+        <div class="new_megamenu_main" data-id="new_megamenu_item_{{ block.id }}"> 
+          <div class="site-container">
+            <div class="new_megamenu_main_v2">
+              <div class="new_megamenu_col_v2">
+                <ul class="new_megamenu_menu_v2 left_menu">
+                  {% for link in block.settings.column_menu_v2.links %}
+                        <li>
+                          <a href="{{ link.url }}">
+                            <span>{{ link.title }}</span>
+                          </a>
+                        </li>
+                      {% endfor %}
+                </ul>  
+              </div>
+              <div class="new_megamenu_col_v2">
+                <ul class="new_megamenu_menu_v2 feature-column">
+                  {% for link in block.settings.column_menu_v2.links %}
+                        {% if link.type == 'product_link' %}
+                        <li class="{% if link.object.metafields.custom.mega_menu_image_v2 != blank %} new_megamenu_v2 {% endif %}">
+                          <a href="{{ link.url }}">
+                            {% if link.object.metafields.custom.mega_menu_image_v2 != blank %}
+                              <img src="{{ link.object.metafields.custom.mega_menu_image_v2 | img_url:'master' }}"/>
+                            {% endif %}
+                            <span>{{ link.title }}</span>
+                          </a>
+                        </li>
+                        {% elsif link.type == 'collection_link' %}  
+                          <li class="{% if link.object.metafields.custom.mega_menu_image_v2 != blank %} new_megamenu_v2 {% endif %}">
+                          <a href="{{ link.url }}">
+                            {% unless link.title == 'Shop All' %}
+                            {% if link.object.metafields.custom.mega_menu_image_v2 != blank %}
+                              <img src="{{ link.object.metafields.custom.mega_menu_image_v2 | img_url:'master' }}"/>
+                            {% endif %}
+                            {% endunless %}
+                            <span>{{ link.title }}</span>
+                          </a>
+                        </li>
+                        {% elsif link.type == 'page_link' %}  
+                          <li class="{% if link.object.metafields.custom.mega_menu_image_v2 != blank %} new_megamenu_v2 {% endif %}">
+                          <a href="{{ link.url }}">
+                            {% unless link.title == 'Shop All' %}
+                            {% if link.object.metafields.custom.mega_menu_image_v2 != blank %}
+                              <img src="{{ link.object.metafields.custom.mega_menu_image_v2 | img_url:'master' }}"/>
+                            {% endif %}
+                            {% endunless %}
+                            <span>{{ link.title }}</span>
+                          </a>
+                        </li>  
+                        {% else %}
+                        <li>
+                          <a href="{{ link.url }}">
+                            <span>{{ link.title }}</span>
+                            
+                          </a>
+                        </li>
+                          
+                        {% endif %}
+                      {% endfor %}
+                </ul> 
+              </div>
+              
+            </div>
+          </div>
+        </div>  
+      {% when 'mega_menu' %}
+        <div class="new_megamenu_main" data-id="new_megamenu_item_{{ block.id }}"> 
+          <div class="site-container">
+            <div class="new_megamenu_main_inner">
+                {% liquid
+
+                  assign ch = "column_heading_"
+                  assign hl = "heading_link_"
+                  assign cm = "column_menu_"
+                  assign nc = "no_column_"
+                  
+                
+                %}
+
+                {% for i in (1..5) %} 
+
+                  {% liquid
+
+                    assign column_heading = ch | append:i
+                    assign heading_link = hl | append:i
+                    assign column_menu = cm | append:i
+                    assign no_column = nc | append:i
+                  
+                  %}
+
+                  {% if block.settings[column_menu] != blank %}
+                  <div class="new_megamenu_column {% if block.settings[no_column] == 2 %} two_column{% elsif block.settings[no_column] == 3 %} three_column{% endif %}">
+                    {% if block.settings[heading_link] != blank %}
+                      <h2 class="heading_with_link">
+                        <a href="{{  block.settings[heading_link] }}">
+                          {{  block.settings[column_heading] }}
+                        </a>
+                      </h2>
+                    {% else %}
+                      <h2 class="heading_without_link">
+                        {{  block.settings[column_heading] }}
+                      </h2>
+                    {% endif %}
+
+                    <ul class="new_megamenu_column_menu">
+                      {% for link in block.settings[column_menu].links %}
+                        {% if link.type == 'product_link' %}
+                        <li class="{% if link.object.metafields.custom.new_menu_icon != blank or link.object.featured_image %} new_megamenu_icon {% endif %}">
+                          <a href="{{ link.url }}">
+                            <span>{{ link.title }}</span>
+                            
+                            {% if link.object.metafields.custom.new_menu_icon != blank %}
+                              <img src="{{ link.object.metafields.custom.new_menu_icon | img_url:'x100' }}"/>
+                            {% elsif  link.object.featured_image != blank%}
+                               <img src="{{ link.object.featured_image.src | img_url:'x100' }}"/>
+                            {% endif %}
+                            
+                          </a>
+                        </li>
+                        {% elsif link.type == 'collection_link' %}  
+                          <li class="{% if link.object.metafields.custom.new_menu_icon != blank or link.object.featured_image %} new_megamenu_icon {% endif %}">
+                          <a href="{{ link.url }}">
+                            <span>{{ link.title }}</span>
+                            {% unless link.title == 'Shop All' %}
+                            {% if link.object.metafields.custom.new_menu_icon != blank %}
+                              <img src="{{ link.object.metafields.custom.new_menu_icon | img_url:'x100' }}"/>
+                            {% elsif  link.object.featured_image != blank%}
+                               <img src="{{ link.object.featured_image.src | img_url:'x100' }}"/>
+                            {% endif %}
+                            {% endunless %}
+                          </a>
+                        </li>
+                        {% else %}
+                        <li>
+                          <a href="{{ link.url }}">
+                            <span>{{ link.title }}</span>
+                            
+                          </a>
+                        </li>
+                          
+                        {% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  {% endif %}
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+    {% endcase %}
+  {% endfor %}
+  
+</div>
+
+
+<div class="new_mobile_header">
+  {% render 'mobile-nav-drawer' %}
+</div>
+ 
+
+<script>
+  $(document).ready(function(){
+    $('.new_megamenu_item').on('mouseenter',function(){ 
+      $(this).addClass('active')
+      $(`.new_megamenu_main[data-id="${$(this).attr('id')}"]`).fadeIn()
+    })
+    $('.new_megamenu_main').on('mouseleave',function(){
+      $(`.new_megamenu_item[id="${$(this).attr('data-id')}"]`).removeClass('active')
+      $('.new_megamenu_main').fadeOut()
+    })
+    $('.new_single_item').on('mouseenter',function(){
+      $('.new_megamenu_item').removeClass('active')
+      $('.new_megamenu_main').fadeOut()
+    })
+
+
+
+
+    $('[js-open-mobile-nav]').on('click',function(){
+      $(this).hide()
+      $('.custom_close').show()
+    })
+    $('.custom_close').on('click',function(){
+      $(this).hide()
+      $('[js-close-mobile-nav]').click();
+      $('[js-open-mobile-nav]').show()
+    })
+
+    // 1st step drawer
+    $('.new_mobile_header .new_megamenu_item_mbl .open_headings').on('click',function(e){
+      e.preventDefault()
+      $(this).parents('.mega_item').find('.new_mbl_menu_headings_list').addClass('active')
+    })
+    $('.new_mbl_prev').on('click',function(){
+      $('.new_mbl_menu_headings_list').removeClass('active')
+    })
+
+    // 2nd step drawer
+    $('.open_inner_menu').on('click',function(){
+      $(this).parents('.headings_menus.top_item').find('.mbl_inner_menu').addClass('active')
+    })
+    $('.new_mbl_prev_inner_menu').on('click',function(){
+      $('.mbl_inner_menu').removeClass('active')
+    })
+  })
+</script>
+      
+{% schema %}
+{
+  "name": "Header",
+  "class": "bg-white",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main Navigation"
+    }
+  ],
+  "blocks": [
+     {
+       "name": "Menu Item",
+       "type": "menu_item",
+       "settings": [
+         {
+          "type": "text",
+          "id": "menu_item_text",
+          "label": "Heading",
+          "default": "Menu"
+         },
+         {
+          "type": "url",
+          "id": "menu_link",
+          "label": "Menu link"
+        } 
+       ]
+     },
+    {
+       "name": "Mega Menu V2",
+       "type": "mega_menu_v2",
+       "settings": [
+        {
+          "type": "text",
+          "id": "menu_item_text",
+          "label": "Heading",
+          "default": "Menu"
+         },
+         {
+          "type": "url",
+          "id": "menu_link",
+          "label": "Menu link"
+         },
+         {
+          "type": "link_list",
+          "id": "column_menu_v2",
+          "label": "Menu"
+        },
+       ]
+     },
+     {
+       "name": "Mega Menu",
+       "type": "mega_menu",
+       "settings": [
+         {
+          "type": "text",
+          "id": "menu_item_text",
+          "label": "Heading",
+          "default": "Menu"
+         },
+         {
+          "type": "url",
+          "id": "menu_link",
+          "label": "Menu link"
+         },
+         {
+            "type":"header",
+            "content":"Column 0"
+         },
+         {
+          "type": "text",
+          "id": "column_heading_6",
+          "label": "Heading",
+          "default": "NOMAD System"
+        },
+        {
+          "type": "url",
+          "id": "heading_link_6",
+          "label": "Heading Link"
+        },
+         {
+          "type": "link_list",
+          "id": "column_menu_6",
+          "label": "Menu"
+        },
+         {
+          "type": "range",
+          "id": "no_column_6",
+          "label": "No Of Column",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 1
+        },
+         {
+            "type":"header",
+            "content":"Column 1"
+         },
+         {
+          "type": "text",
+          "id": "column_heading_1",
+          "label": "Heading",
+          "default": "Stainless"
+        },
+        {
+          "type": "url",
+          "id": "heading_link_1",
+          "label": "Heading Link"
+        },
+        {
+          "type": "link_list",
+          "id": "column_menu_1",
+          "label": "Menu"
+        },
+         {
+          "type": "range",
+          "id": "no_column_1",
+          "label": "No Of Column",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 1
+        },
+        {
+            "type":"header",
+            "content":"Column 2"
+         },
+         {
+          "type": "text",
+          "id": "column_heading_2",
+          "label": "Heading",
+          "default": "Stainless"
+        },
+        {
+          "type": "url",
+          "id": "heading_link_2",
+          "label": "Heading Link"
+        },
+        {
+          "type": "link_list",
+          "id": "column_menu_2",
+          "label": "Menu"
+        },
+         {
+          "type": "range",
+          "id": "no_column_2",
+          "label": "No Of Column",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 1
+        },
+        {
+            "type":"header",
+            "content":"Column 3"
+         },
+         {
+          "type": "text",
+          "id": "column_heading_3",
+          "label": "Heading",
+          "default": "Stainless"
+        },
+        {
+          "type": "url",
+          "id": "heading_link_3",
+          "label": "Heading Link"
+        },
+        {
+          "type": "link_list",
+          "id": "column_menu_3",
+          "label": "Menu"
+        },
+         {
+          "type": "range",
+          "id": "no_column_3",
+          "label": "No Of Column",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 1
+        },
+        {
+            "type":"header",
+            "content":"Column 4"
+         },
+         {
+          "type": "text",
+          "id": "column_heading_4",
+          "label": "Heading",
+          "default": "Stainless"
+        },
+        {
+          "type": "url",
+          "id": "heading_link_4",
+          "label": "Heading Link"
+        },
+        {
+          "type": "link_list",
+          "id": "column_menu_4",
+          "label": "Menu"
+        },
+         {
+          "type": "range",
+          "id": "no_column_4",
+          "label": "No Of Column",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 1
+        },
+        {
+            "type":"header",
+            "content":"Column 5"
+         },
+         {
+          "type": "text",
+          "id": "column_heading_5",
+          "label": "Heading",
+          "default": "Stainless"
+        },
+        {
+          "type": "url",
+          "id": "heading_link_5",
+          "label": "Heading Link"
+        },
+        {
+          "type": "link_list",
+          "id": "column_menu_5",
+          "label": "Menu"
+        },
+        {
+          "type": "range",
+          "id": "no_column_5",
+          "label": "No Of Column",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 1
+        }
+       ]
+     }
+  ]
+}
+{% endschema %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

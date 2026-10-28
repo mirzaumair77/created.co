@@ -1,0 +1,235 @@
+<style>
+  .triple_image_{{ section.id }} {
+    padding:145px 0;
+  }
+ .triple_image_{{ section.id }} .ti_inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+        justify-items: center;
+        align-items: center;
+}
+ .triple_image_{{ section.id }} .ti_media_item_width {
+    max-width: 460px;
+}
+  @media(min-width:769px){
+  .triple_image_{{ section.id }}  img.triple_img {
+    display: block;
+    margin: 0 auto;
+} 
+  }
+ 
+.triple_image_{{ section.id }} .ti_content {
+    margin-top: 44px;
+}
+.triple_image_{{ section.id }}  .ti_content p {
+    font-family: grotesque, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: 18px;
+} 
+
+  @media(max-width:769px){
+  .triple_image_{{ section.id }}  .ti_content.hide_mobile{
+      display:none;
+    }
+   .triple_image_{{ section.id }} .ti_inner {
+    grid-template-columns: 1fr;
+    justify-items: unset;
+}
+    .triple_image_{{ section.id }} {
+    padding: 66px 0;
+}
+  .triple_image_{{ section.id }}  .ti_content {
+    margin-top: 30px;
+}
+  .triple_image_{{ section.id }}  .ti_inner {
+    row-gap: 61px;
+}
+
+   
+  .triple_image_{{ section.id }}  img.triple_img {
+    display: unset;
+}
+    
+ .triple_image_{{ section.id }}   .mobile_revers .ti_media_with_content {
+    grid-row: 1;
+}
+  .triple_image_{{ section.id }}  .mobile_revers .ti_media_with_image {
+    grid-row: 2;
+}
+ .triple_image_{{ section.id }}   .ti_media {
+    max-width: 80%;
+}
+  .triple_image_{{ section.id }}  .flot_left {
+    float: left;
+}
+  .triple_image_{{ section.id }}  .flot_right {
+    float: right;
+}
+  }
+</style>
+
+
+<section class=" triple_image triple_image_{{ section.id }}" style="background:{{ section.settings.bg_color }};">
+  <div class="triple-image-main site-container">
+    <div class="ti_inner {% if section.settings.reverse_row == true %}mobile_revers {% endif %}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'media_with_content' -%}
+            <div class="ti_media_item ti_media_with_content">
+              <div class="ti_media_item_width">
+              {% if block.settings.image != blank %}
+              <div class="ti_media {% if block.settings.image_align_mobile == "left" %} flot_left{% else %}flot_right{% endif %}">
+                <img src="{{ block.settings.image | image_url }}" class="triple_img" width="" height="" alt="{{ block.settings.image.alt }}">
+              </div>
+              {% endif %}
+              {% if block.settings.description != blank %}
+              <div class="ti_content {% if block.settings.hide_text_mobile == true %} hide_mobile{% endif %}" style="color:{{ block.settings.text_color }};" >
+                 {{ block.settings.description }} 
+              </div>
+              {% endif %}
+              </div>
+            </div>
+           {%- when 'double_media' -%}
+          <div class="ti_media_item ti_media_with_image">
+            {% if block.settings.image_01 != blank %}
+            <div class="ti_media ti_media_1 {% if block.settings.image_align_mobile_1 == "left" %} flot_left{% else %}flot_right{% endif %}">
+                <img src="{{ block.settings.image_01 | image_url }}" class="triple_img" width="" height="" alt="{{ block.settings.image.alt }}">
+            </div>
+            {% endif %} 
+             {% if block.settings.image_02 != blank %} 
+              <div class="ti_media ti_media_2 mt-60 {% if block.settings.image_align_mobile_2 == "left" %} flot_left{% else %}flot_right{% endif %}">
+                <img src="{{ block.settings.image_02 | image_url }}" class="triple_img" width="" height="" alt="{{ block.settings.image.alt }}">
+              </div> 
+            {% endif %}   
+          </div>
+        {% endcase %}  
+      {% endfor %} 
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+{% schema %}
+  {
+  "name": "Pursuit triple images",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "BG Color",
+      "default": "#fff"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse_row",
+      "label": "Row Reverse Mobile",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Media with content",
+      "type": "media_with_content",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "image_align_mobile",
+          "label": "Image Align Mobile",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#000"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_text_mobile",
+          "label": "Hide Text Mobile",
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Double media",
+      "type": "double_media",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_01",
+          "label": "Image 01"
+        },
+        {
+          "type": "select",
+          "id": "image_align_mobile_1",
+          "label": "Image Align Mobile",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_02",
+          "label": "Image 02"
+        },
+        {
+          "type": "select",
+          "id": "image_align_mobile_2",
+          "label": "Image Align Mobile",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pursuit triple images"
+    }
+  ]
+}  
+{% endschema %}

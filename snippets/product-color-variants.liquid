@@ -1,0 +1,51 @@
+<div class="mb-55 tablet:max-w-8/10">
+  <span class="form__label block w-full border-b uppercase font-medium pb-5 tablet:pb-8 mb-24 text-12 font-semibold">Colors:&nbsp;&nbsp;<span id="SelectedColor">select a color below</span></span>  
+  <div class="flex items-center">
+    {% assign color_swatches_max = settings.color_swatches_max | default: 25 %}
+    {% for i in (1..color_swatches_max) %}
+      {% assign temp_related_product_url = 'related_product_color_' | append: i %}
+      {% assign temp_related_product_color = 'related_color_swatch_' | append: i %}
+      {% assign related_product_url = product.metafields['variants'][temp_related_product_url].value.url %}
+      {% assign related_product_color = product.metafields['variants'][temp_related_product_color] %}
+      {% if related_product_url == blank %}
+        {% assign related_product_url = product.metafields['custom'][temp_related_product_url].value.url %}
+      {% endif %}
+      {% if related_product_color == blank %}
+        {% assign related_product_color = product.metafields['custom'][temp_related_product_color] %}
+      {% endif %}
+      {% if related_product_url != blank %}
+           <a href="{{ related_product_url }}" data-color="{{related_product_url}}" class="hoverColor inline-block border rounded-full rounded-t-none h-38 w-33 hover:border-black transition-all{% unless forloop.first %} ml-10{% endunless %}" style="background-color: {{ related_product_color }};"></a>
+      {% else %}
+        {% continue %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- this code displays the color of the hovered product -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all elements with the class "myAnchor"
+        var anchors = document.querySelectorAll('.hoverColor');
+        var selectedColor = document.getElementById('SelectedColor');
+        
+        // Loop through all anchors and attach the hover event
+        anchors.forEach(function(anchor) {
+            anchor.addEventListener('mouseover', function() {
+
+              var colorUrl = this.getAttribute('data-color');
+              if (colorUrl)
+              {
+                 let parts = colorUrl.split("-");
+                let color = parts[parts.length - 1];  
+              
+                selectedColor.textContent = color;
+              }
+            });
+
+            anchor.addEventListener('mouseout', function() {
+                selectedColor.textContent = 'select a color below';
+            });
+        });
+    });
+</script>

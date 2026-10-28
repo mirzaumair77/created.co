@@ -1,0 +1,299 @@
+{% comment %}
+  Renders a product card
+
+  Accepts:
+  - product_card_product: {Object} Product Liquid object (optional)
+  - media_size: {String} Size of the product image card. Values are "square" and "portrait". Default is "square" (optional)
+  - show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
+  - add_image_padding: {Boolean} Enables padding on the image to space out the grid
+  - show_vendor: {Boolean} Show the product vendor. Default: false
+  - show_price: {Boolean} Show the product price.
+  - show_button: {Boolean} Show the buy button.
+  - show_badge: {Boolean} Show product card badges.
+  - name_font_family: {String}: Name of font family to use for product name
+  - name_font_size: {String}: Font size in pixels to use for product name
+  - name_font_weight: {String}: Font weight to use for product name
+  - price_font_family: {String}: Name of font family to use for product price
+  - price_font_size: {String}: Font size in pixels to use for product price
+  - price_font_weight: {String}: Font weight to use for product price
+
+  Usage:
+  {% render 'product-card', show_vendor: section.settings.show_vendor %}
+{% endcomment %}
+
+{%- assign uid = 'product-' | append: product_card_product.id -%}
+
+{% if product_card_product.metafields.custom.life_style_image or product_card_product.metafields.custom.hover_image  %}
+  {% style %}
+    #{{ uid }}.hide-life-style .life-style-image {
+      visibility: hidden;
+    }
+    #{{ uid }} .life-style-image {
+      opacity: 0;
+    }
+
+    #{{ uid }} .bg-product-card .card--product:hover .life-style-image {
+      opacity: 1;
+    }
+
+    #{{ uid }} .bg-product-card .card--product:hover+.card-information {
+      color: #fff;
+    }
+
+    #{{ uid }} .bg-product-card .card--product:hover+.card-information .variant-selector {
+      display: none;
+    }
+
+    #{{ uid }} .bg-product-card .card--product:hover+.card-information #buy-buttons {
+      visibility: visible;
+          opacity: 1;
+      /* display:none;
+      order: -1; */
+    }
+     #{{ uid }} .bg-product-card .card--product:hover+.card-information #buy-buttons .btn {
+      /* color: #fff; */
+    }
+    @media(min-width:768px){
+      .fl_min_height{
+      height:309px;
+    }
+    }
+    
+     #buy-buttons {
+    display: flex;
+    justify-content: center;
+}
+  {% endstyle %}
+{% endif %}
+
+<div id="{{ uid }}" class="card-wrapper relative">
+  <div class="bg-product-card">
+    <span class="visually-hidden sr-only">{{ product_card_product.title | escape }}</span>
+    <div
+      class="card card--product{% if product_card_product.featured_media == nil %} card--text-only card--soft{% endif %}"
+      tabindex="-1"
+    >
+      <div class="card__inner fl_min_height">
+        {% if product_card_product.metafields.custom.hover_image %}
+           <div
+              class="absolute life-style-image"
+              style="background: url('{{ product_card_product.metafields.custom.hover_image.value |  image_url: width: 450 }}'); width: 100%; height: 100%; background-repeat: no-repeat; background-size: cover; background-position: center;"
+            >
+              <div class="absolute h-full left-0 life-style-gradiant top-0 w-full"></div>
+            </div>
+          {% else %}
+          {% if product_card_product.metafields.custom.life_style_image %}
+            <div
+              class="absolute life-style-image"
+              style="background: url('{{ product_card_product.metafields.custom.life_style_image.value |  image_url: width: 450 }}'); width: 100%; height: 100%; background-repeat: no-repeat; background-size: cover; background-position: center;"
+            >
+              <div class="absolute h-full left-0 life-style-gradiant top-0 w-full"></div>
+            </div>
+          {% endif %}
+{% endif %}
+          {%- if product_card_product.featured_media -%}
+            {%- liquid
+              assign featured_media_aspect_ratio = product_card_product.featured_media.aspect_ratio
+
+              if product_card_product.featured_media.aspect_ratio == null
+                assign featured_media_aspect_ratio = 1
+              endif
+            -%}
+
+            <div id="image">
+              <div
+                {% if add_image_padding %}
+                  class="card__media-full-spacer"
+                {% endif %}
+              >
+                <div
+                  class="media media--transparent media--{{ media_size }} media--hover-effect"
+                  {% if media_size == 'adapt' and product_card_product.featured_media %}
+                    style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
+                  {% endif %}
+                >
+                  {% render 'lazy-image', image: product_card_product.featured_image %}
+
+                  {%- if product_card_product.media[1] != null and show_secondary_image -%}
+                    {% render 'lazy-image', image: product_card_product.images[1] %}
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- else -%}
+            <div class="card__content">
+              <h2 class="card__text h2">
+                {{
+                  product_card_product.metafields.product_cards.product_card_title
+                  | default: product_card_product.title
+                }}
+              </h2>
+            </div>
+          {%- endif -%}
+          
+          {% if show_badge %}
+            <div class="card__badge">
+              {%- if product_card_product.available == false -%}
+                <span
+                  class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
+                  aria-hidden="true"
+                >
+                  {{ 'products.product.sold_out' | t }}
+                </span>
+              {%- elsif product_card_product.compare_at_price > product_card_product.price
+                and product_card_product.available
+              -%}
+                <span
+                  class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
+                  aria-hidden="true"
+                >
+                  {{ 'products.product.on_sale' | t }}
+                </span>
+              {%- endif -%}
+            </div>
+          {% endif %}
+      
+      </div>
+    </div>
+
+    <div class="card-information p-24 relative z-10 flex flex-col">
+      <div class="card-information__wrapper flex flex-col gap-24 min-h-156 justify-end">
+        {%- if show_vendor -%}
+          <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+          <div class="caption-with-letter-spacing light">{{ product_card_product.vendor }}</div>
+        {%- endif -%}        
+
+        {%- capture title_classes -%}
+          truncate {% if name_font_family %} font-{{ name_font_family }}{% endif %} {% if name_font_size %} text-{{ name_font_size }}{% else %} text-30{% endif %}{% if name_font_weight %} font-{{ name_font_weight }}{% endif %}
+        {%- endcapture -%}
+
+        <div id="title">
+
+          {% if shop.metafields.okendo.settings.isWidgetPlusEnabled == true %}
+              {% assign renderWidgetPlusContent = true %}
+          {% elsif shop.metafields.okendo.settings.isWidgetPlusAdminEnabled == true %}
+              {% if request.design_mode or theme.role == "unpublished" %}
+          	{% assign renderWidgetPlusContent = true %}
+              {% endif %}
+          {% endif %}
+          
+          {% if renderWidgetPlusContent == true %}
+              <div data-oke-star-rating data-oke-reviews-product-id="shopify-{{ product_card_product.id }}">
+                  {{ product.metafields.okendo.StarRatingSnippet }}
+              </div>
+          {% else %}
+              <div data-oke-reviews-product-listing-rating>
+                  {{ product.metafields.okendo.ProductListingSnippet }}
+              </div>
+          {% endif %}
+          
+         
+            <h4 class="card-information__text flex justify-between items-center">
+              {%- if product_card_product.metafields.product_cards.product_card_title -%}
+                <span class="{{ title_classes }}">
+                  
+                  {{ product_card_product.metafields.product_cards.product_card_title }}
+                  
+                </span>
+                <span class="font-grotesque text-16 font-medium">
+                  {{- product_card_product.metafields.product_cards.product_card_details | upcase -}}
+                </span>
+              {%- else -%}
+                <span class="flex flex-col">
+                  <span class="{{ title_classes }}">{{ product_card_product.title | split: '-' | first }}</span>
+                  <span class="font-grotesque text-16 font-medium">
+                    {{- product_card_product.title | split: '-' | last -}}
+                  </span>
+                </span>
+              {%- endif -%}
+            </h4>
+          
+        </div>
+
+        {% if product_card_product.metafields.variants.related_color_swatch_1 != blank %}
+          {% render 'product-color-variants-collection-card', product: product_card_product %}
+        {% endif %}
+
+        {% if show_price %}
+          <div id="price" class="flex justify-between items-end" {% if product_card_product.tags contains 'hide_atc' %}style="visibility:hidden;"{%- endif -%}>
+            {% assign money_price = product_card_product.price_max | money_without_trailing_zeros | strip %}
+            {% assign compare_at_price = product_card_product.compare_at_price_max | money_without_trailing_zeros | strip %}
+            
+            <span class="product-card__price block {% if price_font_family %} font-{{ price_font_family }}{% endif %} {% if price_font_size %} text-{{ price_font_size }}{% else %} text-22{% endif %}{% if price_font_weight %} font-{{ price_font_weight }}{% endif %}">
+              
+              {% if product_card_product.compare_at_price_max > product_card_product.price_max %}
+                <!-- Display compare price with strikethrough if there is a discount -->
+                <span class="compare-price comparedPFPC" style="text-decoration: line-through;">
+                  {{ compare_at_price }}
+                </span>
+                <span class="current-price">
+                  {%- if product.price_varies -%}
+                    {{ 'products.product.price.from_price_html' | t: price: money_price }}
+                  {%- else -%}
+                    {{ money_price }}
+                  {%- endif -%}
+                </span>
+              {% else %}
+                <!-- Display regular price without compare price -->
+                {%- if product.price_varies -%}
+                  {{ 'products.product.price.from_price_html' | t: price: money_price }}
+                {%- else -%}
+                  {{ money_price }}
+                {%- endif -%}
+              {% endif %}
+              
+            </span>
+          </div>
+        {% endif %}
+
+      </div>
+      
+     {% if product_card_product.tags contains 'hide_atc' %}
+              <a class="btn mt-20 relative learn_btn" href="{{ product_card_product.url }}">Learn More</a>
+            {% else %}
+      {% if show_button %}
+        <div id="buy-buttons" class="fl_buy_button">
+           
+          <product-card>
+            {% assign current_variant = product_card_product.selected_or_first_available_variant %}
+            {% assign productTags = product_card_product.tags | join: ', ' %}
+            <button
+              class="btn mt-20 relative btn-wider btn-ceramic"
+              
+              
+              js-add-to-cart
+            >
+              
+                  CUSTOMIZE
+                
+              
+              <loading-spinner style="--bg-opacity: 100%; --size: 1.5rem;"></loading-spinner>
+            </button>
+            <noscript class="no-js">
+              <a href="{{ product_card_product.url | within: collection }}" class="btn mt-20">BUY NOW</a>
+            </noscript>
+          </product-card>
+             
+        </div>
+      {% endif %}
+
+      {% endif %}
+          
+    </div>
+  </div>
+</div>
+<script>
+  document.querySelectorAll('.btn-ceramic').forEach(button => {
+    button.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent default action if the button is inside a form or link
+        const targetElement = document.querySelector('.hub__form');
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth', // Enables smooth scrolling
+                block: 'start', // Align to the top of the viewport
+            });
+        }
+    });
+});
+
+</script>

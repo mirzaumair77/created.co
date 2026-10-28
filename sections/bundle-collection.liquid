@@ -1,0 +1,391 @@
+<style>
+  .bundle_collection_section.bundle_collection_{{ section.id }} {
+    background: {{ section.settings.bg_color }};
+  }
+
+  .bundle_collection_section.bundle_collection_{{ section.id }} .bundle_heading_main .heading p {
+    color: {{ section.settings.heading_color }};
+    font-size: {{ section.settings.heading_size }}px;
+  }
+
+  .bundle_collection_section.bundle_collection_{{ section.id }} .bundle_heading_main .description p {
+    color: {{ section.settings.description_color }};
+    font-size: {{ section.settings.description_size }}px;
+  }
+
+  .bundle_collection_section.bundle_collection_{{ section.id }} .bundle_collection_main .bundle_collection_list .title h4 {
+    color: {{ section.settings.title_color }};
+    font-size: {{ section.settings.title_size }}px;
+  }
+
+  .bundle_collection_section.bundle_collection_{{ section.id }} .bundle_collection_main .bundle_collection_list .bundle_save {
+    color: {{ section.settings.saving_color }};
+    font-size: {{ section.settings.saving_size }}px;
+  }
+
+  .bundle_collection_section.bundle_collection_{{ section.id }} .bundle_collection_main .bundle_collection_list .bundle_button a {
+    color: {{ section.settings.button_text_color }};
+    font-size: {{ section.settings.button_text_size }}px;
+    background: {{ section.settings.button_bg_color }};
+  }
+
+
+  @media only screen and (max-width: 500px) {
+
+    .bundle_collection_section.bundle_collection_{{ section.id }} .bundle_heading_main .heading p {
+      font-size: {{ section.settings.heading_size_mb }}px;
+    }
+
+    .bundle_collection_section.bundle_collection_{{ section.id }} .bundle_heading_main .description p {
+      font-size: {{ section.settings.description_size_mb }}px;
+    }
+
+    .bundle_collection_section.bundle_collection_{{ section.id }} .bundle_collection_main .bundle_collection_list .title h4 {
+      font-size: {{ section.settings.title_size_mb }}px;
+    }
+
+    .bundle_collection_section.bundle_collection_{{ section.id }} .bundle_collection_main .bundle_collection_list .bundle_save {
+      font-size: {{ section.settings.saving_size_mb }}px;
+    }
+
+    .bundle_collection_section.bundle_collection_{{ section.id }} .bundle_collection_main .bundle_collection_list .bundle_button a {
+      font-size: {{ section.settings.button_text_size_mb }}px;
+    }
+  }
+
+  .bundle_collection_section {
+    padding: 0 16px 107px;
+  }
+
+  .bundle_collection_section .container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .bundle_collection_section .bundle_heading_main {
+    text-align: center;
+    max-width: 835px;
+    margin: 0 auto;
+  }
+
+  .bundle_collection_section .bundle_heading_main .heading p {
+    font-family: canela, serif;
+    line-height: normal;
+  }
+
+  .bundle_collection_section .bundle_heading_main .description p {
+    font-family: grotesque, sans-serif;
+    font-weight: 400;
+    line-height: normal;
+    padding-top: 26px;
+  }
+
+  .bundle_collection_section .bundle_collection_main {
+    display: flex;
+    justify-content: center;
+    gap: 36.71px;
+    padding-top: 30px;
+  }
+
+  .bundle_collection_section .bundle_collection_main .bundle_collection_list {
+    width: 100%;
+    text-align: center;
+  }
+
+  .bundle_collection_section .bundle_collection_main .bundle_collection_list .featured_image img {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 12px;
+  }
+
+  .bundle_collection_section .bundle_collection_main .bundle_collection_list .title h4 {
+    font-family: canela, serif;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .bundle_collection_section .bundle_collection_main .bundle_collection_list .bundle_save {
+    font-family: grotesque, sans-serif;
+    font-weight: 700;
+    line-height: normal;
+    padding-top: 5px;
+  }
+
+  .bundle_collection_section .bundle_collection_main .bundle_collection_list .bundle_button {
+    padding-top: 11px;
+  }
+
+  .bundle_collection_section .bundle_collection_main .bundle_collection_list .bundle_button a {
+    display: inline-block;
+    padding: 20px 71px;
+    border: 1px solid #000000;
+    border-radius: 50px;
+    font-family: grotesque, sans-serif;
+    font-weight: 700;
+    line-height: normal;
+    text-align: center;
+  }
+
+  @media only screen and (max-width: 580px) {
+
+    .bundle_collection_section .bundle_collection_main {
+      flex-wrap: wrap;
+    }
+  }
+</style>
+
+<div class="bundle_collection_section bundle_collection_{{ section.id }}" id="{{ section.settings.sectionID }}">
+  <div class="container">
+    <div class="bundle_heading_main">
+      {% if section.settings.heading != blank %}
+        <div class="heading font-thin">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <div class="description">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+    </div>
+    <div class="bundle_collection_main">
+      {% for block in section.blocks %}
+        <div class="bundle_collection_list">
+          {% if block.settings.featured_image != blank %}
+            <div class="featured_image">
+              <img src="{{ block.settings.featured_image | img_url: "master" }}">
+            </div>
+          {% endif %}
+          {% if block.settings.title != blank %}
+            <div class="title">
+              <h4>{{ block.settings.title }}</h4>
+            </div>
+          {% endif %}
+          {% if block.settings.saving_text != blank %}
+            <div class="bundle_save">
+              {{ block.settings.saving_text }}
+            </div>
+          {% endif %}
+          {% if block.settings.button_text != blank %}
+            <div class="bundle_button">
+              <a href="{{ block.settings.button_link }}">{{ block.settings.button_text }}</a>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bundle Collection",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#fff"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "sectionID",
+      "label": "Unique section id"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 0,
+      "max": 65,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mb",
+      "min": 0,
+      "max": 65,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size Mobile",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 0,
+      "max": 42,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "description_size_mb",
+      "min": 0,
+      "max": 42,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size Mobile",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Collection Bundle Style"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "saving_color",
+      "label": "Saving Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size",
+      "default": 30
+     },
+     {
+      "type": "range",
+      "id": "title_size_mb",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size Mobile",
+      "default": 18
+     },
+     {
+      "type": "range",
+      "id": "saving_size",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Saving Font Size",
+      "default": 11
+     },
+     {
+      "type": "range",
+      "id": "saving_size_mb",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Saving Font Size Mobile",
+      "default": 11
+     },
+     {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size",
+      "default": 16
+     },
+      {
+      "type": "range",
+      "id": "button_text_size_mb",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size Mobile",
+      "default": 16
+     }
+  ],
+  "blocks": [
+    {
+      "type": "bundle_collection",
+      "name": "Bundle Collection",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "featured_image",
+          "label": "Select image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "saving_text",
+          "label": "Saving Text"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle Collection"
+    }
+  ]
+}
+{% endschema %}

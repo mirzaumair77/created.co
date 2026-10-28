@@ -1,0 +1,45 @@
+{% comment %}
+  Template for hero
+  @param {object}  image - Image object, can also be a string if passing assest_im_url
+  @param {object}  image_mobile - Mobile Image object, can also be a string if passing assest_im_url
+  @param {string}  text_alignment
+  @param {string}  content_x_alignment
+  @param {string}  content_y_alignment
+  @param {string}  content_bg_color
+  @param {string}  content_bg_opacity
+  @param {string}  title
+  @param {string}  title_color
+  @param {boolean} pre_cta
+  @param {string}  cta_url
+  @param {string}  cta_text
+  @param {string}  text
+  @param {string}  text_color
+{% endcomment %}
+{% if cta_url != blank %}
+  <a href="{{cta_url}}" class="hero block relative">
+{% else %}
+  <div class="hero block relative">
+{% endif %}
+  {% render 'lazy-image', type: object, image: image_mobile, image_desktop: image_desktop %}
+  <div class="hero__content-wrapper flex flex-col landscape:absolute landscape:top-0 landscape:left-0 landscape:w-full landscape:h-full landscape:{{content_x_alignment}} landscape:{{content_y_alignment}} {{text_alignment}}">
+    <div class="hero__content bg-transparent" style="background-color: {{content_bg_color}}{{content_bg_opacity}};">
+      {% if title != blank %}
+        <h1 class="hero__title" style="color: {{title_color}};">
+          {{title}}
+        </h1>
+      {% endif %}
+      {% if text != blank %}
+        <p class="hero__text" style="color: {{text_color}};">
+          {{text}}
+        </p>
+      {% endif %}
+      {% if cta_url != blank %}
+        <button class="btn">{{cta_text}}</button>
+      {% endif %}
+    </div>
+  </div>
+{% if cta_url != blank %}
+  </a>
+{% else %}
+  </div>
+{% endif %}

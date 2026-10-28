@@ -1,0 +1,123 @@
+{% if section.settings.style == 'single_row' %}
+	<section class="icons-with-text px-15 tablet:px-0">
+		<div class="px-15 tablet:px-120 mt-90 tablet:mt-120 text-center">
+			<h2 class="text-center mb-60 tablet:mb-120 leading-tight"><span class="text-62 font-semibold">{{ section.settings.title | upcase }}</span><span class="font-canela font-thin text-60"> {{ section.settings.title_2 | upcase }}</span></h2>
+			<div class="grid grid-cols-1 tablet:grid-cols-3 gap-50">
+				{% for block in section.blocks %}
+					<div class="">
+						{% if block.settings.svg_icon != blank %}
+							<div class="w-1/3 tablet:w-2/4 mx-auto mb-30 tablet:mb-60">
+			              		{{ block.settings.svg_icon }}
+			            	</div>
+						{% elsif block.settings.icon_image != blank %}
+							<div class="w-1/3 tablet:w-2/4 mx-auto mb-30 tablet:mb-60">
+								{% render 'lazy-image' image: block.settings.icon_image %}
+							</div>
+						{% else %}
+							<span class="block font-canela font-thin text-90">{{ forloop.index | prepend: '0' }}</span>
+						{% endif %}
+						<span class="block font-semibold text-22 mt-36 tablet:mt-80 mb-36 tablet:mb-70">{{ block.settings.title }}</span>
+						<p class="font-semibold text-16 tablet:text-20 text-left">{{ block.settings.body_text }}</p>
+					</div>
+				{% endfor %}
+			</div>
+			{% if section.settings.icons_button_text != blank and section.settings.icons_button_link != blank %}
+				<a class="btn mt-46" href="{{ section.settings.icons_button_link }}">{{ section.settings.icons_button_text }}</a>
+			{% endif %}
+		</div>
+	</section>
+{% elsif section.settings.style == 'multi_row' %}
+	<section class="icons-with-text px-15 tablet:px-0">
+		<div class="px-15 tablet:px-120 mt-90 tablet:mt-120 text-center">
+			<h2 class="text-center mb-60 tablet:mb-120 leading-tight"><span class="text-62 font-semibold">{{ section.settings.title | upcase }}</span><span class="font-canela font-thin text-60"> {{ section.settings.title_2 | upcase }}</span></h2>
+			<div class="grid grid-cols-1 tablet:grid-cols-2 gap-50 tablet:gap-y-100">
+				{% for block in section.blocks %}
+					<div class="flex flex-wrap algin-start justify-between tablet:justify-end">
+						<div class="flex w-full align-start justify-between tablet:justify-start">
+							{% if block.settings.svg_icon != blank %}
+								<div class="w-1/3 tablet:w-1/4 mb-30 tablet:mb-60">
+				              		{{ block.settings.svg_icon }}
+				            	</div>
+							{% elsif block.settings.icon_image != blank %}
+								<div class="w-1/3 tablet:w-1/4 mb-30 tablet:mb-60">
+									{% render 'lazy-image' image: block.settings.icon_image %}
+								</div>
+							{% else %}
+								<span class="block font-canela font-thin text-90">{{ forloop.index | prepend: '0' }}</span>
+							{% endif %}
+							<span class="block text-22 mb-30 tablet:mb-60 text-left w-1/2 tablet:w-auto">{{ block.settings.title }}</span>
+						</div>
+						<p class="font-semibold text-16 tablet:text-20 text-left w-full tablet:w-3/4">{{ block.settings.body_text }}</p>
+					</div>
+				{% endfor %}
+			</div>
+			{% if section.settings.icons_button_text != blank and section.settings.icons_button_link != blank %}
+				<a class="btn mt-46" href="{{ section.settings.icons_button_link }}">{{ section.settings.icons_button_text }}</a>
+			{% endif %}
+		</div>
+	</section>
+{% endif %}
+
+{% schema %}
+{
+	"name": "Icons with text",
+	"settings": [
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Section title",
+			"info": "Grotesque Off-White"
+		},
+		{
+			"type": "text",
+			"id": "title_2",
+			"label": "Section title 2",
+			"info": "Canela Thin"
+		},
+		{
+			"type": "select",
+			"id": "style",
+			"label": "Style",
+			"options": [
+				{
+					"value": "single_row",
+					"label": "Single row"
+				},
+				{
+					"value": "multi_row",
+					"label": "Multiple rows"
+				}
+			],
+			"default": "single_row"
+		}
+	],
+	"blocks": [
+		{
+			"name": "Icon and Text",
+			"type": "icon_text",
+			"settings": [
+				{
+					"type": "html",
+					"id": "svg_icon",
+					"label": "SVG Icon"
+				},
+				{
+					"type": "image_picker",
+					"id": "icon_image",
+					"label": "Image Icon"
+				},
+				{
+					"type": "richtext",
+					"id": "title",
+					"label": "Block title"
+				},
+				{
+					"type": "textarea",
+					"id": "body_text",
+					"label": "Body text"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

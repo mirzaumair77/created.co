@@ -1,0 +1,528 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "hero_banner_v5_hjJCLM": {
+      "type": "hero-banner-v5",
+      "settings": {
+        "banner_layout": "image_right",
+        "heading": "<span class=\"font-canela font-thin text-78\">NOMAD </span><br> <span class=\"text-78 font-semibold\">TUMBLER + </span><br> <span class=\"font-canela font-thin text-78\"><i> Your Custom</i></span><span class=\"font-canela font-thin text-78\"> Artwork </span>",
+        "narrow_text": true,
+        "subheading": "",
+        "text": "<p>Meet <strong>NOMAD</strong> — the ceramic coated, leak-proof tumbler built for lasting performance and ideal for customization. <br/><br/>Available in multiple sizes with three interchangeable lids. <strong>Designed for those who require the best.</strong></p>",
+        "button_text": "Start order",
+        "button_url": "#catalog",
+        "button_dark": true,
+        "image_video": "video",
+        "banner_image": "shopify://shop_images/hero_2.png",
+        "banner_video": "shopify://files/videos/Bouchon Bakery 12oz Nomad Flip - White - Gif 2.mp4",
+        "background_color": "#f5f5f5",
+        "heading_color": "#1a1b1b",
+        "subheading_color": "#ffffff",
+        "text_color": "#1a1b1b",
+        "custom_class": ""
+      }
+    },
+    "social_proof_bar_izLWWc": {
+      "type": "social-proof-bar",
+      "blocks": {
+        "icon_XtMLqk": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-01.png"
+          }
+        },
+        "icon_JcQyqW": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-02.png"
+          }
+        },
+        "icon_Vi6TJx": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-03.png"
+          }
+        },
+        "icon_T4CNRX": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-04.png"
+          }
+        },
+        "icon_cU64RK": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-05.png"
+          }
+        },
+        "icon_MfA7Pn": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-06.png"
+          }
+        },
+        "icon_ze8WkG": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-07.png"
+          }
+        },
+        "icon_QMnaTz": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-08.png"
+          }
+        },
+        "icon_G3LFei": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-10.png"
+          }
+        },
+        "icon_kXBPWc": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-09.png"
+          }
+        },
+        "icon_pzVt9U": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-18.png"
+          }
+        }
+      },
+      "block_order": [
+        "icon_XtMLqk",
+        "icon_JcQyqW",
+        "icon_Vi6TJx",
+        "icon_T4CNRX",
+        "icon_cU64RK",
+        "icon_MfA7Pn",
+        "icon_ze8WkG",
+        "icon_QMnaTz",
+        "icon_G3LFei",
+        "icon_kXBPWc",
+        "icon_pzVt9U"
+      ],
+      "settings": {
+        "background_color": "#ffffff",
+        "main_heading": "brands who trust us"
+      }
+    },
+    "embed_LwPagi": {
+      "type": "embed",
+      "settings": {
+        "title_text": "<span class=\"font-canela font-thin text-60\">READY <i>to</i> GET </span> <span class=\"text-62 font-semibold\">STARTED</span><span class=\"font-canela font-thin text-60\">?</span>",
+        "bg_color": "#f5f5f5",
+        "detail_text": "<p>Complete the form and we’ll send our full catalog straight to your inbox.</p>",
+        "form_id": "<div class=\"my_form_style\">\n    <script charset=\"utf-8\" type=\"text/javascript\" src=\"//js.hsforms.net/forms/embed/v2.js\"></script> <script>\n      hbspt.forms.create({\n        region: \"na1\",\n        portalId: \"41774798\",\n        formId: \"6a37c195-8d44-430f-a4d8-cbcd43820000\"\n      });\n    </script>\n</div>",
+        "button_text": "",
+        "button_link": "https://cdn.shopify.com/s/files/1/0662/7045/files/CustomCatalog_0408_2025_Final_V1_1.pdf?v=1745344569",
+        "dark_btn": false
+      }
+    },
+    "limitless_solution_wmGBR8": {
+      "type": "limitless-solution",
+      "blocks": {
+        "content_hRVDVf": {
+          "type": "content",
+          "settings": {
+            "heading": "SINGLE COLOR",
+            "description": "<p>Direct single-color screen prints use the Coated Pantone color system, pushing ink through a screen to achieve a branded logo.</p>"
+          }
+        },
+        "content_AAGmfk": {
+          "type": "content",
+          "settings": {
+            "heading": "MULTI-COLOR DIGITAL",
+            "description": "<p>Unlimited color options and detailed artwork—digital printing uses machine technology to produce complex, vibrant designs.</p>"
+          }
+        },
+        "content_8jWUYD": {
+          "type": "content",
+          "settings": {
+            "heading": "LASER ETCHING",
+            "description": "<p>Creates a sleek, high-end look by removing the top layer of powder coat to reveal the stainless underneath, adding character and depth.</p>"
+          }
+        },
+        "content_Nx3jPG": {
+          "type": "content",
+          "settings": {
+            "heading": "360° DIGITAL PRINT",
+            "description": "<p>For select drinkware, we offer seamless, full-wrap printing using high-quality Full Color Digital printing technology.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "content_hRVDVf",
+        "content_AAGmfk",
+        "content_8jWUYD",
+        "content_Nx3jPG"
+      ],
+      "custom_css": [],
+      "settings": {
+        "background_color": "#ffffff",
+        "heading": "Limitless Custom Solutions"
+      }
+    },
+    "how_it_work_JzF7N8": {
+      "type": "how-it-work",
+      "blocks": {
+        "item_A6HkGK": {
+          "type": "item",
+          "settings": {
+            "heading": "Concept",
+            "text": "<p>Share your vision with us. From initial sketches to digital mockups, we ensure every detail aligns with your goals.</p>"
+          }
+        },
+        "item_pKfMc8": {
+          "type": "item",
+          "settings": {
+            "heading": "Craft",
+            "text": "<p>Bring your design to life. Our team helps select the perfect printing method to transform your concept into a stunning product.</p>"
+          }
+        },
+        "item_xndBkw": {
+          "type": "item",
+          "settings": {
+            "heading": "Create",
+            "text": "<p>Our logistics ensure your custom drinkware order arrives quickly, ready to make an impact for your business.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_A6HkGK",
+        "item_pKfMc8",
+        "item_xndBkw"
+      ],
+      "name": "How It Works",
+      "settings": {
+        "heading": "How it Works",
+        "button_text": "GET STARTED",
+        "button_url": "#catalog",
+        "button_dark": true
+      }
+    },
+    "choose_adventure_v2_KxzK8J": {
+      "type": "choose-adventure-v2",
+      "blocks": {
+        "item_GXgky6": {
+          "type": "item",
+          "settings": {
+            "dark_block": false,
+            "select": "image",
+            "icon": "shopify://shop_images/Untitled_design-2.gif",
+            "video_url": "",
+            "heading": "<span class=\"text-62 font-semibold\">NOMAD FLIP</span>",
+            "text": "<p>Our signature Nomad lid. Perfect </p><p>for traveling, commuting, and more.</p>",
+            "button_text": "",
+            "button_url": "https://created.co/products/nomad-flip-16oz-black",
+            "button_dark": false
+          }
+        },
+        "item_kwPdpJ": {
+          "type": "item",
+          "settings": {
+            "dark_block": false,
+            "select": "image",
+            "icon": "shopify://shop_images/Untitled_design-3.gif",
+            "video_url": "",
+            "heading": "<span class=\"text-62 font-semibold\">NOMAD GRIP</span>",
+            "text": "<p>Ideal for full hands. Grab the handle</p><p>or attach to your favorite carabiner.</p>",
+            "button_text": "",
+            "button_url": "https://created.co/products/nomad-grip-16oz-black",
+            "button_dark": false
+          }
+        },
+        "item_qxBEmb": {
+          "type": "item",
+          "settings": {
+            "dark_block": false,
+            "select": "image",
+            "icon": "shopify://shop_images/Untitled_design-4.gif",
+            "video_url": "",
+            "heading": "<span class=\"text-62 font-semibold\">NOMAD SIP</span>",
+            "text": "<p>Twist the lid’s  for a 360° sip, then twist again for a leak-proof seal.</p>",
+            "button_text": "",
+            "button_url": "https://created.co/products/16oz-nomad-sip-black",
+            "button_dark": false
+          }
+        }
+      },
+      "block_order": [
+        "item_GXgky6",
+        "item_kwPdpJ",
+        "item_qxBEmb"
+      ],
+      "settings": {
+        "bg_color": "#1a1b1b",
+        "heading": "<span class=\"text-62 font-semibold\">TAILOR YOUR NOMAD</span>",
+        "margin_top": false
+      }
+    },
+    "featured_collection_carousel_GMD3p6": {
+      "type": "featured-collection-carousel",
+      "blocks": {
+        "collection_7Yk3Mr": {
+          "type": "collection",
+          "disabled": true,
+          "settings": {
+            "collection": "nomad",
+            "filter_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_7Yk3Mr"
+      ],
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "spacing_left": true,
+        "main_heading": "COLOR YOUR WORLD WITH CREATED",
+        "mb_heading": "COLOR YOUR WORLD",
+        "enable_arrow": true
+      }
+    },
+    "industrie_served_v4_bDBRjE": {
+      "type": "industrie-served-v4",
+      "blocks": {
+        "indstrieserved_8rAAhJ": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "LEAK-PROOF",
+            "text": "<p>Featuring a 100% leak-proof lid with twist-on protection, Nomad provides a full seal without any worries. Enjoy peace of mind and stress less with the most functional and beautiful way to stay leak-proof.</p>",
+            "button_text": "",
+            "button_url": "https://created.co/products/nomad-flip-16oz-black",
+            "button_dark": false,
+            "banner_image": "shopify://shop_images/Frame_1_97994f1e-f599-4115-93f3-7256c46fa40d.png"
+          }
+        },
+        "indstrieserved_Ecp6Ed": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "CERAMIC INTERIOR",
+            "text": "<p>Ceramic-lined interior preserves the subtle and delicate flavor notes of your beverage. The ceramic doesn’t just help retain heat; it protects flavor integrity so you can enjoy your drinks without interference.</p>",
+            "button_text": "",
+            "button_url": "https://created.co/products/nomad-flip-16oz-black",
+            "button_dark": false,
+            "banner_image": "shopify://shop_images/AbbyCox-CreatedCo-JoshuaTree24-227_20_926c9b44-e706-4489-8910-b22bdddd08be.png"
+          }
+        },
+        "indstrieserved_GNwbHT": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "SLEEK DESIGN",
+            "text": "<p>Made for streamlining your day with elevated style. Made for those that appreciate a refined aesthetic. With interior-exterior color matching, Nomad is beautiful in an entirely new way.</p>",
+            "button_text": "",
+            "button_url": "https://created.co/products/nomad-flip-16oz-black",
+            "button_dark": false,
+            "banner_image": "shopify://shop_images/Frame_2_a5df1fb9-f813-4911-8b89-2643f7e54141.png"
+          }
+        },
+        "indstrieserved_hDNGRN": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "TRAVEL-FRIENDLY",
+            "text": "<p>Nomad was designed to be the ultimate travel companion, going with you wherever you’re meant to wander. It provides top-tier functionality and performance for every moment of your day.</p>",
+            "button_text": "",
+            "button_url": "https://created.co/products/nomad-flip-16oz-black",
+            "button_dark": false,
+            "banner_image": "shopify://shop_images/Frame_3_94112191-567c-4ea4-8e40-63c65fb94b78.png"
+          }
+        }
+      },
+      "block_order": [
+        "indstrieserved_8rAAhJ",
+        "indstrieserved_Ecp6Ed",
+        "indstrieserved_GNwbHT",
+        "indstrieserved_hDNGRN"
+      ],
+      "name": "Industry Served v4",
+      "settings": {
+        "main_heading": "WHY OUR CUSTOMERS LOVE IT",
+        "background_color": "#ffffff",
+        "heading_color": "#000000",
+        "text_color": "#000000"
+      }
+    },
+    "testimonial_9V9Ya4": {
+      "type": "testimonial",
+      "blocks": {
+        "item_EWcKiR": {
+          "type": "item",
+          "settings": {
+            "text": "<p>Great size and feels nice in your hand, the ceramic lining is easy to clean and the cup feels as nice to drink out of with the lid off as it does on. No retained odours or weird spots for coffee to get trapped in inside the lid. An all around fantastic coffee drinking experience.</p>",
+            "name": "JUSTIN",
+            "image": "shopify://shop_images/Nomad_Testimonial_3.png"
+          }
+        },
+        "item_wNF4FB": {
+          "type": "item",
+          "settings": {
+            "text": "<p>Very happy with this purchase! The size is perfect for me, easy to hold. My coffee tasted better and it stayed hot for some time.</p>",
+            "name": "MARY JO",
+            "image": "shopify://shop_images/Nomad_Testimonial_2.png"
+          }
+        },
+        "item_hBP7Ay": {
+          "type": "item",
+          "settings": {
+            "text": "<p>I love it!! It doesn’t leak or sweat. It is beautifully designed, simple and sleek.</p>",
+            "name": "CHRISTINA",
+            "image": "shopify://shop_images/Nomad_Testimonial_1.png"
+          }
+        }
+      },
+      "block_order": [
+        "item_EWcKiR",
+        "item_wNF4FB",
+        "item_hBP7Ay"
+      ],
+      "settings": {
+        "heading": "Testimonials"
+      }
+    },
+    "embed_jK9kqV": {
+      "type": "embed",
+      "settings": {
+        "title_text": "<span class=\"font-canela font-thin text-60\">READY <i>to</i> GET </span> <span class=\"text-62 font-semibold\">STARTED</span><span class=\"font-canela font-thin text-60\">?</span>",
+        "bg_color": "#f5f5f5",
+        "detail_text": "<p>Complete the form and we’ll send our full catalog straight to your inbox.</p>",
+        "form_id": "<div class=\"my_form_style\">\n    <script charset=\"utf-8\" type=\"text/javascript\" src=\"//js.hsforms.net/forms/embed/v2.js\"></script> <script>\n      hbspt.forms.create({\n        region: \"na1\",\n        portalId: \"41774798\",\n        formId: \"6a37c195-8d44-430f-a4d8-cbcd43820000\"\n      });\n    </script>\n</div>",
+        "button_text": "",
+        "button_link": "https://cdn.shopify.com/s/files/1/0662/7045/files/CustomCatalog_0408_2025_Final_V1_1.pdf?v=1745344569",
+        "dark_btn": false
+      }
+    },
+    "text_with_carousel_home_eDwpLf": {
+      "type": "text-with-carousel-home",
+      "blocks": {
+        "image_cFmTXV": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_01.png"
+          }
+        },
+        "image_hNpWTE": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/nomadMedia_07.png"
+          }
+        },
+        "image_eCaRwX": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_05.png"
+          }
+        },
+        "image_XWRFEJ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_02.png"
+          }
+        },
+        "image_ekCYzJ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_03.png"
+          }
+        },
+        "image_MWkaPE": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_04.png"
+          }
+        },
+        "image_bwRFQn": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_06.png"
+          }
+        }
+      },
+      "block_order": [
+        "image_cFmTXV",
+        "image_hNpWTE",
+        "image_eCaRwX",
+        "image_XWRFEJ",
+        "image_ekCYzJ",
+        "image_MWkaPE",
+        "image_bwRFQn"
+      ],
+      "disabled": true,
+      "settings": {
+        "custom_class": "hubspot_landing_page",
+        "spacing_left": true,
+        "dark_bg": false,
+        "auto_scroll": false,
+        "svg_main_text": "",
+        "svg_body_text": "DESIGNED FOR EVERYWHERE",
+        "svg_text_color": "#000000",
+        "body_text_1": "",
+        "body_text_2": "",
+        "button_url": "shopify://collections/nomad",
+        "button_text": "",
+        "full_width": true,
+        "button_url_1": "shopify://collections/nomad",
+        "button_text_1": "SHOP NOMAD",
+        "button_url_2": "shopify://pages/custom-drinkware-landing",
+        "button_text_2": "GO CUSTOM"
+      }
+    },
+    "custom_liquid_iiANaq": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": ""
+      }
+    },
+    "apps_TFQxUU": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_4hAGVC": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-SNpwWjJBLILaceS"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_4hAGVC"
+      ],
+      "settings": {
+        "include_margins": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "hero_banner_v5_hjJCLM",
+    "social_proof_bar_izLWWc",
+    "embed_LwPagi",
+    "limitless_solution_wmGBR8",
+    "how_it_work_JzF7N8",
+    "choose_adventure_v2_KxzK8J",
+    "featured_collection_carousel_GMD3p6",
+    "industrie_served_v4_bDBRjE",
+    "testimonial_9V9Ya4",
+    "embed_jK9kqV",
+    "text_with_carousel_home_eDwpLf",
+    "custom_liquid_iiANaq",
+    "apps_TFQxUU"
+  ]
+}

@@ -1,0 +1,273 @@
+{%- comment -%}
+ * Ajax Cart
+ * --------------------------------------------------------
+ * See ajaxcart.liquid for documentation
+ *
+ * Remember to style error and loading states
+{%- endcomment -%}
+
+<drawer-component id="CartDrawer" class="block desktop:max-w-450 bg-white" position="right" open="[js-open-cart-drawer]" close="[js-cart-drawer-close]" js-cart-drawer>
+  <ajax-cart class="ajaxcart hidden" data-shipping-threshold="{{ settings.shipping_threshold_enabled  }}" data-gift="{{ settings.gift_enable }}">
+    <div id="AjaxCartTemplate">
+      <header class="ajaxcart__header flex flex-wrap justify-between p-16" ref="cartHeader">
+        <h2 class="font-canela text-26">Your Cart</h2>
+        <button class="ajaxcart__close w-16" js-cart-drawer-close>{% render 'icon-close'%}</button>
+        <shipping-threshold 
+          v-if="shippingThreshold" 
+          class="w-full" 
+          :cart="cart"
+        />
+      </header>
+  
+      <form v-if="cart" class="ajaxcart__content p-8 pr-20 relative overflow-y-auto" :style="{ height: cartHeight }" action="/cart" method="post" novalidate>
+        <main :class="['ajaxcart__main', 'relative', loading.cart ? 'opacity-50' : '']">
+          <p v-if="error" class="ajaxcart__error flex justify-between mb-16 bg-lightGray text-white p-8 sticky top-0 w-full">
+            <span>${ error }</span>
+            <button class="w-12" @click.prevent="this.error = false">{% render 'icon-close'%}</button>
+          </p>
+          <ul v-if="cart.items.length" class="ajaxcart__products">
+            <line-item
+              v-for="(item, idx) in cart.items" 
+              :item="item" 
+              :line="idx + 1" 
+              :loading="loading.item === idx"
+              :key="item.key"
+              @remove-item="removeItem"
+              @update-item-quantity="updateItemQuantity"
+            />
+          </ul>
+          <p v-else class="ajaxcart__empty">Your cart is empty</p>
+
+          <upsell-products 
+            :cart="cart"
+            :handles-in-cart="handlesInCart"
+            @add-to-cart="addToCart"
+          />
+
+        </main><!--.ajaxcart__main -->
+  
+        <footer class="ajaxcart__footer fixed bottom-0 w-full bg-white p-16" ref="cartFooter">
+          <div class="ajaxcart__subtotal mb-16">
+            <div class="ajaxcart__subtotal-row flex justify-between">
+              <p class="ajaxcart__subtotal-title">Subtotal</p>
+              <p class="ajaxcart__subtotal-price">${ formatMoney(cart.total_price) }</p>
+            </div><!--.ajaxcart__subtotal-row -->
+            <p v-if="cart.total_discount" class="ajaxcart__savings">${ cart.total_discount }</p>
+          </div><!-- .ajaxcart__subtotal -->
+          <button type="submit" class="ajaxcart__checkout btn w-full" name="checkout">
+            Checkout
+          </button>
+          <p class="ajaxcart__disclaimer text-center mt-8 text-14">Taxes and shipping calculated at checkout</p>
+        </footer>
+      </form><!-- .ajaxcart__content -->
+      <div v-else class="ajaxcart__loading-skeleton">
+        <ul class="ajaxcart__skeleton-items">
+          <skeleton-item v-for="i in 3"></skeleton-item>
+        </ul>
+        <footer class="ajaxcart__skeleton-footer w-full fixed bottom-0 p-16">
+          <div class="flex justify-between mb-16">
+            <div class="h-12 w-64 opacity-5 bg-gray animate-pulse">&nbsp;</div>
+            <div class="h-12 w-32 opacity-5 bg-gray animate-pulse">&nbsp;</div>
+          </div>
+          <div class="w-full h-32 opacity-5 mb-8 bg-gray animate-pulse">&nbsp</div>
+          <div class=" w-2/3 mx-auto h-12 opacity-5 bg-gray animate-pulse">&nbsp</div>
+        </footer>
+      </div>
+    </div><!-- #AjaxCart -->
+  </ajax-cart>
+</drawer-component>
+
+{%- comment -%}
+ * ========================================================================================
+ * Ajax Cart Components
+ * ======================================================================================
+{%- endcomment -%}
+
+{%- comment -%}
+ * Component: line-item
+{%- endcomment -%}
+<div id="AjaxCartLineItem" class="hidden">
+  <li class="line-item mb-16" :class="[loading ? 'opacity-50' : '']">
+    <div class="line-item__information flex">
+      <a :href="item.url" class="line-item__image-wrapper max-w-100 mr-8">
+        <img :src="item.featured_image.url" :alt="item.title" class="line-item__image">
+      </a>
+      <div class="line-item__detail flex-grow">
+        <div class="line-item__detail-top flex justify-between w-full mb-8">
+          <h2 class="line-item__title">
+            <a :href="item.url">${ item.product_title }</a>
+            <span v-for="option in item.options_with_values" class="line-item__variant block text-14">${ option.name }: ${ option.value }</span>
+          </h2>
+          <div class="line-item__pricing flex flex-col justify-between">
+            <div class="line-item__price">
+              <div v-if="item.line_price !== item.original_line_price">
+                <s>${ formatMoney(item.original_line_price) }</s>
+                &nbsp;<span>${ formatMoney(item.line_price) }</span>
+              </div>
+              <span v-else >${ formatMoney(item.line_price) }</span>
+            </div><!-- .line-item__price-->
+            <div v-if="item.line_price !== item.original_line_price" class="line-item__discounts">
+              <span v-for="discount in item.discounts" class="line-item__discount">
+                ${ discount.title } - ${ formatMoney(discount.amount) }
+              </span>
+            </div><!-- .line-item__discounts -->
+            <button class="line-item__remove block w-20 ml-auto" @click.prevent="$emit('removeItem', line)">{% render 'icon-remove' %}</button>
+          </div><!-- .line-item__pricing -->
+        </div>
+        <div class="line-item__qty-selector flex items-center">
+          <button  class="ajaxcart__qty-minus" @click.prevent="$emit('updateItemQuantity', { quantity: item.quantity - 1, line })">&minus;</button>
+          <input class="line-item__qty-selector-input text-center w-28" type="text" :value="item.quantity">
+          <button class="ajaxcart__qty-plus" @click.prevent="$emit('updateItemQuantity', { quantity: item.quantity + 1, line})">&plus;</button>
+        </div><!-- .line-item__qty-selector-->
+      </div><!-- .line-item__detail-->
+    </div><!-- .line-item__information -->
+  </li><!-- .line-item -->
+</div>
+
+{%- comment -%}
+ * Component: shipping-threshold
+{%- endcomment -%}
+<div id="AjaxCartShippingThreshold" 
+  class="hidden" 
+  data-threshold="{{ settings.shipping_threshold }}" 
+  >
+  <div v-if="cart && cart.total_price > 0" class="shipping-threshold">
+    <h3 class="shipping-threshold__title text-15">
+      <span v-if="unlocked">{{ settings.shipping_threshold_unlocked_message }}</span>
+      <span v-else>{{ settings.shipping_threshold_locked_message }}</span>
+    </h3> 
+    <progress 
+      v-if="!unlocked" 
+      class="shipping-threshold__bar h-10 w-full"
+      max="100"
+      :value="progress">
+    </progress>
+  </div>  
+</div>
+ 
+{%- comment -%}
+ * Component: upsell-products
+{%- endcomment -%}
+<div id="AjaxCartUpsell" class="hidden">
+  <div v-if="cart && cart.items.length && products.length" class="upsell">
+    <h3 class="upsell__title">{{ settings.upsell_title}}</h3>
+      <div v-if="fetching">
+        <skeleton-item></skeleton-item>
+      </div>
+      <ul v-else-if="products" class="upsell__products" js-upsell-slider>
+        <li v-for="product in products" :key="product.id" class="upsell__product w-full">
+          <upsell-product 
+            :product="product"
+          ></upsell-product>
+        </li><!-- .upsell__product -->
+      </ul><!-- .upsell__products-->
+      <ul v-if="products.length > 1" class="upsell__slider-dots flex justify-center">
+        <li v-for="(product, idx) in products">
+          <button 
+            class="upsell__slider-trigger w-16 h-16 rounded-full" 
+            :class="[currentSlide === idx ? 'bg-black' : 'bg-black opacity-40']"
+            :aria-label="`Go to slide ${idx + 1}`"
+            @click.prevent="changeSlide(idx)"></button>
+        </li>
+      </ul>
+  </div><!-- .upsell -->
+</div>
+
+{%- comment -%}
+ * Component: upsell-product
+{%- endcomment -%}
+<div id="AjaxCartUpsellProduct" class="hidden">
+  <div v-if="product && product.available" class="upsell-product">
+    <a :href="product.url" class="upsell-product__image">
+      <img :src="product.featured_image" :alt="product.title">
+    </a>
+    <div class="upsell-product__info">
+      <h3 class="upsell-product__title"><a :href="product.url">${ product.title }</a></h3>
+      <p class="upsell-product__price">${ formatMoney(selectedVariant.price) }</p>
+      <div v-if="product.variants.length > 1" class="upsell-product__variants">
+        <label :for="`variant-selector-${product.id}`">Select Variant</label>
+        <select v-model="selectedVariant" name="variant-selector" :id="`variant-selector-${product.id}`">
+          <option 
+            v-for="variant in product.variants" 
+            :selected="variant.id === selectedVariant.id"
+            :value="variant"
+            :disabled="!variant.available">
+            ${ variant.title }
+          </option>
+        </select>
+      </div>
+      <button class='upsell-product__atc' @click.prevent="addToCart">
+        Add To Cart
+      </button>
+    </div>
+  </div>
+</div>
+
+{%- comment -%}
+ * Component: skeleton-item
+{%- endcomment -%}
+<div id="AjaxCartSkeletonItem" class="hidden">
+  <div class="skeleton-item flex p-16">
+    <div class="skeleton-item__image block w-72 h-64 mr-16 opacity-5 bg-gray animate-pulse">&nbsp;</div>
+    <div class="skeleton-item__info flex-grow">
+      <div class="skeleton-item__title block w-full h-16 mb-8 opacity-5 bg-gray animate-pulse">&nbsp;</div>
+      <div class="skeleton-item__subtitle block w-64 h-12 mb-8 opacity-5 bg-gray animate-pulse">&nbsp;</div>
+      <div class="skeleton-item__price block w-32 h-12 opacity-5 bg-gray animate-pulse">&nbsp;</div>
+    </div>
+  </div>
+</div>
+
+
+{%- comment -%}
+ * ===================================================================================== 
+ * DATA
+ * ====================================================================================
+{%- endcomment -%}
+
+
+{%- comment -%} 
+ * Get Upsell Data 
+{%- endcomment -%}
+{%- comment -%} Gather tags into a global theme array {%- endcomment -%}
+<script>
+  window.theme = window.theme || {}
+  theme.upsellTags = [
+    {% for i in (1..6) %}
+      {% assign tag_id = 'upsell_tag_' | append: i %}
+      {% assign tag = settings[tag_id] %}
+      {% if tag == blank %} {% continue %} {% endif %}
+      '{{ tag }}'{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+</script>
+
+{%- comment -%} Get and format products from theme settings {%- endcomment -%}
+<script id="AjaxCartUpsellData" type="application/json" js-upsell-data>
+  [
+    {% assign MAX_UPSELL = 6 %}
+    {% assign DEFAULT_TAG = '__DEFAULT__' %}
+    
+    {% for i in (1..MAX_UPSELL) %}
+      {% assign tag_id = 'upsell_tag_' | append: i %}
+      {% assign tag = settings[tag_id] %}
+      {% assign upsell_product_settings = 'upsell_product_' | append: i %}
+      {% assign upsell_product_handle = settings[upsell_product_settings] %}
+      {% if upsell_product_handle != blank %}
+        {% assign upsell_product = all_products[upsell_product_handle] %}
+      {% endif %}
+
+      {% if upsell_product != blank %} 
+        {
+          "tag": "{{ tag | default: DEFAULT_TAG }}",
+          "product": {{ upsell_product | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {% else %}
+        {
+          "tag": null,
+          "product": null
+        }{% unless forloop.last %},{% endunless %}
+      {% endif %}
+
+    {% endfor %}
+  ]
+</script>

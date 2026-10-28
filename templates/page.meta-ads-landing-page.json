@@ -1,0 +1,401 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "meta_ads_banner_6G4tcV": {
+      "type": "meta-ads-banner",
+      "settings": {
+        "deskstop_bg": "shopify://shop_images/CC_NOMAD_Hero_Preview.png",
+        "mobile_bg": "shopify://shop_images/Screenshot_2024-03-29_at_3.06.45_PM.png",
+        "heading": "CREATE A BUNDLE AND SAVE UP TO 20%",
+        "description": "<p>Choose your favorite colors and sizes from our lineup of stainless steel drinkware and combine 2, 3, or 4 of your favorites to save on your order. </p>",
+        "buttn_text": "START CREATING",
+        "buttn_link": "https://created.co/pages/bundle-landing-page#start-creating",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff",
+        "btn_text_color": "#000000",
+        "btn_bg_color": "#ffffff",
+        "heading_size": 67,
+        "heading_size_mb": 36,
+        "description_size": 18,
+        "description_size_mb": 18,
+        "button_text_size": 20,
+        "button_text_size_mb": 16
+      }
+    },
+    "meta_content_page_WRV9Ti": {
+      "type": "meta-content-page",
+      "blocks": {
+        "image_HRqGxd": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Gallery_Image_1.jpg"
+          }
+        },
+        "image_Xpr4Uk": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/galler_02.png"
+          }
+        },
+        "image_CwkGzW": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Gallery_Image_3.jpg"
+          }
+        },
+        "image_yqHjWY": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Gallery_Image_4.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_HRqGxd",
+        "image_Xpr4Uk",
+        "image_CwkGzW",
+        "image_yqHjWY"
+      ],
+      "settings": {
+        "bg_color": "",
+        "heading": "WHY CHOOSE CREATED?",
+        "subheading": "<p>WELL DONE <strong>DRINKWARE</strong> <em>is RARE</em></p>",
+        "description": "<p>Created Co. makes everyday drinkware that’s not only timelessly stylish, but creates a drinking experience that’s truly a cut above. Inspired by the art of craft coffee culture, we believe that details make all the difference. Powder-coated finishes for maximum durability. Cup holder friendly products made to move with you. Maximum temperature retention. Get ready to delight in every sip. </p>",
+        "heading_color": "#000000",
+        "subheading_color": "#000000",
+        "description_color": "#000000",
+        "heading_size": 32,
+        "heading_size_mb": 26,
+        "subheading_size": 52,
+        "subheading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 16
+      }
+    },
+    "meta_heading_text_UHVJDL": {
+      "type": "meta-heading-text",
+      "settings": {
+        "bg_color": "",
+        "subheading": "",
+        "heading": "START WITH A BUNDLE, SAVE UP TO 20%",
+        "subheading_color": "#000000",
+        "heading_color": "#000000",
+        "subheading_size": 16,
+        "subheading_size_mb": 16,
+        "heading_size": 32,
+        "heading_size_mb": 26
+      }
+    },
+    "bundle_collection_BE6HBH": {
+      "type": "bundle-collection",
+      "blocks": {
+        "bundle_collection_NNhCUX": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_02_NomadColdCup.png",
+            "title": "CAPSULE DUO (2 PACK)",
+            "saving_text": "SAVE 10%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page"
+          }
+        },
+        "bundle_collection_4xcLXH": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_03_Capsule.png",
+            "title": "CAPSULE TRIO (3 PACK)",
+            "saving_text": "SAVE 15%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page"
+          }
+        },
+        "bundle_collection_TX6gjP": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_04_Capsule.png",
+            "title": "CAPSULE QUAD (4-PACK)",
+            "saving_text": "SAVE 20%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page"
+          }
+        }
+      },
+      "block_order": [
+        "bundle_collection_NNhCUX",
+        "bundle_collection_4xcLXH",
+        "bundle_collection_TX6gjP"
+      ],
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "<p>BUILD <em>a</em> BEST-SELLER CAPSULE</p>",
+        "sectionID": "start-creating",
+        "description": "<p>The best way to get started with Created. Choose from our top-selling products and design a dream capsule collection that’s perfect for gifting, sharing, or keeping all to yourself.  </p>",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "heading_size": 52,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 16,
+        "title_color": "#000000",
+        "saving_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "rgba(0,0,0,0)",
+        "title_size": 20,
+        "title_size_mb": 18,
+        "saving_size": 16,
+        "saving_size_mb": 16,
+        "button_text_size": 16,
+        "button_text_size_mb": 16
+      }
+    },
+    "bundle_collection_aKTYNK": {
+      "type": "bundle-collection",
+      "blocks": {
+        "bundle_collection_feeRBP": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_02_Nomad.png",
+            "title": "NOMAD DUO (2 PACK)",
+            "saving_text": "SAVE 10%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page?bundle=2-pack"
+          }
+        },
+        "bundle_collection_k3wefP": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_03_Nomad.png",
+            "title": "NOMAD TRIO (3 PACK)",
+            "saving_text": "SAVE 15%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page?bundle=3-pack"
+          }
+        },
+        "bundle_collection_bxac8U": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_04_Nomad.png",
+            "title": "NOMAD QUAD (4-PACK)",
+            "saving_text": "SAVE 20%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page?bundle=4-pack"
+          }
+        }
+      },
+      "block_order": [
+        "bundle_collection_feeRBP",
+        "bundle_collection_k3wefP",
+        "bundle_collection_bxac8U"
+      ],
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "<p>NEW – <em>NOMAD</em> BUNDLES</p>",
+        "sectionID": "",
+        "description": "<p>Our new Nomad features a ceramic-coated interior that elevates the taste of both hot and cold drinks. It’s also 100% leak proof, so just fill, grab, and go. We love it most for an AM pour over. </p>",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "heading_size": 52,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 16,
+        "title_color": "#000000",
+        "saving_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "rgba(0,0,0,0)",
+        "title_size": 20,
+        "title_size_mb": 18,
+        "saving_size": 16,
+        "saving_size_mb": 16,
+        "button_text_size": 16,
+        "button_text_size_mb": 16
+      }
+    },
+    "bundle_collection_Jfem7B": {
+      "type": "bundle-collection",
+      "blocks": {
+        "bundle_collection_pXtxDi": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_02_ColdCup.png",
+            "title": "COLD CUP DUO (2 PACK)",
+            "saving_text": "SAVE 10%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page?bundle=2-pack"
+          }
+        },
+        "bundle_collection_iBLbHt": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_03_ColdCup.png",
+            "title": "COLD CUP TRIO (3 PACK)",
+            "saving_text": "SAVE 15%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page?bundle=3-pack"
+          }
+        },
+        "bundle_collection_Lf8bfp": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_04_ColdCup.png",
+            "title": "COLD CUP QUAD (4-PACK)",
+            "saving_text": "SAVE 20%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page?bundle=4-pack"
+          }
+        }
+      },
+      "block_order": [
+        "bundle_collection_pXtxDi",
+        "bundle_collection_iBLbHt",
+        "bundle_collection_Lf8bfp"
+      ],
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "<p>COLD CUP BUNDLES</p>",
+        "sectionID": "",
+        "description": "<p>Can’t live without your favorite iced beverages. Cold Cup was designed to keep drinks crisp and cold for hours. Features a durable screw-on lid and matching stainless steel straw for effortless sipping.</p>",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "heading_size": 52,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 16,
+        "title_color": "#000000",
+        "saving_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "rgba(0,0,0,0)",
+        "title_size": 20,
+        "title_size_mb": 18,
+        "saving_size": 16,
+        "saving_size_mb": 16,
+        "button_text_size": 16,
+        "button_text_size_mb": 16
+      }
+    },
+    "bundle_collection_B7FBWU": {
+      "type": "bundle-collection",
+      "blocks": {
+        "bundle_collection_DUWRTN": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_02_Tumbler.png",
+            "title": "TUMBLER DUO (2 PACK)",
+            "saving_text": "SAVE 10%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page?bundle=2-pack"
+          }
+        },
+        "bundle_collection_HHyc3r": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_03_Tumbler.png",
+            "title": "TUMBLER DUO (3 PACK)",
+            "saving_text": "SAVE 15%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page?bundle=3-pack"
+          }
+        },
+        "bundle_collection_KRL7ce": {
+          "type": "bundle_collection",
+          "settings": {
+            "featured_image": "shopify://shop_images/CC_Bundles_04_Tumbler.png",
+            "title": "TUMBLER DUO (4 PACK)",
+            "saving_text": "SAVE 20%",
+            "button_text": "BUILD BUNDLE",
+            "button_link": "https://created.co/pages/dynamic-bundle-page?bundle=4-pack"
+          }
+        }
+      },
+      "block_order": [
+        "bundle_collection_DUWRTN",
+        "bundle_collection_HHyc3r",
+        "bundle_collection_KRL7ce"
+      ],
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "<p>EVERYDAY TUMBLERS</p>",
+        "sectionID": "",
+        "description": "<p>If you appreciate the classics, you can’t go wrong with Tumbler. Our go-to for everything from coffee to cocktails. Designed in three adaptable sizes and six stunning colors to keep you looking fresh.</p>",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "heading_size": 52,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 16,
+        "title_color": "#000000",
+        "saving_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "rgba(0,0,0,0)",
+        "title_size": 20,
+        "title_size_mb": 18,
+        "saving_size": 16,
+        "saving_size_mb": 16,
+        "button_text_size": 16,
+        "button_text_size_mb": 16
+      }
+    },
+    "meta_heading_text_mJixEV": {
+      "type": "meta-heading-text",
+      "settings": {
+        "bg_color": "",
+        "subheading": "",
+        "heading": "BEST-SELLERS",
+        "subheading_color": "#000000",
+        "heading_color": "#000000",
+        "subheading_size": 16,
+        "subheading_size_mb": 16,
+        "heading_size": 32,
+        "heading_size_mb": 32
+      }
+    },
+    "featured_collection_carousel_zxgzDV": {
+      "type": "featured-collection-carousel",
+      "blocks": {
+        "collection_Fz4bHp": {
+          "type": "collection",
+          "settings": {
+            "collection": "hero-lider-collection",
+            "filter_text": "Stainless"
+          }
+        },
+        "collection_WipWGC": {
+          "type": "collection",
+          "settings": {
+            "collection": "homepage-slider-collection-2",
+            "filter_text": "Ceramic"
+          }
+        }
+      },
+      "block_order": [
+        "collection_Fz4bHp",
+        "collection_WipWGC"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "meta_ads_banner_6G4tcV",
+    "meta_content_page_WRV9Ti",
+    "meta_heading_text_UHVJDL",
+    "bundle_collection_BE6HBH",
+    "bundle_collection_aKTYNK",
+    "bundle_collection_Jfem7B",
+    "bundle_collection_B7FBWU",
+    "meta_heading_text_mJixEV",
+    "featured_collection_carousel_zxgzDV"
+  ]
+}

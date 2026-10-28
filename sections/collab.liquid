@@ -1,0 +1,355 @@
+<section class="collab">
+  <div class="collab__hero relative p-16 tablet:p-32 tablet:pt-25">
+    {% if section.settings.hero_image != blank %}
+      <div class="collab-hero__img">
+        {% render 'lazy-image', image: section.settings.hero_image %}
+      </div>
+      {% if section.settings.hero_logo != blank %}
+        <div class="collab-hero__logo absolute max-w-375 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          {% render 'lazy-image', image: section.settings.hero_logo %}
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="collab__collection p-16 tablet:p-72">
+    {% if section.settings.collection_svg_header != blank %}
+        <div class="tablet:w-7/12 mx-auto mb-152">
+          {{ section.settings.collection_svg_header }}
+        </div>
+    {% elsif section.settings.collection_header != blank %}
+      <h1 class="collab-collection__header text-white text-24 tablet:text-48 text-center">
+        {{ section.settings.collection_header }}
+      </h1>
+    {% endif %}
+    <div class="collab-collection__content tablet:flex mt-48 tablet:px-48">
+      {% if section.settings.collection_title != blank %}
+        <p class="collab-collection__content-title tablet:w-1/2 text-white font-canela font-thin text-18 tablet:text-30 leading-tight tracking-wide tablet:px-24 mb-24 tablet:mb-0">
+          {{ section.settings.collection_title }}
+        </p>
+      {% endif %}
+      <div class="collab-collection__content-info tablet:w-1/2 text-white text-20 font-semibold tablet:px-24">
+        {% if section.settings.collection_text != blank %}
+          <p class="collab-collection__content-text font-semibold">
+            {{ section.settings.collection_text }}
+          </p>
+        {% endif %}
+        {% if section.settings.collection_link != blank %}
+          <a class="collab-collection__content-link btn btn--darkGray mt-38" href="{{ section.settings.collection_link }}">
+            {{ section.settings.collection_link_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="collab-collection__images tablet:px-48 py-72">
+      {% if section.settings.collection_image_title != blank %}
+        <p class="collab-collection__images-title text-white text-20 font-semibold mb-24">
+          {{ section.settings.collection_image_title }}
+        </p>
+      {% endif %}
+      <div class="collab-collection__images-container tablet:flex relative">
+        {% if section.settings.collection_image_1 != blank %}
+          <div class="collab-collection__image first w-full tablet:w-3/5 mb-24 tablet:mb-0">
+            {% render 'lazy-image', image: section.settings.collection_image_1 %}
+          </div>
+        {% endif %}
+        {% if section.settings.collection_image_2 != blank %}
+          <div class="collab-collection__image second w-full tablet:w-3/5 tablet:absolute top-90">
+            {% render 'lazy-image', image: section.settings.collection_image_2 %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="collab__partners tablet:w-3/4 tablet:mx-auto px-16 tablet:px-0 tablet:pt-72">
+    {% if section.settings.partners_title_1 != blank or section.settings.partners_title_2 != blank %}
+      <p class="collab-partners__title text-white text-40 tablet:text-62 text-center leading-tight uppercase mb-48">
+        <span class="font-grotesque font-semibold">{{ section.settings.partners_title_1 }}</span>
+        <br>
+        <span class="font-canela font-thin">{{ section.settings.partners_title_2 }}</span>
+      </p>
+    {% endif %}
+    <div class="collab-partners__images grid grid-cols-3 tablet:grid-cols-4 desktop:grid-cols-6 gap-48 desktop:gap-90 my-48">
+      {% for block in section.blocks %}
+        {% if block.type == 'partner' %}
+          <div class="collab-partners__images-item">
+            {% if block.settings.link != blank %}
+              <a href="{{ block.settings.link }}" target="_blank" class="block border rounded-50 border-transparent focus:border-white desktop:hover:border-white transition duration-500 overflow-hidden">
+                {% render 'lazy-image', image: block.settings.partner_image %}
+              </a>
+            {% else %}
+              {% render 'lazy-image', image: block.settings.partner_image %}
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="collab-partners__info tablet:flex my-72 text-white text-20 font-semibold mx-auto max-w-1268">
+    {% if section.settings.partners_text %}
+      <p class="collab-partners__info-text tablet:w-1/2 px-24 font-semibold">
+        {{ section.settings.partners_text }}
+      </p>
+    {% endif %}
+    {% if section.settings.partners_list != blank %}
+      <p class="collab-partners__info-list tablet:w-1/2 px-24 font-semibold">
+        {{ section.settings.partners_list }}
+      </p>
+    {% endif %}
+  </div>
+
+  <div class="collab__images relative overflow-hidden px-16 desktop:px-0 pb-72 desktop:pb-0">
+    {% for block in section.blocks %}
+      {% if block.type == 'image' %}
+        <div class="collab-image__item absolute my-24 desktop:my-0 max-w-full" style="--top: {{ block.settings.top }}%; --left: {{ block.settings.left }}%; --max-width: {{ block.settings.width }}px; --z-index: {{ block.settings.z_index }}; --mob-top: {{ block.settings.mob_top }}%; --mob-left: {{ block.settings.mob_left }}%; --mob-max-width: {{ block.settings.mob_width }}px; --mob-z-index: {{ block.settings.mob_z_index }};">
+          {% render 'lazy-image', image: block.settings.image %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="collab__footer bg-white px-16 py-24 tablet:px-48 tablet:py-152">
+    <div class="collab-footer__container tablet:flex tablet:max-w-1440 mx-auto">
+      {% if section.settings.footer_svg_title != blank %}
+        <div class="tablet:w-1/2 mb-24 tablet:mb-0 tablet:px-48 desktop:px-180">
+          {{ section.settings.footer_svg_title }}
+        </div>
+      {% elsif section.settings.footer_title != blank %}
+        <p class="collab-footer__title text-24 tablet:text-48 tablet:w-1/2 mb-24 tablet:mb-0 tablet:px-48">
+          {{ section.settings.footer_title }}
+        </p>
+      {% endif %}
+      <div class="collab-footer__info tablet:w-1/2 px-48">
+        {% if section.settings.footer_text != blank %}
+          <p class="collab-footer__text text-20 font-semibold">
+            {{ section.settings.footer_text }}
+          </p>
+        {% endif %}
+        {% if section.settings.footer_link != blank %}
+          <a class="collab-footer__link btn mt-24 tablet:mt-38 px-25" href="{{ section.settings.footer_link }}">
+            {{ section.settings.footer_link_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Collab",
+    "class": "bg-darkGray",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Hero"
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_image",
+        "label": "Hero Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_logo",
+        "label": "Hero Logo"
+      },
+      {
+        "type": "header",
+        "content": "Collection"
+      },
+      {
+        "type": "textarea",
+        "id": "collection_header",
+        "label": "Collection Header"
+      },
+      {
+        "type": "html",
+        "id": "collection_svg_header",
+        "label": "Collection SVG Header",
+        "info": "Overrides Collection Header setting"
+      },
+      {
+        "type": "textarea",
+        "id": "collection_title",
+        "label": "Collection Title"
+      },
+      {
+        "type": "textarea",
+        "id": "collection_text",
+        "label": "Collection Text"
+      },
+      {
+        "type": "url",
+        "id": "collection_link",
+        "label": "Collection Link"
+      },
+      {
+        "type": "text",
+        "id": "collection_link_text",
+        "label": "Collection Link Text"
+      },
+      {
+        "type": "text",
+        "id": "collection_image_title",
+        "label": "Collection Image Title"
+      },
+      {
+        "type": "image_picker",
+        "id": "collection_image_1",
+        "label": "Collection Image 1"
+      },
+      {
+        "type": "image_picker",
+        "id": "collection_image_2",
+        "label": "Collection Image 2"
+      },
+      {
+        "type": "header",
+        "content": "Partners"
+      },
+      {
+        "type": "textarea",
+        "id": "partners_title_1",
+        "label": "Partners Title 1",
+        "default": "Our",
+        "info": "Grotesque"
+      },
+      {
+        "type": "textarea",
+        "id": "partners_title_2",
+        "label": "Partners Title 2",
+        "default": "Partners",
+        "info": "Canela"
+      },
+      {
+        "type": "textarea",
+        "id": "partners_text",
+        "label": "Partners Text"
+      },
+      {
+        "type": "textarea",
+        "id": "partners_list",
+        "label": "Partners List"
+      },
+      {
+        "type": "header",
+        "content": "Footer"
+      },
+      {
+        "type": "textarea",
+        "id": "footer_title",
+        "label": "Footer Title"
+      },
+      {
+        "type": "html",
+        "id": "footer_svg_title",
+        "label": "Footer SVG Title",
+        "info": "Overrides Footer Title"
+      },
+      {
+        "type": "textarea",
+        "id": "footer_text",
+        "label": "Footer Text"
+      },
+      {
+        "type": "url",
+        "id": "footer_link",
+        "label": "Footer Link"
+      },
+      {
+        "type": "text",
+        "id": "footer_link_text",
+        "label": "Footer Link Text"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Partner",
+        "type": "partner",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "partner_image",
+            "label": "Partner Image"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Partner Link"
+          }
+        ]
+      },
+      {
+        "name": "Assorted Image",
+        "type": "image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "range",
+            "id": "top",
+            "label": "Top",
+            "default": 0,
+            "min": 0,
+            "max": 100,
+            "step": 1
+          },
+          {
+            "type": "range",
+            "id": "left",
+            "label": "Left",
+            "default": 0,
+            "min": 0,
+            "max": 100,
+            "step": 1
+          },
+          {
+            "type": "text",
+            "id": "width",
+            "label": "Width in pixels"
+          },
+          {
+            "type": "text",
+            "id": "z_index",
+            "label": "Z-Index",
+            "default": "1"
+          },
+          {
+            "type": "range",
+            "id": "mob_top",
+            "label": "Top (Mobile)",
+            "default": 0,
+            "min": 0,
+            "max": 100,
+            "step": 1
+          },
+          {
+            "type": "range",
+            "id": "mob_left",
+            "label": "Left (Mobile)",
+            "default": 0,
+            "min": 0,
+            "max": 100,
+            "step": 1
+          },
+          {
+            "type": "text",
+            "id": "mob_width",
+            "label": "Width in pixels (Mobile)"
+          },
+          {
+            "type": "text",
+            "id": "mob_z_index",
+            "label": "Z-Index (Mobile)",
+            "default": "1"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

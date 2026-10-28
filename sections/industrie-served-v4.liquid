@@ -1,0 +1,207 @@
+<style>
+  {% if page.handle == "nomad-landing-page" %}
+    .industrie-served-v4 {
+    margin-bottom: 70px;
+}
+  {% endif %}
+  .hb_{{ section.id }} .industrie-main-v4{
+    background-color:{{ section.settings.background_color }};
+  }
+  .hb_{{ section.id }} .heading-v4{
+    color:{{ section.settings.heading_color }};
+  }
+.hb_{{ section.id }} .text-v4 p{
+    color:{{ section.settings.text_color }};
+  }
+
+
+ .hb_{{ section.id }} .industrie-inner-v4-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 77px 40px;
+   padding-top: 70px;
+}
+  
+ .hb_{{ section.id }} .industrie-inner-v4 {
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+}
+
+ .hb_{{ section.id }} .industrie-image-v4 img {
+    max-width: 100%;
+    width: 100%;
+}
+ .hb_{{ section.id }} .heading-v4 {
+       margin-bottom: 20px;
+    font-family: grotesque, sans-serif;
+    line-height: normal;
+    font-size: 36px;
+    font-weight: 400;
+    margin-top: 20px;
+    text-transform: uppercase;
+}
+ .hb_{{ section.id }} .text-v4 p {
+    font-family: grotesque, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: 18px;
+}
+
+.hb_{{ section.id }} .text-v4 {
+    margin-bottom: 30px;
+}
+
+ .hb_{{ section.id }} .main-heading {
+       text-align: center;
+    font-family: grotesque, sans-serif;
+    line-height: normal;
+    font-size: 36px;
+    color: #000000;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.hb_{{ section.id }} .hero-btn-v4 {
+  border: 1px solid #DDDDDD;
+      padding: 15px 50px;
+}
+ 
+
+@media(max-width:600px){
+
+  .industrie-main-v4.site-container {
+    padding: 0;
+  }
+  
+  .hb_{{ section.id }} .industrie-inner-v4-main {
+    grid-template-columns: 1fr;
+    gap: 70px 0;
+    padding-top: 19px;
+ }
+
+ .hb_{{ section.id }} .industrie-inner-v4 {
+   gap: 0;
+ }
+
+  .industrie-content-v4 {
+    padding: 0 2rem;
+  }
+  
+  .hb_{{ section.id }}  .heading-v4 {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+  
+   .hb_{{ section.id }} .text-v4 p {
+    font-size: 18px;
+  }
+  
+  .hb_{{ section.id }} .main-heading {
+            font-size: 24px;
+        text-align: left;
+        padding-left: 16px;
+  }
+}
+</style>
+
+
+<section class="mt-70 industrie-served-v4 hb_{{ section.id }}">
+  <div class=" industrie-main-v4 site-container" >
+    {% if section.settings.main_heading != blank %}<h2 class="main-heading">{{ section.settings.main_heading }}</h2>{% endif %}
+    <div class="industrie-inner-v4-main">
+      {% for block in section.blocks %}
+    <div class="industrie-inner-v4">
+        {% if block.settings.banner_image != blank %}
+        <div class="industrie-image-v4">
+          <img src="{{ block.settings.banner_image | image_url }}" class="industrie-image">
+        </div>
+        {% endif %}
+     <div class="industrie-content-v4">
+       {% if block.settings.heading != blank %}<h2 class="heading-v4">{{ block.settings.heading }}</h2>{% endif %}
+       {% if block.settings.text != blank %}<div class="text-v4">  {{ block.settings.text }} </div>{% endif %}
+       {% if block.settings.button_text != blank %}<a href="{{ block.settings.button_url }}" class="hero-btn-v4  {% if block.settings.button_dark == true %}btn btn--black {% else %}btn-bigger btn--filled-white{% endif %} text-16  font-grotesque font-bold ">{{ block.settings.button_text }}</a>{% endif %}
+     </div>
+   </div>
+    {% endfor %}
+      
+      </div>
+  </div>
+</section>
+{% schema %}
+  {
+  "name": "Industrie Served v4",
+  "settings": [
+    {
+      "type": "text",
+      "id": "main_heading",
+      "label": "Main Heading",
+      "default": "Industries Served"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "background color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000"
+    },
+  ],
+  "blocks": [
+    {
+      "type": "indstrieserved",
+      "name": "Card",
+      "settings": [
+            {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Cafes"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Get Started"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_dark",
+      "label": "Button Dark",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Industrie Served v4"
+    }
+  ]
+}  
+{% endschema %}

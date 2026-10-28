@@ -1,0 +1,437 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "hero_banner_v5_gFUy8E": {
+      "type": "hero-banner-v5",
+      "settings": {
+        "banner_layout": "image_right",
+        "heading": "<span class=\"font-canela font-thin text-60\"> <i> CUSTOM DRINKWARE </i></span> <span class=\"text-62 text--62 font-semibold\"> FOR THE </span> <span class=\"font-canela font-thin text-60\">  </span> <span class=\"font-canela font-thin text-60\"> <i> CAFE &amp; MORE </i></span> <span class=\"text-62 text--62 font-semibold\"></span>",
+        "narrow_text": false,
+        "subheading": "",
+        "text": "<p>Hospitality-grade ceramics, stainless, glassware and more. Hand-decorated and fired in the USA. Built for the rhythm of everyday, designed for the coffee industry. Make something that flys off the retail shelf. </p>",
+        "button_text": "Start Your Custom Order",
+        "button_url": "#catalog",
+        "button_dark": true,
+        "image_video": "image",
+        "banner_image": "shopify://shop_images/Created_Co._r1_-090826-9142_1.jpg",
+        "background_color": "#f5f5f5",
+        "heading_color": "#1a1b18",
+        "subheading_color": "#ffffff",
+        "text_color": "#1a1b18",
+        "custom_class": ""
+      }
+    },
+    "social_proof_bar_cJAF3p": {
+      "type": "social-proof-bar",
+      "blocks": {
+        "icon_JyKX9X": {
+          "type": "icon",
+          "settings": {}
+        },
+        "icon_3dTFBB": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-18_100x_2x.png_2.png"
+          }
+        },
+        "icon_6PRJAQ": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-18_100x_2x.png_4.png"
+          }
+        },
+        "icon_FfbtPh": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-18_100x_2x.png_3.png"
+          }
+        },
+        "icon_bK8ayd": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-01.png"
+          }
+        },
+        "icon_HdMiq4": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-02.png"
+          }
+        },
+        "icon_kC888t": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-03.png"
+          }
+        },
+        "icon_4UtiM3": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-04.png"
+          }
+        },
+        "icon_WCfRbP": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-05.png"
+          }
+        },
+        "icon_fHxK36": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-06.png"
+          }
+        },
+        "icon_r7aj3e": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-07.png"
+          }
+        },
+        "icon_Jn8JtJ": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-08.png"
+          }
+        },
+        "icon_C8rqhA": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-09.png"
+          }
+        },
+        "icon_aHRQD9": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-10.png"
+          }
+        },
+        "icon_PQrgFY": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Trustedby-18.png"
+          }
+        }
+      },
+      "block_order": [
+        "icon_JyKX9X",
+        "icon_3dTFBB",
+        "icon_6PRJAQ",
+        "icon_FfbtPh",
+        "icon_bK8ayd",
+        "icon_HdMiq4",
+        "icon_kC888t",
+        "icon_4UtiM3",
+        "icon_WCfRbP",
+        "icon_fHxK36",
+        "icon_r7aj3e",
+        "icon_Jn8JtJ",
+        "icon_C8rqhA",
+        "icon_aHRQD9",
+        "icon_PQrgFY"
+      ],
+      "settings": {
+        "background_color": "#ffffff",
+        "main_heading": "Trusted by Cafes, Roasters & More"
+      }
+    },
+    "image_with_text_v1_mxKH8b": {
+      "type": "image-with-text-v1",
+      "custom_css": [],
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/4_5.png",
+        "image_position": "left",
+        "sub-heading": "",
+        "heading": "<div>\n  <div>\n    <span class=\"text-62 font-semibold\">MAKE</span> <span class=\"font-canela font-thin text-60\"><i>IT </i>YOURS</span>\n  </div>\n  <div style=\"margin-top: 24px; display: flex; flex-wrap: wrap; gap: 16px; font-size: 28px;\">\n    <span>✓ Art support &amp; design assistance</span>\n    <span>✓ Stainless steel, glassware, or ceramic options</span>\n    <span>✓ Low minimums to start, scale as you grow</span>\n  </div>\n</div>",
+        "description": "",
+        "button_label": "",
+        "button_link": "https://cdn.shopify.com/s/files/1/0662/7045/files/Created_Co._Capabilities_Deck_2-1_2.pdf?v=1744226462",
+        "custom_class": "image_mobile_padding image_width"
+      }
+    },
+    "embed_zRm7dB": {
+      "type": "embed",
+      "settings": {
+        "title_text": "<span class=\"font-canela font-thin text-60\">READY <i>to</i> GET </span> <span class=\"text-62 font-semibold\">STARTED</span><span class=\"font-canela font-thin text-60\">?</span>",
+        "bg_color": "#f5f5f5",
+        "detail_text": "<p>Complete the form and we’ll send our full catalog straight to your inbox.</p>",
+        "form_id": "<div class=\"my_form_style\">\n    <script charset=\"utf-8\" type=\"text/javascript\" src=\"//js.hsforms.net/forms/embed/v2.js\"></script> <script>\n      hbspt.forms.create({\n        region: \"na1\",\n        portalId: \"41774798\",\n        formId: \"6a37c195-8d44-430f-a4d8-cbcd43820000\"\n      });\n    </script>\n</div>",
+        "button_text": "",
+        "button_link": "https://cdn.shopify.com/s/files/1/0662/7045/files/CustomCatalog_03_2025_Final_V2.pdf?v=1743443048",
+        "dark_btn": false
+      }
+    },
+    "how_it_work_J3L9T7": {
+      "type": "how-it-work",
+      "blocks": {
+        "item_DhLJmC": {
+          "type": "item",
+          "settings": {
+            "heading": "Concept",
+            "text": "<p>Send us your logo and we'll come back with digital mockups on real product. No art fees, no guessing what it'll look like fired.</p>"
+          }
+        },
+        "item_bPp4hj": {
+          "type": "item",
+          "settings": {
+            "heading": "Craft",
+            "text": "<p>We match the decoration method to the piece. High-fire printing vitrifies your design into the glaze, so it survives the dish pit instead of fading off it.</p>"
+          }
+        },
+        "item_P7PNMQ": {
+          "type": "item",
+          "settings": {
+            "heading": "Create",
+            "text": "<p>We produce and ship to your shop, with reorder timelines you can plan a retail program around.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_DhLJmC",
+        "item_bPp4hj",
+        "item_P7PNMQ"
+      ],
+      "settings": {
+        "heading": "How it Works",
+        "button_text": "GET STARTED",
+        "button_url": "#catalog",
+        "button_dark": true
+      }
+    },
+    "testimonial_GzLmQJ": {
+      "type": "testimonial",
+      "blocks": {
+        "item_LhJUhT": {
+          "type": "item",
+          "settings": {
+            "text": "<p>Created has been a game changer for our business. We've been able to reimagine the world of creative merchandise by partnering with them. The only thing better than the quality of their products is the A+ customer service their team provides.</p>",
+            "name": "Portrait Coffee"
+          }
+        },
+        "item_n4kEwE": {
+          "type": "item",
+          "settings": {
+            "text": "<p>These guys have set the bar for excellent service and products in the specialty coffee industry. Not just drinkware, but any of my vendors.</p>",
+            "name": "Bear Coast Coffee"
+          }
+        },
+        "item_a3zRGN": {
+          "type": "item",
+          "settings": {
+            "text": "<p>Our mugs from Created have been the perfect fit for Huckleberry. They make that morning cup of coffee a little more bright and colorful. It’s the perfect way to start your day!</p>",
+            "name": "Huckleberry Roasters"
+          }
+        }
+      },
+      "block_order": [
+        "item_LhJUhT",
+        "item_n4kEwE",
+        "item_a3zRGN"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "What our customers say"
+      }
+    },
+    "industrie_served_v4_LUyijb": {
+      "type": "industrie-served-v4",
+      "blocks": {
+        "indstrieserved_penEA6": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "Independent Cafes",
+            "text": "<p>Retail shelf, bar service, or both. Custom ceramics give a single-location shop the kind of branded presence usually reserved for chains, at quantities that make sense for one bar.</p>",
+            "button_text": "Get Started",
+            "button_url": "#catalog",
+            "button_dark": false,
+            "banner_image": "shopify://shop_images/AbbyCox-CreatedCo-JoshuaTree24-227_30.png_1.png"
+          }
+        },
+        "indstrieserved_3qNfD4": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "Roasters",
+            "text": "<p>Your bags already travel. Custom drinkware gives wholesale accounts and direct customers a piece of the brand that stays in daily use, and a retail margin alongside the beans.</p>",
+            "button_text": "Get Started",
+            "button_url": "#catalog",
+            "button_dark": false,
+            "banner_image": "shopify://shop_images/stumptown2.png"
+          }
+        },
+        "indstrieserved_zqRtab": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "RESTAURANTS & HOSPITALITY",
+            "text": "<p>Ceramics that meet commercial standards for chip and fade resistance while looking like they were chosen, not ordered. Espresso service through to the dining room.</p>",
+            "button_text": "Get Started",
+            "button_url": "#catalog",
+            "button_dark": false,
+            "banner_image": "shopify://shop_images/CC_CustomLP_Industry_Hospitality.jpg"
+          }
+        },
+        "indstrieserved_9TUM9b": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "Multi-Unit Groups",
+            "text": "<p>One spec, every location. We hold your artwork and colorways on file so unit five gets the same cup as unit one, without re-approving the design each time.</p>",
+            "button_text": "Get Started",
+            "button_url": "#catalog",
+            "button_dark": false,
+            "banner_image": "shopify://shop_images/multiunit_groups.png"
+          }
+        }
+      },
+      "block_order": [
+        "indstrieserved_penEA6",
+        "indstrieserved_3qNfD4",
+        "indstrieserved_zqRtab",
+        "indstrieserved_9TUM9b"
+      ],
+      "settings": {
+        "main_heading": "Industries Served",
+        "background_color": "#ffffff",
+        "heading_color": "#000000",
+        "text_color": "#000000"
+      }
+    },
+    "text_with_carousel_home_BxCXzK": {
+      "type": "text-with-carousel-home",
+      "blocks": {
+        "image_M4UtNf": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Instagram_post_-_26.png"
+          }
+        },
+        "image_FKDVtp": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Instagram_post_-_30.png"
+          }
+        },
+        "image_PMCR94": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Instagram_post_-_32.png"
+          }
+        },
+        "image_irmppy": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Instagram_post_-_31.png"
+          }
+        },
+        "image_yTeh9m": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Instagram_post_-_28.png"
+          }
+        },
+        "image_mPqebb": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Instagram_post_-_27.png"
+          }
+        },
+        "image_HDcAqJ": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/26oz_Wander_Bottle_-_Lavender_-_1-8-25_-_8017_2.png"
+          }
+        },
+        "image_6mVgCE": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/Frame_31_7f50a5e3-d61d-44f9-863c-138ebc93dc0c.png"
+          }
+        }
+      },
+      "block_order": [
+        "image_M4UtNf",
+        "image_FKDVtp",
+        "image_PMCR94",
+        "image_irmppy",
+        "image_yTeh9m",
+        "image_mPqebb",
+        "image_HDcAqJ",
+        "image_6mVgCE"
+      ],
+      "disabled": true,
+      "settings": {
+        "custom_class": "hubspot_landing_page",
+        "spacing_left": false,
+        "dark_bg": false,
+        "auto_scroll": false,
+        "svg_main_text": "",
+        "svg_body_text": "Experience Is in the Details.",
+        "svg_text_color": "#000000",
+        "body_text_1": "",
+        "body_text_2": "",
+        "button_url": "",
+        "button_text": "",
+        "full_width": false,
+        "button_url_1": "",
+        "button_text_1": "",
+        "button_url_2": "",
+        "button_text_2": ""
+      }
+    },
+    "about_created_iR4CPR": {
+      "type": "about-created",
+      "settings": {
+        "background_color": "",
+        "heading": "<span class=\"text-62 font-semibold\">ABOUT </span> <span class=\"created-logo\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 200.67 44.42\"><title>Created Co. Logotype in Black</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><path d=\"M20.88,44.42C7.73,44.42,0,34.67,0,22.39S8.53.47,22.38.47A36.87,36.87,0,0,1,36.22,3.36l1.15,8.13-.46.11c-3.86-7.09-8.31-10-14.76-10C9.69,1.62,3.81,10.56,3.81,22.39s5.53,20.87,17.3,20.87c8.65,0,13-4.49,16-12.28l.46.12-1.15,8.82c-2.14,1.67-8.42,4.5-15.57,4.5\"></path><path d=\"M45.16,36.69V22.44a4.86,4.86,0,0,0-2.54-4.32V18l5.19-3v7l.29.06c2.77-2.77,5.19-6.75,9.34-6.75v4.62h-.11A10.13,10.13,0,0,0,53.12,19c-.93,0-3.23,2.19-5.08,4.33V36.63c0,3.06.06,4.79,1.27,6.81v.11H43.89v-.11c1.09-2,1.27-3.69,1.27-6.75\"></path><path d=\"M72.72,44.42c-7.43,0-12.39-5.65-12.39-14.13,0-9.06,5.94-15,12.86-15a10,10,0,0,1,10.2,11.08H63.67A17.89,17.89,0,0,0,63.5,29c0,7.38,3.4,12.74,10.26,12.74,3.64,0,7.5-1.44,9.52-4.72l.29.11c-1.45,4.38-5.48,7.27-10.85,7.27M63.79,25.5l16-.34v-.35c0-5.83-2.36-8.48-6.75-8.48-4.84,0-8.24,3.35-9.22,9.17\"></path><path d=\"M103.41,40.32a13,13,0,0,1-9.11,4.1c-4.1,0-6.75-2.19-6.75-5.88,0-6.75,9.28-9.69,15.86-10.33v-5.3c0-3.06-1.44-5.89-6.52-5.89a14.62,14.62,0,0,0-8.07,2.54l-.29-.4a14,14,0,0,1,10-3.87c6.4,0,7.73,3.35,7.73,7V39.75c0,1.55.69,2.48,2.25,2.48a3.78,3.78,0,0,0,2.77-1.39l.17.12a4.6,4.6,0,0,1-4.38,3.28c-2.48,0-3.63-1.67-3.69-3.92m0-1V29.13c-6.23.75-12.92,3.29-12.92,8.6,0,2.71,1.56,4.61,5.19,4.61a11.39,11.39,0,0,0,7.73-3\"></path><path d=\"M116.38,38.07V17.2h-3.11v-.12L119.15,12h.12v4.21h8.53v1h-8.53v21c0,2.94,1.27,4.44,4.21,4.44a11.08,11.08,0,0,0,4.84-1.21l.12.23a9,9,0,0,1-6.29,2.77c-2.71,0-5.77-1.39-5.77-6.35\"></path><path d=\"M143.43,44.42c-7.44,0-12.4-5.65-12.4-14.13,0-9.06,5.94-15,12.86-15A10.06,10.06,0,0,1,154.1,26.37H134.38a17.89,17.89,0,0,0-.17,2.65c0,7.38,3.4,12.74,10.26,12.74,3.63,0,7.5-1.44,9.52-4.72l.28.11c-1.44,4.38-5.47,7.27-10.84,7.27M134.49,25.5l16-.34v-.35c0-5.83-2.37-8.48-6.75-8.48-4.84,0-8.25,3.35-9.23,9.17\"></path><path d=\"M169.91,44.42c-7,0-11.6-5.25-11.6-13.56s6-15.57,15.11-15.57a14,14,0,0,1,6.69,1.56V6.11a4,4,0,0,0-2.54-3.57V2.42L183,0V37.38c0,3.63.63,4.21,2.53,5v.11l-5.13,1.73V38.59h-.23a11.13,11.13,0,0,1-10.26,5.83m10.2-7v-13c0-6.41-4-8.08-7.49-8.08-6.35,0-11,5.65-11,13.5s4.15,12.63,9.92,12.63a10.06,10.06,0,0,0,8.53-5\"></path><path d=\"M194.65,9.92a2.74,2.74,0,0,1-2-4.68,2.76,2.76,0,0,1,3.89,0l-.7.7a1.75,1.75,0,1,0-2.48,2.48,1.76,1.76,0,0,0,2.48,0l.7.7a2.72,2.72,0,0,1-1.94.8\"></path><path d=\"M194.32,14.84A6.36,6.36,0,0,1,188,8.48V0h12.71V8.48a6.36,6.36,0,0,1-6.35,6.36M189.19,1.23V8.48a5.13,5.13,0,1,0,10.25,0V1.23Z\"></path></g></g></svg></span>",
+        "text": "<p>Designed and based in southern California, Created Co is a design-driven drinkware company and industry leader in customization. Founded in 2015, Created started supporting small businesses and has since scaled to partner with internationally recognized brands and leaders. Our collections are meticulously developed to enhance the craft beverage drinking experience. We donate 1% of sales to our nonprofit partner, charity: water.</p>",
+        "button_text": "",
+        "button_link": ""
+      }
+    },
+    "1742954218b3db1c6f": {
+      "type": "apps",
+      "blocks": {
+        "gsc_instagram_feed_instafeed_r9zQYg": {
+          "type": "shopify://apps/gsc-instagram-feed/blocks/instafeed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+          "settings": {
+            "widget_id": "GSC-SNpwWjJBLILaceS"
+          }
+        }
+      },
+      "block_order": [
+        "gsc_instagram_feed_instafeed_r9zQYg"
+      ],
+      "settings": {
+        "include_margins": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "hero_banner_v5_gFUy8E",
+    "social_proof_bar_cJAF3p",
+    "image_with_text_v1_mxKH8b",
+    "embed_zRm7dB",
+    "how_it_work_J3L9T7",
+    "testimonial_GzLmQJ",
+    "industrie_served_v4_LUyijb",
+    "text_with_carousel_home_BxCXzK",
+    "about_created_iR4CPR",
+    "1742954218b3db1c6f"
+  ]
+}

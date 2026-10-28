@@ -1,0 +1,469 @@
+<link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-price.css' | asset_url | stylesheet_tag }}</noscript>
+<style>
+  .okend-review {
+    margin-bottom: 10px;
+}
+  .mobile-review{display:none}
+
+  @media(max-width:789px){
+    .desktop-review{display:none;}
+     .mobile-review{display:block}
+  }
+</style>
+{% assign productTags = product.tags | join: ', ' %}
+{% capture sold_out_text %}
+	{% if productTags contains 'coming_soon' %}Coming Soon{% else %}{{ 'products.product.sold_out' | t }}{% endif %}
+{% endcapture %}
+{%- assign product_form_id = 'product-form-' | append: section.id -%}
+<section class="product__main flex flex-wrap tablet:flex-nowrap flex-col-reverse tablet:flex-row items-start px-15 tablet:px-16 pb-36 tablet:pb-72 justify-between pt-24 tablet:pt-100">
+  <div class="product-information--desktop w-full tablet:w-6/12 px-15 tablet:px-16 flex flex-col-reverse tablet:block max-w-540">
+    {% if product.metafields.info.subtitle != blank %}
+      <span class="block hidden tablet:block text-20 text-lightGray tablet:text-black font-grotesque font-semibold uppercase mb-10">
+        {{- product.metafields.info.subtitle -}}
+      </span>
+    {% endif %}
+    <h1 class="text-40 tablet:text-72 desktop:text-80 font-canela font-thin hidden tablet:block">
+      {{ product.metafields.product_cards.product_card_title | default: product.title }}
+    </h1>
+    <div class="okend-review desktop-review">
+    {% render 'okendo-reviews-product-rating-summary', product: product %}
+      </div>
+    <div class="text-15 tablet:text-20 leading-snug mb-46 font-semibold">{{ product.description }}</div>
+    <product-form class="product-form">
+      {%- form 'product',
+        product,
+        id: product_form_id,
+        class: 'form',
+        novalidate: 'novalidate',
+        data-type: 'add-to-cart-form'
+      -%}
+        <div class="variant-selectors">
+          {% comment %}
+            {%- unless product.has_only_default_variant -%}
+              {%- if section.settings.picker_type == 'button' -%}
+                <variant-radios class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ product.url }}">
+                  {%- for option in product.options_with_values -%}
+                      <fieldset class="js product-form__input mb-24 tablet:mb-48 tablet:max-w-8/10">
+                        <legend class="form__label w-full border-b uppercase font-medium pb-8 mb-16 text-12 font-semibold">{{ option.name }}</legend>
+                        <div class="{% if option.name == 'Color' %}flex justify-between items-center{% endif %}">
+                          {%- for value in option.values -%}
+                            <input type="radio" id="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}"
+                                  name="{{ option.name }}"
+                                  value="{{ value | escape }}"
+                                  form="product-form-{{ section.id }}"
+                                  class="product-form__radio sr-only"
+                                  {% if option.selected_value == value %}checked{% endif %}
+                            >
+                            {% if option.name == 'Color' %}
+                              <label for="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}" class="radio-label__color" style="background-color: {{ value }}; background-image: url('{{ value | handleize | append: ".jpg" | file_img_url: "50x"}};');{% unless value == 'White' or value == 'white' %} border-color: transparent;{% endunless %}">
+                                <span class="sr-only">{{ value }}</span>
+                              </label>
+                            {% else %}
+                              <label for="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}" class="font-canela font-thin text-22 tablet:text-26 pt-9 pb-8 px-16 rounded-50">
+                                {{ value }}
+                              </label>
+                            {% endif %}
+                          {%- endfor -%}
+                        </div>
+                      </fieldset>
+                  {%- endfor -%}
+                  <script type="application/json">
+                    {{ product.variants | json }}
+                  </script>
+                </variant-radios>
+              {%- else -%}
+                <variant-selects class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ product.url }}">
+                  {%- for option in product.options_with_values -%}
+                    <div class="product-form__input product-form__input--dropdown">
+                      <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
+                        {{ option.name }}
+                      </label>
+                      <div class="select">
+                        <select id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                          class="select__select"
+                          name="options[{{ option.name | escape }}]"
+                          form="product-form-{{ section.id }}"
+                        >
+                          {%- for value in option.values -%}
+                            <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
+                              {{ value }}
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                        {% render 'icon-caret' %}
+                      </div>
+                    </div>
+                  {%- endfor -%}
+
+                  <script type="application/json">
+                    {{ product.variants | json }}
+                  </script>
+                </variant-selects>
+              {%- endif -%}
+            {%- endunless -%}
+          {% endcomment %}
+          {% if product.metafields.variants.related_product_size_1 != blank %}
+            {% render 'product-size-variants' %}
+          {% endif %}
+          {% if product.metafields.variants.related_color_swatch_1 != blank %}
+            {% render 'product-color-variants' %}
+          {% endif %}
+
+          <noscript>
+            <div class="product-form__input{% if product.has_only_default_variant %} hidden{% endif %}">
+              <label class="form__label" for="Variants-{{ section.id }}">
+                {{- 'products.product.product_variants' | t -}}
+              </label>
+              <div class="select">
+                <select name="id" id="Variants-{{ section.id }}" class="select__select" form="product-form">
+                  {%- for variant in product.variants -%}
+                    <option
+                      {% if variant == product.selected_or_first_available_variant %}
+                        selected="selected"
+                      {% endif %}
+                      {% if variant.available == false %}
+                        disabled
+                      {% endif %}
+                      value="{{ variant.id }}"
+                    >
+                      {{ variant.title }}
+                      {%- if variant.available == false %} - {{ sold_out_text }}{% endif %}
+                      - {{ variant.price | money | strip_html }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+                {% render 'icon-caret' %}
+              </div>
+            </div>
+          </noscript>
+        </div>
+        <div id="bil_kbite_BIS" class="product__form-details flex items-center flex-col-reverse tablet:flex-row">
+          <div class="no-js-hidden w-full tablet:w-auto my-42 tablet:my-0" id="price-{{ section.id }}">
+            {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
+          </div>
+          <div class="product__form-inputs flex items-center w-full tablet:w-auto">
+            <div class="product-form__input product-form__quantity w-5/12 tablet:w-auto">
+              <label class="form__label sr-only" for="Quantity-{{ section.id }}">
+                {{ 'products.product.quantity.label' | t }}
+              </label>
+              <quantity-input class="quantity flex border rounded-full p-10 tablet:ml-24 desktop:ml-30">
+                <button class="quantity__button no-js-hidden w-12" name="minus" type="button">
+                  <span class="visually-hidden">
+                    {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+                  </span>
+                  {% render 'icon-minus' %}
+                </button>
+                <input
+                  class="quantity__input text-center w-full tablet:w-90"
+                  type="number"
+                  name="quantity"
+                  id="Quantity-{{ section.id }}"
+                  min="1"
+                  value="1"
+                  form="product-form-{{ section.id }}"
+                >
+                <button class="quantity__button no-js-hidden w-12" name="plus" type="button">
+                  <span class="visually-hidden">
+                    {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
+                  </span>
+                  {% render 'icon-plus' %}
+                </button>
+              </quantity-input>
+            </div>
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <div class="product-form__buttons w-7/12 ml-16 tablet:ml-0 tablet:w-auto">
+              <button
+                type="submit"
+                name="add"
+                class="product-form__submit btn btn--black w-full tablet:ml-24 desktop:ml-30 py-10 relative"
+                {% if product.selected_or_first_available_variant.available == false %}
+                  disabled
+                {% endif %}
+              >
+                {%- if product.selected_or_first_available_variant.available -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- else -%}
+                  {{ sold_out_text }}
+                {%- endif -%}
+                <loading-spinner style="--bg-opacity: 100%; --size: 1.5rem; --loading-color: #000;"></loading-spinner>
+              </button>
+              {%- if block.settings.show_dynamic_checkout -%}
+                {{ form | payment_button }}
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endform -%}
+    </product-form>
+  </div>
+  <div class="product-image w-full tablet:w-6/12 px-0 tablet:px-16">
+    {% if product.images.size > 1 %}
+      <carousel-component
+        class="grid__item w-full overflow-hidden relative"
+        data-options='{"cellSelector":"[js-carousel-slide]", "cellAlign":"left", "contain":true, "wrapAround":true, "imagesLoaded":true, "prevNextButtons":false, "adaptiveHeight":true, "pageDots":false}'
+      >
+        <div class="" js-carousel>
+          <button
+            class="carousel-arrow carousel-arrow--prev w-20 z-10"
+            type="button"
+            aria-label="Previous"
+            js-prev-button
+          >
+            {% render 'icon-arrow-left' %}
+          </button>
+          {% for image in product.images %}
+            <div class="w-full" js-carousel-slide>
+              <div class="carousel-slide__content relative">
+                <div class="carousel-slide__image-container w-full">
+                  {% render 'lazy-image', image: image %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          <button class="carousel-arrow carousel-arrow--next w-20 z-10" type="button" aria-label="Next" js-next-button>
+            {% render 'icon-arrow-right' %}
+          </button>
+        </div>
+      </carousel-component>
+    {% else %}
+      {% render 'lazy-image', image: product.featured_image %}
+    {% endif %}
+  </div>
+  <div class="product-information--mobile px-15 tablet:hidden">
+    {% if product.metafields.info.subtitle != blank %}
+      <span class="block text-12 font-grotesque font-semibold text-lightGray uppercase mb-25">
+        {{- product.metafields.info.subtitle -}}
+      </span>
+    {% endif %}
+    <h1 class="text-40 font-canela font-thin">{{ product.title | split: ' - ' | first }}</h1>
+    <div class="okend-review mobile-review">
+    {% render 'okendo-reviews-product-rating-summary', product: product %}
+      </div>
+  </div>
+   
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.main-product.name",
+  "tag": "section",
+  "class": "product-section spaced-section",
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "text",
+      "name": "t:sections.main-product.blocks.text.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Text block",
+          "label": "t:sections.main-product.blocks.text.settings.text.label"
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "body",
+              "label": "t:sections.main-product.blocks.text.settings.text_style.options__1.label"
+            },
+            {
+              "value": "subtitle",
+              "label": "t:sections.main-product.blocks.text.settings.text_style.options__2.label"
+            },
+            {
+              "value": "uppercase",
+              "label": "t:sections.main-product.blocks.text.settings.text_style.options__3.label"
+            }
+          ],
+          "default": "body",
+          "label": "t:sections.main-product.blocks.text.settings.text_style.label"
+        }
+      ]
+    },
+    {
+      "type": "collapsible_tab",
+      "name": "t:sections.main-product.blocks.collapsible_tab.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Collapsible tab",
+          "info": "t:sections.main-product.blocks.collapsible_tab.settings.heading.info",
+          "label": "t:sections.main-product.blocks.collapsible_tab.settings.heading.label"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "t:sections.main-product.blocks.collapsible_tab.settings.content.label"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "t:sections.main-product.blocks.collapsible_tab.settings.page.label"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__1.label"
+            },
+            {
+              "value": "box",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__2.label"
+            },
+            {
+              "value": "chat_bubble",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__3.label"
+            },
+            {
+              "value": "check_mark",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__4.label"
+            },
+            {
+              "value": "dryer",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__5.label"
+            },
+            {
+              "value": "eye",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__6.label"
+            },
+            {
+              "value": "heart",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__7.label"
+            },
+            {
+              "value": "iron",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__8.label"
+            },
+            {
+              "value": "leaf",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__9.label"
+            },
+            {
+              "value": "leather",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__10.label"
+            },
+            {
+              "value": "lock",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__11.label"
+            },
+            {
+              "value": "map_pin",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__12.label"
+            },
+            {
+              "value": "pants",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__13.label"
+            },
+            {
+              "value": "plane",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__14.label"
+            },
+            {
+              "value": "price_tag",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__15.label"
+            },
+            {
+              "value": "question_mark",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__16.label"
+            },
+            {
+              "value": "return",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__17.label"
+            },
+            {
+              "value": "ruler",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__18.label"
+            },
+            {
+              "value": "shirt",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__19.label"
+            },
+            {
+              "value": "shoe",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__20.label"
+            },
+            {
+              "value": "silhouette",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__21.label"
+            },
+            {
+              "value": "star",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__22.label"
+            },
+            {
+              "value": "truck",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__23.label"
+            },
+            {
+              "value": "washing",
+              "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__24.label"
+            }
+          ],
+          "default": "check_mark",
+          "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.label"
+        }
+      ]
+    },
+    {
+      "type": "popup",
+      "name": "t:sections.main-product.blocks.popup.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "link_label",
+          "default": "Pop-up link text",
+          "label": "t:sections.main-product.blocks.popup.settings.link_label.label"
+        },
+        {
+          "id": "page",
+          "type": "page",
+          "label": "t:sections.main-product.blocks.popup.settings.page.label"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.main-product.settings.header.content",
+      "info": "t:sections.main-product.settings.header.info"
+    },
+    {
+      "type": "select",
+      "id": "picker_type",
+      "options": [
+        {
+          "value": "dropdown",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.options__1.label"
+        },
+        {
+          "value": "button",
+          "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.options__2.label"
+        }
+      ],
+      "default": "button",
+      "label": "t:sections.main-product.blocks.variant_picker.settings.picker_type.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_info",
+      "default": true,
+      "label": "t:sections.main-product.settings.enable_sticky_info.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "default": false,
+      "label": "t:sections.main-product.settings.enable_video_looping.label"
+    }
+  ]
+}
+{% endschema %}

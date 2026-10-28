@@ -1,0 +1,111 @@
+
+<div class="max-w-1440 mx-auto collectionChildNav">
+<style>
+.collectionChildNav {
+	margin-top: 2.5rem;
+	margin-bottom: 2.5rem;
+}
+ul.col_block {
+	display: flex;
+  flex-wrap: wrap;
+	justify-content: center;
+    gap: 10px;
+	padding: 0 1rem;
+}
+.col_block .collection-title {
+	margin-top: 8px;
+    text-transform:uppercase;
+  border-bottom: 1px solid transparent;
+}
+
+.col_block .collection-item {
+	max-width: 20%;
+  width:100%;
+	text-align: center;
+}
+.col_block li.collection-item img {
+	margin: auto;
+	width:100%;
+}
+.col_block .collection-icon {
+	display: flex;
+    align-items: center;
+}
+
+  .col_block li.collection-item img {
+    max-width: 56px;
+    margin: auto;
+    width: 100%;
+    height: 40px;
+    object-fit: contain;
+}
+@media(max-width:600px){
+ul.col_block {
+        row-gap: 30px;
+        padding-bottom: 20px;
+	}
+     .col_block .collection-item {
+    max-width: calc(50% - 20px);
+}
+}
+  
+
+</style>  
+
+
+      <ul id="subCollection" class="col_block">
+        {%- for block in section.blocks -%}
+         {% assign collection = block.settings.collection_link %}
+          <li class="collection-item  ">
+            <a href="{{ collection.url }}">
+              {% if block.settings.collection_icon != blank %}
+                <div class="collection-icon"><img src="{{ block.settings.collection_icon | img_url: '100x100' }}" alt="{{ link.title }} icon" width="" height=""></div>
+              {% endif %}
+              {% if block.settings.collection_title != blank %}
+                <div class="collection-title">{{ block.settings.collection_title }}</div>
+              {% else %}
+              <div class="collection-title">{{ collection.title }}</div>
+              {% endif %}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+</div>
+
+{% schema %}
+ {
+    "name": "Collection Icon Block",
+    "settings": [
+    
+    ],
+   "blocks": [
+    {
+      "name": "Menu",
+      "type": "menu",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "collection_icon",
+          "label": "Collection Icon"
+        },
+        {
+          "type": "collection",
+          "id": "collection_link",
+          "label": "Collection link"
+        },
+        {
+          "type": "text",
+          "id": "collection_title",
+          "label": "Collection Title",
+          "info": "Collection Custom Title"
+        }
+      ]
+    }
+  ],
+    "presets": [
+      {
+        "name": "Collection Icon Block"
+      }
+    ]
+  }
+{% endschema %}

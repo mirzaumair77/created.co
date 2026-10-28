@@ -1,0 +1,121 @@
+<div class="variant-selector flex items-center justify-between custom-styling-swatch">
+  {% for i in (1..10) %}
+    {% assign temp_related_product_url = 'related_product_color_' | append: i %}
+    {% assign temp_related_product_color = 'related_color_swatch_' | append: i %}
+    {% assign related_product_url = product.metafields.variants[temp_related_product_url].value.url %}
+    {% assign related_product_color = product.metafields.variants[temp_related_product_color] %}
+    {% if related_product_url != blank %}
+      <a
+        href="{{ related_product_url }}"
+        data-color="{{related_product_url}}"
+        id="{{ product.id }}-swatch-{{ i }}"
+        class="hoverColor inline-block border rounded-full h-36 w-36 hover:border-black transition-all"
+        style="background-color: {{ related_product_color }};"
+      ></a>
+    {% else %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+</div>
+
+{%- assign uid = 'product-' | append: product.id -%}
+<!-- this code displays the color of the hovered product -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    let originalImageUrl = document.querySelector("#{{ uid }} .card__inner #image img").src;
+    const swatchIds = [{%- for i in (1..10) -%}
+      {%- assign temp_related_product_url = 'related_product_color_' | append: i -%}
+      {%- assign temp_related_product_color = 'related_color_swatch_' | append: i -%}
+      {%- assign related_product_url = product.metafields.variants[temp_related_product_url].value.url -%}
+      {%- assign related_product_color = product.metafields.variants[temp_related_product_color] -%}
+      {%- if related_product_url != blank -%}
+        "{{ product.id }}-swatch-{{ i }}"{%-  unless forloop.last -%},{%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}];
+
+    // we will get all swatch images before and then on hover we will swtich from object for fast retrival
+    let SWATCH_IAMGES = {};
+    Promise.all(
+      swatchIds.map(async function(id) {
+        const swatch = document.getElementById(id);
+      
+        const path = `https://created.co/${swatch.getAttribute('href')}`;
+        const url = new URL(path);
+        url.searchParams.append("section_id", "featured-product-card-image");
+
+        let response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+
+        let text = await response.text();
+        let imageUrl = new DOMParser().parseFromString(text, 'text/html').querySelector("#shopify-section-featured-product-card-image").innerText
+        SWATCH_IAMGES[id] = imageUrl
+      })
+    ).then(function() {
+      console.log({SWATCH_IAMGES})
+      
+      swatchIds.forEach(id => {  
+        const swatch = document.getElementById(id)
+        swatch.addEventListener('click', async function (e) {
+          e.preventDefault()
+
+          document.querySelector("#{{ uid }}").classList.add("hide-life-style")
+
+          const path = "https://created.co/" + this.getAttribute('href')
+          console.log({path})
+          const url = new URL(path)
+          console.log({url: url.toString()})
+          url.searchParams.append("section_id", "featured-product-card")
+
+          let response = await fetch(url)
+
+          if (!response.ok) {
+            throw new Error(response.status)
+          }
+
+          let text = await response.text()
+          let updatedSection = new DOMParser().parseFromString(text, 'text/html').querySelector("#shopify-section-featured-product-card")
+
+          originalImageUrl = updatedSection.querySelector("#image img").src
+
+          let newImage = updatedSection.querySelector("#image").innerHTML
+          let newTitle = updatedSection.querySelector("#title").innerHTML
+          let newPrice = updatedSection.querySelector("#price").innerHTML
+          document.querySelector("#{{ uid }} .learn_btn").setAttribute('href',path);
+          if(updatedSection.querySelector("#buy-buttons")){
+          let newProductCart = updatedSection.querySelector("#buy-buttons").innerHTML
+          }
+
+          document.querySelector("#{{ uid }} #image").innerHTML = newImage
+          document.querySelector("#{{ uid }} #title").innerHTML = newTitle
+          document.querySelector("#{{ uid }} #price").innerHTML = newPrice
+          if(document.querySelector("#{{ uid }} #buy-buttons")){
+           document.querySelector("#{{ uid }} #buy-buttons").innerHTML = newProductCart 
+          }
+          
+          
+
+          setTimeout(() => {
+            document.querySelector("#{{ uid }}").classList.remove("hide-life-style")
+          }, 2000)
+        });
+
+        swatch.addEventListener("mouseover", async (e) => {
+          const id = e.target.getAttribute('id')
+          if (SWATCH_IAMGES[id]) {
+            document.querySelector("#{{ uid }} #image img").src = SWATCH_IAMGES[id]
+          }
+        })
+
+        swatch.addEventListener("mouseleave", () => {
+          document.querySelector("#{{ uid }} #image img").src = originalImageUrl
+        })
+
+      })
+      
+    }).catch(error => console.error('Error:', error));
+  });
+</script>

@@ -1,0 +1,111 @@
+{%- if product.featured_media -%}
+  {%- liquid
+    assign featured_media_aspect_ratio = product.featured_media.aspect_ratio
+
+    if product.featured_media.aspect_ratio == null
+      assign featured_media_aspect_ratio = 1
+    endif
+  -%}
+
+  <div id="image">
+    <div
+      {% if add_image_padding %}
+        class="card__media-full-spacer"
+      {% endif %}
+    >
+      <div
+        class="media media--transparent media--{{ media_size }} media--hover-effect"
+        {% if media_size == 'adapt' and product.featured_media %}
+          style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
+        {% endif %}
+      >
+        {% render 'lazy-image', image: product.featured_image %}
+
+        {%- if product.media[1] != null and show_secondary_image -%}
+          {% render 'lazy-image', image: product.images[1] %}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+<div id="title">
+  {%- capture title_classes -%}
+    truncate font-canela text-30
+  {%- endcapture -%}
+  <a href="{{ product.url | default: '#' }}" class="">
+    <h4 class="card-information__text flex justify-between items-center">
+      {%- if product.metafields.product_cards.product_card_title -%}
+        <span class="{{ title_classes }}">
+          {{- product.metafields.product_cards.product_card_title -}}
+        </span>
+        <span class="font-grotesque text-16 font-medium">
+          {{- product.metafields.product_cards.product_card_details | upcase -}}
+        </span>
+      {%- else -%}
+        <span class="flex flex-col">
+          <span class="{{ title_classes }}">{{ product.title | split: '-' | first }}</span>
+          <span class="font-grotesque text-16 font-medium">
+            {{- product.title | split: '-' | last -}}
+          </span>
+        </span>
+      {%- endif -%}
+    </h4>
+  </a>
+</div>
+
+<div id="buy-buttons">
+  <product-card>
+    {% assign current_variant = product.selected_or_first_available_variant %}
+    {% assign productTags = product.tags | join: ', ' %}
+    <button
+      class="btn mt-20 relative btn-wider"
+      data-variant-id="{{ current_variant.id }}"
+      {% unless current_variant.available %}
+        disabled
+      {% endunless %}
+      js-add-to-cart
+    >
+      {% if current_variant.available -%}
+        BUY NOW
+      {%- elsif productTags contains 'coming_soon' -%}
+        COMING SOON
+      {%- else -%}
+        SOLD OUT
+      {%- endif %}
+      <loading-spinner style="--bg-opacity: 100%; --size: 1.5rem;"></loading-spinner>
+    </button>
+    <noscript class="no-js">
+      <a href="{{ product.url | within: collection }}" class="btn mt-20">BUY NOW</a>
+    </noscript>
+  </product-card>
+</div>
+
+<div id="price">
+  {% assign money_price = product.price_max | money_without_trailing_zeros | strip %}
+  {% assign compare_at_price = product.compare_at_price_max | money_without_trailing_zeros | strip %}
+  <span class="product-card__price block font-grotesque text-24 font-bold">
+    
+    {% if product.compare_at_price_max > product.price_max %}
+      <!-- Display compare at price with strikethrough if there is a discount -->
+      <span class="compare-price comparedPFPCS" style="text-decoration: line-through;">
+        {{ compare_at_price }}
+      </span>
+      <span class="current-price">
+        {%- if product.price_varies -%}
+          {{ 'products.product.price.from_price_html' | t: price: money_price }}
+        {%- else -%}
+          {{ money_price }}
+        {%- endif -%}
+      </span>
+    {% else %}
+      <!-- Display regular price without compare price -->
+      {%- if product.price_varies -%}
+        {{ 'products.product.price.from_price_html' | t: price: money_price }}
+      {%- else -%}
+        {{ money_price }}
+      {%- endif -%}
+    {% endif %}
+    
+  </span>
+</div>

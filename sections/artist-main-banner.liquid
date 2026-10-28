@@ -1,0 +1,254 @@
+<style>
+.hb_{{ section.id }} .hero-main-v5{
+    background-color:{{ section.settings.background_color }};
+}
+.hb_{{ section.id }} .heading-v5{
+    color:{{ section.settings.heading_color }};
+    line-height: 60px;
+}
+.hb_{{ section.id }} .text-v5 p{
+    color:{{ section.settings.text_color }};
+}
+h2.heading-v5 {
+    word-break: break-word;
+}
+h2.heading-v5 span {
+    display: block;
+}  
+.text--62 {
+    display: block;
+    line-height: 70px;
+}
+.hero-btn-v5 {
+    display: block;
+}
+.hero-inner-v5 {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    justify-content: space-between;
+}
+.width-35 {
+    max-width: 35%;
+    width: 100%;
+}  
+.width-50 {
+    max-width: 50%;
+    width: 100%;
+}
+.width-65{
+    max-width: 65%;
+    width: 100%;
+}
+.hero-image-v5 img {
+    max-width: 100%;
+    width: 100%;
+}
+.heading-v5 {
+    margin-bottom: 30px;
+    /* font-family: canela, serif; */
+    line-height: normal;
+    /* font-size: 50px; */
+    /* font-weight: 100; */
+}
+.text-v5 p {
+    font-family: grotesque, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: 18px;
+}
+.hero-main-v5.site-container.image_right {
+    padding-right: 0;
+}
+.hero-main-v5.site-container.image_left{
+    padding-left: 0;
+}
+.text-v5 {
+    margin-bottom: 36px;
+}
+.image_left .hero-inner-v5 {
+    flex-direction: row-reverse;
+}
+.hero-content-v5 {
+    margin-left: 5rem;
+    margin-right: 5rem;
+}
+@media(min-width:1920px){
+.width-35 {
+    max-width: 660px;
+}
+}
+@media(max-width:1440px){
+.hero-content-v5 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+}
+@media only screen and (max-width: 1350px) and (min-width: 990px){
+.heading-v5 span {
+    font-size: 45px;
+}
+}
+  
+@media(min-width:990px){
+.hero-main-v5.site-container.image_right {
+    padding-left: 30px;
+}
+.hero-btn-section {
+    display: flex;
+}
+}
+@media(max-width:990px){
+.hero-inner-v5 {
+    flex-direction: column-reverse;
+}
+.hb_{{ section.id }} .heading-v5{
+    line-height: 55px;
+}
+.hero-content-v5 {
+    margin-left: 0;
+}
+.width-50 {
+    max-width: 100%;
+    width: 100%;
+}
+.width-65{
+    max-width: 100%;
+    width: 100%;
+}
+.width-35{
+    max-width: 100%;
+    width: 100%;
+}
+.hero-main-v5.site-container.image_right {
+    padding-left: 0;
+}
+.image_right .hero-content-v5, .image_left .hero-content-v5 {
+    padding: 0 1rem 45px;
+    margin:0;
+}
+.image_left .hero-inner-v5 {
+    flex-direction: column-reverse;
+}
+.hero-main-v5.site-container.image_left {
+    padding-right: 0;
+}
+}
+@media(max-width:600px){
+.heading-v5 {
+    margin-bottom: 10px;
+    line-height: 40px;
+}
+.text-v5 p {
+    font-size: 18px;
+}
+}
+@media(max-width:450px){
+.heading-v5 span {
+    font-size: 35px;
+    line-height: 35px;
+    display: inline-block;
+}
+.text--62 {
+    line-height: 50px;
+}
+}
+</style>
+
+
+<section class="hero-banner-v5 hb_{{ section.id }}">
+  <div class=" hero-main-v5 {% if section.settings.banner_layout == "image_left" %} image_left{% else %} image_right{% endif %}" >
+    <div class="hero-inner-v5 ">
+     <div class="hero-content-v5 width-35">
+       {% if section.settings.heading != blank %}<h2 class="heading-v5">{{ section.settings.heading }}</h2>{% endif %}
+       {% if section.settings.text != blank %}<div class="text-v5 text-18">  {{ section.settings.text }} </div>{% endif %}
+       {% if section.settings.button_text != blank %}<div class="hero-btn-section"><a href="{{ section.settings.button_url }}" class="hero-btn-v5  {% if section.settings.button_dark == true %}btn btn--black {% else %}btn-bigger btn--filled-white{% endif %} text-16  font-grotesque font-bold ">{{ section.settings.button_text }}</a></div>{% endif %}
+     </div>
+    {% if section.settings.banner_image != blank %}
+    <div class="hero-image-v5 width-65">
+      <img src="{{ section.settings.banner_image | image_url }}" class="hero_image">
+    </div>
+    {% endif %}
+   </div>
+  </div>
+</section>
+{% schema %}
+  {
+  "name": "Artist main banner",
+  "settings": [
+    {
+      "type": "select",
+      "id": "banner_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image Left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image Right"
+        }
+      ],
+      "default": "image_right"
+    },
+    
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Custom Drinkware That Elevates Your Brand"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Start Now"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_dark",
+      "label": "Button Dark",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "background color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#fff"
+    },
+  ],
+  "presets": [
+    {
+      "name": "Artist main banner"
+    }
+  ]
+}  
+{% endschema %}

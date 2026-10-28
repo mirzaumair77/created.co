@@ -1,0 +1,115 @@
+<section class="page__footer bg-white px-15 py-24 tablet:px-48 tablet:pt-180 tablet:pb-102"{% if section.settings.bg_color != blank %}style="background-color: {{ section.settings.bg_color }};"{% endif %}>
+	<div class="page-footer__container tablet:flex flex-wrap tablet:max-w-1440 mx-auto px-15 tablet:px-0">
+	  {% if section.settings.footer_svg_title != blank %}
+	    <div class="tablet:w-1/2 mb-24 tablet:mb-0 tablet:px-48">
+	      {{ section.settings.footer_svg_title }}
+	    </div>
+	  {% elsif section.settings.footer_title_1 != blank or section.settings.footer_title_2 %}
+	    <p class="page-footer__title tablet:w-1/2 mb-24 tablet:mb-0 tablet:px-48 leading-tight">
+	    	{% if section.settings.footer_title_1 != blank %}
+		    	<span class="block text-30 tablet:text-60 font-semibold">{{ section.settings.footer_title_1 }}</span>
+		    {% endif %}
+		    {% if section.settings.footer_title_2 != blank %}
+		    	<span class="block text-30 tablet:text-62 font-canela font-thin">{{ section.settings.footer_title_2 }}</span>
+		    {% endif %}
+	    </p>
+	  {% endif %}
+	  <div class="page-footer__info tablet:w-1/2 {% unless section.settings.footer_text_padding %}tablet:{% endunless %}px-48">
+	    {% if section.settings.footer_text != blank %}
+	      <p class="page-footer__text text-20 {% if section.settings.font == 'serif' %}font-semibold{% else %}font-canela font-thin tablet:text-30{% endif %}">
+	        {{ section.settings.footer_text }}
+	      </p>
+	    {% endif %}
+	    {% if section.settings.footer_link != blank and section.settings.button_below %}
+	      <a class="page-footer__link btn mt-24 {% if section.settings.extra_spacing %}tablet:mt-142{% else %}tablet:mt-38{% endif %} px-25" href="{{ section.settings.footer_link }}">
+	        {{ section.settings.footer_link_text }}
+	      </a>
+	    {% endif %}
+	  </div>
+	</div>
+</section>
+{% schema %}
+{
+	"name": "50-50 Text",
+	"settings": [
+		{
+	      "type": "header",
+	      "content": "Footer"
+	    },
+	    {
+	    	"type": "color",
+	    	"id": "bg_color",
+	    	"label": "Background color"
+	    },
+	    {
+	      "type": "text",
+	      "id": "footer_title_1",
+	      "label": "Footer Title 1",
+	      "info": "Grotesque Off White"
+	    },
+	    {
+	      "type": "text",
+	      "id": "footer_title_2",
+	      "label": "Footer Title 2",
+	      "info": "Canela Thin"
+	    },
+	    {
+	      "type": "html",
+	      "id": "footer_svg_title",
+	      "label": "Footer SVG Title",
+	      "info": "Overrides Footer Title"
+	    },
+	    {
+	      "type": "textarea",
+	      "id": "footer_text",
+	      "label": "Footer Text"
+	    },
+	    {
+	    	"type": "select",
+	    	"id": "font",
+	    	"label": "Font",
+	    	"options": [
+	    		{
+	    			"value": "serif",
+	    			"label": "Grotesque"
+	    		},
+	    		{
+	    			"value": "sans-serif",
+	    			"label": "Canela"
+	    		}
+	    	],
+	    	"default": "serif"
+	    },
+	    {
+	    	"type": "checkbox",
+	    	"id": "footer_text_padding",
+	    	"label": "Extra padding on main text",
+	    	"info": "Only effects mobile display",
+	    	"default": true
+	    },
+	    {
+	      "type": "url",
+	      "id": "footer_link",
+	      "label": "Footer Link"
+	    },
+	    {
+	      "type": "text",
+	      "id": "footer_link_text",
+	      "label": "Footer Link Text"
+	    },
+	    {
+	    	"type": "checkbox",
+	    	"id": "extra_spacing",
+	    	"label": "Extra spacing above button",
+	    	"default": false
+	    },
+	    {
+	    	"type": "checkbox",
+	    	"id": "button_below",
+	    	"label": "Button centered below all content",
+	    	"default": false,
+	    	"info": "If \"True\", button will be aligned with right text"
+	    }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,191 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "our-story",
+      "blocks": {
+        "bcbb02b1-dd00-4c3c-acc9-90cf789b5578": {
+          "type": "personnel",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/Asset_2_2x-100.jpg",
+            "name": "Ryan Schneider",
+            "subtitle": "The Heart. Brings all the feels.",
+            "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit,  diam nonummy nibh euismod tincidunt sol laoreet dolore magna aliquam erat volutpat malso. Lorem ipsum dolor sit amet, consectetuer adipiscing enim  minim veniam, quis nostrud exerci tation,"
+          }
+        },
+        "5bb82fa3-6d7b-43a4-a9b2-a94b9456726f": {
+          "type": "personnel",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/Asset_2_2x-100.jpg",
+            "name": "Jeremy Moss",
+            "subtitle": "The Head. Supplies a healthy dose of reason.",
+            "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit,  diam nonummy nibh euismod tincidunt sol laoreet dolore magna aliquam erat volutpat malso. Lorem ipsum dolor sit amet, consectetuer adipiscing enim  minim veniam, quis nostrud exerci tation,"
+          }
+        },
+        "61b3d6a5-8372-45b7-a16f-6b0c7b4f89d0": {
+          "type": "timeline",
+          "settings": {
+            "timeline_img": "shopify://shop_images/Screen_Shot_2022-01-04_at_4.47.25_PM.jpg",
+            "year": "2015",
+            "timeline_text": "Created Co. opens for business with a few mug designs and high hopes that our drinkware might help to inspire, connect, and empower people over a cup of coffee."
+          }
+        },
+        "be5971a7-6b40-418e-a0a3-5d1048643c4e": {
+          "type": "timeline",
+          "settings": {
+            "timeline_img": "shopify://shop_images/1_LhMvuuA5fZ8bSeptKXP9Ug_8cfc19dc-f26a-4321-8504-341fc15a703f.jpg",
+            "year": "2016",
+            "timeline_text": "Partnered with charity : water as our giving partner after hearing Scott Harrison speak at an event.  We felt coffee mugs and clean water went hand-in-hand."
+          }
+        },
+        "9ac0b89b-c9ca-4604-bf25-91897a6fe452": {
+          "type": "timeline",
+          "settings": {
+            "timeline_img": "shopify://shop_images/TheCreatedCo-1171-3000px_e712c6e2-5c0e-4a0c-9707-46c12a69bbf7.jpg",
+            "year": "2018",
+            "timeline_text": "Designed, developed, and launched two lines of specialty coffee cups from the ground up. These cafe wares quickly made their way into cafes around the world."
+          }
+        },
+        "f9a0f9f8-75fd-41b8-a611-47fdaa9a9459": {
+          "type": "timeline",
+          "settings": {
+            "timeline_img": "shopify://shop_images/created-co-stainless-family-group-01_755aa9c2-b9ce-46ff-99e3-00564054498d.jpg",
+            "year": "2021",
+            "timeline_text": "Created and launched a full range of insulated drinkware with a new tagline of \"Life Happens Around a Drink,\" as we continue to create moments around beverages."
+          }
+        },
+        "3a85d5fc-b9e5-4261-93d5-803abc7ec224": {
+          "type": "image_text",
+          "settings": {
+            "reverse": false,
+            "image": "shopify://shop_images/Asset_3_2x-100.jpg",
+            "title": "YOUR SPIRIT.\n<br>\nOUR MISSION.",
+            "svg_title": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 508.89 176.1\"><defs><style>.story-block-1-cls-1,.story-block-1-cls-11,.story-block-1-cls-9{font-size:50px;}.story-block-1-cls-1,.story-block-1-cls-9{font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;}.story-block-1-cls-1{letter-spacing:0.01em;}.story-block-1-cls-2{letter-spacing:0.01em;}.story-block-1-cls-3{letter-spacing:0.01em;}.story-block-1-cls-4{letter-spacing:0.02em;}.story-block-1-cls-5{letter-spacing:0.01em;}.story-block-1-cls-6{letter-spacing:0.02em;}.story-block-1-cls-7{letter-spacing:0.01em;}.story-block-1-cls-8{letter-spacing:0em;}.story-block-1-cls-10{letter-spacing:0.02em;}.story-block-1-cls-11{font-family:Canela-Thin, Canela;font-weight:200;}.story-block-1-cls-12{letter-spacing:0.03em;}.story-block-1-cls-13{letter-spacing:0.03em;}.story-block-1-cls-14{letter-spacing:-0.02em;}.story-block-1-cls-15{letter-spacing:0.02em;}.story-block-1-cls-16{letter-spacing:0.02em;}.story-block-1-cls-17{letter-spacing:0.04em;}</style></defs><title>Asset 5</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"story-block-1-cls-1\" transform=\"translate(0 42.5)\">M<tspan class=\"story-block-1-cls-2\" x=\"43.35\" y=\"0\">O</tspan><tspan class=\"story-block-1-cls-3\" x=\"83.05\" y=\"0\">R</tspan><tspan class=\"story-block-1-cls-4\" x=\"115.5\" y=\"0\">E T</tspan><tspan class=\"story-block-1-cls-5\" x=\"190.05\" y=\"0\">HA</tspan><tspan class=\"story-block-1-cls-6\" x=\"258.25\" y=\"0\">N A </tspan><tspan class=\"story-block-1-cls-7\" x=\"358.04\" y=\"0\">MU</tspan><tspan class=\"story-block-1-cls-4\" x=\"435.64\" y=\"0\">G</tspan><tspan class=\"story-block-1-cls-8\" x=\"474.94\" y=\"0\">.</tspan></text><text class=\"story-block-1-cls-9\" transform=\"translate(0 102.5)\"><tspan class=\"story-block-1-cls-4\">I</tspan><tspan class=\"story-block-1-cls-10\" x=\"14\" y=\"0\">T'</tspan><tspan class=\"story-block-1-cls-4\" x=\"54\" y=\"0\">S</tspan><tspan x=\"87.45\" y=\"0\"> </tspan></text><text class=\"story-block-1-cls-11\" transform=\"translate(102.35 102.5)\"><tspan class=\"story-block-1-cls-12\">E</tspan><tspan class=\"story-block-1-cls-4\" x=\"30.75\" y=\"0\">M</tspan><tspan class=\"story-block-1-cls-13\" x=\"73.9\" y=\"0\">P</tspan><tspan class=\"story-block-1-cls-14\" x=\"102.7\" y=\"0\">O</tspan><tspan class=\"story-block-1-cls-15\" x=\"142.3\" y=\"0\">W</tspan><tspan class=\"story-block-1-cls-12\" x=\"190.75\" y=\"0\">E</tspan><tspan class=\"story-block-1-cls-10\" x=\"221.5\" y=\"0\">R</tspan><tspan class=\"story-block-1-cls-4\" x=\"253.35\" y=\"0\">M</tspan><tspan class=\"story-block-1-cls-12\" x=\"296.5\" y=\"0\">E</tspan><tspan class=\"story-block-1-cls-16\" x=\"327.25\" y=\"0\">N</tspan><tspan x=\"364.25\" y=\"0\">T</tspan></text><text class=\"story-block-1-cls-9\" transform=\"translate(499.39 102.5)\">.</text><text class=\"story-block-1-cls-9\" transform=\"translate(0 162.5)\"><tspan class=\"story-block-1-cls-4\">I</tspan><tspan class=\"story-block-1-cls-10\" x=\"14\" y=\"0\">T'</tspan><tspan x=\"54\" y=\"0\">S</tspan></text><text class=\"story-block-1-cls-11\" transform=\"translate(87.55 162.5)\"><tspan class=\"story-block-1-cls-4\" xml:space=\"preserve\"> COMMUNI</tspan><tspan class=\"story-block-1-cls-17\" x=\"259.35\" y=\"0\">T</tspan><tspan x=\"293.05\" y=\"0\">Y</tspan></text><text class=\"story-block-1-cls-9\" transform=\"translate(410.1 162.5)\">.</text></g></g></svg>",
+            "half_wide_title": false,
+            "text": "When you’ve worked in hospitality, it’s always going to be part of who you are. We cut our teeth with entrepreneurs out to make their mark on the world and we’re constantly inspired by the power and drive behind creators like you. From long hours to long days, we know what it takes to get up and running and — maybe even harder — to keep it going. \n<br>\n<br>\nThat’s why we look at you as colleagues, not clients. We’re all part of a community out to connect and empower. We do it through quality-crafted mugs, through cutting-edge design, and through supporting the people around us.",
+            "btn_link": "",
+            "btn_text": ""
+          }
+        },
+        "bba4ca41-3453-48e5-9e86-2494a9f20735": {
+          "type": "image_text",
+          "settings": {
+            "reverse": true,
+            "image": "shopify://shop_images/Asset_5_2x-100.jpg",
+            "title": "PEOPLE + PURPOSE. GIVING BACK TO OUR COMMUNITY.",
+            "svg_title": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 323.31 58.34\"><defs><style>.story-block-2-cls-1{font-size:50px;font-family:Canela-Thin, Canela;font-weight:200;}.story-block-2-cls-2{letter-spacing:0.01em;}.story-block-2-cls-3{letter-spacing:0.02em;}.story-block-2-cls-4{font-size:52px;font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;letter-spacing:0.01em;}.story-block-2-cls-5{letter-spacing:-0.01em;}.story-block-2-cls-6{letter-spacing:0em;}.story-block-2-cls-7{letter-spacing:0em;}</style></defs><title>Asset 6</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"story-block-2-cls-1\" transform=\"translate(0 44.2)\"><tspan class=\"story-block-2-cls-2\">G</tspan><tspan class=\"story-block-2-cls-3\" x=\"40.6\" y=\"0\">IVING</tspan><tspan x=\"176.5\" y=\"0\"> </tspan></text><text class=\"story-block-2-cls-4\" transform=\"translate(185 44.2)\">B<tspan class=\"story-block-2-cls-5\" x=\"33.9\" y=\"0\">A</tspan><tspan class=\"story-block-2-cls-6\" x=\"67.29\" y=\"0\">C</tspan><tspan class=\"story-block-2-cls-7\" x=\"106.13\" y=\"0\">K</tspan></text></g></g></svg>",
+            "half_wide_title": true,
+            "text": "We’re created to do good in the world. By inspiring change in the immediate world around us, we can use the power of our influence as a force for good. We recognize one of the best ways to do that is by donating our dollar to charity : water. Every time you support us, we support guaranteeing safe and clean drinking water to people in developing countries around the world. \n<br>\n<br>\nWe chose charity : water because they embody our values of transparency, relationship, and long-term commitment to positive change.",
+            "btn_link": "https://www.charitywater.org/global-water-crisis",
+            "btn_text": "Learn More About Charity : Water"
+          }
+        },
+        "433b1484-25a1-460b-8fab-e7252d910940": {
+          "type": "article",
+          "disabled": true,
+          "settings": {
+            "article": "community/rally-for-coffee",
+            "blog_title": "Community"
+          }
+        },
+        "8672e047-9a89-483f-b864-9e41c8e4f08d": {
+          "type": "article",
+          "disabled": true,
+          "settings": {
+            "article": "people/craig-simon-competes-in-wbc",
+            "blog_title": "People"
+          }
+        },
+        "751b0500-41eb-4aec-97bd-4cadc3910770": {
+          "type": "article",
+          "disabled": true,
+          "settings": {
+            "article": "people/coffee-is",
+            "blog_title": "People"
+          }
+        },
+        "7e0053bd-6294-4d8c-b006-bd23ff89507c": {
+          "type": "article",
+          "disabled": true,
+          "settings": {
+            "article": "people/sca-expo-2018",
+            "blog_title": "People"
+          }
+        }
+      },
+      "block_order": [
+        "bcbb02b1-dd00-4c3c-acc9-90cf789b5578",
+        "5bb82fa3-6d7b-43a4-a9b2-a94b9456726f",
+        "61b3d6a5-8372-45b7-a16f-6b0c7b4f89d0",
+        "be5971a7-6b40-418e-a0a3-5d1048643c4e",
+        "9ac0b89b-c9ca-4604-bf25-91897a6fe452",
+        "f9a0f9f8-75fd-41b8-a611-47fdaa9a9459",
+        "3a85d5fc-b9e5-4261-93d5-803abc7ec224",
+        "bba4ca41-3453-48e5-9e86-2494a9f20735",
+        "433b1484-25a1-460b-8fab-e7252d910940",
+        "8672e047-9a89-483f-b864-9e41c8e4f08d",
+        "751b0500-41eb-4aec-97bd-4cadc3910770",
+        "7e0053bd-6294-4d8c-b006-bd23ff89507c"
+      ],
+      "settings": {
+        "hero_image": "shopify://shop_images/created-co-our_story_1ea58a42-7f37-44fb-81b0-712f63806129.png",
+        "hero_text_1": "Our",
+        "hero_text_2": "Story",
+        "text_block_title": "Get Creative.\n<br>\nInspire.\n<br> \nConnect.\n <br>\nEmpower.",
+        "story_title_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 1048.01 194.54\"><defs><style>.story-cls-1{font-size:87.23px;font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;}.story-cls-1,.story-cls-12,.story-cls-8{fill:#231f20;}.story-cls-1,.story-cls-2{letter-spacing:-0.01em;}.story-cls-3{letter-spacing:-0.01em;}.story-cls-4{letter-spacing:-0.01em;}.story-cls-5{letter-spacing:-0.01em;}.story-cls-6{letter-spacing:-0.01em;}.story-cls-7{letter-spacing:-0.01em;}.story-cls-12,.story-cls-8{font-size:83.44px;font-weight:200;}.story-cls-8{font-family:Canela-Thin, Canela;}.story-cls-9{letter-spacing:0.02em;}.story-cls-10{letter-spacing:0.02em;}.story-cls-11{letter-spacing:0.01em;}.story-cls-12{font-family:Canela-ThinItalic, Canela;}.story-cls-13{letter-spacing:0em;}.story-cls-14{letter-spacing:0.03em;}.story-cls-15{letter-spacing:0.02em;}.story-cls-16{letter-spacing:0.03em;}.story-cls-17{letter-spacing:-0.02em;}.story-cls-18{letter-spacing:0.02em;}.story-cls-19{letter-spacing:0.03em;}.story-cls-20{letter-spacing:0.02em;}.story-cls-21{letter-spacing:-0.03em;}.story-cls-22{letter-spacing:-0.01em;}.story-cls-23{letter-spacing:-0.03em;}</style></defs><title>Inspiring, connectiong, and empowering people</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"story-cls-1\" transform=\"translate(0.57 74.14)\"><tspan class=\"story-cls-2\">I</tspan><tspan class=\"story-cls-3\" x=\"21.89\" y=\"0\">NS</tspan><tspan class=\"story-cls-4\" x=\"137.99\" y=\"0\">P</tspan><tspan class=\"story-cls-5\" x=\"196.08\" y=\"0\">I</tspan><tspan class=\"story-cls-6\" x=\"217.98\" y=\"0\">RI</tspan><tspan class=\"story-cls-7\" x=\"294.73\" y=\"0\">N</tspan><tspan x=\"355.44\" y=\"0\">G</tspan></text><text class=\"story-cls-8\" transform=\"translate(422.4 74.14)\"><tspan class=\"story-cls-9\">,</tspan><tspan class=\"story-cls-10\" x=\"18.69\" y=\"0\"> </tspan><tspan class=\"story-cls-9\" x=\"32.79\" y=\"0\">CONNECTIN</tspan><tspan class=\"story-cls-11\" x=\"540.13\" y=\"0\">G</tspan><tspan x=\"607.8\" y=\"0\">,</tspan></text><text class=\"story-cls-12\" transform=\"translate(0 170.85)\">a<tspan class=\"story-cls-13\" x=\"36.47\" y=\"0\">n</tspan><tspan x=\"75.02\" y=\"0\">d</tspan></text><text class=\"story-cls-8\" transform=\"translate(112.23 170.85)\"><tspan class=\"story-cls-10\"> </tspan><tspan class=\"story-cls-14\" x=\"14.1\" y=\"0\">E</tspan><tspan class=\"story-cls-15\" x=\"65.42\" y=\"0\">M</tspan><tspan class=\"story-cls-16\" x=\"137.43\" y=\"0\">P</tspan><tspan class=\"story-cls-17\" x=\"185.5\" y=\"0\">O</tspan><tspan class=\"story-cls-18\" x=\"251.58\" y=\"0\">W</tspan><tspan class=\"story-cls-19\" x=\"332.44\" y=\"0\">E</tspan><tspan class=\"story-cls-20\" x=\"383.76\" y=\"0\">R</tspan><tspan class=\"story-cls-9\" x=\"436.91\" y=\"0\">ING</tspan><tspan x=\"588.45\" y=\"0\"> </tspan></text><text class=\"story-cls-1\" transform=\"translate(715.07 170.82)\"><tspan class=\"story-cls-7\">P</tspan><tspan class=\"story-cls-21\" x=\"58.09\" y=\"0\">E</tspan><tspan class=\"story-cls-22\" x=\"107.64\" y=\"0\">O</tspan><tspan class=\"story-cls-7\" x=\"175.23\" y=\"0\">P</tspan><tspan class=\"story-cls-23\" x=\"233.33\" y=\"0\">L</tspan><tspan x=\"280.87\" y=\"0\">E</tspan></text></g></g></svg>",
+        "text_block_text": "Everyone was created for a purpose and seeking ours led us to Created Co. It’s our goal to help you discover — and rediscover — the creative, spiritual, and material endeavors that inspire you to show up, be big, and feel alive.\n<br>\n<br>\n\nThat’s what goes into what we do and we hope that when you pick up one of our products you feel that in the weight of the materials and the community behind it. \n<br>\n<br>\n\nWe’re here to help you create good in your community, in your art, in your business, and in our human connection.",
+        "timeline_background": "#282223",
+        "timeline_title_1": "Our",
+        "timeline_title_2": "Story",
+        "article_title_1": "The",
+        "article_title_2": "Blog"
+      }
+    },
+    "image_text_blocks_RNXX4z": {
+      "type": "image-text-blocks",
+      "blocks": {
+        "image_and_text_ihkMfG": {
+          "type": "image_and_text",
+          "settings": {
+            "image": "shopify://shop_images/2048x_1.png",
+            "title_1": "Cody Hudson",
+            "title_2": "",
+            "body_text": "Interview with Cody Hudson, of Struggle Inc",
+            "cta_url": "http://created.co/pages/codyhudson",
+            "cta_text": "read more"
+          }
+        },
+        "image_and_text_iXDyTA": {
+          "type": "image_and_text",
+          "settings": {
+            "image": "shopify://shop_images/432462557_18016026170178696_2731506420349029076_n_1.png",
+            "title_1": "Frank La",
+            "title_2": "",
+            "body_text": "Meet Created Co Ambassador Frank La",
+            "cta_url": "https://created.co/pages/frankla",
+            "cta_text": "read more"
+          }
+        }
+      },
+      "block_order": [
+        "image_and_text_ihkMfG",
+        "image_and_text_iXDyTA"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "image_text_blocks_RNXX4z"
+  ]
+}

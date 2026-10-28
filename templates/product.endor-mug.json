@@ -1,0 +1,139 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "shogun-helper": {
+      "type": "shogun-helper",
+      "settings": {}
+    },
+    "shogun-above": {
+      "type": "shogun-above",
+      "settings": {}
+    },
+    "main": {
+      "type": "main-wholesale-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"         
+          }
+        },
+        "subtitle": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.descriptors.subtitle.value }}",
+            "text_style": "subtitle"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "subtitle"
+      ],
+      "settings": {
+        "picker_type": "button",
+        "enable_sticky_info": true,
+        "enable_video_looping": false
+      }
+    },
+    "product-details": {
+      "type": "product-details",
+      "blocks": {
+        "30659a40-b8bf-4d6c-aa7a-a06a00dbac00": {
+          "type": "description",
+          "settings": {
+            "description": "<p>{{ product.metafields.details.description | metafield_tag }}</p>"
+          }
+        },
+        "f60a50ec-145c-496a-8a81-b5eeb7cb2cf5": {
+          "type": "icons",
+          "settings": {
+            "icon_1": "{{ product.metafields.details.icon_1.value }}",
+            "icon_text_1": "{{ product.metafields.details.icon_text_1.value }}",
+            "icon_2": "{{ product.metafields.details.icon_2.value }}",
+            "icon_text_2": "{{ product.metafields.details.icon_text_2.value }}",
+            "icon_3": "{{ product.metafields.details.icon_3.value }}",
+            "icon_text_3": "{{ product.metafields.details.icon_text_3.value }}"
+          }
+        },
+        "404bf96d-31fb-4985-8aca-ed7fac8a311b": {
+          "type": "image",
+          "settings": {
+            "image": "{{ product.metafields.details.image.value }}"
+          }
+        },
+        "1f61d945-8706-4cfd-b5a8-ef2fa00e1218": {
+          "type": "features",
+          "settings": {
+            "features_list": "<p>{{ product.metafields.details.features_list | metafield_tag }}</p>"
+          }
+        }
+      },
+      "block_order": [
+        "30659a40-b8bf-4d6c-aa7a-a06a00dbac00",
+        "f60a50ec-145c-496a-8a81-b5eeb7cb2cf5",
+        "404bf96d-31fb-4985-8aca-ed7fac8a311b",
+        "1f61d945-8706-4cfd-b5a8-ef2fa00e1218"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {
+        "heading": "WITHIN THE COLLECTION",
+        "image_ratio": "square",
+        "show_secondary_image": false,
+        "add_image_padding": false,
+        "show_vendor": false
+      }
+    },
+    "shogun-below": {
+      "type": "shogun-below",
+      "settings": {}
+    },
+    "shogun-optimizer": {
+      "type": "shogun-optimizer",
+      "settings": {}
+    },
+    "1717687094bcadf09f": {
+      "type": "apps",
+      "blocks": {
+        "okendo_reviews_widget_ERE4xn": {
+          "type": "shopify://apps/okendo/blocks/reviews-widget/bb689e69-ea70-4661-8fb7-ad24a2e23c29",
+          "disabled": true,
+          "settings": {
+            "product": "{{product}}",
+            "widget_type": "reviews_widget"
+          }
+        }
+      },
+      "block_order": [
+        "okendo_reviews_widget_ERE4xn"
+      ],
+      "settings": {
+        "include_margins": false
+      }
+    }
+  },
+  "order": [
+    "shogun-helper",
+    "shogun-above",
+    "main",
+    "product-details",
+    "product-recommendations",
+    "shogun-below",
+    "shogun-optimizer",
+    "1717687094bcadf09f"
+  ]
+}

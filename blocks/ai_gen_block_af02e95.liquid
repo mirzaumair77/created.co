@@ -1,0 +1,324 @@
+{% doc %}
+  @prompt
+    Create a two-column section to sit directly above the contact form on the Contact page.
+    
+    LEFT COLUMN (plain text, no background):
+    - Bold uppercase heading: "HELP WITH A WEBSITE ORDER"
+    - Body text: "This form is for orders placed on created.co: order status, damaged or missing items, returns, and warranty claims (including lids and parts). Our support team will reply by email."
+    
+    RIGHT COLUMN (highlighted box):
+    - Background color #FAF1E9 (soft cream), square corners, no border, about 28px padding
+    - Bold uppercase heading: "LOOKING FOR CUSTOM DRINKWARE?"
+    - Body text: "Please don't use the form below for custom inquiries. Start on our Custom page instead so your request goes straight to our custom team."
+    - Button: "START A CUSTOM INQUIRY →" linking to /pages/custom. Solid black background, white uppercase text with slight letter spacing, square corners, about 14px x 22px padding. Hover background #445958.
+    
+    STYLE AND LAYOUT:
+    - Use the theme's existing body font. Body text 18px with 27px line height, black text, white page background.
+    - Columns are equal width with about 64px between them, top-aligned.
+    - A thin 1px black line under the whole section, with about 32px of space above the line and 40px below it.
+    - Match the page's existing side margins so it lines up with the "CONTACT US" heading and the form.
+    - On mobile, stack the columns: the order text first, then the cream box, with the button full width.
+    - Make all text and the button link editable in the theme editor.Create a two-column section to sit directly above the contact form on the Contact page.
+    
+    LEFT COLUMN (plain text, no background):
+    - Bold uppercase heading: "HELP WITH A WEBSITE ORDER"
+    - Body text: "This form is for orders placed on created.co: order status, damaged or missing items, returns, and warranty claims (including lids and parts). Our support team will reply by email."
+    
+    RIGHT COLUMN (highlighted box):
+    - Background color #FAF1E9 (soft cream), square corners, no border, about 28px padding
+    - Bold uppercase heading: "LOOKING FOR CUSTOM DRINKWARE?"
+    - Body text: "Please don't use the form below for custom inquiries. Start on our Custom page instead so your request goes straight to our custom team."
+    - Button: "START A CUSTOM INQUIRY →" linking to /pages/custom. Solid black background, white uppercase text with slight letter spacing, square corners, about 14px x 22px padding. Hover background #445958.
+    
+    STYLE AND LAYOUT:
+    - Use the theme's existing body font. Body text 18px with 27px line height, black text, white page background.
+    - Columns are equal width with about 64px between them, top-aligned.
+    - A thin 1px black line under the whole section, with about 32px of space above the line and 40px below it.
+    - Match the page's existing side margins so it lines up with the "CONTACT US" heading and the form.
+    - On mobile, stack the columns: the order text first, then the cream box, with the button full width.
+    - Make all text and the button link editable in the theme editor.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-contact-guidance-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    color: {{ block.settings.text_color }};
+    background: {{ block.settings.page_background }};
+    font-family: var(--font-body-family, sans-serif);
+  }
+
+  .ai-contact-guidance__columns-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: {{ block.settings.column_gap }}px;
+    align-items: start;
+  }
+
+  .ai-contact-guidance__column-{{ ai_gen_id }} {
+    min-width: 0;
+  }
+
+  .ai-contact-guidance__heading-{{ ai_gen_id }} {
+    margin: 0 0 18px;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.heading_size }}px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .ai-contact-guidance__body-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.body_size }}px;
+    line-height: {{ block.settings.body_line_height }}px;
+  }
+
+  .ai-contact-guidance__body-{{ ai_gen_id }} p {
+    margin: 0;
+  }
+
+  .ai-contact-guidance__box-{{ ai_gen_id }} {
+    padding: {{ block.settings.box_padding }}px;
+    background: {{ block.settings.box_background }};
+  }
+
+  .ai-contact-guidance__button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 28px;
+    padding: 14px 22px;
+    background: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: 0;
+    border-radius: 0;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .ai-contact-guidance__button-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.button_hover_background }};
+  }
+
+  .ai-contact-guidance__button-{{ ai_gen_id }}:focus-visible {
+    outline: 2px solid {{ block.settings.text_color }};
+    outline-offset: 3px;
+  }
+
+  .ai-contact-guidance__rule-{{ ai_gen_id }} {
+    height: 1px;
+    margin-top: 32px;
+    margin-bottom: 40px;
+    background: {{ block.settings.rule_color }};
+  }
+.aks_pt{
+padding-top:30px;
+}
+  @media screen and (max-width: 749px) {
+    .ai-contact-guidance__columns-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .ai-contact-guidance__button-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-contact-guidance-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-contact-guidance__columns-{{ ai_gen_id }}">
+    <div class="ai-contact-guidance__column-{{ ai_gen_id }} aks_pt">
+      <h2 class="ai-contact-guidance__heading-{{ ai_gen_id }}">{{ block.settings.order_heading | escape }}</h2>
+      <div class="ai-contact-guidance__body-{{ ai_gen_id }}">{{ block.settings.order_body }}</div>
+    </div>
+
+    <div class="ai-contact-guidance__box-{{ ai_gen_id }}">
+      <h2 class="ai-contact-guidance__heading-{{ ai_gen_id }}">{{ block.settings.custom_heading | escape }}</h2>
+      <div class="ai-contact-guidance__body-{{ ai_gen_id }}">{{ block.settings.custom_body }}</div>
+      {% if block.settings.button_link != blank %}
+        <a class="ai-contact-guidance__button-{{ ai_gen_id }}" href="{{ block.settings.button_link }}">
+          {{ block.settings.button_label | escape }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  <div class="ai-contact-guidance__rule-{{ ai_gen_id }}"></div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact guidance",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "order_heading",
+      "label": "Order heading",
+      "default": "HELP WITH A WEBSITE ORDER"
+    },
+    {
+      "type": "richtext",
+      "id": "order_body",
+      "label": "Order text",
+      "default": "<p>This form is for orders placed on created.co: order status, damaged or missing items, returns, and warranty claims (including lids and parts). Our support team will reply by email.</p>"
+    },
+    {
+      "type": "text",
+      "id": "custom_heading",
+      "label": "Custom heading",
+      "default": "LOOKING FOR CUSTOM DRINKWARE?"
+    },
+    {
+      "type": "richtext",
+      "id": "custom_body",
+      "label": "Custom text",
+      "default": "<p>Please don't use the form below for custom inquiries. Start on our Custom page instead so your request goes straight to our custom team.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "START A CUSTOM INQUIRY →"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "box_padding",
+      "label": "Box padding",
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "label": "Body size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "body_line_height",
+      "label": "Body line height",
+      "min": 20,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 27
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "page_background",
+      "label": "Page background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "box_background",
+      "label": "Box background",
+      "default": "#FAF1E9"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#445958"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "Rule",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact guidance"
+    }
+  ],
+  "tag": null,
+  "class": "contact-guidance-block"
+}
+{% endschema %}

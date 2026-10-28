@@ -1,0 +1,398 @@
+{% for block in section.blocks %}
+<style>
+.block_{{ block.id }} .hero__content {
+    margin-bottom: var(--mobile-offset);
+}
+.block_{{ block.id }}.hero.block{
+    width: 100%!important;
+}
+.block_{{ block.id }}.hero {
+    background:{{block.settings.bg_color}};
+}
+.block_{{ block.id }}.hero h1.hero__title,  .block_{{ block.id }}.hero p.hero__text {
+    color:{{block.settings.text_color}};
+}  
+.block_{{ block.id }}.hero .btn--outlined-white {
+    background-color: transparent;
+    border: 1px solid {{block.settings.btn_first_bg_color}};
+    color: {{block.settings.btn_first_text_color}};
+}  
+.block_{{ block.id }}.hero .btn--filled-white {
+    background-color: {{block.settings.btn_second_bg_color}};
+    color: {{block.settings.btn_second_text_color}};
+}  
+@media screen and (min-width: 768px) {
+.block_{{ block.id }} .hero__content {
+    margin-bottom: var(--offset);
+}
+}
+@media(min-width:990px){
+.block_{{ block.id }}.hero.block{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+.block_{{ block.id }}.hero {
+    /* padding: 55px 0 55px 30px; */
+}
+.hero_v1 .flickity-page-dots {
+    width: 40%;
+    right: 30%;
+    text-align: right;
+}
+}
+</style>
+{% endfor %} 
+<style>
+section.hero-banner-section.hero_slider.hero_v1 p.hero__text {
+    margin: 2rem 0;
+} 
+.hero_v1 .flickity-page-dots {
+    bottom: 45px;
+}
+.hero_v1 .flickity-page-dots .dot {
+    background: transparent;
+    border: 2px solid #fff;
+    opacity: 1;
+}
+.hero_v1 .flickity-page-dots .dot.is-selected {
+    background: #fff;
+}
+#mobileBanner{
+    display:none;
+}
+.hero {
+    width:100%;
+}
+.banner_hero_content{
+    max-width:38%;
+}
+.banner_hero_image{
+    max-width:60%;
+    /* margin-left: 39.5px; */
+}
+.banner_hero_image img {
+    max-width: 100%;
+    width: 100%;
+}
+@media(max-width:1300px){
+.banner_hero_image {
+    margin-left: 0;
+}
+.banner_hero_content   .btn-bigger {
+    border-radius: 50px;
+    /* padding: 1.5rem; */
+    font-size:16px;
+}
+.hero__title {
+    font-size: 65px;
+}
+}
+@media(min-width:769px){
+.banner_hero_content{
+    padding: 0 30px 0 0;
+}
+}
+@media screen and (max-width: 990px) {
+.banner_hero_image {
+    max-width: 100%;
+    margin-left: 0;
+}
+.banner_hero_content{
+    max-width:100%;
+    padding-bottom: 30px;
+} 
+}
+@media screen and (max-width: 769px) {
+#desktopBanner{
+    display:none; 
+}
+#mobileBanner{
+    display:block;
+}
+#mobileBanner img{
+    max-width:100%;
+}
+.hero__content-wrapper{
+    /* background: #000; */
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+.hero_v1 .flickity-page-dots {
+    bottom: 10px;
+    text-align: left;
+    left: 0;
+    padding-left: 17px;
+}
+  .hero__content-wrapper {
+    min-height: 411px;
+}
+}
+.banner_hero_content.text-center {
+  text-align:inherit;
+}  
+@media screen and (max-width: 500px) {  
+.banner_hero_content.text-center {
+  text-align:center;
+}  
+.banner_hero_content.text-center .hero__content .flex.gap-16{
+  margin:0 auto;
+}
+}
+</style>
+
+
+<section class="hero-banner-section hero_slider hero_v1" >
+<carousel-component class="grid__item w-full mx-auto overflow-hidden" data-options='{"cellSelector":"[js-carousel-slide]", "wrapAround":true, "imagesLoaded":true, "prevNextButtons":false, "autoPlay":true, "adaptiveHeight":false, "pageDots":true}'>
+<div class="" js-carousel>
+    {% for block in section.blocks %}
+    <div class="block_{{ block.id }} hero block relative " js-carousel-slide>
+      <div id="desktopBanner" class="banner_hero_image"> <img src="{{ block.settings.desktop_image | img_url: 'master' }}" alt=""></div>
+      <div id="mobileBanner"  class="banner_hero_image"><img src="{{ block.settings.mobile_image | img_url: 'master' }}" alt=""></div>
+      <div class="banner_hero_content hero__content-wrapper  flex flex-col text-white w-full h-full {{block.settings.content_x_alignment}} {{block.settings.content_y_alignment}} {{block.settings.text_alignment}}">
+        <div class="hero__content max-h-full flex flex-col" style="--mobile-offset: {{ block.settings.mobile_offset }}px; --desktop-offset: {{ block.settings.offset }}px;">
+          <div class="flex flex-col">
+    				{%- if block.settings['title-line-1'] != blank -%}
+    					<h1 class="hero__title normal-case m-0 max-w-375 text-60 tablet:text-80 leading-none flex flex-col" style="color: {{block.settings.title_color}};">
+    						<span>
+                              {% comment %}<span class="font-grotesque font-normal">{{- block.settings['title-line-1'] |  split: '-' |  first |  append: '-' -}}</span><span class="font-canela font-thin">{{- block.settings['title-line-1'] |  split: '-' |  last -}}</span>{% endcomment %}
+                              <span class="font-canela font-thin italic">{{- block.settings['title-line-1'] -}}</span>
+                            </span>
+    						<span class="font-grotesque font-normal">{{ block.settings['title-line-2'] }}</span>
+    					</h1>
+    				{%- endif -%}
+    				{%- if block.settings.body_text != blank -%}
+    					<p class="hero__text normal-case text-18 max-w-375 leading-normal" style="color: {{block.settings.text_color}};">
+    						{{ block.settings.body_text }}
+    					</p>
+    				{%- endif -%}
+    			</div>
+          {%- if block.settings.cta_url_1 != blank or block.settings.cta_url_2 != blank -%}
+            <div class="flex gap-16 table:gap-28">
+              {%- if block.settings.cta_url_2 != blank -%}
+                <a class="btn-bigger btn--filled-white text-16 laptop:text-20 font-grotesque font-bold" href="{{block.settings.cta_url_2}}">
+                  {{- block.settings.cta_text_2 -}}
+                </a>
+              {%- endif -%}
+    					{%- if block.settings.cta_url_1 != blank -%}
+                <a class="btn-bigger btn--outlined-white text-16 laptop:text-20 font-grotesque font-bold" href="{{block.settings.cta_url_1}}">
+                  {{- block.settings.cta_text_1 -}}
+                </a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {% endfor %} 
+</div>
+  </carousel-component>
+</section>
+ {% comment %}  
+ 
+ <script>
+var elem_V1 = document.querySelector('.hero_v1');
+var flktyv1 = new Flickity( elem_V1, {
+    fullscreen: true,
+    cellAlign: 'left',
+    contain: true,
+    groupCells: true,
+  wrapAround: true,
+  prevNextButtons: false,
+  
+});
+</script>
+ {% endcomment %}
+{% schema %}
+{
+  "name": "Hero slider v1",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    
+  ],
+  "blocks": [
+    {
+      "name": "Slide",
+      "type": "slide",
+      "settings": [
+         {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Color",
+           "default":"#000"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+           "default":"#000"
+        },
+        {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "header",
+      "content": "Alignment options"
+    },
+    {
+      "type": "select",
+      "id": "content_x_alignment",
+      "label": "Content Horizontal Alignment",
+      "options": [
+        {
+          "value": "items-start",
+          "label": "Left"
+        },
+        {
+          "value": "items-center",
+          "label": "Center"
+        },
+        {
+          "value": "items-end",
+          "label": "Right"
+        }
+      ],
+      "default": "items-center"
+    },
+    {
+      "type": "select",
+      "id": "content_y_alignment",
+      "label": "Content Vertical Alignment",
+      "options": [
+        {
+          "value": "justify-start",
+          "label": "Top"
+        },
+        {
+          "value": "justify-center",
+          "label": "Center"
+        },
+        {
+          "value": "justify-end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "justify-center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ],
+      "default": "text-center",
+      "info": "Mobile only"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title-line-1",
+      "label": "Title line 1"
+    },
+    {
+      "type": "text",
+      "id": "title-line-2",
+      "label": "Title line 2"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body text"
+    },
+    {
+      "type": "number",
+      "id": "mobile_offset",
+      "label": "Mobile text content offset (in pixels)",
+      "default": 0,
+      "info": "Positive values will move the text content up, negative values will move it down"
+    },
+    {
+      "type": "number",
+      "id": "offset",
+      "label": "Text content offset (in pixels)",
+      "default": 0,
+      "info": "Positive values will move the text content up, negative values will move it down"
+    },
+    {
+      "type": "url",
+      "id": "cta_url_1",
+      "label": "Button URL 1"
+    },
+    {
+      "type": "text",
+      "id": "cta_text_1",
+      "label": "Button text 1"
+    },
+        {
+          "type": "color",
+          "id": "btn_first_bg_color",
+          "label": "Button first outline color",
+           "default":"#000"
+        },
+        {
+          "type": "color",
+          "id": "btn_first_text_color",
+          "label": "Button first text color",
+           "default":"#000"
+        },
+    {
+      "type": "url",
+      "id": "cta_url_2",
+      "label": "Button URL 2"
+    },
+    {
+      "type": "text",
+      "id": "cta_text_2",
+      "label": "Button text 2"
+    },
+    {
+          "type": "color",
+          "id": "btn_second_bg_color",
+          "label": "Button second background color",
+           "default":"#000"
+        },
+        {
+          "type": "color",
+          "id": "btn_second_text_color",
+          "label": "Button second text color",
+           "default":"#000"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero slider v1"
+    }
+  ]
+}
+{% endschema %}

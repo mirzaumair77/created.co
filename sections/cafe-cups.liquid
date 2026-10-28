@@ -1,0 +1,243 @@
+<section class="cafe-cups mb-160 px-15 tablet:px-16">
+  <div class="story__hero relative px-15 tablet:px-16">
+    {% if section.settings.hero_image != blank %}
+      <div class="story-hero__img">
+        {% render 'lazy-image', image: section.settings.hero_image, alt: section.settings.hero_text %}
+      </div>
+    {% endif %}
+    {% if section.settings.hero_text_1 != blank or section.settings.hero_text_2 != blank %}
+      <h1 class="story-hero__title absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-grotesque uppercase text-white w-full text-center">
+        <span class="font-canela font-thin text-40 tablet:text-100">{{ section.settings.hero_text_1 }}</span>
+        <span class="font-grotesque font-semibold text-42 tablet:text-104"> {{ section.settings.hero_text_2 }}</span>
+      </h1>
+    {% endif %}
+  </div>
+  <div class="px-15 tablet:px-120 mt-90 tablet:mt-180 text-center">
+    <h2 class="font-canela font-thin text-40 tablet:text-60 text-center mb-60 tablet:mb-120">{{ section.settings.icons_section_title | upcase }}</h2>
+    <div class="grid grid-cols-1 tablet:grid-cols-4 gap-50">
+      {% for i in (1..4) %}
+        {% assign icon_image = 'icon_image_' | append: i %}
+        {% assign icon_svg = 'icon_svg_' | append: i %}
+        {% assign icon_title = 'icon_title_' | append: i %}
+        {% assign icon_text = 'icon_text_' | append: i %}
+        <div class="block flex-1 flex {% cycle 'flex-row', 'flex-row-reverse' %} tablet:flex-col tablet:text-center items-center tablet:justify-start">
+          {% if section.settings[icon_svg] != blank %}
+            <div class="w-1/3 tablet:w-2/4 mx-auto tablet:mb-36">
+              {{ section.settings[icon_svg] }}
+            </div>
+          {% elsif section.settings[icon_image] != blank %}
+            <div class="w-1/3 tablet:w-2/4 mx-auto tablet:mb-36">
+              {% render 'lazy-image' image: section.settings[icon_image] %}
+            </div>
+          {% endif %}
+          <div class="w-2/3 tablet:w-full text-left tablet:text-center {% cycle 'pl-16', 'pr-16' %} tablet:pl-0 tablet:pr-0">
+            {% if section.settings[icon_title] != blank %}
+              <span class="block font-canela font-thin text-30 mb-18 tablet:mb-36">{{ section.settings[icon_title] }}</span>
+            {% endif %}
+            {% if section.settings[icon_text] != blank %}
+              <p class="font-semibold text-16 tablet:text-18">{{ section.settings[icon_text] }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.icons_button_text != blank and section.settings.icons_button_link != blank %}
+      <a class="btn mt-46" href="{{ section.settings.icons_button_link }}">{{ section.settings.icons_button_text }}</a>
+    {% endif %}
+  </div>
+  {% for block in section.blocks %}
+  <div class="px-15 tablet:px-16 desktop:px-120 mx-auto mt-60 tablet:mt-120">
+    <div class="mb-45 tablet:mb-90">
+      {% render 'lazy-image' image: block.settings.image %}
+    </div>
+    <div class="flex flex-col tablet:flex-row pt-24 tablet:pt-0">
+      <div class="tablet:w-2/4 leading-none mb-24 tablet:mb-0">
+        {% if block.settings.title_1 != blank %}
+          <span class="block font-canela font-thin text-40 tablet:text-60">{{ block.settings.title_1 }}</span>
+        {% endif %}
+        {% if block.settings.title_2 != blank %}
+          <span class="block font-grotesque font-semibold text-40 tablet:text-60">{{ block.settings.title_2 }}</span>
+        {% endif %}
+      </div>
+      <div class="tablet:w-2/4">
+        <p class="font-grotesque font-semibold text-16 tablet:text-20">{{ block.settings.body_text }}</p>
+        {% if block.settings.button_text != blank and block.settings.button_link != blank %}
+          <a class="btn mt-24 tablet:mt-32" href="{{ block.settings.button_link }}">{{ block.settings.button_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+{% schema %}
+{
+  "name": "Cafe Cups",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_text_1",
+      "label": "Hero Text",
+      "info": "Grotesque Off White"
+    },
+    {
+      "type": "text",
+      "id": "hero_text_2",
+      "label": "Hero Text",
+      "info": "Canela Thin"
+    },
+    {
+      "type": "header",
+      "content": "Icons Section"
+    },
+    {
+      "type": "text",
+      "id": "icons_section_title",
+      "label": "Icons section title"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image_1",
+      "label": "Icon image 1"
+    },
+    {
+      "type": "html",
+      "id": "icon_svg_1",
+      "label": "Icon SVG 1",
+      "info": "SVG prioritized over image"
+    },
+    {
+      "type": "text",
+      "id": "icon_title_1",
+      "label": "Icon Title 1"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_text_1",
+      "label": "Icon Text 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image_2",
+      "label": "Icon image 2"
+    },
+    {
+      "type": "html",
+      "id": "icon_svg_2",
+      "label": "Icon SVG 2",
+      "info": "SVG prioritized over image"
+    },
+    {
+      "type": "text",
+      "id": "icon_title_2",
+      "label": "Icon Title 2"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_text_2",
+      "label": "Icon Text 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image_3",
+      "label": "Icon image 3"
+    },
+    {
+      "type": "html",
+      "id": "icon_svg_3",
+      "label": "Icon SVG 3",
+      "info": "SVG prioritized over image"
+    },
+    {
+      "type": "text",
+      "id": "icon_title_3",
+      "label": "Icon Title 3"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_text_3",
+      "label": "Icon Text 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image_4",
+      "label": "Icon image 4"
+    },
+    {
+      "type": "html",
+      "id": "icon_svg_4",
+      "label": "Icon SVG 4",
+      "info": "SVG prioritized over image"
+    },
+    {
+      "type": "text",
+      "id": "icon_title_4",
+      "label": "Icon Title 4"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_text_4",
+      "label": "Icon Text 4"
+    },
+    {
+      "type": "text",
+      "id": "icons_button_text",
+      "label": "Icons button text"
+    },
+    {
+      "type": "url",
+      "id": "icons_button_link",
+      "label": "Icons button link"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Collection",
+      "type": "collection",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title_1",
+          "label": "Title 1",
+          "info": "Canela Thin"
+        },
+        {
+          "type": "text",
+          "id": "title_2",
+          "label": "Title 2",
+          "info": "Grotesque Off White"
+        },
+        {
+          "type": "textarea",
+          "id": "body_text",
+          "label": "Body text"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

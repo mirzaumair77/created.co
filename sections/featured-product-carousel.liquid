@@ -1,0 +1,92 @@
+<div class="carousel__grid grid mt-36 tablet:mt-120">
+	<carousel-component class="grid__item w-full mx-auto px-30 tablet:px-50 overflow-hidden relative" data-options='{"cellSelector":"[js-carousel-slide]", "cellAlign":"left", "contain":true, "wrapAround":true, "imagesLoaded":true, "prevNextButtons":false, "adaptiveHeight":true, "pageDots":false}'>
+		<div class="" js-carousel>
+			<button class="carousel-arrow carousel-arrow--prev w-20 -left-25 tablet:-left-30" type="button" aria-label="Previous" js-prev-button>{% render 'icon-arrow-left' %}</button>
+			{% for block in section.blocks %}
+				{% assign product = all_products[block.settings.product] %}
+				<div class="w-full" js-carousel-slide>
+					<div class="carousel-slide__content relative pb-250 tablet:pb-90 desktop:pb-120">
+						<div class="carousel-slide__image-container w-full">
+							{% render 'lazy-image' image: block.settings.mobile_bg_image, image_desktop: block.settings.bg_image %}
+						</div>
+						<div class="carousel-slide__product flex items-end absolute top-0 left-0 h-full w-full">
+							<div class="tablet:flex items-end justify-between w-full">
+								<div class="carousel__image w-4/6 tablet:w-1/4 laptop:w-5/12">
+									{% assign product_image = block.settings.image_override | default: product.featured_image %}
+									{% render 'lazy-image' image: product_image %}
+								</div>
+								<div class="tablet:flex items-center text-center justify-end mt-60 tablet:mt-0">
+									<span class="leading-none uppercase block flex-shrink-0">
+										<span class="font-grotesque font-semibold text-31 desktop:text-47">{{ block.settings.alt_name }}</span>
+										<span class="font-canela font-thin pl-10 text-30 desktop:text-46">{{ block.settings.alt_name_2 }}</span>
+									</span>
+									<a href="{{ product.url }}" class="btn tablet:block tablet:ml-32 flex-shrink-0 my-16 tablet:my-0">Buy now</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+			<button class="carousel-arrow carousel-arrow--next w-20 -right-25 tablet:-right-30" type="button" aria-label="Next" js-next-button>{% render 'icon-arrow-right' %}</button>
+		</div>
+		{% if section.blocks.size > 1 %}
+			<div class="carousel-dots inline-flex w-full items-center justify-center absolute left-0 bottom-152 tablet:bottom-0 tablet:static desktop:absolute desktop:w-1/12 desktop:bottom-16 desktop:justify-start desktop:left-5/12 tablet:mt-30 desktop:mt-0" js-carousel-dots>
+				{% for i in (1..section.blocks.size) %}
+				    <button class="carousel-dot w-14 h-14 border m-4 p-2 bg-white opacity-100 rounded-full {% if forloop.first %}selected{% endif %}" data-index="{{forloop.index0}}" aria-label="Go to slide {{forloop.index}}"><div class="carousel-dot__fill w-8 h-8 bg-white rounded-full mx-auto"></div></button>
+				{% endfor %}
+			</div>
+		{% endif %}
+	</carousel-component>
+</div>
+{% schema %}
+{
+	"name": "Featured Product Carousel",
+	"settings": [],
+	"blocks": [
+		{
+			"type": "product",
+			"name": "Product",
+			"settings": [
+				{
+					"type": "product",
+					"id": "product",
+					"label": "Product"
+				},
+				{
+					"type": "image_picker",
+					"id": "bg_image",
+					"label": "Background Image"
+				},
+				{
+					"type": "image_picker",
+					"id": "mobile_bg_image",
+					"label": "Mobile background Image"
+				},
+				{
+					"type": "text",
+					"id": "alt_name",
+					"label": "Product name 1",
+					"info": "First word of product name (grotesque)"
+				},
+				{
+					"type": "text",
+					"id": "alt_name_2",
+					"label": "Product name 2",
+					"info": "Second word of product name (canela)"
+				},
+				{
+					"type": "image_picker",
+					"id": "image_override",
+					"label": "Product image override",
+					"info": "Image to use instead of featured product image"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Featured Product Carousel"
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,142 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "artist_main_banner_iDF6T7": {
+      "type": "artist-main-banner",
+      "settings": {
+        "banner_layout": "image_left",
+        "heading": "<span class=\"text-62 font-semibold\">SAM</span><span class=\"font-canela font-thin text-60\">LARSON</span>",
+        "text": "<p>After a start in San Diego designing for major outdoor and lifestyle brands, Larson evolved from commercial artist to independent creator, finding inspiration in cross-country road trips and mountain vistas. Now based in Salt Lake City with the Wasatch Mountains as a backdrop, Larson creates art that draws from the rugged beauty of the American West.</p>",
+        "button_text": "EXPLORE THE COLLAB",
+        "button_url": "shopify://collections/sam-larson",
+        "button_dark": true,
+        "banner_image": "shopify://shop_images/sl2.png",
+        "background_color": "#eeeeee",
+        "heading_color": "#000000",
+        "text_color": "#000000"
+      }
+    },
+    "artist_contnet_cWRD73": {
+      "type": "artist-contnet",
+      "settings": {
+        "background_color": "",
+        "heading": "<span class=\"font-canela font-thin text-60\">Created Co.</span> \n<span class=\"text-62 font-semibold\">ARTIST</span>\n<span class=\"font-canela font-thin text-60\">SERIES</span>",
+        "description": "<p>At Created Co., we’re passionate about bringing art into the home in an unconventional way. That’s why we’re proud to work with artists around the world to create household items that feel like fine art. And because our designs come from artistic souls from around the world, a Created Co. product will never feel like the same old thing.</p>"
+      }
+    },
+    "artist_sub_sections_hknR4J": {
+      "type": "artist-sub-sections",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/CC_ArtistCollabLP_02.20.25_01.jpg",
+        "image_position": "left",
+        "sub-heading": "",
+        "heading": "NATHAN YODER",
+        "description": "<p>Known for his line drawings inspired by animals, wilderness, and the American West, Nathan Yoder specialized in pen drawing and line engraving techniques. We love the way they’ve come to life on our ceramics line.</p>",
+        "button_label": "Shop Collection",
+        "button_link": "https://created.co/collections/nathan-yoder",
+        "custom_class": ""
+      }
+    },
+    "artist_sub_sections_4aTpQL": {
+      "type": "artist-sub-sections",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/hero_sl.png",
+        "image_position": "left",
+        "sub-heading": "",
+        "heading": "SAM LARSON",
+        "description": "<p>After a start in San Diego designing for major outdoor and lifestyle brands, Larson evolved from commercial artist to independent creator, finding inspiration in cross-country road trips and mountain vistas. Now based in Salt Lake City with the Wasatch Mountains as a backdrop, Larson creates art that draws from the rugged beauty of the American West.</p>",
+        "button_label": "SHOP COLLECTION",
+        "button_link": "shopify://collections/sam-larson",
+        "custom_class": ""
+      }
+    },
+    "artist_sub_sections_dp8ehR": {
+      "type": "artist-sub-sections",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/LisaCongdon.png",
+        "image_position": "left",
+        "sub-heading": "",
+        "heading": "LISA CONGDON",
+        "description": "<p>Lisa Congdon is an internationally recognized artist, illustrator, and author, known for her colorful, bold, and whimsical designs.</p>",
+        "button_label": "Shop Collection",
+        "button_link": "shopify://collections/lisa-congdon",
+        "custom_class": ""
+      }
+    },
+    "artist_sub_sections_ddqam8": {
+      "type": "artist-sub-sections",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/kevinTudball.png",
+        "image_position": "left",
+        "sub-heading": "",
+        "heading": "KEVIN TUDBALL",
+        "description": "<p>Kevin Tudball is a Portland-based designer and artist specializing in branding and illustration.</p>",
+        "button_label": "Shop Collection",
+        "button_link": "shopify://collections/halloween-x-kevin-tudball-collection",
+        "custom_class": ""
+      }
+    },
+    "artist_sub_sections_m38dqg": {
+      "type": "artist-sub-sections",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/codyHudson.png",
+        "image_position": "left",
+        "sub-heading": "",
+        "heading": "CODY HUDSON",
+        "description": "<p>Cody Hudson is a Chicago-based artist and graphic designer know for his abstract and geometric style. He draws inspiration from everyday life, nature, and urban landscapes.</p>",
+        "button_label": "Shop Collection",
+        "button_link": "shopify://collections/cody-hudson",
+        "custom_class": ""
+      }
+    },
+    "artist_sub_sections_QPUPGz": {
+      "type": "artist-sub-sections",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/JenPeters.png",
+        "image_position": "left",
+        "sub-heading": "",
+        "heading": "JEN PETERS",
+        "description": "<p>Jen Peters is a Minneapolis-based illustrator and surface pattern designer  known for playful subject matter, upbeat use of color, and freeform style.</p>",
+        "button_label": "Shop Collection",
+        "button_link": "shopify://collections/jen-peters",
+        "custom_class": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "artist_main_banner_iDF6T7",
+    "artist_contnet_cWRD73",
+    "artist_sub_sections_hknR4J",
+    "artist_sub_sections_4aTpQL",
+    "artist_sub_sections_dp8ehR",
+    "artist_sub_sections_ddqam8",
+    "artist_sub_sections_m38dqg",
+    "artist_sub_sections_QPUPGz"
+  ]
+}

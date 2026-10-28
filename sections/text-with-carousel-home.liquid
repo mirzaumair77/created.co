@@ -1,0 +1,248 @@
+<style>
+  .landing_padding {
+    padding-top: 10px;
+    margin-top: 3.75rem;
+}
+  .ceramics_landing_page {
+    padding-top: 25px;
+        margin-top: 63px;
+}
+  .head_size {
+    font-family: grotesque, sans-serif;
+    line-height: normal;
+    font-size: 36px;
+    font-weight: 400;
+    /* text-transform: uppercase; */
+}
+  .bg--white svg path {
+    stroke: #000;
+}
+  .bg--white{
+     position: relative;
+  }
+  .bg--white .fl_button{
+        position: absolute;
+    top: 8px;
+    right: 0px;
+    margin-top: 0;
+  }
+.text-with-carousel__section.bg--white.py-48.tablet\:pt-90.tablet\:pb-72.hubspot_landing_page {
+    padding-top: 0;
+    margin-top: 75px;
+}
+  .padding-left{
+    padding:0 20px;
+  }
+  .site-container.full_width{
+    max-width:100%;
+  }
+  @media(max-width:768px){
+    .ceramics_landing_page{
+      margin-top:30px;
+    }
+   .bg--white .fl_button{
+         right: 0px;
+    justify-content: end;
+  }
+    .padding-left{
+    padding:0 8px;
+  }
+  }
+   @media(max-width:600px){
+   .head_size {
+    font-size: 24px;
+}
+     .bg--white .fl_button{
+       top: 3px;
+  } 
+  }
+</style>
+
+<section id="{{ section.id }}" class="text-with-carousel__section {% if section.settings.dark_bg == true %}bg-black {% else %}bg--white{% endif %} py-48 tablet:pt-90 tablet:pb-72 {% if section.settings.spacing_left %}lft_5{% endif %} {{ section.settings.custom_class }}">
+  <div class="body-text__container padding-left grid grid--1-col tablet:grid-cols-2 gap-32 tablet:gap-48 desktop:gap-90">
+    {% if section.settings.svg_body_text != blank %}
+      <div class="head_size  tablet:w-full tablet:mx-auto" style="color:{{ section.settings.svg_text_color }};">
+        {{ section.settings.svg_body_text }}
+      </div>
+    {% endif %}
+    {% if section.settings.body_text_1 != blank %}
+      <div class="w-full text-white max-w-540 flex flex-col">
+        {% if section.settings.svg_main_text != blank %}
+          <div class="main-text__container w-3/4 order-1 tablet:order-0 mt-28 tablet:mt-0">
+            {{ section.settings.svg_main_text }}
+          </div>
+        {% endif %}
+        {% if section.settings.body_text_2 != blank %}
+          <div class="w-282 hidden tablet:block text-30 font-canela text-white">{{ section.settings.body_text_2 }}</div>
+        {% endif %}
+        <p class="text-18 font-normal font-grotesque tablet:mt-16">{{ section.settings.body_text_1 }}</p>
+				<a class="btn-bigger btn--filled-white text-16 laptop:text-20 font-grotesque font-bold hidden tablet:block mt-28" href="{{ section.settings.button_url }}">
+					{{- section.settings.button_text -}}
+				</a>
+      </div>
+    {% endif %}
+  </div>
+  {% if section.blocks.size > 0 %}
+    <div class="carousel__grid grid mt-30 tablet:mt-30">
+      <carousel-component
+        class="grid__item w-full mx-auto overflow-hidden"
+        data-options='{"cellSelector":"[js-carousel-slide]", "wrapAround":true, "cellAlign": "left", "imagesLoaded":true, "prevNextButtons":false, "autoPlay":{% if section.settings.auto_scroll == true %}true{% else %}false{% endif %}, "adaptiveHeight":true, "pageDots":false}'
+      >
+        <div class="" js-carousel>
+          {% for block in section.blocks %}
+            <div class="w-10/12 tablet:w-4/12 px-8 tablet:px-20" js-carousel-slide>
+              {% render 'lazy-image', image: block.settings.image %}
+            </div>
+          {% endfor %}
+        </div>
+        <div class="fl_button flex justify-between order-2 tablet:order-3 gap-16 text-white w-140 site-container ml-10 tablet:mx-auto mt-38">
+          <button class="w-28" type="button" aria-label="Previous" js-prev-button>
+            {% render 'icon-arrow-left-line' %}
+          </button>
+          <button class="w-28" type="button" aria-label="Next" js-next-button>
+            {% render 'icon-arrow-right-line' %}
+          </button>
+        </div>
+      </carousel-component>
+    </div>
+  {% endif %}
+	{% if section.settings.button_url != blank and section.settings.button_text != blank %}
+		<div class="site-container">
+			<a class="btn btn--filled-white mt-48 tablet:hidden" href="{{ section.settings.button_url }}">
+				{{- section.settings.button_text -}}
+			</a>
+		</div>
+	{% endif %}
+  <!-- Bottom Button -->
+  {% if section.settings.button_url_1 != blank and section.settings.button_text_1 != blank  or section.settings.button_url_2 != blank and section.settings.button_text_2 != blank%}
+		<div class="site-container {% if section.settings.full_width == true %} full_width{% endif %}">
+          {% if section.settings.button_url_1 != blank and section.settings.button_text_1 != blank %}
+			<a class="btn btn--filled-white mt-48 " href="{{ section.settings.button_url_1 }}">
+				{{- section.settings.button_text_1 -}}
+			</a>
+          {% endif %}
+          {% if section.settings.button_url_2 != blank and section.settings.button_text_2 != blank %}
+          <a class="btn btn--filled-white mt-48 " href="{{ section.settings.button_url_2 }}">
+				{{- section.settings.button_text_2 -}}
+			</a>
+         {% endif %} 
+		</div>
+	{% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Text section w/ Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class"
+    },
+    {
+      "type": "checkbox",
+      "id": "spacing_left",
+      "label": "Add spacing on left",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "dark_bg",
+      "label": "Dark BG",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_scroll",
+      "label": "Auto Scroll",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "svg_main_text",
+      "label": "Header text (SVG)"
+    },
+    {
+      "type": "html",
+      "id": "svg_body_text",
+      "label": "Additional SVG text"
+    },
+    {
+      "type": "color",
+      "id": "svg_text_color",
+      "label": "Additional SVG text Color",
+      "default": "#000"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text_1",
+      "label": "Body text 1",
+      "info": "Right column before carousel"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text_2",
+      "label": "Body text 2",
+      "info": "Beneath carousel"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "button_url_1",
+      "label": "Button link 1"
+    },
+    {
+      "type": "text",
+      "id": "button_text_1",
+      "label": "Button text 1"
+    },
+    {
+      "type": "url",
+      "id": "button_url_2",
+      "label": "Button link 2"
+    },
+    {
+      "type": "text",
+      "id": "button_text_2",
+      "label": "Button text 2"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Carousel Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text section with Carousel"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,407 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "pursuit_banner_jhPDem": {
+      "type": "pursuit-banner",
+      "settings": {
+        "background_color": "#828282",
+        "image_video": "image",
+        "deskstop_image": "shopify://shop_images/Hero_Section.jpg",
+        "mobile_image": "shopify://shop_images/Hero_Mobile.jpg",
+        "video": "shopify://files/videos/202407031213 (3) (2).mp4",
+        "heading": "The P<em>u</em>rsuit <em>of</em> the Cr<em>a</em>ft",
+        "description": "<p>The Fall 2024 Collection was inspired by the art of slowing down, finding passion in your process and relentlessly pursuing your craft.</p>",
+        "button_text": "SHOP FALL",
+        "button_link": "shopify://collections/stainless-collection",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff"
+      }
+    },
+    "pursuit_description_axYFgb": {
+      "type": "pursuit-description",
+      "settings": {
+        "background_color": "#ffffff",
+        "background_color_mobile": "#f7f2ee",
+        "description": "<p>The word <em>craft</em> carries many meanings. To an artist, maybe it’s the countless hours spent practicing at the pottery wheel working out your signature style. To an athlete, it could be tediously tweaking your backswing for an unbeatable shot. To us, it's all about finding magic in the creative process. That’s why we developed the products in our Fall 2024 Collection to support you as you hone and own your <em>craft</em>, one sip at a time.</p>",
+        "description_color": "#000000"
+      }
+    },
+    "pursuit_single_image_8UWtnf": {
+      "type": "pursuit-single-image",
+      "settings": {
+        "add_padding": false,
+        "background_color": "#f7f2ee",
+        "image_video": "image",
+        "deskstop_image": "shopify://shop_images/1_8ced2396-26cc-468a-ab46-9ea1987d0ac6.jpg",
+        "heading": "",
+        "description": "<p><strong>For ceramicist Alexandra Flierl</strong>, the creative path toward a beautiful piece begins with carefully cutting her clay to an ideal size, then kneading to eliminate air bubbles and make it more pliable for the wheel. Featuring <a href=\"https://created.co/products/nomad-grip-16oz-sage\" title=\"https://created.co/products/nomad-grip-16oz-sage\">Nomad Grip in Sage</a>.</p>",
+        "button_text": "",
+        "button_url": "",
+        "description_color": ""
+      }
+    },
+    "pursuit_double_image_LL8gNj": {
+      "type": "pursuit-double-image",
+      "blocks": {
+        "media_with_content_jdkaez": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/2_7b1d9142-9fd0-499d-8fba-68b3c6824b83.png",
+            "image_align_mobile": "left",
+            "description": "<p>A <strong>behind the scenes</strong> look at our Fall 2024 Campaign photoshoot. Featuring <a href=\"https://created.co/products/nomad-grip-16oz-terracotta\" title=\"https://created.co/products/nomad-grip-16oz-terracotta\">Nomad Grip in Terracotta</a> and <a href=\"https://created.co/products/cold-cup-30oz-terracotta\" title=\"https://created.co/products/cold-cup-30oz-terracotta\"><span style=\"text-decoration:underline\">30oz Cold Cup in Terracotta</span></a>. </p>",
+            "text_color": "#000000",
+            "hide_text_mobile": false
+          }
+        },
+        "media_with_content_tGR9PA": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/3_bf5f0bc2-9ed5-4a0e-a195-c45c88a3c78c.jpg",
+            "image_align_mobile": "right",
+            "description": "",
+            "text_color": "#000000",
+            "hide_text_mobile": false
+          }
+        }
+      },
+      "block_order": [
+        "media_with_content_jdkaez",
+        "media_with_content_tGR9PA"
+      ],
+      "custom_css": [
+        "@media (min-width: 1000px) {.di_media_item_width.flot_2.flot_right {max-width: 600px; } .di_media_item_width.flot_1.flot_left {margin-top: 5rem; }}"
+      ],
+      "settings": {
+        "bg_color": "#f7f2ee",
+        "reverse_row": false
+      }
+    },
+    "pursuit_single_image_WDWdck": {
+      "type": "pursuit-single-image",
+      "settings": {
+        "add_padding": false,
+        "background_color": "#f7f2ee",
+        "image_video": "image",
+        "deskstop_image": "shopify://shop_images/4_4af1393f-e371-49f7-a709-085cf0e2d4ec.jpg",
+        "heading": "",
+        "description": "<p><strong>Olivia Sugarmen practices yoga</strong> in a local Southern California park where she finds peace connecting her mind and body. Featuring our <a href=\"https://created.co/products/wander-26oz-citron\" title=\"https://created.co/products/wander-26oz-citron\">26oz Citron Wander Bottle</a>. </p>",
+        "button_text": "",
+        "button_url": "",
+        "description_color": ""
+      }
+    },
+    "pursuit_double_image_99L9A7": {
+      "type": "pursuit-double-image",
+      "blocks": {
+        "media_with_content_p9T8pw": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/5_68306d43-acf1-4264-b53b-676e237d9116.jpg",
+            "image_align_mobile": "left",
+            "description": "",
+            "text_color": "#000000",
+            "hide_text_mobile": false
+          }
+        },
+        "media_with_content_kMP84p": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/6_c81087fb-a726-4d68-95bd-c44151acf15e.jpg",
+            "image_align_mobile": "right",
+            "description": "",
+            "text_color": "#000000",
+            "hide_text_mobile": false
+          }
+        }
+      },
+      "block_order": [
+        "media_with_content_p9T8pw",
+        "media_with_content_kMP84p"
+      ],
+      "custom_css": [
+        "@media (min-width: 1000px) {.di_media_item_width.flot_1.flot_left {max-width: 600px; } .di_media_item_width.flot_2.flot_right {margin-top: 5rem; }}"
+      ],
+      "settings": {
+        "bg_color": "#f7f2ee",
+        "reverse_row": false
+      }
+    },
+    "image_with_content_pBLzwh": {
+      "type": "image-with-content",
+      "settings": {
+        "background_color": "#697c6a",
+        "vertical_alignment": "row",
+        "horizontal_alignment": "column",
+        "featured_image": "shopify://shop_images/7_96c942a6-6e6e-42ff-ad45-00fb4ff290a0.jpg",
+        "heading": "Nomad Tumbler",
+        "description": "<p>Created for the movers and shakers. Leak proof to go wherever your creative energy takes you. Ceramic-lined for perfect tasting coffee to fuel you as your pursue your craft. It's the everyday essential to keep you inspired and energized through long flights to new destinations, working sessions in the pottery studio, and everywhere in between. </p>",
+        "button_text": "Shop Nomad",
+        "button_link": "https://created.co/collections/nomad",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff"
+      }
+    },
+    "pursuit_content_Qffety": {
+      "type": "pursuit-content",
+      "settings": {
+        "background_color": "#909090",
+        "image": "shopify://shop_images/8.jpg",
+        "heading": "PASSION IN THE PROCESS",
+        "description": "<p>Any self-proclaimed ceramicist will tell you that the journey from blob of clay to perfectly symmetrical plate or bowl is far from linear. It takes years of trial and error and practice to find your groove. But in the end, that's often what makes the finished product truly beautiful. </p>",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff"
+      }
+    },
+    "pursuit_triple_images_KDmxHg": {
+      "type": "pursuit-triple-images",
+      "blocks": {
+        "media_with_content_FUCRDR": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/9.jpg",
+            "image_align_mobile": "right",
+            "description": "<p>Alexandra's craft is one of control, restraint, and plenty of room for experimentation.</p>",
+            "text_color": "#ffffff",
+            "hide_text_mobile": true
+          }
+        },
+        "double_media_tUpJTn": {
+          "type": "double_media",
+          "settings": {
+            "image_01": "shopify://shop_images/10.jpg",
+            "image_align_mobile_1": "left",
+            "image_02": "shopify://shop_images/11.jpg",
+            "image_align_mobile_2": "right"
+          }
+        }
+      },
+      "block_order": [
+        "media_with_content_FUCRDR",
+        "double_media_tUpJTn"
+      ],
+      "settings": {
+        "bg_color": "#697c6a",
+        "reverse_row": false
+      }
+    },
+    "image_with_content_qHhBFc": {
+      "type": "image-with-content",
+      "settings": {
+        "background_color": "#e0e4ad",
+        "vertical_alignment": "row-reverse",
+        "horizontal_alignment": "column",
+        "featured_image": "shopify://shop_images/12.jpg",
+        "heading": "Wander Bottle",
+        "description": "<p>Keep your creativity flowing. Wander Bottle was designed for those who strive to be at the top of their craft through movement, from long hikes in nature to hot yoga classes. Its stainless steel, double-walled design ensures durability, while the clear flow-through and twist-on handled lid offer versatility and ease of use. Wander fits effortlessly into your cupholder and your daily life.</p>",
+        "button_text": "Shop Now",
+        "button_link": "https://created.co/collections/wander-bottle",
+        "heading_color": "#1a1b18",
+        "description_color": "#1a1b18"
+      }
+    },
+    "pursuit_content_qAijbb": {
+      "type": "pursuit-content",
+      "settings": {
+        "background_color": "#909090",
+        "image": "shopify://shop_images/13.png",
+        "heading": "FINDING YOUR FLOW STATE",
+        "description": "<p>Inhale, exhale. Immerse yourself into the present moment, letting the outside world fade away as you center your attention on the task at hand. Accessing your flow state begins with this simple act of mindfulness, tuning into your breathing to anchor your mind. </p>",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff"
+      }
+    },
+    "pursuit_triple_images_6M3Dk8": {
+      "type": "pursuit-triple-images",
+      "blocks": {
+        "double_media_g4wiA4": {
+          "type": "double_media",
+          "settings": {
+            "image_01": "shopify://shop_images/14.jpg",
+            "image_align_mobile_1": "right",
+            "image_02": "shopify://shop_images/15.jpg",
+            "image_align_mobile_2": "left"
+          }
+        },
+        "media_with_content_C49aYR": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/16.jpg",
+            "image_align_mobile": "left",
+            "description": "<p>Olivia enjoys a deep, restorative cobra pose in nature where she can balance her body, mind, and spirit.</p>",
+            "text_color": "#1a1b18",
+            "hide_text_mobile": true
+          }
+        }
+      },
+      "block_order": [
+        "double_media_g4wiA4",
+        "media_with_content_C49aYR"
+      ],
+      "settings": {
+        "bg_color": "#e0e4ad",
+        "reverse_row": true
+      }
+    },
+    "image_with_content_Qp3VpW": {
+      "type": "image-with-content",
+      "settings": {
+        "background_color": "#919f9f",
+        "vertical_alignment": "row",
+        "horizontal_alignment": "column",
+        "featured_image": "shopify://shop_images/17.jpg",
+        "heading": "Roam Mug",
+        "description": "<p>Portable. Sleek. A little nostalgic. Perfect for wherever your day takes you — from everyday errands to spontaneous road trips. Roam was crafted to fit comfortably in your hand for ease of use on the go.  Features a spill-resistant, slider lid. Crafted from double-walled stainless steel, Roam keeps your drink at the perfect temperature as your create. </p>",
+        "button_text": "Shop Now",
+        "button_link": "https://created.co/collections/roam-mug",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff"
+      }
+    },
+    "pursuit_content_9rGb9A": {
+      "type": "pursuit-content",
+      "settings": {
+        "background_color": "#909090",
+        "image": "shopify://shop_images/18.jpg",
+        "heading": "DEFINING YOUR SIGNATURE STYLE",
+        "description": "<p>It starts with exploration – experimenting with various mediums, palettes, and influences to see what resonates deeply with you. As you refine your choices, consistency begins to emerge, whether it’s a penchant for bold lines, muted colors, or eclectic textures. Over time, your signature style becomes a visual language that communicates your identity and values without words. It’s not just about standing out, but about being true to yourself in your craft.</p>",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff"
+      }
+    },
+    "pursuit_triple_images_3jTbB3": {
+      "type": "pursuit-triple-images",
+      "blocks": {
+        "media_with_content_MK8xQY": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/19.jpg",
+            "image_align_mobile": "right",
+            "description": "<p>Hat-maker and designer, Austin Zito, takes care and pride in every detail – from material to stitching and even interior lining.</p>",
+            "text_color": "#ffffff",
+            "hide_text_mobile": true
+          }
+        },
+        "double_media_pNKE8G": {
+          "type": "double_media",
+          "settings": {
+            "image_01": "shopify://shop_images/20.jpg",
+            "image_align_mobile_1": "left",
+            "image_02": "shopify://shop_images/21.jpg",
+            "image_align_mobile_2": "right"
+          }
+        }
+      },
+      "block_order": [
+        "media_with_content_MK8xQY",
+        "double_media_pNKE8G"
+      ],
+      "settings": {
+        "bg_color": "#919f9f",
+        "reverse_row": true
+      }
+    },
+    "image_with_content_n6WyYJ": {
+      "type": "image-with-content",
+      "settings": {
+        "background_color": "#c9856e",
+        "vertical_alignment": "row-reverse",
+        "horizontal_alignment": "column",
+        "featured_image": "shopify://shop_images/22.jpg",
+        "heading": "30oz Cold Cup",
+        "description": "<p>Sip in maximum inspiration. 30oz Cold Cup is your ideal desk companion for the day, keeping drinks cold for hours and existing elegantly in every corner of your space. Thoughtfully and ergonomically designed while fitting seamlessly into any cup holder. Durable, modern, and spill-resistant, it's is available in a curated selection of beautiful colorways to keep you inspired. </p>",
+        "button_text": "Shop Now",
+        "button_link": "https://created.co/collections/cold-cups",
+        "heading_color": "#1a1b18",
+        "description_color": "#1a1b18"
+      }
+    },
+    "pursuit_content_EdRr94": {
+      "type": "pursuit-content",
+      "settings": {
+        "background_color": "#909090",
+        "image": "shopify://shop_images/23.jpg",
+        "heading": "WHAT DOES CRAFT MEAN TO YOU?",
+        "description": "<p>“It encompasses profound inquiries such as the essence of purpose and the nature of love. Personally, it represents a combination of innate talent, persistent dedication, and constructing something with care.” </p><p><br/><em>- </em>Lindsey Smith,<em> Interior Designer</em></p>",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff"
+      }
+    },
+    "pursuit_triple_images_CWyaqM": {
+      "type": "pursuit-triple-images",
+      "blocks": {
+        "double_media_KCx4UC": {
+          "type": "double_media",
+          "settings": {
+            "image_01": "shopify://shop_images/24.jpg",
+            "image_align_mobile_1": "right",
+            "image_02": "shopify://shop_images/25.jpg",
+            "image_align_mobile_2": "left"
+          }
+        },
+        "media_with_content_zRmHMr": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/26.jpg",
+            "image_align_mobile": "left",
+            "description": "<p><strong>Lindsey's Southern California home is a sacred retreat</strong> that reflects her personal style and gives her space to dream up magical interiors for her clients. </p>",
+            "text_color": "#1a1b18",
+            "hide_text_mobile": true
+          }
+        }
+      },
+      "block_order": [
+        "double_media_KCx4UC",
+        "media_with_content_zRmHMr"
+      ],
+      "settings": {
+        "bg_color": "#a76d52",
+        "reverse_row": true
+      }
+    },
+    "about_created_GG9wBe": {
+      "type": "about-created",
+      "settings": {
+        "background_color": "#f7f2ee",
+        "heading": "<span class=\"text-62 font-canela font-thin\">Find Your Creative Flow</span>",
+        "text": "<p>Embrace the pursuit of <em>your</em> craft – whatever that may be. Our Fall 2024 drinkware  features designed to inspire creativity and enhance your daily rituals, merging aesthetics with functionality to elevate your everyday. </p>",
+        "button_text": "SHOP FALL 2024",
+        "button_link": "https://created.co/collections/fall-2024"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "pursuit_banner_jhPDem",
+    "pursuit_description_axYFgb",
+    "pursuit_single_image_8UWtnf",
+    "pursuit_double_image_LL8gNj",
+    "pursuit_single_image_WDWdck",
+    "pursuit_double_image_99L9A7",
+    "image_with_content_pBLzwh",
+    "pursuit_content_Qffety",
+    "pursuit_triple_images_KDmxHg",
+    "image_with_content_qHhBFc",
+    "pursuit_content_qAijbb",
+    "pursuit_triple_images_6M3Dk8",
+    "image_with_content_Qp3VpW",
+    "pursuit_content_9rGb9A",
+    "pursuit_triple_images_3jTbB3",
+    "image_with_content_n6WyYJ",
+    "pursuit_content_EdRr94",
+    "pursuit_triple_images_CWyaqM",
+    "about_created_GG9wBe"
+  ]
+}

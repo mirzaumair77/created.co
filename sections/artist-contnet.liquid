@@ -1,0 +1,61 @@
+<style>
+.artist_content_section {
+    padding: 0;
+}
+.artist_content_section .artist_content_main {
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+} 
+.artist_content_main .description p {
+    font-family: grotesque, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+} 
+.artist_content {
+    margin-top: 64px;
+    margin-bottom: 64px;
+}  
+.artist_content_section .site-container {
+    max-width: 1200px;
+}  
+</style>
+
+<div class="artist_content_section artist_content_{{ section.id }}">
+  <div class="site-container artist_content">
+    {% if section.settings.heading != blank %}
+    <div class="artist_content_main">
+      <div class="heading">{{ section.settings.heading }}</div>
+    </div>
+    {% endif %}
+    <div class="description text-18">{{ section.settings.description }}</div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Artist Content",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color"
+      },
+      {
+        "type": "html",
+        "id": "heading",
+        "label": "Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "description",
+        "label": "Descritpion"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Artist Content"
+      }
+    ]
+  }
+{% endschema %}

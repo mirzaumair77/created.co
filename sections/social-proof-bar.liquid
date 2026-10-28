@@ -1,0 +1,142 @@
+<style>
+  .shopify-section:has(.social-proof-bar) {
+    overflow: hidden;
+  }
+
+  .spb_{{ section.id }} {
+    background: {{section.settings.background_color}};
+  }
+
+  .social-proof-bar {
+    padding: 111px 0 25px;
+    overflow: hidden;
+  }
+
+  .heading-social {
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: grotesque, sans-serif;
+    line-height: normal;
+    font-size: 36px;
+    color: #000000;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .logo-container {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 600px) {
+    .heading-social {
+      font-size: 35px;
+      padding: 0 20px;
+      margin-bottom: 0;
+    }
+    .ceramics-landing-page .heading-social {
+      font-size: 23px;
+    }
+  }
+
+  .new_homepage_logos {
+    display: inline-block;
+    animation: 24s slideDivs infinite linear;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .new_homepage_logos .img_wrapper {
+    position: relative;
+    display: inline-block;
+    padding: 0 20px !important;
+  }
+
+  /* Set fixed width for images */
+  .new_homepage_logos .img_wrapper img {
+    width: 100px; /* Ensure logos always have a width of 100px */
+    max-width: 100px; /* Prevent scaling beyond 100px */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  @keyframes slideDivs {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .social-proof-bar {
+    padding: 43px 0 25px;
+  }
+    .new_homepage_logos {
+      padding: 35px 0 0;
+    }
+  }
+</style>
+
+<section class="social-proof-bar spb_{{ section.id }}">
+  <div class="social-main">
+    <div class="social-inner">
+      {% if section.settings.main_heading != blank %}
+        <h2 class="font-thin heading-social">{{ section.settings.main_heading }}</h2>
+      {% endif %}
+
+      <div class="logo-container">
+        {% for i in (1..5) %}
+          <div class="new_homepage_logos">
+            {% for block in section.blocks %}
+              <div class="img_wrapper">
+                <img src="{{ block.settings.icon | img_url:'100x', scale:2 }}" />
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+{% schema %}
+  {
+  "name": "Social Proof Bar",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "background color",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "main_heading",
+      "label": "Main Heading",
+      "default": "Cool Brands We Work With"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Icon",
+      "type": "icon",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Proof Bar"
+    }
+  ]
+}  
+{% endschema %}

@@ -1,0 +1,65 @@
+<section class="page-hero mb-50 tablet:mb-160 px-15 tablet:px-16 pt-25">
+  <div class="story__hero relative px-15 tablet:px-16">
+    {% if section.settings.hero_image != blank %}
+      <div class="story-hero__img">
+        {% render 'lazy-image', image: section.settings.hero_image_mobile, image_desktop: section.settings.hero_image alt: section.settings.hero_text %}
+      </div>
+    {% endif %}
+    <div class="hero__content-wrapper flex flex-col p-15 tablet:p-75 absolute top-0 left-0 w-full h-full justify-center items-center tablet:justify-end text-center">
+      <div class="hero__content w-9/12 tablet:w-6/12 desktop:w-7/12 max-h-full">
+        {% if section.settings.svg_text != blank %}
+          {{ section.settings.svg_text }}
+        {% elsif section.settings.hero_text_1 != blank or section.settings.hero_text_2 != blank %}
+          <h1 class="story-hero__title absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-grotesque uppercase text-white w-full text-center">
+            <span class="font-canela font-thin text-40 tablet:text-100">{{ section.settings.hero_text_1 }}</span>
+            <span class="font-grotesque font-semibold text-42 tablet:text-104"> {{ section.settings.hero_text_2 }}</span>
+          </h1>
+        {% endif %}
+        {% if section.settings.low_text != blank %}
+          <span class="block font-semibold text-30 tablet:text-80 text-white">{{ section.settings.low_text }}</span>
+        {% endif %}
+        </div>
+      </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_mobile",
+      "label": "Mobile hero image"
+    },
+    {
+      "type": "text",
+      "id": "hero_text_1",
+      "label": "Hero Text",
+      "info": "Grotesque Off White"
+    },
+    {
+      "type": "text",
+      "id": "hero_text_2",
+      "label": "Hero Text",
+      "info": "Canela Thin"
+    },
+    {
+      "type": "html",
+      "id": "svg_text",
+      "label": "SVG Text",
+      "info": "Overrides \"Hero Text\" settings"
+    },
+    {
+      "type": "text",
+      "id": "low_text",
+      "label": "Bottom text"
+    }
+  ]
+}
+{% endschema %}

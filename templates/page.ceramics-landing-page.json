@@ -1,0 +1,406 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "hero_banner_v5_gFUy8E": {
+      "type": "hero-banner-v5",
+      "settings": {
+        "banner_layout": "image_right",
+        "heading": "<span class=\"font-canela font-thin text-60\">HOSPITALITY <i>GRADE</i></span> <span class=\"text-62 font-semibold\">CERAMICS</span>",
+        "narrow_text": false,
+        "subheading": "for Restaurants, Cafes, and Hotels",
+        "text": "<p>At Created, we pride ourselves on being industry leaders in elevated customizable ceramic wares for cafes, restaurants, and hospitality. All of our ceramics customizations are hand-decorated and fired in the USA.</p>",
+        "button_text": "Go Custom",
+        "button_url": "#catalog",
+        "button_dark": false,
+        "image_video": "video",
+        "banner_image": "shopify://shop_images/Frame_1.png",
+        "banner_video": "shopify://files/videos/Ceramics Landing Page Video.mp4",
+        "background_color": "#000000",
+        "heading_color": "#ffffff",
+        "subheading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "custom_class": "ceramics-landing"
+      }
+    },
+    "social_proof_bar_cJAF3p": {
+      "type": "social-proof-bar",
+      "blocks": {
+        "icon_bK8ayd": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Client_Logos-01.png"
+          }
+        },
+        "icon_HdMiq4": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Client_Logos-02.png"
+          }
+        },
+        "icon_kC888t": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Client_Logos-03.png"
+          }
+        },
+        "icon_4UtiM3": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Client_Logos-04.png"
+          }
+        },
+        "icon_WCfRbP": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Client_Logos-05.png"
+          }
+        },
+        "icon_fHxK36": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Client_Logos-07.png"
+          }
+        },
+        "icon_r7aj3e": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Client_Logos-10.png"
+          }
+        },
+        "icon_Jn8JtJ": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Client_Logos-11.png"
+          }
+        },
+        "icon_aHRQD9": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Client_Logos-12.png"
+          }
+        },
+        "icon_C8rqhA": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Client_Logos-13.png"
+          }
+        },
+        "icon_knG7Gq": {
+          "type": "icon",
+          "settings": {
+            "icon": "shopify://shop_images/Client_Logos-14.png"
+          }
+        }
+      },
+      "block_order": [
+        "icon_bK8ayd",
+        "icon_HdMiq4",
+        "icon_kC888t",
+        "icon_4UtiM3",
+        "icon_WCfRbP",
+        "icon_fHxK36",
+        "icon_r7aj3e",
+        "icon_Jn8JtJ",
+        "icon_aHRQD9",
+        "icon_C8rqhA",
+        "icon_knG7Gq"
+      ],
+      "settings": {
+        "background_color": "#ffffff",
+        "main_heading": "Trusted by Industry Leaders"
+      }
+    },
+    "embed_zRm7dB": {
+      "type": "embed",
+      "settings": {
+        "title_text": "<span class=\"font-canela font-thin text-60 hub__form\">READY <i>to</i> GET </span> <span class=\"text-62 font-semibold\">STARTED</span><span class=\"font-canela font-thin text-60\">?</span>",
+        "bg_color": "#f5f5f5",
+        "detail_text": "<p>Complete the form and we’ll send our full catalog straight to your inbox.</p>",
+        "form_id": "<div class=\"my_form_style\">\n    <script charset=\"utf-8\" type=\"text/javascript\" src=\"//js.hsforms.net/forms/embed/v2.js\"></script> <script>\n      hbspt.forms.create({\n        region: \"na1\",\n        portalId: \"41774798\",\n        formId: \"6a37c195-8d44-430f-a4d8-cbcd43820000\"\n      });\n    </script>\n</div>",
+        "button_text": "",
+        "button_link": "https://cdn.shopify.com/s/files/1/0662/7045/files/CustomCatalog_03_2025_Final_V2.pdf?v=1743443048",
+        "dark_btn": false
+      }
+    },
+    "text_with_carousel_home_BxCXzK": {
+      "type": "text-with-carousel-home",
+      "blocks": {
+        "image_M4UtNf": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/12-15-21_Created_Co0923_600x_6.png"
+          }
+        },
+        "image_WcNBfH": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/01_CAFES_c_c.webp"
+          }
+        },
+        "image_PMCR94": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/12-15-21_Created_Co0890_600x_2.png"
+          }
+        },
+        "image_FKDVtp": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/CustomGallery_02.png"
+          }
+        },
+        "image_6YNMVn": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/Frame_1.png"
+          }
+        },
+        "image_yTeh9m": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/CustomGallery_06.png"
+          }
+        },
+        "image_YPci8Y": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/Frame_2.png"
+          }
+        }
+      },
+      "block_order": [
+        "image_M4UtNf",
+        "image_WcNBfH",
+        "image_PMCR94",
+        "image_FKDVtp",
+        "image_6YNMVn",
+        "image_yTeh9m",
+        "image_YPci8Y"
+      ],
+      "settings": {
+        "custom_class": "ceramics_landing_page",
+        "spacing_left": false,
+        "dark_bg": false,
+        "auto_scroll": false,
+        "svg_main_text": "",
+        "svg_body_text": "",
+        "svg_text_color": "#000000",
+        "body_text_1": "",
+        "body_text_2": "",
+        "button_url": "",
+        "button_text": "",
+        "full_width": false,
+        "button_url_1": "",
+        "button_text_1": "",
+        "button_url_2": "",
+        "button_text_2": ""
+      }
+    },
+    "capasbilities_feature_iPTjpg": {
+      "type": "capasbilities-feature",
+      "blocks": {
+        "feature_bUdpXW": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/restaurant.png",
+            "heading": "Restaurant Grade Quality",
+            "description": "<p>Our professional-grade ceramics combine the <strong>durability demanded by commercial </strong>kitchens with elegant design, ensuring your dinnerware maintains its pristine appearance through years of intensive use.</p>"
+          }
+        },
+        "feature_m3zT7T": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/restaurant.png",
+            "heading": "High Fire Printing",
+            "description": "<p>Our process allows <strong>permanent designs and rich</strong> colors to become fully vitrified with the ceramic surface, creating <strong>fade-resistant</strong>, commercial dishwasher-safe pieces that maintain brilliance.</p>"
+          }
+        },
+        "feature_cwqDYK": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/quality_design.png",
+            "heading": "Quality DESIGNS",
+            "description": "<p>Each piece is crafted from premium clay and personalized using food-safe glazes, exceeding industry standards for <strong>chip resistance and performance.</strong></p>"
+          }
+        },
+        "feature_6hCCkf": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/crafted.png",
+            "heading": "Crafted by INDUSTRY Experts",
+            "description": "<p>We began with coffee, where we learned how the perfect vessel elevates every coffee moment. Now, we partner with master baristas and Michelin Star restaurants to <strong>develop hospitality grade </strong>wares where each element enhances the art of service.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "feature_bUdpXW",
+        "feature_m3zT7T",
+        "feature_cwqDYK",
+        "feature_6hCCkf"
+      ],
+      "settings": {
+        "background_color": "#f5f5f5",
+        "heading": "CUSTOM CAPABILITIES"
+      }
+    },
+    "limitless_solution_mbGLRm": {
+      "type": "limitless-solution",
+      "blocks": {
+        "content_AydVp9": {
+          "type": "content",
+          "settings": {
+            "heading": "CUSTOM GLAZES",
+            "description": "<p>Our story begins with coffee, where we learned firsthand how the perfect vessel elevates every coffee moment. We partner with master baristas and Michelin Star restaurants to develop beautiful ceramics. No detail is too small—from the curve of the lip to the weight in hand—each element enhances the art of service.</p>"
+          }
+        },
+        "content_3bMzpM": {
+          "type": "content",
+          "settings": {
+            "heading": "Complete Creative Control",
+            "description": "<p>From concept to creation, we bring your vision to life. Whether you're launching a signature piece unique to your brand or want to push the boundaries with our industry-leading techniques, our customization options ensure your ceramics stand out.</p>"
+          }
+        },
+        "content_7HjwLU": {
+          "type": "content",
+          "settings": {
+            "heading": "Dream Bigger with our Custom Solutions",
+            "description": "<p>From boutique cafés to international chains, we bring ambitious visions to life. Our expertise in large-scale hospitality projects means we can deliver custom ceramic collections that maintain exceptional quality whether you need hundreds or hundreds of thousands of pieces.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "content_AydVp9",
+        "content_3bMzpM",
+        "content_7HjwLU"
+      ],
+      "settings": {
+        "background_color": "#ffffff",
+        "heading": "Limitless Custom Solutions",
+        "image": "shopify://shop_images/angle-drip-mug---coffee-cart---white-12oz_1_9ea03cb6-e39f-4e9c-a423-068015df9bd7.png"
+      }
+    },
+    "collection_icon_block_4EYCDq": {
+      "type": "collection_icon_block",
+      "blocks": {
+        "menu_wGVTLi": {
+          "type": "menu",
+          "settings": {
+            "collection_icon": "shopify://shop_images/PLATES.png",
+            "collection_link": "",
+            "collection_title": "PLATES"
+          }
+        },
+        "menu_RdDTJw": {
+          "type": "menu",
+          "settings": {
+            "collection_icon": "shopify://shop_images/MugS.png",
+            "collection_link": "",
+            "collection_title": "MugS"
+          }
+        },
+        "menu_DEVqhD": {
+          "type": "menu",
+          "settings": {
+            "collection_icon": "shopify://shop_images/ESPRESSO.png",
+            "collection_link": "",
+            "collection_title": "ESPRESSO"
+          }
+        },
+        "menu_knww7V": {
+          "type": "menu",
+          "settings": {
+            "collection_icon": "shopify://shop_images/LATTE.png",
+            "collection_link": "",
+            "collection_title": "LATTE"
+          }
+        }
+      },
+      "block_order": [
+        "menu_wGVTLi",
+        "menu_RdDTJw",
+        "menu_DEVqhD",
+        "menu_knww7V"
+      ],
+      "settings": {}
+    },
+    "featured_collection_carousel_gLz8y3": {
+      "type": "featured-collection-carousel",
+      "blocks": {
+        "collection_4TQUV9": {
+          "type": "collection",
+          "settings": {
+            "collection": "ceramics-custom-page",
+            "filter_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_4TQUV9"
+      ],
+      "settings": {
+        "full_width": false,
+        "spacing_left": true,
+        "main_heading": "EXPLORE OUR PRODUCTS",
+        "mb_heading": "EXPLORE OUR PRODUCTS",
+        "enable_arrow": true
+      }
+    },
+    "pursuit_single_image_xPn7Tp": {
+      "type": "pursuit-single-image",
+      "settings": {
+        "add_padding": true,
+        "background_color": "#ffffff",
+        "image_video": "image",
+        "deskstop_image": "shopify://shop_images/hero_case_study.png",
+        "heading": "Business Case Study:  Blue Stone Lane",
+        "description": "<p>Looking for café ceramics that stand the test of time while showcasing your brand’s unique identity? Bluestone Lane faced this exact challenge—until they partnered with Created Co. Discover how we helped them craft durable, beautifully designed ceramics that transformed their coffee experience</p>",
+        "button_text": "READ MORE",
+        "button_url": "https://created.co/pages/bluestonelane",
+        "description_color": ""
+      }
+    },
+    "embed_WtRxGf": {
+      "type": "embed",
+      "disabled": true,
+      "settings": {
+        "title_text": "<span class=\"font-canela font-thin text-60 hub__form\">READY <i>to</i> GET </span> <span class=\"text-62 font-semibold\">STARTED</span><span class=\"font-canela font-thin text-60\">?</span>",
+        "bg_color": "#f5f5f5",
+        "detail_text": "<p>Download our catalog and drop us a link</p>",
+        "form_id": "<div class=\"my_form_style\">\n    <script charset=\"utf-8\" type=\"text/javascript\" src=\"//js.hsforms.net/forms/embed/v2.js\"></script> <script>\n      hbspt.forms.create({\n        region: \"na1\",\n        portalId: \"41774798\",\n        formId: \"6a37c195-8d44-430f-a4d8-cbcd43820000\"\n      });\n    </script>\n</div>",
+        "button_text": "Explore the Catalog",
+        "button_link": "https://cdn.shopify.com/s/files/1/0662/7045/files/CustomCatalog_2024_111224_2.pdf?v=1731531977",
+        "dark_btn": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "hero_banner_v5_gFUy8E",
+    "social_proof_bar_cJAF3p",
+    "embed_zRm7dB",
+    "text_with_carousel_home_BxCXzK",
+    "capasbilities_feature_iPTjpg",
+    "limitless_solution_mbGLRm",
+    "collection_icon_block_4EYCDq",
+    "featured_collection_carousel_gLz8y3",
+    "pursuit_single_image_xPn7Tp",
+    "embed_WtRxGf"
+  ]
+}

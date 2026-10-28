@@ -1,0 +1,217 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": "no-padding",
+  "sections": {
+    "main": {
+      "type": "collab",
+      "blocks": {
+        "10ad8102-51a5-414a-97ac-8fc295d54c9e": {
+          "type": "partner",
+          "settings": {
+            "partner_image": "shopify://shop_images/Verve_78d115db-caa0-49a0-aaf0-a4379ed4415b.png",
+            "link": "https://www.vervecoffee.com"
+          }
+        },
+        "c8e39ff3-af08-4dd3-b557-f82834685bca": {
+          "type": "partner",
+          "settings": {
+            "partner_image": "shopify://shop_images/French_Laundry.png",
+            "link": "https://thomaskeller.com/tfl/"
+          }
+        },
+        "53ae33c9-afb7-47de-8105-98c47956f30d": {
+          "type": "partner",
+          "settings": {
+            "partner_image": "shopify://shop_images/Screen_Shot_2022-01-03_at_8.43.04_AM.png",
+            "link": "https://www.stumptowncoffee.com"
+          }
+        },
+        "62d25713-ed66-4d51-a2ff-4ab49515bd1c": {
+          "type": "partner",
+          "settings": {
+            "partner_image": "shopify://shop_images/Magnolia_f91dba58-bdd7-426f-b314-8ddc6f383fc1.png",
+            "link": "https://magnolia.com/"
+          }
+        },
+        "2df87a35-c77c-4c0a-a6c3-fabd12fbfbde": {
+          "type": "partner",
+          "settings": {
+            "partner_image": "shopify://shop_images/Screen_Shot_2021-12-31_at_9.03.22_AM.png",
+            "link": "https://www.bigfacebrand.com/collections/coffee?srsltid=AfmBOop8f7d1gimgZ7cagP4CPgqfonWUclfFjakT6Kpgsl39jg3U1fQC"
+          }
+        },
+        "470c9032-3ea2-4ab1-b979-d62536530788": {
+          "type": "partner",
+          "settings": {
+            "partner_image": "shopify://shop_images/Allagash.png",
+            "link": "https://www.allagash.com"
+          }
+        },
+        "26eabb5c-9ed9-4c6a-9a07-4237e9cc9cdd": {
+          "type": "partner",
+          "disabled": true,
+          "settings": {
+            "partner_image": "shopify://shop_images/green.jpg",
+            "link": ""
+          }
+        },
+        "b02ce8f0-ca11-46ed-abe5-c0ad2e4af6e4": {
+          "type": "partner",
+          "disabled": true,
+          "settings": {
+            "partner_image": "shopify://shop_images/pink.jpg",
+            "link": ""
+          }
+        },
+        "046a5444-3df9-4664-8ae2-f3b3bc6dbe0a": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Screen_Shot_2021-12-09_at_2.32.30_PM.png",
+            "top": 0,
+            "left": 8,
+            "width": "444",
+            "z_index": "1",
+            "mob_top": 0,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        },
+        "a0c3b834-7018-4faf-be7a-a57ca370154b": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Screen_Shot_2021-12-09_at_2.34.36_PM.png",
+            "top": 5,
+            "left": 46,
+            "width": "444",
+            "z_index": "1",
+            "mob_top": 36,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        },
+        "6e62e8a7-aa7f-4215-9ba0-8874a414b229": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Screen_Shot_2022-01-03_at_8.23.56_AM.png",
+            "top": 25,
+            "left": 51,
+            "width": "500",
+            "z_index": "2",
+            "mob_top": 0,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        },
+        "5ffb51d8-ffef-4cf0-a0b6-ad81174c7b3e": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/345A9977_copy.jpg",
+            "top": 73,
+            "left": 10,
+            "width": "500",
+            "z_index": "2",
+            "mob_top": 21,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        },
+        "be428cbf-a06c-4916-8179-53827417bdff": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Screen_Shot_2022-01-04_at_4.34.14_PM.png",
+            "top": 50,
+            "left": 59,
+            "width": "411",
+            "z_index": "1",
+            "mob_top": 40,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        },
+        "85850534-1a5e-4a3b-9e28-52306cb6eb06": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/CC-SplashImage.jpg",
+            "top": 64,
+            "left": 0,
+            "width": "411",
+            "z_index": "1",
+            "mob_top": 66,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        },
+        "ad5082ee-cb1f-4ea4-bbc5-04059992367f": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/IMG_3586.jpg",
+            "top": 26,
+            "left": 14,
+            "width": "500",
+            "z_index": "1",
+            "mob_top": 79,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        }
+      },
+      "block_order": [
+        "10ad8102-51a5-414a-97ac-8fc295d54c9e",
+        "c8e39ff3-af08-4dd3-b557-f82834685bca",
+        "53ae33c9-afb7-47de-8105-98c47956f30d",
+        "62d25713-ed66-4d51-a2ff-4ab49515bd1c",
+        "2df87a35-c77c-4c0a-a6c3-fabd12fbfbde",
+        "470c9032-3ea2-4ab1-b979-d62536530788",
+        "26eabb5c-9ed9-4c6a-9a07-4237e9cc9cdd",
+        "b02ce8f0-ca11-46ed-abe5-c0ad2e4af6e4",
+        "046a5444-3df9-4664-8ae2-f3b3bc6dbe0a",
+        "a0c3b834-7018-4faf-be7a-a57ca370154b",
+        "6e62e8a7-aa7f-4215-9ba0-8874a414b229",
+        "5ffb51d8-ffef-4cf0-a0b6-ad81174c7b3e",
+        "be428cbf-a06c-4916-8179-53827417bdff",
+        "85850534-1a5e-4a3b-9e28-52306cb6eb06",
+        "ad5082ee-cb1f-4ea4-bbc5-04059992367f"
+      ],
+      "settings": {
+        "hero_image": "shopify://shop_images/Camp_Mug_12oz_Detail.jpg",
+        "hero_logo": "shopify://shop_images/collab-logo.png",
+        "collection_header": "IN CREATIVITY,\n<br>\nTHERE ARE NO RULES.",
+        "collection_svg_header": "",
+        "collection_title": "But we still think you should bend, break, rewrite & make them your own.",
+        "collection_text": "Creativity is about making your own way and being an alchemist when it comes to energy. Co-Lab is where we work with inspired artists, brands, and designers to make products that push the boundaries and change the game. \n<br>\n<br>\nWe don’t want to see more of the same, we want to add to the conversation and take it places it’s never been. Together we’ll create something that’s full of purpose and fully you.",
+        "collection_link": "https://www.instagram.com/created.co/",
+        "collection_link_text": "Stay Inspired",
+        "collection_image_title": "",
+        "collection_image_1": "shopify://shop_images/345A0731_4x5_528e13ae-3b55-4dbd-99e0-31d509e59f54.jpg",
+        "collection_image_2": "shopify://shop_images/12-15-21_Created_Co0722.jpg",
+        "partners_title_1": "Our",
+        "partners_title_2": "Partners",
+        "partners_text": "These brands, individuals, and personalities push the boundaries, make their own rules, and encapsulate the essence of living The Inspired Life. They're pushing the edges of culture, carving a new path, and inspiring others to do so. We're honored to work with them and call them our friends. \n<br><br>\nMay their work inspire you to lean into your creative endeavors, push your own boundaries, and overcome the ordinary.",
+        "partners_list": "- Verve \n<br>\n- French Laundry\n<br>\n- Stumptown Coffee\n<br>\n- Magnolia\n<br>\n- Big Face Coffee / Jimmy Butler\n<br>\n- Allagash Brewing\n<br>",
+        "footer_title": "LET’S CO-LAB TOGETHER",
+        "footer_svg_title": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 413.53 143.96\"><defs><style>.colab-cls-1,.colab-cls-11{font-size:62px;font-family:BasisGrotesquePro-OffWhite, Basis Grotesque Pro;}.colab-cls-2{letter-spacing:-0.01em;}.colab-cls-3{letter-spacing:0.02em;}.colab-cls-4{letter-spacing:0.04em;}.colab-cls-5{letter-spacing:-0.02em;}.colab-cls-6{font-size:60px;font-family:Canela-Thin, Canela;font-weight:200;letter-spacing:0.02em;}.colab-cls-7{letter-spacing:0.04em;}.colab-cls-8{letter-spacing:0.03em;}.colab-cls-9{letter-spacing:0.02em;}.colab-cls-10{letter-spacing:0em;}.colab-cls-11{letter-spacing:-0.03em;}.colab-cls-12{letter-spacing:0.01em;}.colab-cls-13{letter-spacing:0.02em;}.colab-cls-14{letter-spacing:0.01em;}.colab-cls-15{letter-spacing:0em;}.colab-cls-16{letter-spacing:0em;}</style></defs><title>Asset 7</title>\n<g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><text class=\"colab-cls-1\" transform=\"translate(0 52.7)\"><tspan class=\"colab-cls-2\">L</tspan><tspan class=\"colab-cls-3\" x=\"35.03\" y=\"0\">E</tspan><tspan class=\"colab-cls-4\" x=\"73.28\" y=\"0\">T</tspan><tspan class=\"colab-cls-5\" x=\"110.3\" y=\"0\">’</tspan><tspan class=\"colab-cls-3\" x=\"121.21\" y=\"0\">S</tspan><tspan x=\"162.69\" y=\"0\"> </tspan></text><text class=\"colab-cls-6\" transform=\"translate(181.04 52.7)\">C<tspan class=\"colab-cls-7\" x=\"45.72\" y=\"0\">O</tspan><tspan x=\"96.72\" y=\"0\">-</tspan><tspan class=\"colab-cls-8\" x=\"114.78\" y=\"0\">L</tspan><tspan class=\"colab-cls-9\" x=\"148.98\" y=\"0\">AB</tspan><tspan class=\"colab-cls-10\" x=\"223.5\" y=\"0\"> </tspan></text><text class=\"colab-cls-11\" transform=\"translate(0 127.1)\">T<tspan class=\"colab-cls-3\" x=\"33.05\" y=\"0\">O</tspan><tspan class=\"colab-cls-12\" x=\"83.14\" y=\"0\">G</tspan><tspan class=\"colab-cls-3\" x=\"131.07\" y=\"0\">E</tspan><tspan class=\"colab-cls-13\" x=\"169.32\" y=\"0\">T</tspan><tspan class=\"colab-cls-14\" x=\"205.09\" y=\"0\">H</tspan><tspan class=\"colab-cls-15\" x=\"248.43\" y=\"0\">E</tspan><tspan class=\"colab-cls-16\" x=\"285.63\" y=\"0\">R</tspan></text></g></g></svg>",
+        "footer_text": "Whether it’s a full custom set for your cafe, gear for your team, or something just for you so you can stand out, we want to help you create it. We’ve got it all figured out when it comes to sourcing, materials, and how to create high-quality, aesthetically-driven goods. Now it’s your turn.",
+        "footer_link": "shopify://pages/contact-us",
+        "footer_link_text": "Create"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

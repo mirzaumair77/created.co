@@ -1,0 +1,152 @@
+<section id="catalog" class="pt-100 mt-60 px-30 pb-30 from_catalog" style="background-color: {{ section.settings.bg_color }};">
+	{% if section.settings.title_text != blank %}
+		<h2 class="mb_size mb-20 text-center">{{ section.settings.title_text }}</h2>
+	{% endif %}
+    {% if section.settings.detail_text != blank %}<div class="des_text">{{ section.settings.detail_text }}</div>{% endif %}
+	{% if section.settings.button_text != blank and section.settings.button_link != blank %}
+	<div class="w-full text-center">
+		<a class="btn {% if section.settings.dark_btn == true %}btn--black{% endif %} mb-100 px-32 py-20 " href="{{ section.settings.button_link }}" target="_blank">{{ section.settings.button_text }}</a>
+	</div>
+	{% endif %}
+	{% comment %}
+	commented in favor of hard coded form for styling purposes
+	{{ section.settings.custom_html }}
+	
+	
+	<form class="grid grid-cols-1 tablet:grid-cols-2 gap-y-36 tablet:gap-68 max-w-965 mx-auto" name="insightly_web_to_lead" action="https://crm.na1.insightly.com/WebToLead/Create" method="post">
+		<input class="hidden" type="hidden" name="formId" value="M1uHRJsHGrikHA/DK9dM5Q==" />
+		<div>
+			<label for="insightly_firstName" class="block text-12 tablet:text-16 uppercase mb-16 tablet:mb-35">First Name:</label>
+			<input id="insightly_firstName" class="w-full border-black border-b-1 bg-transparent" name="FirstName" type="text"/>
+		</div>
+		<div>
+			<label for="insightly_lastName" class="block text-12 tablet:text-16 uppercase mb-16 tablet:mb-35">Last Name:</label>
+			<input id="insightly_lastName" class="w-full border-black border-b-1 bg-transparent" name="LastName" type="text"/>
+		</div>
+		<div>
+			<label for="insightly_organization" class="block text-12 tablet:text-16 uppercase mb-16 tablet:mb-35">Organization:</label>
+			<input id="insightly_organization" class="w-full border-black border-b-1 bg-transparent" name="OrganizationName" type="text"/>
+		</div>
+		<div>
+			<label for="email" class="block text-12 tablet:text-16 uppercase mb-16 tablet:mb-35">Email:</label>
+			<input id="insightly_Email" class="w-full border-black border-b-1 bg-transparent" name="email" type="text"/>
+		</div>
+		<div>
+			<label for="phone" class="block text-12 tablet:text-16 uppercase mb-16 tablet:mb-35">Phone:</label>
+			<input id="insightly_Phone" class="w-full border-black border-b-1 bg-transparent" name="phone" type="text"/>
+		</div>
+		<div>
+			<label for="insightly_title" class="block text-12 tablet:text-16 uppercase mb-16 tablet:mb-35">Title:</label>
+			<input id="insightly_Title" class="w-full border-black border-b-1 bg-transparent" name="Title" type="text"/>
+		</div>
+		<div class="tablet:col-span-2">
+			<label for="Description" class="block text-12 tablet:text-16 uppercase mb-16 tablet:mb-35">Description:</label>
+			<textarea id="insightly_Description" class="w-full border border-black bg-transparent" name="Description" type="text" rows="10"></textarea>
+		</div>
+		<input class="hidden" type="hidden" id="insightly_ResponsibleUser" name="ResponsibleUser" value="1271080"/>
+		<input class="hidden" type="hidden" id="insightly_LeadSource" name="LeadSource" value="2107862"/>
+		<div class="tablet:col-span-2 text-center tablet:text-right">
+			<input class="btn  text-center uppercase text-12 tablet:text-16 px-45 py-15 tablet:px-72 tablet:py-22" type="submit" value="Submit" />
+		</div>
+	</form>
+ {% endcomment %}
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="http:////js.hs-scripts.com/41774798.js"></script>
+<!-- End of HubSpot Embed Code -->  
+  {{ section.settings.form_id }}
+
+  
+
+ 
+</section>
+<style>
+  .my_form_style {
+    max-width: 60.3125rem;
+    margin: auto;
+}
+  section.from_catalog {
+    padding-bottom: 112px !important;
+}
+  label {
+    margin-bottom: 30px !important;
+}
+  .field {
+    margin-bottom: 45px !important;
+}
+  .hs-form__virality-link {
+    display: none !important;
+    opacity: 0;
+}
+  .des_text p {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+
+  @media only screen and (max-width:768px){
+      section.from_catalog {
+    padding-bottom: 63px !important;
+        margin-top: 0;
+}
+  }
+  @media(max-width:600px){
+    .des_text p {
+    font-size: 15px;
+}
+    .mb_size span {
+    font-size: 40px;
+}
+    .mb_size {
+    line-height: 35px;
+}
+  }
+</style>
+{% schema %}
+{
+	"name": "Embed",
+	"settings": [
+		{
+			"type": "html",
+			"id": "title_text",
+			"label": "Title text"
+		},
+      
+		{
+			"type": "color",
+			"id": "bg_color",
+			"label": "Background color"
+		},
+       {
+			"type": "richtext",
+			"id": "detail_text",
+			"label": "Description text"
+		},
+       {
+			"type": "html",
+			"id": "form_id",
+			"label": "Hupspot Form Code"
+		},
+		{
+			"type": "text",
+			"id": "button_text",
+			"label": "Button text"
+		},
+		{
+			"type": "url",
+			"id": "button_link",
+			"label": "Button link"
+		},
+        {
+        "type": "checkbox",
+        "id": "dark_btn",
+        "label": "Dark Button",
+        "default": true
+      },
+	],
+  "presets": [
+    {
+      "name": "Embed"
+    }
+  ]
+}  
+{% endschema %}

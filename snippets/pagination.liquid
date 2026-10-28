@@ -1,0 +1,39 @@
+{% comment %}
+    Renders a set of links for paginated results. Must be used within paginate tags.
+
+    Usage:
+    {% paginate results by 2 %}
+      {% render 'pagination', paginate: paginate, anchor: '#yourID' %}
+    {% endpaginate %}
+
+    Accepts:
+    - paginate: {Object}
+    - anchor: {String} (optional) This can be added so that on page reload it takes you to wherever you've placed your anchor tag.
+    - class: {String} (optional) Appended to container element's class attribute
+{% endcomment %}
+
+<link rel="stylesheet" href="{{ 'component-pagination.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-pagination.css' | asset_url | stylesheet_tag }}</noscript>
+
+{%- if paginate.parts.size > 0 -%}
+  <div class="{{ class | default: 'pagination-wrapper' }}">
+    <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+      <ul class="flex items-align items-center justify-center mx-auto max-w-375 text-20" role="list">
+        <li class="px-8 mx-24">
+          <a href="{{ paginate.previous.url }}{{ anchor }}" class="pagination__item pagination__item--next pagination__item-arrow link motion-reduce"{%- unless paginate.previous -%} disabled{% endunless %} aria-label="{{ 'general.pagination.previous' | t }}">
+            {% render 'icon-caret' %}
+          </a>
+        </li>
+
+        <li class="max-w-auto">
+          PAGE {{ paginate.current_page }} OF {{ paginate.pages }}
+        </li>
+        <li class="px-8 mx-24">
+          <a href="{{ paginate.next.url }}{{ anchor }}" class="pagination__item pagination__item--prev pagination__item-arrow link motion-reduce"{%- unless paginate.next -%} disabled{% endunless %} aria-label="{{ 'general.pagination.next' | t }}" >
+            {%- render 'icon-caret' -%}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+{%- endif -%}

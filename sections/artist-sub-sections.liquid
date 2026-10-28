@@ -1,0 +1,233 @@
+<section class="artistSubSection {{ section.settings.custom_class }}" >
+  <div class="site-container">
+      <div class="image-with-text-v1" style="background-color:{{ section.settings.bg-color }};">
+      {% if section.settings.main-heading != blank %}<h2 class="main-heading">{{ section.settings.main-heading }}</h2>{% endif %}
+      <div class="image-with-text-v1-wrapper">
+        {% if section.settings.image_position == 'left' and section.settings.main_image != blank %}
+          <div class="iwt-v1-image iwt-50"><img src="{{ section.settings.main_image | img_url: 'master' }}" alt=""></div>
+        {% endif %}
+        <div class="iwt-v1-content iwt-50">
+          {% if section.settings.sub-heading != blank %}<div class="iwt-v1-subheading">{{ section.settings.sub-heading }}</div>{% endif %}
+          {% if section.settings.heading != blank %}<div class="iwt-heading text-30 desktop:text-46 my-12  font-thin">{{ section.settings.heading }}</div>{% endif %}
+          {% if section.settings.description != blank %}<div class="iwt-v1-description text-18">{{ section.settings.description }}</div>{% endif %}
+          {% if section.settings.button_label != blank %}<div class="iwt-v1-button">{% if section.settings.button_link != blank %}<a class="btn" href="{{ section.settings.button_link }}" title="{{ section.settings.button_label }}">{{ section.settings.button_label }}</a>{% else %}{{ section.settings.button_label }}{% endif %}</div>{% endif %}
+        </div>
+        {% if section.settings.image_position == 'right' and section.settings.main_image != blank %}
+          <div class="iwt-v1-image iwt-50"><img src="{{ section.settings.main_image | img_url: 'master' }}" alt=""></div>
+        {% endif %}
+      </div>
+     </div>   
+  </div>
+</section>
+
+<style>
+section.artistSubSection {
+    margin-bottom: 64px;
+}  
+section.artistSubSection .site-container {
+    max-width: 1200px;
+}  
+.image-with-text-v1 .main-heading {
+    color: #272727;
+    text-align: center;
+    font-size: 32px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 31.2px;
+    margin-bottom: 48px;
+}
+.image-with-text-v1-wrapper{
+    display: flex;
+    align-items: center;
+} 
+.iwt-v1-image{
+    width:50%;
+} 
+.iwt-v1-image img{
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    max-width:100%;
+    width:100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}  
+.iwt-v1-image img {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+.image_content_last {
+    padding-bottom: 111px;
+}
+.iwt-v1-content{
+    /* padding:80px 48px; */
+    padding-top: min(5rem, calc(2rem + 4vw));
+    padding-bottom: min(5rem, calc(2rem + 4vw));
+    padding-left: min(3rem, calc(1.5rem + 2vw));
+    padding-right: min(3rem, calc(1.5rem + 2vw));
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+} 
+.iwt-50 {
+    max-width: 50%;
+    width: 100%;
+}
+.iwt-v1-subheading{
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18.375px;
+    letter-spacing: 0.6125px;
+    text-transform: uppercase;
+    /* margin-bottom:8px; */
+}   
+.iwt-v1-description{
+      /* color: #2d2d2d;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px; */
+    margin-bottom: 32px;
+}  
+.image_mobile_padding .iwt-v1-description p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+.image_width .iwt-v1-image img{
+    max-width: 450px;
+    display: block;
+    margin-left: auto;
+    object-fit: unset;
+    aspect-ratio: auto;
+}
+@media only screen and (max-width: 991px) {
+.image_mobile_padding .iwt-heading{
+        line-height: 55px;
+}
+.iwt-50 {
+    max-width: 100%;
+}
+.image-with-text-v1 .main-heading {
+    font-size: 25px;
+    margin-bottom: 32px;
+}
+.image-with-text-v1-wrapper {
+    flex-direction: column;
+}
+.image_mobile_padding .iwt-v1-content {
+    padding-top: 25px;
+    padding-bottom: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+.iwt-v1-image img {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 0px;
+}
+.image_width .iwt-heading span {
+    font-size: 48px;
+}
+.iwt-v1-content{
+    padding:0;
+}  
+}
+@media only screen and (max-width: 575px) {
+section.artistSubSection .site-container {
+    padding: 0;
+}  
+.image_width .iwt-v1-image img {
+    max-width: 100%;
+}
+.iwt-v1-image img {
+    border-radius: 0;
+}
+.iwt-v1-content{
+    padding:0 1rem;
+}
+.iwt-v1-button a {
+    font-size: 14px;
+    line-height: 14px;
+    padding: 15px 24px;
+}
+.artist_content_main .heading span {
+    font-size: 35px;
+}  
+.artist_content_main .heading span:first-child {
+    display: block;
+  }  
+}
+</style>
+
+{% schema %}
+  {
+  "name": "Artist sub section",
+  "settings": [
+     {
+      "type": "color",
+      "id": "bg-color",
+      "label": "Background Color"
+    },
+    {
+      "type": "text",
+      "id": "main-heading",
+      "label": "Main Heading"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "sub-heading",
+      "label": "Sub-heading"
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom Class"
+    },
+  ],
+  "presets": [
+    {
+      "name": "Artist sub section"
+    }
+  ]
+}  
+{% endschema %}

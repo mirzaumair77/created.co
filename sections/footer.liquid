@@ -1,0 +1,195 @@
+<footer class="site-footer__section bg-black">
+  <div class="site-container">
+    <div class="site-footer__blocks-container py-70 tablet:py-100 grid grid-cols-1 tablet:grid-cols-3 tablet:gap-48">
+      <div class="site-footer__block mb-85 desktop:mb-0">
+        <div class="site-footer__logo-container">
+          <a href="/" class="block w-110 tablet:w-140 mx-auto">
+            {% render 'icon-logo' %}
+          </a>
+        </div>
+      </div>
+      <div class="site-footer__block flex flex-wrap">
+        <ul class="site-footer__nav grid grid-cols-2 w-full mb-48 tablet:mb-0">
+          {% for link in linklists[section.settings.linklist].links %}
+            <li class="uppercase text-white font-grotesque text-18 font-normal">
+              <a class="" href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="site-footer__block font-semibold font-grotesque text-white">
+        <h2 class="text-white text-18 uppercase mb-16 font-normal">Subscribe</h2>
+        <label for="ContactForm-email" class="text-white font-normal text-16 mb-16">
+          Sign up for our newsletter to get the latest news, special offers, and more.
+        </label>
+       <!-- Begin Mailchimp Form (Styled for Dark Footer) -->
+<form action="https://created.us9.list-manage.com/subscribe/post?u=6cdfb1cbec21933e7474bcb34&amp;id=0f23216abb&amp;f_id=0080e9e3f0" method="post" target="_blank" novalidate class="mt-22">
+  <!-- Hidden Mailchimp tag ID -->
+  <input type="hidden" name="tags" value="15405025">
+
+  <div class="relative rounded-md shadow-sm">
+    <input
+      type="email"
+      name="EMAIL"
+      id="mce-EMAIL"
+      required
+      placeholder="Your email address"
+      class="block w-full text-16 font-grotesque bg-transparent text-white placeholder-white rounded-10 border border-white pl-24 pt-18 pb-18 pr-18 ring-1 ring-inset ring-white focus:outline-none focus:ring-2 focus:ring-white"
+    >
+    <button
+      type="submit"
+      name="subscribe"
+      id="mc-embedded-subscribe"
+      class="absolute inset-y-0 right-0 flex items-center pr-3 text-white hover:text-gray-300"
+      aria-label="Subscribe"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.40018 6.31991L15.8902 3.48991C19.7002 2.21991 21.7702 4.29991 20.5102 8.10991L17.6802 16.5999C15.7802 22.3099 12.6602 22.3099 10.7602 16.5999L9.92018 14.0799L7.40018 13.2399C1.69018 11.3399 1.69018 8.22991 7.40018 6.31991Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10.1099 13.6501L13.6899 10.0601" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</form>
+<!-- End Mailchimp Form -->
+
+        {%- comment -%}
+         {%- form 'contact', id: 'ContactForm' -%}
+          {%- if form.posted_successfully? and page.handle != 'contact' -%}
+            <div class="form-status form-status-list form__message mt-22 font-bold" tabindex="-1" autofocus>
+              {{ 'templates.contact.form.post_success' | t }}
+            </div>
+          {%- elsif form.errors and page.handle != 'contact' -%}
+            <div class="form__message">
+              <h2 class="form-status caption-large" role="alert" tabindex="-1" autofocus>
+                {{ 'templates.contact.form.error_heading' | t }}
+              </h2>
+            </div>
+            <ul class="form-status-list caption-large" role="list">
+              <li>
+                <a href="#ContactForm-email" class="link">
+                  {{ form.errors.translated_fields.email | capitalize }}
+                  {{ form.errors.messages.email }}
+                </a>
+              </li>
+            </ul>
+          {%- endif -%}
+          <div class="text-white mt-22">
+            <div class="relative rounded-md shadow-sm">
+              <input
+                autocomplete="email"
+                type="email"
+                id="ContactForm-email"
+                name="contact[email]"
+                spellcheck="false"
+                autocapitalize="off"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                aria-required="true"
+                {% if form.errors contains 'email' %}
+                  aria-invalid="true"
+                  aria-describedby="ContactForm-email-error"
+                {% endif %}
+                placeholder="Your email address"
+                class="block w-full text-16 font-grotesque bg-transparent rounded-10 border pl-24 pt-18 pb-18 pr-18 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"
+              >
+              <button
+                type="submit"
+                class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-900"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.40018 6.31991L15.8902 3.48991C19.7002 2.21991 21.7702 4.29991 20.5102 8.10991L17.6802 16.5999C15.7802 22.3099 12.6602 22.3099 10.7602 16.5999L9.92018 14.0799L7.40018 13.2399C1.69018 11.3399 1.69018 8.22991 7.40018 6.31991Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.1099 13.6501L13.6899 10.0601" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              {%- if form.errors contains 'email' -%}
+                <small class="contact__field-error" id="ContactForm-email-error">
+                  <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+                  <span class="form__message">
+                    {%- render 'icon-error' -%}
+                    {{- form.errors.translated_fields.email | capitalize }}
+                    {{ form.errors.messages.email -}}
+                  </span>
+                </small>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endform -%}
+        {%- endcomment -%}
+      </div>
+    </div>
+    <div class="flex flex-col tablet:flex-row justify-between py-22 gap-24 border-t border-white text-center tablet:px-72">
+      <div class="site-footer__contact">
+        <span class="text-white font-normal flex flex-col tablet:flex-row text-20 gap-24 tablet:gap-48">
+          <a href="tel:{{ shop.phone }}">{{ shop.phone }}</a>
+          <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>
+          <span>{{section.settings.hour_text }}</span>
+        </span>
+      </div>
+      <div class="site-footer__socials flex items-center justify-center">
+        <a
+          class="site-footer__social-link inline-block w-24 text-white"
+          target="_blank"
+          href="{{ settings.social_twitter_link }}"
+        >
+          {%- render 'icon-youtube' -%}
+        </a>
+        <a
+          class="site-footer__social-link inline-block w-24 text-white ml-12"
+          target="_blank"
+          href="{{ settings.social_instagram_link }}"
+        >
+          {%- render 'icon-instagram' -%}
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- Linkedin Tag -->
+  <script type="text/javascript">
+    _linkedin_partner_id = '4913684';
+    window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+    window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+  </script>
+  <script type="text/javascript">
+    (function (l) {
+      if (!l) {
+        window.lintrk = function (a, b) {
+          window.lintrk.q.push([a, b]);
+        };
+        window.lintrk.q = [];
+      }
+      var s = document.getElementsByTagName('script')[0];
+      var b = document.createElement('script');
+      b.type = 'text/javascript';
+      b.async = true;
+      b.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js';
+      s.parentNode.insertBefore(b, s);
+    })(window.lintrk);
+  </script>
+  <noscript>
+    <img
+      height="1"
+      width="1"
+      style="display:none;"
+      alt=""
+      src="https://px.ads.linkedin.com/collect/?pid=4913684&fmt=gif"
+    >
+  </noscript>
+  <!-- End Linkedin Tag -->
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "linklist",
+      "label": "Linklist"
+    },
+    {
+      "type": "richtext",
+      "id": "hour_text",
+      "label": "Company Hours"
+    },
+  ]
+}
+{% endschema %}

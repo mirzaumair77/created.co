@@ -1,0 +1,215 @@
+<div class="banner-main banner_section__{{ section.id }}">
+  <div class="banner-content">
+    <div class="images_main">
+        {% if section.settings.desk_img != blank %}
+          <img class="desk-img" src="{{ section.settings.desk_img | img_url:'1920x' }}">
+        {% endif %}
+        {% if section.settings.mob_img != blank %}
+          <img class="mobile_image" src="{{ section.settings.mob_img | img_url: '768x' }}">
+        {% else %}
+          <img class="mobile_image" src="{{ section.settings.desk_img | img_url: '768x' }}">
+        {% endif %}
+    </div>
+    {% if section.settings.heading != blank and section.settings.show_heading == true %}
+      <div class="banner-text" style="{% if section.settings.desk-select == "left" %} top: 50%; left: 10%; transform:translate(-10%,-50%);{% endif %}{% if section.settings.desk-select == "center" %} top: 50%; left: 50%; transform:translate(-50%,-50%);{% endif %}{% if section.settings.desk-select == "right" %} top: 50%; right: 10%; transform:translate(10%,-50%);{% endif %}">
+        <h2 class="text-30 tablet:text-80 leading-none uppercase font-canela font-thin">{{ section.settings.heading }}</h2>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  
+.banner_section__{{ section.id }} .images_main::before {
+  opacity: {{ section.settings.opacity }}%;
+}
+
+.banner_section__{{ section.id }} .banner-text{
+  background:{{ section.settings.bg-color }};
+}
+
+.banner_section__{{ section.id }} .banner-text h2 {
+  color: {{ section.settings.heading_color }};
+}
+
+@media only screen and (max-width: 1024px) {
+  
+  .banner_section__{{ section.id }} .images_main::before {
+    opacity: {{ section.settings.opacity_mb }}%;
+  }
+
+  .banner_section__{{ section.id }} .banner-text{
+    background:{{ section.settings.bg-color-mb }};
+  }
+  
+  .banner_section__{{ section.id }} .banner-text h2 {
+    color: {{ section.settings.heading_color_mb }};
+  }
+}
+  
+.banner-main{
+  width:100%;
+  height: 100%;
+  position:relative;
+}
+
+.images_main {
+  position:relative;
+}
+  
+.images_main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+}
+  
+.banner-content img{
+  display:flex;
+  width:100%;
+  height: 100%;
+  object-fit:cover;
+  min-height:200px;
+}
+  
+.banner-text{
+  width: 100%;
+  max-width: 720px;
+  position: absolute;
+  padding: 28px 32px;
+}
+  
+.banner-text h2{
+  text-align: center;
+}
+  
+.mobile_image{
+  display:none!important;
+}
+
+@media only screen and (max-width: 1024px) {
+  
+  .desk-img {
+    display:none!important;
+  }
+  
+  .mobile_image{
+    display:flex!important;
+  }
+    
+  .banner-text{
+    max-width:100%;
+    position: unset!important;
+    transform: unset!important;
+    width:100%;
+    padding:20px;
+  }
+}
+
+</style>
+
+{% schema %}
+{
+  "name": "Collection Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "desk_img",
+      "label": "Deskstop image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_img",
+      "label": "Mobile image"
+    },
+     {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show Heading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "desk-select",
+      "label": "Text align",
+      "options": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+         {
+          "label": "Center",
+          "value": "center"
+        },
+         {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Deskstop Style"
+    },
+    {
+      "type": "color",
+      "id":"bg-color",
+      "label": "Content Background"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000"
+    },
+    {
+      "type": "range",
+      "id": "opacity",
+      "min": 0,
+      "max": 100,
+      "unit": "%",
+      "step": 1,
+      "label": "Opacity",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Mobile Style"
+    },
+    {
+      "type": "color",
+      "id":"bg-color-mb",
+      "label": "Content Background"
+    },
+    {
+      "type": "color",
+      "id": "heading_color_mb",
+      "label": "Heading Color",
+      "default": "#000"
+    },
+    {
+      "type": "range",
+      "id": "opacity_mb",
+      "min": 0,
+      "max": 100,
+      "unit": "%",
+      "step": 1,
+      "label": "Opacity",
+      "default": 30
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Banner"
+    }
+  ]
+}
+{% endschema %}

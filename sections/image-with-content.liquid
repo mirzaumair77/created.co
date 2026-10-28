@@ -1,0 +1,233 @@
+<style>
+.image_content_{{ section.id }} {
+  background-color: {{ section.settings.background_color }};
+}
+
+.image_content_{{ section.id }} .image_content_main .heading h2 {
+  color: {{ section.settings.heading_color }};
+}
+
+.image_content_{{ section.id }} .content_main_pursuit .description p {
+  color: {{ section.settings.description_color }};
+}
+
+.image_content_{{ section.id }} {
+  padding: 145px 0;
+}
+
+.image_content_{{ section.id }} .image_content_main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  row-gap: 58px;
+}
+
+.image_content_{{ section.id }} .image_content_main .featured_image {
+  width: 40%;
+}
+
+.image_content_{{ section.id }} .image_content_main .featured_image img {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image_content_{{ section.id }} .image_content_main .content_main_pursuit {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 26px; 
+}
+
+.image_content_{{ section.id }} .image_content_main .heading h2 {
+  margin: 0;
+} 
+
+.image_content_{{ section.id }} .content_main_pursuit .description p {
+ font-family: grotesque, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: 18px;
+  margin: 0;
+}
+.content_main_pursuit a.btn {
+    border: 0;
+}  
+@media only screen and (min-width: 768px) {
+
+  .image_content_{{ section.id }} .image_content_main.row {
+    flex-direction: row;
+  }
+
+  .image_content_{{ section.id }} .image_content_main.row-reverse {
+    flex-direction: row-reverse;
+  }
+
+ .image_content_{{ section.id }} .image_content_main .heading.mobile_heading {
+    display: none;
+  }
+
+}
+
+@media only screen and (max-width: 768px) {
+
+  .image_content_{{ section.id }} .image_content_main.column {
+    flex-direction: column;
+  }
+
+  .image_content_{{ section.id }} .image_content_main.column-reverse {
+    flex-direction: column-reverse;
+  }
+
+  .image_content_{{ section.id }} .image_content_main {
+    align-items: flex-start;
+  }
+
+ .image_content_{{ section.id }} .image_content_main .featured_image {
+    width: 100%;
+  }
+
+ .image_content_{{ section.id }} .image_content_main .content_main_pursuit {
+    width: 100%;
+  }
+.image_content_{{ section.id }}  .image_content_main .heading h2 {
+  font-size:48px;
+} 
+ .image_content_{{ section.id }} .content_main_pursuit .heading.deskstop_heading {
+    display: none;
+  }
+  .image_content_{{ section.id }} .image_content_main {
+    row-gap: 33px;
+}
+  .image_content_{{ section.id }} {
+    padding: 98px 0;
+}
+}
+  
+</style>
+
+<div class="image_with_content_section image_content_{{ section.id }}">
+  <div class="site-container">
+    <div class="image_content_main {% if section.settings.vertical_alignment == "row" %} row {% else %} row-reverse {% endif %}
+      {% if section.settings.horizontal_alignment == "column" %} column {% else %} column-reverse {% endif %}">
+      {% if section.settings.featured_image != blank %}
+        <div class="heading mobile_heading">
+          <h2 class="font-canela font-thin text-60">{{ section.settings.heading }}</h2>
+        </div>
+        <div class="featured_image">
+          <img src="{{ section.settings.featured_image | img_url: "master" }}">
+        </div>
+        {% endif %}
+        <div class="content_main_pursuit">
+          {% if section.settings.heading != blank %}
+          <div class="heading deskstop_heading">
+            <h2 class="font-canela font-thin text-60">{{ section.settings.heading }}</h2>
+          </div>
+          {% endif %}
+          {% if section.settings.description != blank %}
+          <div class="description">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+          {% if section.settings.button_text != blank %}
+    <div class="w-full">
+      <a class="hero-btn-v5  btn btn--black  text-16  font-grotesque font-bold " href="{{ section.settings.button_link }}">{{ section.settings.button_text }}</a>
+    </div>
+    {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Image With Content",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#717262"
+      },
+      {
+        "type": "select",
+        "id": "vertical_alignment",
+        "label": "Vertical alignment",
+        "options": [
+          {
+            "value": "row",
+            "label": "Row"
+          },
+          {
+            "value": "row-reverse",
+            "label": "Row-Reverse"
+          }
+        ],
+        "default": "row"
+      },
+      {
+        "type": "select",
+        "id": "horizontal_alignment",
+        "label": "Column Direction Mobile",
+        "options": [
+          {
+            "value": "column",
+            "label": "Column"
+          },
+          {
+            "value": "column-reverse",
+            "label": "Column-Reverse"
+          }
+        ],
+        "default": "column"
+      },
+      {
+        "type": "image_picker",
+        "id": "featured_image",
+        "label": "Select Image"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Haeding"
+      },
+      {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description"
+      },
+      {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+      {
+        "type": "header",
+        "content": "Style"
+      },
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Heading Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "description_color",
+        "label": "Description",
+        "default": "#FFFFFF"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image With Content"
+      }
+    ]
+  }
+{% endschema %}

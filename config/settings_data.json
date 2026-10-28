@@ -1,0 +1,165 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "share_pinterest": false,
+    "social_twitter_link": "https://www.youtube.com/@createdco",
+    "social_instagram_link": "http://instagram.com/created.co",
+    "navigation_menu": "seed-drawer",
+    "shipping_threshold_enabled": true,
+    "shipping_threshold": "6500",
+    "sections": {
+      "header": {
+        "type": "header",
+        "blocks": {
+          "mega_menu_v2_qUGnK8": {
+            "type": "mega_menu_v2",
+            "settings": {
+              "menu_item_text": "Shop",
+              "menu_link": "shopify://collections/shop-all",
+              "column_menu_v2": "mega-menu-v2"
+            }
+          },
+          "mega_menu_jnXqcD": {
+            "type": "mega_menu",
+            "disabled": true,
+            "settings": {
+              "menu_item_text": "SHOP",
+              "menu_link": "shopify://collections/shop-all",
+              "column_heading_6": "NOMAD System",
+              "heading_link_6": "shopify://pages/nomad-landing-page",
+              "column_menu_6": "",
+              "no_column_6": 1,
+              "column_heading_1": "Stainless",
+              "heading_link_1": "shopify://collections/stainless-collection",
+              "column_menu_1": "stainless-mega-menu-2024",
+              "no_column_1": 1,
+              "column_heading_2": "CERAMIC",
+              "heading_link_2": "shopify://collections/ceramics",
+              "column_menu_2": "ceramic-mega-menu-2024",
+              "no_column_2": 1,
+              "column_heading_3": "ARTIST SERIES",
+              "heading_link_3": "shopify://collections/artist-series",
+              "column_menu_3": "artist-series-mega-menu-2024",
+              "no_column_3": 1,
+              "column_heading_4": "ACCESSORIES",
+              "heading_link_4": "shopify://collections/accessories-1",
+              "column_menu_4": "accessories-mega-menu-2024",
+              "no_column_4": 1,
+              "column_heading_5": "CUSTOM",
+              "heading_link_5": "shopify://pages/custom-drinkware-landing",
+              "column_menu_5": "custom-mega-menu-2024",
+              "no_column_5": 1
+            }
+          },
+          "menu_item_wAEfjV": {
+            "type": "menu_item",
+            "settings": {
+              "menu_item_text": "CUSTOM",
+              "menu_link": "https://created.co/pages/hubspot-custom-landing-page"
+            }
+          },
+          "menu_item_hAKhC7": {
+            "type": "menu_item",
+            "settings": {
+              "menu_item_text": "ABOUT",
+              "menu_link": "shopify://pages/our-story"
+            }
+          },
+          "menu_item_cq7BnW": {
+            "type": "menu_item",
+            "settings": {
+              "menu_item_text": "CONTACT",
+              "menu_link": "shopify://pages/contact-us"
+            }
+          }
+        },
+        "block_order": [
+          "mega_menu_v2_qUGnK8",
+          "mega_menu_jnXqcD",
+          "menu_item_wAEfjV",
+          "menu_item_hAKhC7",
+          "menu_item_cq7BnW"
+        ],
+        "settings": {
+          "logo": "shopify://shop_images/12-15-21_Created_Co0757.jpg",
+          "menu": "header-menu"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "linklist": "seed-footer",
+          "hour_text": "<p>Hours: Mon–Fri, 8am–5pm PST</p>"
+        }
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "13070091535480640111": {
+        "type": "shopify://apps/attrac/blocks/app-embed/b783956d-47a9-4434-91ad-4ec960bd74b0",
+        "disabled": false,
+        "settings": {}
+      },
+      "4015264832934714879": {
+        "type": "shopify://apps/ecomsend-popups/blocks/app/a5670cf8-5705-4b01-ad9e-447033feae26",
+        "disabled": false,
+        "settings": {}
+      },
+      "733389323033596483": {
+        "type": "shopify://apps/okendo/blocks/theme-settings/bb689e69-ea70-4661-8fb7-ad24a2e23c29",
+        "disabled": false,
+        "settings": {
+          "show_preview_data": true
+        }
+      },
+      "11634108314280043529": {
+        "type": "shopify://apps/percup/blocks/percup_supplier_version2/fa0d788e-f299-4353-a793-589801bc34d6",
+        "disabled": false,
+        "settings": {
+          "bgcolor": "#ffffff",
+          "logoimg": "shopify://shop_images/created-co_logo.png",
+          "heading": "We are now shipping internationally!",
+          "fontsizeheading": "16",
+          "fontfamilyheading": "Arial, sans-serif",
+          "headtxtcolor": "#000000",
+          "subtext": "<p>Shop all of our products via our international partner website percup.com <br/> Also enjoy free 2-4 day's shipping!*</p>",
+          "fontsizetext": "12",
+          "fontfamilytext": "Arial, sans-serif",
+          "subtxtcolor": "#000000",
+          "btntext": "Shop Now",
+          "btnbgcolor": "#000000",
+          "btntxtcolor": "#ffffff",
+          "poup_time_out": ""
+        }
+      },
+      "8605505498557855500": {
+        "type": "shopify://apps/bogos-io-free-gift/blocks/app-embed/0432bba6-720a-4e95-be5a-b868386f7aa6",
+        "disabled": false,
+        "settings": {}
+      },
+      "2102808784413787648": {
+        "type": "shopify://apps/kbite/blocks/main-app-embed/147a6f7f-6771-4f9b-8dc6-c14e6b24f32c",
+        "disabled": false,
+        "settings": {}
+      },
+      "13305437469741356523": {
+        "type": "shopify://apps/gsc-instagram-feed/blocks/embed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
+        "disabled": false,
+        "settings": {}
+      },
+      "319724205969189013": {
+        "type": "shopify://apps/hulk-form-builder/blocks/app-embed/b6b8dd14-356b-4725-a4ed-77232212b3c3",
+        "disabled": false,
+        "settings": {}
+      }
+    }
+  }
+}

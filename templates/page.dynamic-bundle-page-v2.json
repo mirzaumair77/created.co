@@ -1,0 +1,167 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "bundle_banner_KagRp7": {
+      "type": "bundle-banner",
+      "settings": {
+        "bg_color": "",
+        "heading": "CREATE YOUR OWN BUNDLE",
+        "description": "<p>Build a gift set, give your kitchen cabinet a design update, or stock up on all your favorite colors. Save up to 20% when create a bespoke bundle all your own. </p>",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "heading_size": 50,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18
+      }
+    },
+    "bundle_products_g9Mw8j": {
+      "type": "bundle-products",
+      "settings": {
+        "bg_color": "",
+        "heading": "<p>ROAM MUG</p>",
+        "description": "<p>Perfect for wherever your day takes you — from everyday errands to spontaneous road trips. Designed to fit comfortably in your hand and we promise— perfectly in your cup holder.</p>",
+        "collection_products": "roam-mug",
+        "product_limit": 20,
+        "button_text": "ADD TO BUNDLE",
+        "button_link": "",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "#ffffff",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_size": 20,
+        "title_size_mb": 20,
+        "button_text_size": 18,
+        "button_text_size_mb": 16
+      }
+    },
+    "bundle_products_GHkDwM": {
+      "type": "bundle-products",
+      "settings": {
+        "bg_color": "",
+        "heading": "<p>WANDER BOTTLE</p>",
+        "description": "<p>Built to Wander. Whether you're scaling peaks, tackling a heavy lifting session, or exploring new horizons, Wander is designed for those who strive to be at the top of their craft and driven to excellence.</p>",
+        "collection_products": "wander-bottle",
+        "product_limit": 20,
+        "button_text": "ADD TO BUNDLE",
+        "button_link": "",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "#ffffff",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_size": 20,
+        "title_size_mb": 20,
+        "button_text_size": 18,
+        "button_text_size_mb": 16
+      }
+    },
+    "bundle_products_PVNUhr": {
+      "type": "bundle-products",
+      "settings": {
+        "bg_color": "",
+        "heading": "<p>ARTIST SERIES CERAMICS</p>",
+        "description": "<p>The sharp angles and bold lines of this collection are like the unique qualities in all of us; yet, even these lines find union with each other</p>",
+        "collection_products": "ceramics",
+        "product_limit": 20,
+        "button_text": "ADD TO BUNDLE",
+        "button_link": "",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "#ffffff",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_size": 20,
+        "title_size_mb": 20,
+        "button_text_size": 18,
+        "button_text_size_mb": 16
+      }
+    },
+    "bundle_discount_VYQXyk": {
+      "type": "bundle-discount",
+      "blocks": {
+        "bundle_discount_KkBcRg": {
+          "type": "bundle_discount",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2024-04-18_090724.png"
+          }
+        },
+        "bundle_discount_TTiFdC": {
+          "type": "bundle_discount",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2024-04-18_090724.png"
+          }
+        },
+        "bundle_discount_eLftAY": {
+          "type": "bundle_discount",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2024-04-18_090724.png"
+          }
+        }
+      },
+      "block_order": [
+        "bundle_discount_KkBcRg",
+        "bundle_discount_TTiFdC",
+        "bundle_discount_eLftAY"
+      ],
+      "settings": {
+        "bg_color": "",
+        "heading": "MY BUNDLE",
+        "discount_percent_2": 10,
+        "result_heading_2": "2-BUNDLE SET: YOU’RE SAVING 10%",
+        "discount_code_2": "SAVE10",
+        "discount_percent_3": 15,
+        "result_heading_3": "3-BUNDLE SET: YOU’RE SAVING 15%",
+        "discount_code_3": "SAVE15",
+        "discount_percent_4": 20,
+        "result_heading_4": "4-BUNDLE SET: YOU’RE SAVING 20%",
+        "discount_code_4": "SAVE20",
+        "button_text": "GO TO CHECKOUT",
+        "heading_color": "#000000",
+        "result_heading_color": "#000000",
+        "button_text_color": "#ffffff",
+        "button_bg_color": "#000000",
+        "heading_size": 20,
+        "heading_size_mb": 16,
+        "result_heading_size": 20,
+        "result_heading_size_mb": 16,
+        "button_size": 12,
+        "button_size_mb": 12
+      }
+    }
+  },
+  "order": [
+    "main",
+    "bundle_banner_KagRp7",
+    "bundle_products_g9Mw8j",
+    "bundle_products_GHkDwM",
+    "bundle_products_PVNUhr",
+    "bundle_discount_VYQXyk"
+  ]
+}

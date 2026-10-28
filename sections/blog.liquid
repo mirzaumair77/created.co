@@ -1,0 +1,51 @@
+{%- paginate blog.articles by 4 -%}
+
+  <div class="blog px-16 max-w-screen-desktop mx-auto tablet:px-32">
+    <h1 class="blog__title text-center text-38 tablet:text-left tablet:text-70 desktop:text-98 my-24 tablet:my-36">
+      {% if section.settings.title_one != blank %}<span class="font-canela font-thin pr-8">{{ section.settings.title_one }}</span>{% endif %}
+      {% if section.settings.title_two != blank %}<span class="font-grotesque font-semibold text-40 tablet:text-72 desktop:text-100">{{ section.settings.title_two }}</span>{% endif %}
+    </h1>
+    <div class="blog__articles-grid tablet:grid grid-cols-2 tablet:gap-x-48 laptop:gap-x-100">
+      {%- for article in blog.articles -%}
+        <div class="blog-articles__article mb-32 laptop:mb-48">
+          {%- render 'article-card', article: article, show_image: section.settings.show_image, link_title: section.settings.link_title -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      {%- render 'pagination', paginate: paginate -%}
+    {%- endif -%}
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title_one",
+      "label": "Title 1",
+      "info": "Canela"
+    },
+    {
+      "type": "text",
+      "id": "title_two",
+      "label": "Title 2",
+      "info": "Grotesque"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "default": true,
+      "label": "Show featured image"
+    },
+    {
+      "type": "text",
+      "id": "link_title",
+      "label": "Article Link Title"
+    }
+  ]
+}
+{% endschema %}

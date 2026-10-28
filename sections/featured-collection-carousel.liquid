@@ -1,0 +1,222 @@
+<link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-price.css' | asset_url | stylesheet_tag }}</noscript>
+{% style %}
+  .life-style-gradiant {
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 40%);
+    background-size: cover;
+    background-position: center;
+    transition: all 0.2s;
+  }
+  .site-container.full-container {
+    max-width: 100%;
+}
+  .mb_heading{
+        display:none;
+      }
+  .ceramics-landing-page .fl_gab.site-container {
+    max-width: 100%;
+}
+ 
+
+  
+  @media (min-width: 990px) {
+  .ceramics-landing-page  .lft_5 {
+        margin-left: 3.75rem;
+    }
+}
+    @media (max-width: 990px) {
+       .ceramics-landing-page  .lft_5 {
+        margin-left: 24px;
+    }
+      .ceramics-landing-page .fl_gab.site-container {
+    padding-left: 0;
+}
+    }
+
+
+ .ceramics-landing-page   .btn:not(:disabled):hover {
+        --tw-bg-opacity: 1;
+        --tw-text-opacity: 1;
+        background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+        color: rgba(255, 255, 255, var(--tw-text-opacity));
+    }
+  
+    @media only screen and (max-width: 768px) {
+    
+      .dk_heading{
+        display:none;
+            font-size: 20px;
+      }
+      .mb_heading{
+        display:block;
+            font-size: 20px;
+      }
+    }
+ .ceramics-landing-page .card-information__wrapper .variant-selector{
+    display:none
+  }
+.ceramics-landing-page .card-information__wrapper  #price{
+   display:none
+ }
+.ceramics-landing-page  .card-information__text span:nth-child(2){
+    position: relative;
+    top: 5px;
+  }
+ 
+{% endstyle %}
+{% for block in section.blocks %}
+  {% unless forloop.first %}
+    {% assign hide = true %}
+  {% else %}
+    {% assign hide = false %}
+  {% endunless %}
+  {% assign collection = collections[block.settings.collection] %}
+  {% if forloop.last %}
+    {% capture filter_options_stringified %}{{ filter_options_stringified }}"{{ block.settings.filter_text | default: collection.title | downcase }}"{% endcapture %}
+  {% else %}
+    {% capture filter_options_stringified %}{{ filter_options_stringified }}"{{ block.settings.filter_text | default: collection.title | downcase }}",{% endcapture %}
+  {% endif %}
+  {% capture filter_buttons_html %}
+		{% assign filter_text = block.settings.filter_text | default: collection.title | downcase %}
+		{{ filter_buttons_html }}
+		<button js-filter-button class="carousel-filter-button font-canela opacity-30 font-medium leading-none text-20 uppercase px-40 pt-19 pb-16 leading-none border border-solid rounded-full transition-all{% if forloop.first %} active{% endif %}" data-filter-value="{{ filter_text }}">{{ filter_text }}</button>
+	{% endcapture %}
+  {% capture product_cards_html %}
+		{{ product_cards_html }}
+    {% if template.suffix == "ceramics-landing-page" %}
+      {% for product in collections[block.settings.collection].products %}
+			<div class="w-310 mr-24 {% if hide %} hidden{% endif %}" js-carousel-slide data-filter="{{ block.settings.filter_text | default: collection.title | downcase }}">
+				{% render 'featured-product-card2' product_card_product: product, show_price: true, show_button: true, name_font_family: 'canela', name_font_size: '30', name_font_weight: 'normal', price_font_family: 'space-grotesk', price_font_size: '24', price_font_weight: 'bold' %}
+			</div>
+		{% endfor %}
+      {% else %}
+		{% for product in collections[block.settings.collection].products %}
+			<div class="w-310 mr-24 {% if hide %} hidden{% endif %}" js-carousel-slide data-filter="{{ block.settings.filter_text | default: collection.title | downcase }}">
+				{% render 'featured-product-card' product_card_product: product, show_price: true, show_button: true, name_font_family: 'canela', name_font_size: '30', name_font_weight: 'normal', price_font_family: 'space-grotesk', price_font_size: '24', price_font_weight: 'bold' %}
+			</div>
+		{% endfor %}
+      {% endif %}
+	{% endcapture %}
+{% endfor %}
+<div class="carousel__grid grid bg-white {% if section.settings.spacing_left %}lft_5{% endif %}">
+  <carousel-component
+    class="grid__item w-full pt-36 pb-110 tablet:pt-80 tablet:pb-49 "
+    {% if section.blocks.size > 1 %}
+      data-filters='{"enableFilters": true, "filterOptions":[{{ filter_options_stringified }}]}'
+    {% endif %}
+    data-options='{"cellSelector":"[js-carousel-slide]", "cellAlign":"left", "contain":true, "wrapAround":true, "imagesLoaded":true, "prevNextButtons":false, "adaptiveHeight":false, "pageDots":false}'
+  >
+    
+      <div class="fl_gab flex justify-between items-center flex-wrap gap-40 mb-40 site-container {% if section.settings.full_width == true %}full-container{% endif %}">
+      {% if section.settings.main_heading  != blank %}  <h2 class="dk_heading text-32 font-grotesque uppercase order-1 tablet:order-1">{{ section.settings.main_heading }}</h2>{% endif %}
+             {% if section.settings.mb_heading  != blank %}  <h2 class="mb_heading text-32 font-grotesque uppercase order-1 tablet:order-1">{{ section.settings.mb_heading }}</h2>{% endif %}
+
+        {% if section.blocks.size > 1 %}
+        <div class="order-3 tablet:order-2 flex gap-16 justify-between w-full tablet:w-auto">
+          {{ filter_buttons_html }}
+        </div>
+        {% endif %}
+        {% if section.settings.enable_arrow == true %}
+        <div class="flex justify-between order-2 tablet:order-3 gap-16">
+          <button class="w-28" type="button" aria-label="Previous" js-prev-button>
+            {% render 'icon-arrow-left-line' %}
+          </button>
+          <button class="w-28" type="button" aria-label="Next" js-next-button>
+            {% render 'icon-arrow-right-line' %}
+          </button>
+        </div>
+        {% endif %}
+      </div>
+    <div class="">
+      <div style="">
+        <div class="collection-carousel" js-carousel>
+          {{ product_cards_html }}
+        </div>
+      </div>
+    </div>
+  </carousel-component>
+</div>
+
+{% if request.path contains "/pages/meta-ads-landing-page" %}
+
+  <style>
+    h2.text-32.font-grotesque.font-bold.uppercase.order-1.tablet\:order-1 {
+      display: none;
+    }
+
+    @media only screen and (min-width: 48rem) {
+      .tablet\:pt-80 {
+        padding-top: 1rem;
+      }
+    }
+
+    @media only screen and (max-width: 768px) {
+      .flex.justify-between.items-center.flex-wrap.gap-40.mb-40.site-container {
+        flex-direction: column-reverse;
+      }
+     
+    }
+  </style>
+  
+{% endif %}
+
+{% schema %}
+{
+  "name": "Collection Carousel",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "spacing_left",
+      "label": "Add spacing on left",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "main_heading",
+      "label": "Desktop Heading",
+      "default":"OUR PRODUCTS"
+    },
+    {
+      "type": "text",
+      "id": "mb_heading",
+      "label": "Mobile Heading",
+      "default":"OUR PRODUCTS"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_arrow",
+      "label": "Enable Arrow",
+      "default": false
+    },
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "filter_text",
+          "label": "Filter button text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Carousel"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,80 @@
+{% doc %}
+  @prompt
+    Add a subtle amount of spacing above the Contact Header section on the Contact Us page. Keep the spacing small and apply it only to that section, without changing the heading size or other page content.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-contact-header-spacing-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    height: {{ block.settings.spacing }}px;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-contact-header-spacing-{{ ai_gen_id }} {
+      height: {{ block.settings.mobile_spacing }}px;
+    }
+  }
+{% endstyle %}
+
+<contact-header-spacing-{{ ai_gen_id }}
+  class="ai-contact-header-spacing-{{ ai_gen_id }}"
+  aria-hidden="true"
+  {{ block.shopify_attributes }}
+></contact-header-spacing-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    if (!customElements.get('contact-header-spacing-{{ ai_gen_id }}')) {
+      customElements.define('contact-header-spacing-{{ ai_gen_id }}', class extends HTMLElement {});
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Contact header spacing",
+  "settings": [
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Desktop spacing",
+      "min": 4,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "mobile_spacing",
+      "label": "Mobile spacing",
+      "min": 4,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact header spacing"
+    }
+  ],
+  "tag": null,
+  "class": "contact-header-spacing-block"
+}
+{% endschema %}

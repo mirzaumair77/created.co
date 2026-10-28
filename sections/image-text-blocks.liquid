@@ -1,0 +1,113 @@
+{% style %}
+  .image-text-block .image-text-block__body .text-block {
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+    background-size: cover;
+    background-position: center;
+  }
+  .image-text-block__body .text-block {
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  @media screen and (max-width: 749px) {
+    .image-text-block.is-selected .image-text-block__body .text-block {
+      opacity: 1;
+    }
+    .image-text-block.is-selected .btn {
+      background-color: #000;
+      color: #fff;
+    }
+  }
+  @media screen and (min-width: 750px) {
+    .image-text-block .image-text-block__body .text-block {
+      opacity: 1;
+    }
+    .image-text-block:hover .btn {
+      background-color: #000;
+      color: #fff;
+    }
+  }
+{% endstyle %}
+
+<div class="image-text-blocks__container site-container mb-100 mt-48 tablet:mt-100">
+  <carousel-component
+    class="grid__item w-full mx-auto overflow-hidden"
+    data-options='{"cellSelector":"[js-carousel-slide]", "wrapAround":false, "imagesLoaded":true, "prevNextButtons":false, "autoPlay":1500, "adaptiveHeight":false, "pageDots":false}'
+  >
+    <div class="" js-carousel>
+      {%- for block in section.blocks -%}
+        <div js-carousel-slide class="image-text-block w-8/12 tablet:w-1/3 px-12">
+          <a href="{{block.settings.cta_url}}">
+            <h2 class="image-text-block__title text-30 desktop:text-46 mt-16 my-12 flex flex-col desktop:flex-row">
+              <span class="font-canela font-thin">{{ block.settings.title_1 }}</span>
+              <span class="font-grotesque font-semibold {% if block.settings.title_1 != blank -%} pl-4 tablet:pl-8{%- endif -%}">
+                {{- block.settings.title_2 -}}
+              </span>
+            </h2>
+            <div class="relative mb-30 image-text-block__body">
+              {%- render 'lazy-image', image: block.settings.image -%}
+              <div class="absolute bottom-0 text-block left-0 right-0 px-18 py-32 text-white font-grotesque h-full flex flex-col justify-end">
+                <h4 class="font-bold text-32 mb-18">{{- block.settings.title_2 -}}</h4>
+                <p class="font-semibold mb-16 tablet:mb-24 tablet:w-11/12 text-14 tablet:text-17">
+                  {{ block.settings.body_text }}
+                </p>
+              </div>
+            </div>
+            <button class="btn btn-wider">{{ block.settings.cta_text }}</button>
+          </a>
+        </div>
+      {%- endfor -%}
+    </div>
+  </carousel-component>
+</div>
+
+{% schema %}
+{
+  "name": "Image and text blocks",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "image_and_text",
+      "name": "Image and text block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title_1",
+          "label": "Title 1",
+          "info": "Canela"
+        },
+        {
+          "type": "text",
+          "id": "title_2",
+          "label": "Title 2",
+          "info": "Grotesque"
+        },
+        {
+          "type": "textarea",
+          "id": "body_text",
+          "label": "Body text"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Button Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image and text blocks"
+    }
+  ]
+}
+{% endschema %}

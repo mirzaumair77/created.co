@@ -1,0 +1,211 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "collection_banner_FV6zjB": {
+      "type": "collection-banner",
+      "settings": {
+        "desk_img": "shopify://shop_images/collection_desk.png",
+        "mob_img": "shopify://shop_images/collection_mob.png",
+        "opacity": 40,
+        "heading": "Luke Pelletier Collection",
+        "desk-select": "left",
+        "bg-color": "#faf1e9",
+        "heading_color": "#000000"
+      }
+    },
+    "image_with_text_v1_9pJbGc": {
+      "type": "image-with-text-v1",
+      "settings": {
+        "bg-color": "#f9f9f9",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/ElanaGabrielle_Square_1728x_151d8233-a758-403a-a0c7-6051d9369c56.jpg",
+        "image_position": "left",
+        "sub-heading": "DOWN TO AN ART",
+        "heading": "Artist Collective",
+        "description": "<p>At Geometry, we’re passionate about bringing art into the home in an unconventional way.<br/>That’s why we’re proud to work with artists around the world to create household items that feel like fine art. And because our designs come from artistic souls from around the world, a Geometry product will never feel like the same old thing.</p>",
+        "button_label": "Join the Collective",
+        "button_link": "#"
+      }
+    },
+    "artist_highlight_nyrYmw": {
+      "type": "artist-highlight",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/Kelly_Peters_44eb9f96-0d99-4725-ae6c-995e5a892eb6.jpg",
+        "image_position": "right",
+        "image_position_mobile": "top",
+        "sub-heading": "ARTIST HIGHLIGHT",
+        "heading": "Jen Peters ",
+        "description": "",
+        "button_label": "Shop Jen Peters",
+        "button_link": "#"
+      }
+    },
+    "artist_highlight_fL6CG9": {
+      "type": "artist-highlight",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/Kelly_Peters_44eb9f96-0d99-4725-ae6c-995e5a892eb6.jpg",
+        "image_position": "left",
+        "image_position_mobile": "top",
+        "sub-heading": "ARTIST HIGHLIGHT",
+        "heading": "Steve Wolfe ",
+        "description": "",
+        "button_label": "Shop Steve Wolfe ",
+        "button_link": "shopify://collections/all"
+      }
+    },
+    "artist_highlight_r4jr7E": {
+      "type": "artist-highlight",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/Kelly_Peters_44eb9f96-0d99-4725-ae6c-995e5a892eb6.jpg",
+        "image_position": "right",
+        "image_position_mobile": "top",
+        "sub-heading": "ARTIST HIGHLIGHT",
+        "heading": "Lisa Congdon ",
+        "description": "",
+        "button_label": "Shop Lisa Congdon",
+        "button_link": "shopify://collections/all"
+      }
+    },
+    "artist_highlight_rQj3zN": {
+      "type": "artist-highlight",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/Kelly_Peters_44eb9f96-0d99-4725-ae6c-995e5a892eb6.jpg",
+        "image_position": "left",
+        "image_position_mobile": "top",
+        "sub-heading": "ARTIST HIGHLIGHT",
+        "heading": "Efdot",
+        "description": "",
+        "button_label": "Shop Efdot",
+        "button_link": "shopify://collections/all"
+      }
+    },
+    "artist_highlight_MGDkt6": {
+      "type": "artist-highlight",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/Kelly_Peters_44eb9f96-0d99-4725-ae6c-995e5a892eb6.jpg",
+        "image_position": "right",
+        "image_position_mobile": "top",
+        "sub-heading": "ARTIST HIGHLIGHT",
+        "heading": "Cody Hudson",
+        "description": "",
+        "button_label": "Shop Cody Hudson",
+        "button_link": "shopify://collections/all"
+      }
+    },
+    "artist_highlight_HGPdVG": {
+      "type": "artist-highlight",
+      "settings": {
+        "bg-color": "",
+        "main-heading": "",
+        "main_image": "shopify://shop_images/Kelly_Peters_44eb9f96-0d99-4725-ae6c-995e5a892eb6.jpg",
+        "image_position": "left",
+        "image_position_mobile": "top",
+        "sub-heading": "ARTIST HIGHLIGHT",
+        "heading": "Ty Williams",
+        "description": "",
+        "button_label": "Shop Ty Williams",
+        "button_link": "shopify://collections/all"
+      }
+    },
+    "collection_lists_ErzGWz": {
+      "type": "collection-lists",
+      "blocks": {
+        "collectionlist_LMrrj8": {
+          "type": "collectionlist",
+          "settings": {
+            "image": "shopify://shop_images/Adam_Nienow_Headshot.jpg",
+            "title": "Jen Peters",
+            "collection_link": "shopify://collections/all"
+          }
+        },
+        "collectionlist_id3azJ": {
+          "type": "collectionlist",
+          "settings": {
+            "image": "shopify://shop_images/Adam_Nienow_Headshot.jpg",
+            "title": "Steve Wolfe",
+            "collection_link": "shopify://collections/all"
+          }
+        },
+        "collectionlist_4XJThW": {
+          "type": "collectionlist",
+          "settings": {
+            "image": "shopify://shop_images/Adam_Nienow_Headshot.jpg",
+            "title": "Lisa Congdon",
+            "collection_link": "shopify://collections/all"
+          }
+        },
+        "collectionlist_hriRDz": {
+          "type": "collectionlist",
+          "settings": {
+            "image": "shopify://shop_images/Adam_Nienow_Headshot.jpg",
+            "title": "Efdot",
+            "collection_link": "shopify://collections/all"
+          }
+        },
+        "collectionlist_HzKPQc": {
+          "type": "collectionlist",
+          "settings": {
+            "image": "shopify://shop_images/Adam_Nienow_Headshot.jpg",
+            "title": "Cody Hudson",
+            "collection_link": "shopify://collections/all"
+          }
+        },
+        "collectionlist_Ngbt83": {
+          "type": "collectionlist",
+          "settings": {
+            "image": "shopify://shop_images/Adam_Nienow_Headshot.jpg",
+            "title": "Ty Williams",
+            "collection_link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "collectionlist_LMrrj8",
+        "collectionlist_id3azJ",
+        "collectionlist_4XJThW",
+        "collectionlist_hriRDz",
+        "collectionlist_HzKPQc",
+        "collectionlist_Ngbt83"
+      ],
+      "settings": {
+        "bg_color": "",
+        "heading": "Our Featured Artists"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "collection_banner_FV6zjB",
+    "image_with_text_v1_9pJbGc",
+    "artist_highlight_nyrYmw",
+    "artist_highlight_fL6CG9",
+    "artist_highlight_r4jr7E",
+    "artist_highlight_rQj3zN",
+    "artist_highlight_MGDkt6",
+    "artist_highlight_HGPdVG",
+    "collection_lists_ErzGWz"
+  ]
+}

@@ -1,0 +1,85 @@
+{% comment %}
+  Template for lazyloading images
+  @param {string} type - external, asset, file, or object.
+      external: direct link to an image hosted somewhere else
+         asset: shopify image stored in the assets folder of the theme
+          file: shopify image stored in the backed files area
+        object: (default) shopify image object not covered
+  @param {string/object} image - Image object/url string. Used for Mobile + Desktop
+  @param {string/object} image_mobile - Desktop Image object/url string, will be rendered at width 768px +. If this field is blank, image will be used for mobile + desktop (optional)
+  @param {string} min_width - Min width variable for shopify image objects (i.e. '600x'). Defaults to 600x, but can be adjusted for larger/smaller images as needed.
+  @param {string} img_classes - Additional CSS classes for picture object for styling (optional)
+  @param {string} alt - Alt tag for image, use this instead of image.alt if not using shopify object/need to hardcode for any reason.
+  @param {string} attr - Additional HTML attributes
+{% endcomment %}
+{%- case type -%}
+  {%- when 'external' -%}
+    {%- assign type = 'external' -%}
+  {%- when 'asset' -%}
+    {%- assign type = 'asset' -%}
+  {%- when 'file' -%}
+    {%- assign type = 'file' -%}
+  {%- else -%}
+    {%- assign type = 'object' -%}
+{%- endcase -%}
+
+{%- capture image_source -%}
+  {%- if min_width == blank -%}
+    {%- assign min_width = '2000x' -%}
+  {%- endif -%}
+
+  {%- if type == 'external' -%}
+    {{ image }}
+  {%- elsif type == 'asset' -%}
+    {{ image | asset_img_url: min_width }}
+  {%- elsif type == 'file' -%}
+    {{ image.src | file_img_url: min_width }}
+  {%- else -%}
+    {{ image.src | img_url: min_width }}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture image_source_master -%}
+  {%- if type == 'external' -%}
+    {{ image }}
+  {%- elsif type == 'asset' -%}
+    {{ image | asset_img_url: 'master' }}
+  {%- elsif type == 'file' -%}
+    {{ image.src | file_img_url: 'master' }}
+  {%- else -%}
+    {{ image.src | img_url: 'master' }}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if image_desktop != blank -%}
+  {%- capture image_desktop_source -%}
+    {%- if type == 'external' -%}
+      {{ image_desktop }}
+    {%- elsif type == 'asset' -%}
+      {{ image_desktop | asset_img_url: 'master' }}
+    {%- elsif type == 'file' -%}
+      {{ image_desktop.src | file_img_url: 'master' }}
+    {%- else -%}
+      {{ image_desktop.src | img_url: 'master' }}
+    {%- endif -%}
+  {%- endcapture -%}
+{%- endif -%}
+
+{%- if alt == blank -%}
+  {%- assign image_alt = image.alt -%}
+{%- endif -%}
+
+<picture class="lazypicture {% if img_classes %}{{ img_classes }}{% endif %}">
+  {% if image_desktop != blank %}
+    <source srcset="{{image_desktop_source}}" media="(min-width: 48rem)" />
+  {% endif %}
+  <img 
+    class="w-full"
+    src="{{image_source}}"
+    data-src="{{image_source_master}}"
+    data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+    data-sizes="auto"
+    loading="lazy"
+    alt="{{ image_alt }}"
+    {% if attr %}{{ attr }}{% endif %} />
+</picture>

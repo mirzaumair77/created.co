@@ -1,0 +1,30 @@
+<div class="announcement-bar w-full" role="region" aria-label="Annoucement Bar">
+  {%- if section.settings.text != blank -%}
+    <p class="announcement-bar__message" style="background-color: {{ section.settings.background_color }}; color: {{ section.settings.text_color }};">
+      {{ section.settings.text }}
+    </p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+  {
+    "name": "Announcement Bar",
+    "settings": [
+      {
+        "type": "html",
+        "id": "text",
+        "label": "Announcement Text"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color"
+      }
+    ]
+  }
+{% endschema %}

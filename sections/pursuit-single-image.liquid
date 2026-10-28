@@ -1,0 +1,208 @@
+<style>
+.single_image_{{ section.id }} {
+  background-color: {{ section.settings.background_color }};
+}
+
+.pursuit_single_image_section {   
+  padding-top: 104px;
+}
+ .pursuit_padding_bottom{
+    padding-bottom: 105px;
+ } 
+.pursuit_single_image_section .page__width {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pursuit_single_image_section .pursuit_single_main {
+  display: flex;
+  flex-direction: column;
+  /* gap: 36px; */
+}
+
+.pursuit_single_main .image_video {
+  width: 100%;
+}
+  
+.image_video .image img {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image_video .video_background {
+  width: 100%;
+  height: 100%;
+}
+
+.image_video .video_background video {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heading__main .description {
+  width: 100%;
+  max-width: 697px;
+  padding: 45px 0 43px;
+}
+
+.heading__main .description p {
+  color: #000;
+  font-family: grotesque, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  font-size: 18px;
+  margin: 0;
+}
+
+.heading__main .description a {
+  text-decoration: underline;
+}
+ .heading__main .heading h3{
+    padding-top:49px;
+  }
+.heading__main_01 .heading h3{
+    padding-bottom:49px;
+}
+.heading__main .heading h3, .heading__main_01 .heading h3 {
+    text-transform: uppercase;
+    font-size: 36px;
+    letter-spacing: 0;
+    line-height: normal;
+  font-family: grotesque, sans-serif;
+}
+@media only screen and (max-width: 768px) {
+.pursuit_single_image_section {
+    padding-top: 76px;
+}
+  .pursuit_padding_bottom {
+    padding-bottom: 93px;
+}
+  .pursuit_single_main .heading__main, .pursuit_single_main .heading__main_01{
+    padding:0 42px;
+  }
+  /* .pursuit_single_image_section .pursuit_single_main {
+    gap: 25px;
+  } */
+  
+  .heading__main .description {
+    padding: 45px 0 43px;
+  }
+}
+</style>
+
+<div class="pursuit_single_image_section {% if section.settings.add_padding == true %}pursuit_padding_bottom{% endif %} single_image_{{ section.id }}">
+  <div class="page__width">
+    <div class="pursuit_single_main">
+      <div class="heading__main_01">{% if section.settings.heading != blank %}<div class="heading"><h3>{{ section.settings.heading }}</h3></div>{% endif %}</div>
+      <div class="image_video">
+      {% if section.settings.image_video == "image" %}
+        <div class="image">
+          {% if section.settings.deskstop_image != blank %}
+            <img class="deskstop_image" src="{{ section.settings.deskstop_image | img_url: 'master' }}">
+          {% endif %}
+        </div>
+        {% endif %}
+        {% if section.settings.image_video == "video" %}
+        <div class="video_background">
+          {{ section.settings.video | video_tag: loop: true, controls: true, autoplay: true }}
+        </div>
+        {% endif %}
+      </div>
+   <div class="heading__main"> 
+      {% if section.settings.description != blank %}
+      <div class="description">
+        {{ section.settings.description }}
+      </div>
+      {% endif %}
+      {% if section.settings.button_text != blank %}
+      <div class="button_block">
+        <a class="btn btn--black" href="{{ section.settings.button_url }}">{{ section.settings.button_text }}</a>
+      </div>
+      {% endif %}  
+   </div>   
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Pursuit Single Image",
+    "settings": [
+        {
+          "type": "checkbox",
+          "id": "add_padding",
+          "label": "Padding Bottom"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background Color",
+          "default": "#F7F2EE"
+        },
+        {
+          "type": "select",
+          "id": "image_video",
+          "label": "Select Option",
+            "options": [
+              {
+                "value": "image",
+                "label": "Image"
+              },
+              {
+                "value": "video",
+                "label": "Video"
+              }
+            ],
+          "default": "image"
+        },
+        {
+          "type": "image_picker",
+          "id": "deskstop_image",
+          "label": "Select Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Select Video"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "header",
+          "content": "Style"
+        },
+        {
+          "type": "color",
+          "id": "description_color",
+          "label": "Description Color"
+        }
+    ],
+    "presets": [
+      {
+        "name": "Pursuit Single Image"
+      }
+    ]
+  }
+{% endschema %}

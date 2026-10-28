@@ -1,0 +1,299 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "hero_banner_v5_hjJCLM": {
+      "type": "hero-banner-v5",
+      "settings": {
+        "banner_layout": "image_right",
+        "heading": "<span class=\"font-canela font-thin text-78\">LEAK-PROOF</span><br> <span class=\"text-78 font-semibold\">NOMAD</span><br> <span class=\"font-canela font-thin text-78\"><i>TUMBLER</i></span>",
+        "narrow_text": true,
+        "subheading": "",
+        "text": "<p>Craft your perfect coffee drinking experience with Nomad – the ceramic-lined, 100% leak-proof tumbler designed to fuel your creativity and elevate every sip on the go, wherever you travel. Now with two interchangeable lids.</p>",
+        "button_text": "SHOP NOW",
+        "button_url": "https://created.co/collections/nomad",
+        "button_dark": true,
+        "image_video": "image",
+        "banner_image": "shopify://shop_images/12-13-24_Created_Co16687_1.png_1_480d4e0b-482f-4efb-8b05-8f4546a3c8d1.png",
+        "background_color": "#f5f5f5",
+        "heading_color": "#1a1b1b",
+        "subheading_color": "#ffffff",
+        "text_color": "#1a1b1b",
+        "custom_class": ""
+      }
+    },
+    "choose_adventure_v2_KxzK8J": {
+      "type": "choose-adventure-v2",
+      "blocks": {
+        "item_GXgky6": {
+          "type": "item",
+          "settings": {
+            "dark_block": false,
+            "select": "image",
+            "icon": "shopify://shop_images/Untitled_design-2.gif",
+            "video_url": "",
+            "heading": "<span class=\"text-62 font-semibold\">NOMAD FLIP</span>",
+            "text": "<p>Our signature Nomad lid. Perfect </p><p>for traveling, commuting, and more.</p>",
+            "button_text": "SHOP FLIP",
+            "button_url": "https://created.co/products/nomad-flip-16oz-black",
+            "button_dark": false
+          }
+        },
+        "item_kwPdpJ": {
+          "type": "item",
+          "settings": {
+            "dark_block": false,
+            "select": "image",
+            "icon": "shopify://shop_images/Untitled_design-3.gif",
+            "video_url": "",
+            "heading": "<span class=\"text-62 font-semibold\">NOMAD GRIP</span>",
+            "text": "<p>Ideal for full hands. Grab the handle</p><p>or attach to your favorite carabiner.</p>",
+            "button_text": "SHOP GRIP",
+            "button_url": "https://created.co/products/nomad-grip-16oz-black",
+            "button_dark": false
+          }
+        },
+        "item_qxBEmb": {
+          "type": "item",
+          "disabled": true,
+          "settings": {
+            "dark_block": false,
+            "select": "image",
+            "icon": "shopify://shop_images/Untitled_design-4.gif",
+            "video_url": "",
+            "heading": "<span class=\"text-62 font-semibold\">NOMAD SIP</span>",
+            "text": "<p>Twist the lid’s  for a 360° sip, then twist again for a leak-proof seal.</p>",
+            "button_text": "SHOP SIP",
+            "button_url": "https://created.co/products/16oz-nomad-sip-black",
+            "button_dark": false
+          }
+        }
+      },
+      "block_order": [
+        "item_GXgky6",
+        "item_kwPdpJ",
+        "item_qxBEmb"
+      ],
+      "settings": {
+        "bg_color": "#1a1b1b",
+        "heading": "<span class=\"text-62 font-semibold\">CHOOSE YOUR OWN ADVENTURE</span>",
+        "margin_top": false
+      }
+    },
+    "featured_collection_carousel_GMD3p6": {
+      "type": "featured-collection-carousel",
+      "blocks": {
+        "collection_7Yk3Mr": {
+          "type": "collection",
+          "settings": {
+            "collection": "nomad",
+            "filter_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_7Yk3Mr"
+      ],
+      "settings": {
+        "full_width": true,
+        "spacing_left": true,
+        "main_heading": "COLOR YOUR WORLD WITH CREATED",
+        "mb_heading": "COLOR YOUR WORLD",
+        "enable_arrow": true
+      }
+    },
+    "industrie_served_v4_bDBRjE": {
+      "type": "industrie-served-v4",
+      "blocks": {
+        "indstrieserved_8rAAhJ": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "LEAK-PROOF",
+            "text": "<p>Featuring a 100% leak-proof lid with twist-on protection, Nomad provides a full seal without any worries. Enjoy peace of mind and stress less with the most functional and beautiful way to stay leak-proof.</p>",
+            "button_text": "SHOP NOMAD",
+            "button_url": "https://created.co/products/nomad-flip-16oz-black",
+            "button_dark": true,
+            "banner_image": "shopify://shop_images/AbbyCox-CreatedCo-JoshuaTree24-227_19_e5c3a4c1-4e46-4eb9-9a95-7b2e7ff7260c.png"
+          }
+        },
+        "indstrieserved_Ecp6Ed": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "CERAMIC INTERIOR",
+            "text": "<p>Ceramic-lined interior preserves the subtle and delicate flavor notes of your beverage. The ceramic doesn’t just help retain heat; it protects flavor integrity so you can enjoy your drinks without interference.</p>",
+            "button_text": "SHOP NOMAD",
+            "button_url": "https://created.co/products/nomad-flip-16oz-black",
+            "button_dark": true,
+            "banner_image": "shopify://shop_images/AbbyCox-CreatedCo-JoshuaTree24-227_20_926c9b44-e706-4489-8910-b22bdddd08be.png"
+          }
+        },
+        "indstrieserved_GNwbHT": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "SLEEK DESIGN",
+            "text": "<p>Made for streamlining your day with elevated style. Made for those that appreciate a refined aesthetic. With interior-exterior color matching, Nomad is beautiful in an entirely new way.</p>",
+            "button_text": "SHOP NOMAD",
+            "button_url": "https://created.co/products/nomad-flip-16oz-black",
+            "button_dark": true,
+            "banner_image": "shopify://shop_images/12-15-21_Created_Co0923_600x_4_fccefd94-381e-4fbb-816d-38ffaaf0971d.png"
+          }
+        },
+        "indstrieserved_hDNGRN": {
+          "type": "indstrieserved",
+          "settings": {
+            "heading": "TRAVEL-FRIENDLY",
+            "text": "<p>Nomad was designed to be the ultimate travel companion, going with you wherever you’re meant to wander. It provides top-tier functionality and performance for every moment of your day.</p>",
+            "button_text": "SHOP NOMAD",
+            "button_url": "https://created.co/products/nomad-flip-16oz-black",
+            "button_dark": true,
+            "banner_image": "shopify://shop_images/12-15-21_Created_Co0923_600x_5_5d2e243e-2517-432b-856a-c58d4b81377d.png"
+          }
+        }
+      },
+      "block_order": [
+        "indstrieserved_8rAAhJ",
+        "indstrieserved_Ecp6Ed",
+        "indstrieserved_GNwbHT",
+        "indstrieserved_hDNGRN"
+      ],
+      "settings": {
+        "main_heading": "WHY WE LOVE IT",
+        "background_color": "#ffffff",
+        "heading_color": "#000000",
+        "text_color": "#000000"
+      }
+    },
+    "testimonial_9V9Ya4": {
+      "type": "testimonial",
+      "blocks": {
+        "item_EWcKiR": {
+          "type": "item",
+          "settings": {
+            "text": "<p>Great size and feels nice in your hand, the ceramic lining is easy to clean and the cup feels as nice to drink out of with the lid off as it does on. No retained odours or weird spots for coffee to get trapped in inside the lid. An all around fantastic coffee drinking experience.</p>",
+            "name": "JUSTIN",
+            "image": "shopify://shop_images/Nomad_Testimonial_3.png"
+          }
+        },
+        "item_wNF4FB": {
+          "type": "item",
+          "settings": {
+            "text": "<p>Very happy with this purchase! The size is perfect for me, easy to hold. My coffee tasted better and it stayed hot for some time.</p>",
+            "name": "MARY JO",
+            "image": "shopify://shop_images/Nomad_Testimonial_2.png"
+          }
+        },
+        "item_hBP7Ay": {
+          "type": "item",
+          "settings": {
+            "text": "<p>I love it!! It doesn’t leak or sweat. It is beautifully designed, simple and sleek.</p>",
+            "name": "CHRISTINA",
+            "image": "shopify://shop_images/Nomad_Testimonial_1.png"
+          }
+        }
+      },
+      "block_order": [
+        "item_EWcKiR",
+        "item_wNF4FB",
+        "item_hBP7Ay"
+      ],
+      "settings": {
+        "heading": "What our customers say"
+      }
+    },
+    "text_with_carousel_home_eDwpLf": {
+      "type": "text-with-carousel-home",
+      "blocks": {
+        "image_cFmTXV": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_01.png"
+          }
+        },
+        "image_hNpWTE": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/nomadMedia_07.png"
+          }
+        },
+        "image_eCaRwX": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_05.png"
+          }
+        },
+        "image_XWRFEJ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_02.png"
+          }
+        },
+        "image_ekCYzJ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_03.png"
+          }
+        },
+        "image_MWkaPE": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_04.png"
+          }
+        },
+        "image_bwRFQn": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NomadGallery_06.png"
+          }
+        }
+      },
+      "block_order": [
+        "image_cFmTXV",
+        "image_hNpWTE",
+        "image_eCaRwX",
+        "image_XWRFEJ",
+        "image_ekCYzJ",
+        "image_MWkaPE",
+        "image_bwRFQn"
+      ],
+      "settings": {
+        "custom_class": "hubspot_landing_page",
+        "spacing_left": true,
+        "dark_bg": false,
+        "auto_scroll": false,
+        "svg_main_text": "",
+        "svg_body_text": "DESIGNED FOR EVERYWHERE",
+        "svg_text_color": "#000000",
+        "body_text_1": "",
+        "body_text_2": "",
+        "button_url": "shopify://collections/nomad",
+        "button_text": "",
+        "full_width": true,
+        "button_url_1": "shopify://collections/nomad",
+        "button_text_1": "SHOP NOMAD",
+        "button_url_2": "shopify://pages/custom-drinkware-landing",
+        "button_text_2": "GO CUSTOM"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "hero_banner_v5_hjJCLM",
+    "choose_adventure_v2_KxzK8J",
+    "featured_collection_carousel_GMD3p6",
+    "industrie_served_v4_bDBRjE",
+    "testimonial_9V9Ya4",
+    "text_with_carousel_home_eDwpLf"
+  ]
+}

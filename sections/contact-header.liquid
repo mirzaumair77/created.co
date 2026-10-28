@@ -1,0 +1,77 @@
+<section class="contact-header px-16 tablet:px-32 laptop:pt-16 max-w-screen-desktop mx-auto">
+  {% if section.settings.img == blank and section.settings.img_desktop == blank %}
+    {% assign no_image = true %}
+  {% endif %}
+  <div class="contact-header__banner relative flex justify-center items-center">
+    {% if section.settings.title_one != blank or section.settings.title_two != blank %}
+      <div class="contact-header__title text-38 tablet:text-70 desktop:text-98 text-center leading-tight w-3/4 
+        {% if no_image %}text-black{% else %} absolute text-white{% endif %}">
+        <span class="font-canela">{{ section.settings.title_one }}</span>
+        <span class="font-grotesque text-40 tablet:text-72 desktop:text-100 font-semibold">{{ section.settings.title_two }}</span>
+      </div>
+    {% endif %}
+    {% if no_image != true %}
+      <div class="contact-header__img w-full">
+        {% render 'lazy-image', image: section.settings.img, image_desktop: section.settings.img_desktop %}
+      </div>
+    {% endif %}
+  </div>
+  <div class="contact-header__text tablet:flex tablet:justify-between text-18 py-24 border-b border-black mb-16 laptop:py-38 laptop:mb-20">
+    {% if section.settings.text_one != blank %}
+      <p>{{ section.settings.text_one }}</p>
+    {% endif %}
+    {% if section.settings.text_two != blank %}
+      <p class="mt-8 tablet:mt-0 font-medium">{{ section.settings.text_two }}</p>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Contact Header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "img",
+        "label": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "img_desktop",
+        "label": "Image - Desktop"
+      },
+      {
+        "type": "header",
+        "content": "Title"
+      },
+      {
+        "type": "text",
+        "id": "title_one",
+        "label": "Title - 1"
+      },
+      {
+        "type": "text",
+        "id": "title_two",
+        "label": "Title - 2"
+      },
+      {
+        "type": "header",
+        "content": "Text Line"
+      },
+      {
+        "type": "richtext",
+        "id": "text_one",
+        "label": "Text - 1"
+      },
+      {
+        "type": "text",
+        "id": "text_two",
+        "label": "Text - 2"
+      }
+    ]
+  }
+{% endschema %}

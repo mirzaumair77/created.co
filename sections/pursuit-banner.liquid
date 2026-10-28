@@ -1,0 +1,241 @@
+<style>
+.pursuit_banner_{{ section.id }} {
+  background-color: {{ section.settings.background_color }};
+}
+
+.pursuit_banner_{{ section.id }} .banner_content .heading h2 {
+  color: {{ section.settings.heading_color }};
+}
+
+.pursuit_banner_{{ section.id }} .banner_content .description p {
+  color: {{ section.settings.description_color }};
+}
+
+.pursuit_banner_section {
+  position: relative;  
+}
+
+.background_video_image .image_background {
+  width: 100%;
+  height: 100%;
+}
+
+.background_video_image .image_background img {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.background_video_image .image_background img.deskstop_image {
+  display: none;
+}
+
+.background_video_image .video_background {
+  width: 100%;
+  height: 100vh;
+}
+
+.background_video_image .video_background video {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pursuit_banner_main .banner_content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 28px;
+  width: 50%;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.banner_content .heading h1 {
+  color:#fff;
+  /* -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #000000; */
+}
+
+.banner_content .description {
+  width: 100%;
+  max-width: 510px;
+  margin: 0;
+}
+
+.banner_content .description p {
+  font-family: grotesque, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  font-size: 20px;
+  margin: 0;
+}
+
+.banner_content .explore_button a {
+  display: inline-block;
+  font-size: 20px;
+  line-height: normal;
+  font-weight: 700;
+}
+
+
+@media only screen and (min-width: 786px) { 
+  
+  .background_video_image .image_background img.deskstop_image {
+    display: block;
+  }
+  
+  .background_video_image .image_background img.mobile_image {
+    display: none;
+  }
+
+  
+}
+
+@media only screen and (max-width: 768px) {
+  
+  .pursuit_banner_main .banner_content {
+    width: 100%;
+  }
+  
+  .banner_content .heading h2 {
+    font-size: 42px;
+    line-height: 46px;
+  }
+}
+</style>
+
+<div class="pursuit_banner_section pursuit_banner_{{ section.id }}">
+  <div class="page__width">
+    <div class="pursuit_banner_main">
+      <div class="background_video_image">
+        {% if section.settings.image_video == "image" %}
+        <div class="image_background">
+          {% if section.settings.deskstop_image != blank %}
+            <img class="deskstop_image" src="{{ section.settings.deskstop_image | img_url: 'master' }}">
+          {% endif %}
+          {% if section.settings.mobile_image != blank %}
+            <img class="mobile_image" src="{{ section.settings.mobile_image | img_url: 'master' }}">
+          {% endif %}
+        </div>
+        {% endif %}
+        {% if section.settings.image_video == "video" %}
+        <div class="video_background">
+          {{ section.settings.video | video_tag: loop: true, controls: false, autoplay: true }}
+        </div>
+        {% endif %}
+      </div>
+      <div class="banner_content">
+        {% if section.settings.heading != blank %}
+        <div class="heading">
+          <h1 class="hero__title normal-case m-0 text-60 tablet:text-80 leading-none flex flex-col"><span class="font-canela font-thin">{{ section.settings.heading }}</span></h1>
+        </div>
+        {% endif %}
+        {% if section.settings.description != blank %}
+        <div class="description">
+          {{ section.settings.description }}
+        </div>
+        {% endif %}
+        {% if section.settings.button_text != blank %}
+        <div class="explore_button">
+          <a class="btn-bigger btn--filled-white" href="{{ section.settings.button_link }}">{{ section.settings.button_text }}</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Pursuit Banner",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#828282"
+      },
+      {
+        "type": "select",
+        "id": "image_video",
+        "label": "Select Option",
+          "options": [
+              {
+                "value": "image",
+                "label": "Image"
+              },
+              {
+                "value": "video",
+                "label": "Video"
+              }
+            ],
+          "default": "image"
+      },
+      {
+        "type": "image_picker",
+        "id": "deskstop_image",
+        "label": "Deskstop Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile Image"
+      },
+      {
+        "type": "video",
+        "id": "video",
+        "label": "Video"
+      },
+      {
+        "type": "html",
+        "id": "heading",
+        "label": "Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link"
+      },
+      {
+        "type": "header",
+        "content": "Style"
+      },
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Heading Color",
+        "default": "#FFF"
+      },
+      {
+        "type": "color",
+        "id": "description_color",
+        "label": "Description Color",
+        "default": "#FFF"
+      }
+    
+    ],
+    "presets": [
+      {
+        "name": "Pursuit Banner"
+      }
+    ]
+  }
+{% endschema %}

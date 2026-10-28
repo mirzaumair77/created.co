@@ -1,0 +1,154 @@
+<style>
+  .meta_heading_section.meta-heading_{{ section.id }} {
+    background: {{ section.settings.bg_color }};
+  }
+
+  .meta_heading_section.meta-heading_{{ section.id }} .meta_heading_main .subheading h4 {
+    font-size: {{ section.settings.subheading_size }}px;
+    color: {{ section.settings.subheading_color }};
+  }
+
+  .meta_heading_section.meta-heading_{{ section.id }} .meta_heading_main .heading h2 {
+    font-size: {{ section.settings.heading_size }}px;
+    color: {{ section.settings.heading_color }};
+  }
+
+  @media only screen and (max-width: 500px) {
+
+    .meta_heading_section.meta-heading_{{ section.id }} .meta_heading_main .subheading h4 {
+      font-size: {{ section.settings.subheading_size_mb }}px;
+    }
+
+    .meta_heading_section.meta-heading_{{ section.id }} .meta_heading_main .heading h2 {
+      font-size: {{ section.settings.heading_size_mb }}px;
+    }
+  }
+
+  .meta_heading_section {
+    padding: 0 16px 18px;
+  }
+
+  .meta_heading_section .container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .meta_heading_section .meta_heading_main {
+    text-align: center;
+  }
+
+  .meta_heading_section .meta_heading_main .subheading h4 {
+    font-family: canela, serif;
+    line-height: normal;
+    font-weight: 600;
+    font-style: normal;
+    padding-bottom: 16px;
+  }
+
+  .meta_heading_section .meta_heading_main .heading h2 {
+    font-family: canela, serif;
+    line-height: normal;
+    font-style: normal;
+  }
+</style>
+
+<div class="meta_heading_section meta-heading_{{ section.id }}">
+  <div class="container">
+    <div class="meta_heading_main">
+      {% if section.settings.subheading != blank %}
+        <div class="subheading">
+          <h4>{{ section.settings.subheading }}</h4>
+        </div>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <div class="heading">
+          <h2 class="font-thin">{{ section.settings.heading }}</h2>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Meta Heading",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subheading_size_mb",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Font Size Mobile",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 0,
+      "max": 65,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mb",
+      "min": 0,
+      "max": 65,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size Mobile",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meta Heading"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,383 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": "no-padding",
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "disabled": true,
+      "settings": {
+        "hero_image": "shopify://shop_images/CC_FallPromo_HERO.jpg",
+        "hero_image_mobile": "shopify://shop_images/CC_FallPromo_HERO.jpg",
+        "hero_text_1": "",
+        "hero_text_2": "",
+        "svg_text": "",
+        "low_text": ""
+      }
+    },
+    "eff7e699-cc11-49cf-b7c4-ba65c19e3a9b": {
+      "type": "hero",
+      "settings": {
+        "desktop_image": "shopify://shop_images/CC_FallPromo_HERO.jpg",
+        "mobile_image": "shopify://shop_images/CC_FallPromo_HERO2.jpg",
+        "content_x_alignment": "items-center",
+        "content_y_alignment": "justify-center",
+        "text_alignment": "text-center",
+        "title": "",
+        "body_text": "",
+        "svg_text": "",
+        "mobile_offset": 0,
+        "offset": 0,
+        "cta_url_1": "",
+        "cta_text_1": "",
+        "cta_url_2": "",
+        "cta_text_2": ""
+      }
+    },
+    "embed": {
+      "type": "embed",
+      "settings": {
+        "title_text": "<p>Get free single-color printing on your first order.*</p>",
+        "bg_color": "#f5f5f5",
+        "button_text": "",
+        "button_link": ""
+      }
+    },
+    "b1c67b06-c787-4eb4-9800-9ea91d9efe49": {
+      "type": "hero",
+      "settings": {
+        "desktop_image": "shopify://shop_images/CC_FallPromo_PRODUCT_c2f7295c-73ac-4123-9fde-520058a0d590.jpg",
+        "mobile_image": "shopify://shop_images/CC_FallPromo_PRODUCT_Mobile_7f61f9c3-dca1-4733-823e-67b08335f4dc.jpg",
+        "content_x_alignment": "items-center",
+        "content_y_alignment": "justify-center",
+        "text_alignment": "text-center",
+        "title": "",
+        "body_text": "",
+        "svg_text": "",
+        "mobile_offset": 0,
+        "offset": 0,
+        "cta_url_1": "",
+        "cta_text_1": "",
+        "cta_url_2": "",
+        "cta_text_2": ""
+      }
+    },
+    "page-footer-style": {
+      "type": "page-footer",
+      "disabled": true,
+      "settings": {
+        "bg_color": "",
+        "footer_title_1": "CUSTOM",
+        "footer_title_2": "CAPABILTIES",
+        "footer_svg_title": "",
+        "footer_text": "We designed our product line with you in mind, and offer several methods of customization so you can truly make it yours.",
+        "font": "sans-serif",
+        "footer_text_padding": false,
+        "footer_link": "",
+        "footer_link_text": "",
+        "extra_spacing": false,
+        "button_below": false
+      }
+    },
+    "half-text": {
+      "type": "half-text",
+      "disabled": true,
+      "settings": {
+        "big_text": "We love your creativity and working with you to bring it to life is our favorite thing. From merch to gear for your crew, we know what you’re up to.",
+        "main_text": "<p>Custom orders are usually for brands or individuals looking to make something that doesn’t exist anywhere else. We take all the same care and attention we put into our own products and point it directly at yours. From big bold prints to logos and color matched, well, anything, we take you through the process of making it yours. Learn more about our materials, printing options, laser etching, and more.</p>",
+        "font": "serif",
+        "main_text_padding": true,
+        "link_text": "Download Catalog",
+        "link_url": "https://cdn.shopify.com/s/files/1/0662/7045/files/Created-Stainless-Catalog-2022_4.pdf?v=1691003381",
+        "extra_spacing": true,
+        "button_below": true
+      }
+    },
+    "icons-text": {
+      "type": "icons-with-text",
+      "blocks": {
+        "1592b420-e950-4c11-98a9-f2e160658116": {
+          "type": "icon_text",
+          "settings": {
+            "svg_icon": "",
+            "title": "<p>PICK A PRODUCT</p>",
+            "body_text": "Start here. Are you creating something for at home or on the go? For your cafe, business, or personal? Is it hot or cold? Don’t worry, the answer can be yes to all."
+          }
+        },
+        "857cb31f-88de-458a-af2a-9efced5e966e": {
+          "type": "icon_text",
+          "settings": {
+            "svg_icon": "",
+            "title": "<p>SUBMIT YOUR DESIGN</p>",
+            "body_text": "We’ll give you the details when it comes to what we need, but this is where you get to have some fun. From logos to full wrap prints, we’ve got you (and your cup) covered."
+          }
+        },
+        "6a5d6dc4-da81-4d49-97ca-9cdf5ba14be9": {
+          "type": "icon_text",
+          "settings": {
+            "svg_icon": "",
+            "title": "<p>PLACE YOUR ORDER</p>",
+            "body_text": "You’ve done your part and now it’s our turn. While every custom order’s different, we always do our best to create your product as quickly and with as much care as possible."
+          }
+        }
+      },
+      "block_order": [
+        "1592b420-e950-4c11-98a9-f2e160658116",
+        "857cb31f-88de-458a-af2a-9efced5e966e",
+        "6a5d6dc4-da81-4d49-97ca-9cdf5ba14be9"
+      ],
+      "settings": {
+        "title": "How It",
+        "title_2": "Works",
+        "style": "single_row"
+      }
+    },
+    "6dc1c7d2-5321-4fa2-84ee-f4aad5364305": {
+      "type": "hero",
+      "settings": {
+        "desktop_image": "shopify://shop_images/CC_FallPromo_PRODUCT2_40a2d18b-3a3d-4a3c-a636-4193e7197fe6.jpg",
+        "mobile_image": "shopify://shop_images/CC_FallPromo_PRODUCT2_40a2d18b-3a3d-4a3c-a636-4193e7197fe6.jpg",
+        "content_x_alignment": "items-center",
+        "content_y_alignment": "justify-center",
+        "text_alignment": "text-center",
+        "title": "",
+        "body_text": "",
+        "svg_text": "",
+        "mobile_offset": 0,
+        "offset": 0,
+        "cta_url_1": "",
+        "cta_text_1": "",
+        "cta_url_2": "",
+        "cta_text_2": ""
+      }
+    },
+    "collage": {
+      "type": "page-collage",
+      "blocks": {
+        "88fe45c5-5cd6-4e36-951a-3047a9aaf8f5": {
+          "type": "collage_image",
+          "settings": {
+            "image": "shopify://shop_images/12-15-21_Created_Co0923.jpg",
+            "top": 28,
+            "left": 34,
+            "width": "",
+            "z_index": "1",
+            "mob_top": 27,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        },
+        "83d33d23-ddb9-4ed3-9c6a-9c2de194bcf6": {
+          "type": "collage_image",
+          "settings": {
+            "image": "shopify://shop_images/9-7-22_Created_Co16541.jpg",
+            "top": 4,
+            "left": 1,
+            "width": "",
+            "z_index": "1",
+            "mob_top": 4,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        },
+        "228c96d5-df8a-43aa-ab4a-c417e1a8f007": {
+          "type": "collage_image",
+          "settings": {
+            "image": "shopify://shop_images/12-15-21_Created_Co0751.jpg",
+            "top": 52,
+            "left": 0,
+            "width": "",
+            "z_index": "1",
+            "mob_top": 52,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        },
+        "054792d6-a0e4-4e4e-bbd1-8880e8eca911": {
+          "type": "collage_image",
+          "settings": {
+            "image": "shopify://shop_images/9-7-22_Created_Co16496.jpg",
+            "top": 70,
+            "left": 44,
+            "width": "",
+            "z_index": "1",
+            "mob_top": 77,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        },
+        "9b5b9cb2-7961-4d0f-9324-e26ede926f95": {
+          "type": "collage_image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/12-15-21_Created_Co0826.jpg",
+            "top": 72,
+            "left": 43,
+            "width": "",
+            "z_index": "1",
+            "mob_top": 75,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        },
+        "d49d25b3-8d80-434c-a08a-4bf3b622dcd0": {
+          "type": "collage_image",
+          "disabled": true,
+          "settings": {
+            "top": 0,
+            "left": 0,
+            "width": "",
+            "z_index": "1",
+            "mob_top": 0,
+            "mob_left": 0,
+            "mob_width": "",
+            "mob_z_index": "1"
+          }
+        }
+      },
+      "block_order": [
+        "88fe45c5-5cd6-4e36-951a-3047a9aaf8f5",
+        "83d33d23-ddb9-4ed3-9c6a-9c2de194bcf6",
+        "228c96d5-df8a-43aa-ab4a-c417e1a8f007",
+        "054792d6-a0e4-4e4e-bbd1-8880e8eca911",
+        "9b5b9cb2-7961-4d0f-9324-e26ede926f95",
+        "d49d25b3-8d80-434c-a08a-4bf3b622dcd0"
+      ],
+      "settings": {
+        "section_title": "In The",
+        "section_title_2": "Wild",
+        "subtitle": "<p>Made to go anywhere and do anything, check out some of our friends. </p>"
+      }
+    },
+    "icons-alt": {
+      "type": "icons-with-text",
+      "blocks": {
+        "672b4a9a-9b02-4276-ba51-193a5b734b7b": {
+          "type": "icon_text",
+          "settings": {
+            "svg_icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"61.376\" height=\"71.473\" viewbox=\"0 0 61.376 71.473\">\n  <g id=\"Group_57\" data-name=\"Group 57\" transform=\"translate(-230.579 -5475.255)\">\n    <g id=\"Group_56\" data-name=\"Group 56\">\n      <path id=\"Path_79\" data-name=\"Path 79\" d=\"M261.267,5546.228a30.222,30.222,0,0,1-30.188-30.187v-40.286h60.376v40.286a30.222,30.222,0,0,1-30.188,30.187\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></path>\n      <path id=\"Path_80\" data-name=\"Path 80\" d=\"M274.516,5514.649a13.249,13.249,0,1,1-26.5,0c0-9.452,13.249-24.929,13.249-24.929S274.516,5505.2,274.516,5514.649Z\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></path>\n    </g>\n  </g>\n</svg>",
+            "title": "<p>SCREEN <br/>PRINTING</p>",
+            "body_text": "Screen printing uses the Pantone color system and pushes ink through a screen to achieve your design on stainless, ceramic, and glass."
+          }
+        },
+        "a24ccee0-6d26-42fd-b15a-c1db60e7c8da": {
+          "type": "icon_text",
+          "settings": {
+            "svg_icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"61.375\" height=\"71.473\" viewbox=\"0 0 61.375 71.473\">\n  <g id=\"Group_59\" data-name=\"Group 59\" transform=\"translate(-741.389 -5475.073)\">\n    <g id=\"Group_58\" data-name=\"Group 58\">\n      <path id=\"Path_81\" data-name=\"Path 81\" d=\"M772.076,5546.046a30.222,30.222,0,0,1-30.187-30.188v-40.285h60.375v40.285a30.222,30.222,0,0,1-30.188,30.188\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></path>\n      <circle id=\"Ellipse_8\" data-name=\"Ellipse 8\" cx=\"8.06\" cy=\"8.06\" r=\"8.06\" transform=\"translate(764.018 5498.748)\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></circle>\n      <line id=\"Line_20\" data-name=\"Line 20\" y2=\"36.549\" transform=\"translate(772.076 5487.827)\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></line>\n      <line id=\"Line_21\" data-name=\"Line 21\" x1=\"36.178\" transform=\"translate(754.51 5506.808)\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></line>\n    </g>\n  </g>\n</svg>",
+            "title": "<p>DIGITAL</p><p>PRINTING</p>",
+            "body_text": "Unlimited colors, and detailed artwork, digital printing uses machine technology to print complex and beautiful designs on stainless."
+          }
+        },
+        "dfeb677a-4239-4136-a4db-97dfb3a723a7": {
+          "type": "icon_text",
+          "settings": {
+            "svg_icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"84.199\" height=\"71.473\" viewbox=\"0 0 84.199 71.473\">\n  <g id=\"Group_61\" data-name=\"Group 61\" transform=\"translate(-207.756 -5837.637)\">\n    <g id=\"Group_60\" data-name=\"Group 60\">\n      <path id=\"Path_82\" data-name=\"Path 82\" d=\"M261.267,5908.61a30.223,30.223,0,0,1-30.188-30.188v-40.285h60.376v40.285a30.223,30.223,0,0,1-30.188,30.188\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></path>\n      <line id=\"Line_22\" data-name=\"Line 22\" y2=\"37.379\" transform=\"translate(261.267 5852.902)\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></line>\n      <line id=\"Line_23\" data-name=\"Line 23\" x1=\"72.2\" transform=\"translate(207.756 5871.591)\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></line>\n      <line id=\"Line_24\" data-name=\"Line 24\" x1=\"26.431\" y2=\"26.431\" transform=\"translate(248.052 5858.375)\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></line>\n      <line id=\"Line_25\" data-name=\"Line 25\" x1=\"26.431\" y1=\"26.431\" transform=\"translate(248.052 5858.375)\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></line>\n    </g>\n  </g>\n</svg>",
+            "title": "<p>LASER<br/>ETCHING</p>",
+            "body_text": "Laser engraving removes the top layer of a powder coated product to achieve a premium and sleek look for your logo."
+          }
+        },
+        "cf2a851b-52f7-4307-b48d-869e19bfaaa9": {
+          "type": "icon_text",
+          "settings": {
+            "svg_icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"61.375\" height=\"71.473\" viewbox=\"0 0 61.375 71.473\">\n  <g id=\"Group_62\" data-name=\"Group 62\" transform=\"translate(-741.389 -5835.454)\">\n    <path id=\"Path_83\" data-name=\"Path 83\" d=\"M772.076,5906.427a30.221,30.221,0,0,1-30.187-30.187v-40.286h60.375v40.286a30.222,30.222,0,0,1-30.188,30.187\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></path>\n    <path id=\"Path_84\" data-name=\"Path 84\" d=\"M779.414,5883.6l-6.8-6.8,6.8-6.8\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></path>\n    <path id=\"Path_85\" data-name=\"Path 85\" d=\"M768.817,5876.65\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></path>\n    <path id=\"Path_86\" data-name=\"Path 86\" d=\"M768.817,5876.65c-9.567-.76-16.782-4.153-16.782-8.224,0-4.629,9.332-8.382,20.842-8.382s20.842,3.753,20.842,8.382-9.331,8.383-20.842,8.383\" fill=\"none\" stroke=\"#12100b\" stroke-miterlimit=\"10\" stroke-width=\"1\"></path>\n  </g>\n</svg>",
+            "title": "<p>360° <br/>PRINT</p>",
+            "body_text": "With a digital print on stainless or hand-applied decal for ceramics, we  offer seamless prints that make your brand shine."
+          }
+        }
+      },
+      "block_order": [
+        "672b4a9a-9b02-4276-ba51-193a5b734b7b",
+        "a24ccee0-6d26-42fd-b15a-c1db60e7c8da",
+        "dfeb677a-4239-4136-a4db-97dfb3a723a7",
+        "cf2a851b-52f7-4307-b48d-869e19bfaaa9"
+      ],
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "title": "",
+        "title_2": "",
+        "style": "multi_row"
+      }
+    },
+    "page-footer": {
+      "type": "page-footer",
+      "disabled": true,
+      "settings": {
+        "bg_color": "#f5f5f5",
+        "footer_title_1": "Need More Drinkware?",
+        "footer_title_2": "",
+        "footer_svg_title": "",
+        "footer_text": "Check out createdgoods.com for diner mugs, soda can glasses, and more.",
+        "font": "serif",
+        "footer_text_padding": false,
+        "footer_link": "https://createdgoods.com/",
+        "footer_link_text": "Visit Created Goods >",
+        "extra_spacing": false,
+        "button_below": true
+      }
+    },
+    "a8006d12-2594-432e-b819-bb82ae049b8c": {
+      "type": "rich-text",
+      "blocks": {
+        "template--16930024849647__a8006d12-2594-432e-b819-bb82ae049b8c-heading-1": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "Talk about your brand",
+            "heading_size": "medium"
+          }
+        },
+        "template--16930024849647__a8006d12-2594-432e-b819-bb82ae049b8c-text-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>*This offer is only good for the stainless collection and single-color prints. For a limited time only. Offer ends 10/31/2023.</p>"
+          }
+        },
+        "template--16930024849647__a8006d12-2594-432e-b819-bb82ae049b8c-button-1": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "template--16930024849647__a8006d12-2594-432e-b819-bb82ae049b8c-heading-1",
+        "template--16930024849647__a8006d12-2594-432e-b819-bb82ae049b8c-text-1",
+        "template--16930024849647__a8006d12-2594-432e-b819-bb82ae049b8c-button-1"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "eff7e699-cc11-49cf-b7c4-ba65c19e3a9b",
+    "embed",
+    "b1c67b06-c787-4eb4-9800-9ea91d9efe49",
+    "page-footer-style",
+    "half-text",
+    "icons-text",
+    "6dc1c7d2-5321-4fa2-84ee-f4aad5364305",
+    "collage",
+    "icons-alt",
+    "page-footer",
+    "a8006d12-2594-432e-b819-bb82ae049b8c"
+  ]
+}

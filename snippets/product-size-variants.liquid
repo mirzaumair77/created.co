@@ -1,0 +1,16 @@
+<div class="mb-48 tablet:max-w-8/10">
+  <span class="form__label block w-full border-b uppercase font-medium pb-5 tablet:pb-8 mb-24 text-12 font-semibold">Sizes</span>
+  <div class="block">
+    {% for i in (1..4) %}
+      {% assign temp_related_product_url = 'related_product_size_' | append: i %}
+      {% assign temp_related_product_size = 'related_product_size_text_' | append: i %}
+      {% assign related_product_url =  product.metafields['variants'][temp_related_product_url].value.url %}
+      {% assign related_product_size = product.metafields['variants'][temp_related_product_size] %}
+      {% if related_product_url != blank %}
+        <a href="{{ related_product_url }}" class="font-canela font-thin text-22 tablet:text-26 pt-9 pb-8 px-16 border rounded-50 transition-all{% unless forloop.first %} ml-36{% endunless %}{% if product.url == related_product_url %} border-black{% else %} border-transparent{% endif %} hover:border-black">{{ related_product_size }}</a>
+      {% else %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

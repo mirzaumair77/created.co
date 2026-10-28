@@ -1,0 +1,248 @@
+<style>
+  .meta_content_section.meta-content_{{ section.id }} {
+    background: {{ section.settings.bg_color }};
+  }
+
+  .meta_content_section.meta-content_{{ section.id }} .meta_content .heading h2 {
+    font-size: {{ section.settings.heading_size }}px;
+    color: {{ section.settings.heading_color }};
+  }
+  
+  .meta_content_section.meta-content_{{ section.id }} .meta_content .subheading p {
+    font-size: {{ section.settings.subheading_size }}px;
+    color: {{ section.settings.subheading_color }};
+  }
+
+  .meta_content_section.meta-content_{{ section.id }} .meta_content .description p {
+    font-size: {{ section.settings.description_size }}px;
+    color: {{ section.settings.description_color }};
+  }
+
+  @media only screen and (max-width: 500px) {
+    .meta_content_section.meta-content_{{ section.id }} .meta_content .heading h2 {
+      font-size: {{ section.settings.heading_size_mb }}px;
+    }
+    
+    .meta_content_section.meta-content_{{ section.id }} .meta_content .subheading p {
+      font-size: {{ section.settings.subheading_size_mb }}px;
+    }
+
+    .meta_content_section.meta-content_{{ section.id }} .meta_content .description p {
+      font-size: {{ section.settings.description_size_mb }}px;
+    }
+  }
+
+  .meta_content_section.meta-content_{{ section.id }} {
+    padding: 47px 16px 83px;
+  }
+
+  .meta_content_section .container {
+    max-width: 1340px;
+    margin: 0 auto;
+  }
+
+  .meta_content_section .meta_content {
+    text-align: center;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .meta_content_section .meta_content .heading h2 {
+    font-family: canela, serif;
+    line-height: normal;
+  }
+
+  .meta_content_section .meta_content .subheading p {
+    font-family: canela, serif;
+    line-height: normal;
+    padding-top: 14px;
+  }
+
+  .meta_content_section .meta_content .description {
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .meta_content_section .meta_content .description p {
+    font-family: grotesque, sans-serif;
+    font-weight: 400;
+    line-height: normal;
+    padding-top: 17px;
+  }
+
+  @media only screen and (max-width: 786px) {
+
+    .meta_content_section .meta_content {
+      max-width: 100%;
+    }
+
+    
+  }
+</style>
+
+<div class="meta_content_section meta-content_{{ section.id }}">
+  <div class="container">
+    <div class="meta_content">
+      {% if section.settings.heading != blank %}
+        <div class="heading">
+          <h2 class="font-thin">{{ section.settings.heading }}</h2>
+        </div>
+      {% endif %}
+      {% if section.settings.subheading != blank %}
+      <div class="subheading font-thin">
+        {{ section.settings.subheading }}
+      </div>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <div class="description">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+    </div>
+      {% if section.blocks.size > 0 %}
+    <div class="carousel__grid grid mt-60 tablet:mt-85">
+      <carousel-component
+        class="grid__item w-full mx-auto overflow-hidden"
+        data-options='{"cellSelector":"[js-carousel-slide]", "wrapAround":true, "cellAlign": "left", "imagesLoaded":true, "prevNextButtons":false, "autoPlay":true, "adaptiveHeight":true, "pageDots":false}'
+      >
+        <div class="" js-carousel>
+          {% for block in section.blocks %}
+            <div class="w-10/12 tablet:w-4/12 px-8 tablet:px-20" js-carousel-slide>
+              {% render 'lazy-image', image: block.settings.image %}
+            </div>
+          {% endfor %}
+        </div>
+      </carousel-component>
+    </div>
+  {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Meta Content",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 0,
+      "max": 65,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mb",
+      "min": 0,
+      "max": 65,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size Mobile",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 0,
+      "max": 65,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Font Size",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "subheading_size_mb",
+      "min": 0,
+      "max": 65,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Font Size Mobile",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 0,
+      "max": 42,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "description_size_mb",
+      "min": 0,
+      "max": 42,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size Mobile",
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Carousel Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meta Content"
+    }
+  ]
+}
+{% endschema %}

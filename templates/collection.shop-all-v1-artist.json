@@ -1,0 +1,73 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": false,
+        "show_collection_image": false
+      }
+    },
+    "collection_banner_8i3pFd": {
+      "type": "collection-banner",
+      "disabled": true,
+      "settings": {
+        "desk_img": "shopify://shop_images/Halloween_Desktop.jpg",
+        "mob_img": "shopify://shop_images/Halloween_Mobile.jpg",
+        "show_heading": false,
+        "heading": "{{ collection.title }}",
+        "desk-select": "left",
+        "bg-color": "rgba(0,0,0,0)",
+        "heading_color": "#ffffff",
+        "opacity": 0,
+        "bg-color-mb": "#faf1e9",
+        "heading_color_mb": "#445958",
+        "opacity_mb": 0
+      }
+    },
+    "collection_heading_8FEnY9": {
+      "type": "collection-heading",
+      "settings": {
+        "bg_color": "",
+        "show_heading": true,
+        "heading": "{{ collection.metafields.custom.sub_heading.value }}",
+        "show_description": true,
+        "description": "{{ collection.metafields.custom.collection_content | metafield_tag }}",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "heading_size": 50,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "collection_link_list": "",
+        "products_per_page": 16,
+        "image_ratio": "adapt",
+        "show_secondary_image": false,
+        "add_image_padding": false,
+        "show_vendor": false,
+        "enable_filtering": true,
+        "enable_sorting": true
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "collection_banner_8i3pFd",
+    "collection_heading_8FEnY9",
+    "product-grid"
+  ]
+}

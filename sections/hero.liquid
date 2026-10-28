@@ -1,0 +1,227 @@
+{% liquid
+  assign mobile_bg = section.settings.mobile_image
+  assign desktop_bg = section.settings.desktop_image
+%}
+
+<style>
+  #mobileBanner{
+      display:none;
+  }
+  .hero__content {
+    margin-bottom: var(--mobile-offset);
+  }
+  @media screen and (min-width: 768px) {
+	.hero {
+      /* padding: 273px 0 64px 0; */
+      background-image: linear-gradient(45deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 70%), url('{{ desktop_bg | img_url: 'master', scale: 2 }}');
+			padding: 184px 0 110px 0;
+      background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    .hero__content {
+      margin-bottom: var(--offset);
+    }
+  }
+  @media screen and (max-width: 767px) {
+    /* .hero {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    } */
+    #mobileBanner{
+      display:block;
+    }
+    #mobileBanner img{
+      max-width:100%;
+    }
+    .hero__content-wrapper{
+        background: #000;
+        padding-top: 20px;
+        padding-bottom: 30px;
+    }
+  }
+</style>
+<div class="hero block relative">
+  <div id="mobileBanner"><img src="{{ mobile_bg | img_url: 'master' }}" alt=""></div>
+  <div class="hero__content-wrapper site-container flex flex-col text-white w-full h-full {{section.settings.content_x_alignment}} {{section.settings.content_y_alignment}} {{section.settings.text_alignment}}">
+    <div
+      class="hero__content max-h-full flex flex-col gap-20 tablet:gap-85"
+      style="--mobile-offset: {{ section.settings.mobile_offset }}px; --desktop-offset: {{ section.settings.offset }}px;"
+    >
+      <div class="flex flex-col gap-16">
+				{%- if section.settings['title-line-1'] != blank -%}
+					<h1 class="hero__title normal-case m-0 max-w-375 text-60 tablet:text-80 leading-none flex flex-col" style="color: {{section.settings.title_color}};">
+						<span>
+                          {% comment %}<span class="font-grotesque font-normal">{{- section.settings['title-line-1'] |  split: '-' |  first |  append: '-' -}}</span><span class="font-canela font-thin">{{- section.settings['title-line-1'] |  split: '-' |  last -}}</span>{% endcomment %}
+                          <span class="font-grotesque font-normal">{{- section.settings['title-line-1'] -}}</span>
+                        </span>
+						<span class="font-canela font-thin italic">{{ section.settings['title-line-2'] }}</span>
+					</h1>
+				{%- endif -%}
+				{%- if section.settings.body_text != blank -%}
+					<p class="hero__text normal-case text-18 max-w-375 leading-normal" style="color: {{section.settings.text_color}};">
+						{{ section.settings.body_text }}
+					</p>
+				{%- endif -%}
+			</div>
+      {%- if section.settings.cta_url_1 != blank or section.settings.cta_url_2 != blank -%}
+        <div class="flex gap-16 table:gap-28">
+          {%- if section.settings.cta_url_2 != blank -%}
+            <a class="btn-bigger btn--filled-white text-16 laptop:text-20 font-grotesque font-bold" href="{{section.settings.cta_url_2}}">
+              {{- section.settings.cta_text_2 -}}
+            </a>
+          {%- endif -%}
+					{%- if section.settings.cta_url_1 != blank -%}
+            <a class="btn-bigger btn--outlined-white text-16 laptop:text-20 font-grotesque font-bold" href="{{section.settings.cta_url_1}}">
+              {{- section.settings.cta_text_1 -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "header",
+      "content": "Alignment options"
+    },
+    {
+      "type": "select",
+      "id": "content_x_alignment",
+      "label": "Content Horizontal Alignment",
+      "options": [
+        {
+          "value": "items-start",
+          "label": "Left"
+        },
+        {
+          "value": "items-center",
+          "label": "Center"
+        },
+        {
+          "value": "items-end",
+          "label": "Right"
+        }
+      ],
+      "default": "items-center"
+    },
+    {
+      "type": "select",
+      "id": "content_y_alignment",
+      "label": "Content Vertical Alignment",
+      "options": [
+        {
+          "value": "justify-start",
+          "label": "Top"
+        },
+        {
+          "value": "justify-center",
+          "label": "Center"
+        },
+        {
+          "value": "justify-end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "justify-center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ],
+      "default": "text-center",
+      "info": "Desktop only"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title-line-1",
+      "label": "Title line 1"
+    },
+    {
+      "type": "text",
+      "id": "title-line-2",
+      "label": "Title line 2"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body text"
+    },
+    {
+      "type": "number",
+      "id": "mobile_offset",
+      "label": "Mobile text content offset (in pixels)",
+      "default": 0,
+      "info": "Positive values will move the text content up, negative values will move it down"
+    },
+    {
+      "type": "number",
+      "id": "offset",
+      "label": "Text content offset (in pixels)",
+      "default": 0,
+      "info": "Positive values will move the text content up, negative values will move it down"
+    },
+    {
+      "type": "url",
+      "id": "cta_url_1",
+      "label": "Button URL 1"
+    },
+    {
+      "type": "text",
+      "id": "cta_text_1",
+      "label": "Button text 1"
+    },
+    {
+      "type": "url",
+      "id": "cta_url_2",
+      "label": "Button URL 2"
+    },
+    {
+      "type": "text",
+      "id": "cta_text_2",
+      "label": "Button text 2"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}

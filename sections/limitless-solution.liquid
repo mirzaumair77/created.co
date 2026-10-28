@@ -1,0 +1,185 @@
+<style>
+.limitless_{{ section.id }} {
+  background-color: {{ section.settings.background_color }};
+}
+
+.limitless_solution {
+  padding: 41px 0px 73px;
+}
+
+.limitless_solution .main_heading h2 {
+  font-family: grotesque, sans-serif;
+  color: #000000;
+  font-size: 36px;
+  line-height: normal;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.limitless_solution .limitless_solution_main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* gap: 12px; */
+  /* padding-top: 104px; */
+  padding-top: 20px;
+}
+
+.limitless_solution_main .limitless_content_main {
+  width: 100%;
+  max-width: 555px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 67px;
+}
+
+.limitless_content .heading h4 {
+  font-family: grotesque, sans-serif;
+  color: #000000;
+  font-size: 24px;
+  line-height: normal;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.limitless_content .description {
+  padding-top: 15px;
+}
+
+.limitless_content .description p {
+  font-family: grotesque, sans-serif;
+  color: #000000;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+  .limitless_solution_main .image img {
+    max-width: 70%;
+    text-align: center;
+}
+  .limitless_solution_main .image {
+    display: flex;
+    justify-content: center;
+}
+@media(min-width:1100px){
+  .limitless_solution_main {
+    padding-left: 5rem;
+}
+}
+@media only screen and (max-width: 1024px) {
+
+  .limitless_solution_main .limitless_content_main {
+    row-gap: 43px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+
+  .limitless_solution {
+    padding: 31px 23px 0px;
+  }
+
+  .limitless_solution .main_heading h2 {
+    text-align: left;
+    line-height: 38px;
+  }
+
+  .limitless_solution .limitless_solution_main {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-top: 43px;
+   }
+
+  .limitless_solution_main .limitless_content_main {
+    max-width: 100%;
+  }
+
+  .limitless_content .description {
+    padding-top: 30px;
+  }
+    .limitless_solution_main .image img {
+    margin:20px 0;
+}
+}
+</style>
+
+<div class="limitless_solution limitless_{{ section.id }}">
+  <div class="site-container">
+    {% if section.settings.heading != blank %}
+    <div class="main_heading">
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    {% endif %}
+    <div class="limitless_solution_main">
+      <div class="limitless_content_main">
+        {% for block in section.blocks %}
+          {% if block.settings.heading != blank %}
+          <div class="limitless_content">
+            <div class="heading">
+              <h4>{{ block.settings.heading }}</h4>
+            </div>
+            {% if block.settings.description != blank %}
+            <div class="description">
+              {{ block.settings.description }}
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}  
+        {% endfor %}
+      </div>
+      {% if section.settings.image != blank %}
+      <div class="image">
+        <img src="{{ section.settings.image | image_url: width: 880 }}" alt="{{ shop.name }}">
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Limitless Solution",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#FFF"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Select Image"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "content",
+        "name": "Content",
+        "settings": [
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading"
+          },
+          {
+            "type": "richtext",
+            "id": "description",
+            "label": "Description"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Limitless Solution"
+      }
+    ]
+  }
+{% endschema %}

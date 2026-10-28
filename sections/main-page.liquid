@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="{{ 'section-main-page.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-rte.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<noscript>{{ 'section-main-page.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+
+<div class="page-width page-width--narrow w-full max-w-965 px-30 tablet:px-32 mx-auto">
+  <h1 class="main-page-title page-title text-38 tablet:text-left tablet:text-70 desktop:text-98 font-canela font-thin">
+    {{ page.title | escape }}
+  </h1>
+  <div class="rte text-16 font-grotesque">
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-page.name",
+  "tag": "section",
+  "class": "spaced-section"
+}
+{% endschema %}

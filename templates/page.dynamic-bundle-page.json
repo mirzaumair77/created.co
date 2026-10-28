@@ -1,0 +1,279 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "bundle_banner_cUaenC": {
+      "type": "bundle-banner",
+      "settings": {
+        "bg_color": "",
+        "heading": "CREATE YOUR OWN BUNDLE",
+        "description": "<p>Build a gift set, give your kitchen cabinet a design update, or stock up on all your favorite colors. Save up to 20% when create a bespoke bundle all your own. </p>",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "heading_size": 50,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18
+      }
+    },
+    "bundle_products_Xx6qig": {
+      "type": "bundle-products",
+      "settings": {
+        "bg_color": "",
+        "heading": "<p><em>NOMAD</em></p>",
+        "description": "<p>Great for your AM coffee, tea, and other hot beverages. Features a ceramic coating for perfect taste, plus a leak-proof lid for maximum portability.</p>",
+        "collection_products": "nomad",
+        "product_limit": 20,
+        "button_text": "ADD TO BUNDLE",
+        "button_link": "",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "#ffffff",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_size": 20,
+        "title_size_mb": 20,
+        "button_text_size": 16,
+        "button_text_size_mb": 14
+      }
+    },
+    "bundle_products_GML3EG": {
+      "type": "bundle-products",
+      "settings": {
+        "bg_color": "",
+        "heading": "<p>ROAM MUG</p>",
+        "description": "<p>Perfect for wherever your day takes you — from everyday errands to spontaneous road trips. Designed to fit comfortably in your hand and we promise— perfectly in your cup holder.</p>",
+        "collection_products": "roam-mug",
+        "product_limit": 20,
+        "button_text": "ADD TO BUNDLE",
+        "button_link": "",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "#ffffff",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_size": 20,
+        "title_size_mb": 20,
+        "button_text_size": 16,
+        "button_text_size_mb": 14
+      }
+    },
+    "bundle_products_PiJCea": {
+      "type": "bundle-products",
+      "settings": {
+        "bg_color": "",
+        "heading": "<p>WANDER BOTTLE</p>",
+        "description": "<p>Built to Wander. Whether you're scaling peaks, tackling a heavy lifting session, or exploring new horizons, Wander is designed for those who strive to be at the top of their craft and driven to excellence.</p>",
+        "collection_products": "wander-bottle",
+        "product_limit": 20,
+        "button_text": "ADD TO BUNDLE",
+        "button_link": "",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "#ffffff",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_size": 20,
+        "title_size_mb": 20,
+        "button_text_size": 16,
+        "button_text_size_mb": 14
+      }
+    },
+    "bundle_products_zGYHAN": {
+      "type": "bundle-products",
+      "settings": {
+        "bg_color": "",
+        "heading": "<p>COLD CUP</p>",
+        "description": "<p>Designed to keep iced drinks crisp and cold for hours. Features a durable screw-on lid and matching stainless steel straw. </p>",
+        "collection_products": "cold-cups",
+        "product_limit": 20,
+        "button_text": "ADD TO BUNDLE",
+        "button_link": "",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "#ffffff",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_size": 20,
+        "title_size_mb": 20,
+        "button_text_size": 16,
+        "button_text_size_mb": 14
+      }
+    },
+    "bundle_products_cNwNQG": {
+      "type": "bundle-products",
+      "settings": {
+        "bg_color": "",
+        "heading": "<p>EVERYDAY TUMBLERS</p>",
+        "description": "<p>A Created Co. classic designed for maximum temperature retention. Available in a range of sizes and colors for your favorite craft coffee. </p>",
+        "collection_products": "everyday-tumblers",
+        "product_limit": 20,
+        "button_text": "ADD TO BUNDLE",
+        "button_link": "",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "#ffffff",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_size": 20,
+        "title_size_mb": 20,
+        "button_text_size": 16,
+        "button_text_size_mb": 14
+      }
+    },
+    "bundle_products_mhmWy7": {
+      "type": "bundle-products",
+      "settings": {
+        "bg_color": "",
+        "heading": "<p>CAMP MUG</p>",
+        "description": "<p>For the lover of the classics. Camp Mug has an easy-grip handle and nostaglic design that’s great for gifting or for just starting your morning off right. </p>",
+        "collection_products": "camp-mugs",
+        "product_limit": 20,
+        "button_text": "ADD TO BUNDLE",
+        "button_link": "",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "#ffffff",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_size": 20,
+        "title_size_mb": 20,
+        "button_text_size": 16,
+        "button_text_size_mb": 14
+      }
+    },
+    "bundle_products_hp9ARw": {
+      "type": "bundle-products",
+      "disabled": true,
+      "settings": {
+        "bg_color": "",
+        "heading": "<p>ARTIST SERIES CERAMICS</p>",
+        "description": "<p>The sharp angles and bold lines of this collection are like the unique qualities in all of us; yet, even these lines find union with each other</p>",
+        "collection_products": "ceramics",
+        "product_limit": 20,
+        "button_text": "ADD TO BUNDLE",
+        "button_link": "",
+        "heading_color": "#000000",
+        "description_color": "#000000",
+        "title_color": "#000000",
+        "button_text_color": "#000000",
+        "button_bg_color": "#ffffff",
+        "heading_size": 45,
+        "heading_size_mb": 32,
+        "description_size": 20,
+        "description_size_mb": 18,
+        "title_size": 20,
+        "title_size_mb": 20,
+        "button_text_size": 16,
+        "button_text_size_mb": 14
+      }
+    },
+    "bundle_discount_wenQD7": {
+      "type": "bundle-discount",
+      "blocks": {
+        "bundle_discount_9iUxwL": {
+          "type": "bundle_discount",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2024-04-18_090724.png"
+          }
+        },
+        "bundle_discount_Q6dXJC": {
+          "type": "bundle_discount",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2024-04-18_090724.png"
+          }
+        },
+        "bundle_discount_PPMeVY": {
+          "type": "bundle_discount",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2024-04-18_090724.png"
+          }
+        },
+        "bundle_discount_atfLB4": {
+          "type": "bundle_discount",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2024-04-18_090724.png"
+          }
+        }
+      },
+      "block_order": [
+        "bundle_discount_9iUxwL",
+        "bundle_discount_Q6dXJC",
+        "bundle_discount_PPMeVY",
+        "bundle_discount_atfLB4"
+      ],
+      "settings": {
+        "bg_color": "",
+        "heading": "MY BUNDLE",
+        "discount_percent_2": 10,
+        "result_heading_2": "2-BUNDLE SET: YOU’RE SAVING 10%",
+        "discount_code_2": "SAVE10",
+        "discount_percent_3": 15,
+        "result_heading_3": "3-BUNDLE SET: YOU’RE SAVING 15%",
+        "discount_code_3": "SAVE15",
+        "discount_percent_4": 20,
+        "result_heading_4": "4-BUNDLE SET: YOU’RE SAVING 20%",
+        "discount_code_4": "SAVE20",
+        "button_text": "GO TO CHECKOUT",
+        "heading_color": "#000000",
+        "result_heading_color": "#000000",
+        "button_text_color": "#ffffff",
+        "button_bg_color": "#000000",
+        "heading_size": 20,
+        "heading_size_mb": 16,
+        "result_heading_size": 20,
+        "result_heading_size_mb": 16,
+        "button_size": 12,
+        "button_size_mb": 12
+      }
+    }
+  },
+  "order": [
+    "main",
+    "bundle_banner_cUaenC",
+    "bundle_products_Xx6qig",
+    "bundle_products_GML3EG",
+    "bundle_products_PiJCea",
+    "bundle_products_zGYHAN",
+    "bundle_products_cNwNQG",
+    "bundle_products_mhmWy7",
+    "bundle_products_hp9ARw",
+    "bundle_discount_wenQD7"
+  ]
+}

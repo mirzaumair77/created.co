@@ -1,0 +1,170 @@
+<style>
+
+  .ac_{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+  }
+
+  .about_section {
+    padding: 154px 0 150px;
+  }
+
+  .about_main.site-container {
+    max-width: 975px;
+  }
+  
+  .about-heading {
+    margin-bottom: 15px;
+    line-height: normal;
+    text-align: center;
+}
+h2.about-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  gap: 5px;
+}
+h2.about-heading svg, h2.about-heading span.created-logo{
+  max-width:200px;
+  width:100%;
+}  
+  .about-text p {
+    font-family: grotesque, sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+        text-align: center;
+}
+.bannerIMG{
+  margin-bottom: 15px;
+}
+
+.about-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 28px;
+}
+
+.about-button a {
+  font-size: 20px;
+  line-height: normal;
+}
+  @media(min-width:600px){
+    .mb_image{ display:none;}
+  }
+  
+  @media(max-width:600px){
+.dk_img{display:none; }
+h2.about-heading {
+    justify-content: left;
+}    
+    .about_section {
+      padding: 77px 0;
+    }
+    h2.about-heading svg, h2.about-heading span.created-logo {
+    max-width: 125px;
+}
+
+    .about_main.site-container {
+      max-width: 100%;
+      padding: 0 25px;
+    }
+    
+   .about-heading {
+      /* font-size: 40px; */
+      text-align: left;
+    } 
+    
+    .about-text p {
+      font-size: 18px;
+      text-align: left;
+    }
+    
+    .about-heading span {
+    font-size: 35px;
+}
+
+    .about-button {
+  justify-content: start;
+  }
+</style>
+
+<section class="about_section ac_{{ section.id }}">
+  <div class="about_main site-container">
+    <div class="abbout-inner">
+     {% if section.settings.heading != blank %} <h2 class="about-heading">{{ section.settings.heading }}</h2> {% endif %}
+      
+    {% if section.settings.image != blank or section.settings.mb_image != blank %} 
+      <div class="bannerIMG">
+       {% if section.settings.image != blank %} <img src="{{ section.settings.image | image_url }}" class="dk_img" alt=""> {% endif %}
+        
+       {% if section.settings.mb_image != blank %} 
+         <img src="{{ section.settings.mb_image | image_url }}" class="mb_image" alt="">
+       {% else %}
+        {% if section.settings.image != blank %} <img src="{{ section.settings.image | image_url }}" class="mb_image" alt="">{% endif %}
+       {% endif %}
+      </div>
+    {% endif %}
+      
+  {% if section.settings.text != blank  %}
+      <div class="about-text">
+        {{ section.settings.text }}
+      </div>
+    {% endif %}
+    {% if section.settings.button_text != blank %}
+    <div class="about-button">
+      <a class="btn btn--black" href="{{ section.settings.button_link }}">{{ section.settings.button_text }}</a>
+    </div>
+    {% endif %}
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+  "name": "About Created",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default":"About Created "
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mb_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Created"
+    }
+  ]
+}  
+{% endschema %}

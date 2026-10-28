@@ -1,0 +1,198 @@
+<style>
+  .hb_{{ section.id }} .hero-main-v4{
+    background-color:{{ section.settings.background_color }};
+  }
+  .hb_{{ section.id }} .heading-v4{
+    color:{{ section.settings.heading_color }};
+  }
+.hb_{{ section.id }} .text-v4 p{
+    color:{{ section.settings.text_color }};
+  }
+
+
+  .hero-btn-v4 {
+    display: block;
+}
+  .hero-inner-v4 {
+    display: flex;
+    align-items: center;
+        gap: 30px;
+}
+  .width-50 {
+    max-width: 50%;
+    width: 100%;
+}
+  .hero-image-v4 img {
+    max-width: 100%;
+    width: 100%;
+}
+  .heading-v4 {
+    margin-bottom: 30px;
+    font-family: canela, serif;
+    line-height: normal;
+    font-size: 50px;
+    font-weight: 100;
+}
+  .text-v4 p {
+    font-family: grotesque, sans-serif;
+    font-weight: 400;
+    line-height: normal;
+    font-size: 20px;
+}
+.hero-main-v4.site-container.image_right {
+    padding-right: 0;
+}
+  .hero-main-v4.site-container.image_left{
+    padding-left: 0;
+  }
+.text-v4 {
+    margin-bottom: 30px;
+}
+ .image_left .hero-inner-v4 {
+    flex-direction: row-reverse;
+}
+.hero-content-v4 {
+    margin-left: 5rem;
+}
+  @media(min-width:990px){
+    .hero-main-v4.site-container.image_right {
+    padding-left: 30px;
+}
+    .hero-btn-section {
+    display: flex;
+}
+  }
+  @media(max-width:990px){
+    .hero-inner-v4 {
+    flex-direction: column-reverse;
+}
+    .hero-content-v4 {
+    margin-left: 0;
+}
+     .width-50 {
+    max-width: 100%;
+    width: 100%;
+}
+    .hero-main-v4.site-container.image_right {
+    padding-left: 0;
+}
+   .image_right .hero-content-v4, .image_left .hero-content-v4 {
+    padding: 0 16px 30px;
+}
+    .image_left .hero-inner-v4 {
+    flex-direction: column-reverse;
+}
+    .hero-main-v4.site-container.image_left {
+    padding-right: 0;
+}
+  }
+
+  @media(max-width:600px){
+    .heading-v4 {
+    font-size: 30px;
+          margin-bottom: 10px;
+}
+    .text-v4 p {
+    font-size: 18px;
+}
+  }
+
+</style>
+
+
+<section class="hero-banner-v4 hb_{{ section.id }}">
+  <div class=" hero-main-v4 {% if section.settings.banner_layout == "image_left" %} image_left{% else %} image_right{% endif %}" >
+    <div class="hero-inner-v4 ">
+     <div class="hero-content-v4 width-50">
+       {% if section.settings.heading != blank %}<h2 class="heading-v4">{{ section.settings.heading }}</h2>{% endif %}
+       {% if section.settings.text != blank %}<div class="text-v4">  {{ section.settings.text }} </div>{% endif %}
+       {% if section.settings.button_text != blank %}<div class="hero-btn-section"><a href="{{ section.settings.button_url }}" class="hero-btn-v4  {% if section.settings.button_dark == true %}btn btn--black {% else %}btn-bigger btn--filled-white{% endif %} text-16  font-grotesque font-bold ">{{ section.settings.button_text }}</a></div>{% endif %}
+     </div>
+    {% if section.settings.banner_image != blank %}
+    <div class="hero-image-v4 width-50">
+      <img src="{{ section.settings.banner_image | image_url }}" class="hero_image">
+    </div>
+    {% endif %}
+   </div>
+  </div>
+</section>
+{% schema %}
+  {
+  "name": "Hero Banner v4",
+  "settings": [
+    {
+      "type": "select",
+      "id": "banner_layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "image_left",
+          "label": "Image Left"
+        },
+        {
+          "value": "image_right",
+          "label": "Image Right"
+        }
+      ],
+      "default": "image_right"
+    },
+    
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Custom Drinkware That Elevates Your Brand"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Start Now"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_dark",
+      "label": "Button Dark",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "background color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#fff"
+    },
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner v4"
+    }
+  ]
+}  
+{% endschema %}

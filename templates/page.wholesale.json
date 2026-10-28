@@ -1,0 +1,26 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "wholesale",
+      "settings": {
+        "img": "shopify://shop_images/TheCreatedCo-1221-3000px_52783dc9-f6d4-4534-ae59-e6aad7e15a73.jpg",
+        "img_desktop": "shopify://shop_images/TheCreatedCo-1221-3000px_52783dc9-f6d4-4534-ae59-e6aad7e15a73.jpg",
+        "title_one": "WHOLESALE",
+        "title_two": "INQUIRES",
+        "text": "Created Co. offers wholesale pricing and custom printing on coffee cups and drinkware to cafés, restaurants, and retailers. If you're interested, just fill out the form below. We'd love to have you be part of our growing community of partners!"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,262 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "pursuit_banner_jhPDem": {
+      "type": "pursuit-banner",
+      "custom_css": [
+        ".button-class {display: none !important;}"
+      ],
+      "settings": {
+        "background_color": "#828282",
+        "image_video": "image",
+        "deskstop_image": "shopify://shop_images/Blue_Stone_Blog_Page_35559b91-269d-4cff-9e09-e4aa432d4b78.png",
+        "mobile_image": "shopify://shop_images/Blue_Stone_Blog_Page_Mobile.png",
+        "video": "shopify://files/videos/202407031213 (3) (2).mp4",
+        "heading": "Created Co. <p>\nx </p><p>\n<em>Bluestone Lane </em></p>",
+        "description": "",
+        "button_text": "",
+        "button_link": "shopify://collections/stainless-collection",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff"
+      }
+    },
+    "pursuit_description_rB4kxG": {
+      "type": "pursuit-description",
+      "settings": {
+        "background_color": "#ffffff",
+        "background_color_mobile": "#f7f2ee",
+        "description": "<h2>When Blue Stone Lane grew frustrated with mass-produced ceramics that couldn't withstand their café's demands — they sought a better solution. They needed dinnerware that could balance durability with refinement—pieces that would showcase their culinary creations while standing up to daily use. At Created Co., we believe that every hospitality experience with ceramics should be a vessel that enhances experiences, both aesthetically and functionally. When Bluestone Lane, an Australian-inspired coffee and café brand with locations across major U.S. cities, approached us, they were facing a challenge that many hospitality brands encounter: finding durable, fully customized ceramics that could withstand the demands of a high-volume café environment while staying true to their brand’s identity.</h2>",
+        "description_color": "#000000"
+      }
+    },
+    "pursuit_description_AVgYYU": {
+      "type": "pursuit-description",
+      "settings": {
+        "background_color": "#ffffff",
+        "background_color_mobile": "#f7f2ee",
+        "description": "<p>The Challenge</p>",
+        "description_color": "#000000"
+      }
+    },
+    "pursuit_single_image_8UWtnf": {
+      "type": "pursuit-single-image",
+      "disabled": true,
+      "settings": {
+        "add_padding": false,
+        "background_color": "#f7f2ee",
+        "image_video": "image",
+        "deskstop_image": "shopify://shop_images/1_8ced2396-26cc-468a-ab46-9ea1987d0ac6.jpg",
+        "heading": "",
+        "description": "<p><strong>For ceramicist Alexandra Flierl</strong>, the creative path toward a beautiful piece begins with carefully cutting her clay to an ideal size, then kneading to eliminate air bubbles and make it more pliable for the wheel. Featuring <a href=\"https://created.co/products/nomad-grip-16oz-sage\" title=\"https://created.co/products/nomad-grip-16oz-sage\">Nomad Grip in Sage</a>.</p>",
+        "button_text": "",
+        "button_url": "",
+        "description_color": ""
+      }
+    },
+    "pursuit_content_FbEWiL": {
+      "type": "pursuit-content",
+      "settings": {
+        "background_color": "#909090",
+        "image": "shopify://shop_images/Blue_Stone_Blog_Page_35559b91-269d-4cff-9e09-e4aa432d4b78.png",
+        "heading": "THE CHALLENGE",
+        "description": "<p>Bluestone Lane needed ceramics that could keep up with their bustling cafe operations. Their previous solutions presented multiple pain points.</p>",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff"
+      }
+    },
+    "pursuit_description_ABtpfh": {
+      "type": "pursuit-description",
+      "settings": {
+        "background_color": "#ffffff",
+        "background_color_mobile": "#f7f2ee",
+        "description": "<h3></h3><h3><strong>1. Durability Issues:</strong> Many of their ceramic wares chipped, cracked, or faded with frequent use, leading to costly and frequent replacements.</h3><h3><strong>2. Customization Limitations:</strong> They wanted drinkware that reflected their brand’s modern yet inviting aesthetic, but most suppliers couldn’t provide a truly customized solution.</h3><h3><strong>3. Inconsistency in Supply: </strong>With cafés across multiple cities, they struggled to find a supplier who could consistently deliver high-quality, custom-branded ceramics at scale.</h3>",
+        "description_color": "#000000"
+      }
+    },
+    "pursuit_description_XWVQ8d": {
+      "type": "pursuit-description",
+      "disabled": true,
+      "settings": {
+        "background_color": "#ffffff",
+        "background_color_mobile": "#f7f2ee",
+        "description": "<p>Our Solution</p>",
+        "description_color": "#000000"
+      }
+    },
+    "pursuit_content_AUrnfy": {
+      "type": "pursuit-content",
+      "settings": {
+        "background_color": "#909090",
+        "image": "shopify://shop_images/Blue_Stone_Blog_Page_35559b91-269d-4cff-9e09-e4aa432d4b78.png",
+        "heading": "OUR SOLUTION",
+        "description": "<p>At Created Co., we specialize in providing restaurant-grade ceramics designed specifically for the hospitality industry. Our team worked closely with Bluestone Lane to develop a line of custom ceramics that not only met their durability requirements but also strengthened their brand presence.</p>",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff"
+      }
+    },
+    "pursuit_description_J7J4F3": {
+      "type": "pursuit-description",
+      "custom_css": [
+        ".description p {margin-bottom: 16px; /* Adjust the spacing as needed */ line-height: 1.6; /* Improves readability */}",
+        ".description {white-space: pre-line;}",
+        ".description br {display: block; margin-bottom: 16px; /* Adjust as needed */}"
+      ],
+      "settings": {
+        "background_color": "#ffffff",
+        "background_color_mobile": "#f7f2ee",
+        "description": "<h6>Here’s how we helped: </h6><h6><strong>1. Superior Craftsmanship & Durability</strong>: Our ceramics are built to last. Fired at high temperatures for enhanced strength, they are <strong>commercial dishwasher-safe, microwave-safe, and resistant to chipping and fading</strong>, making them ideal for high-volume café use.</h6><h6><strong>2. Fully Customizable Designs</strong>: Using <strong>high-fire printing</strong>, we ensured that Bluestone Lane’s branding was seamlessly integrated into each piece, allowing them to maintain their signature aesthetic across all locations.</h6><h6><strong>3. Sustainable & Thoughtful Production</strong>: As a brand that values sustainability, Bluestone Lane aligned perfectly with our commitment to eco-friendly practices. We offer <strong>ethically made ceramics, lead-free glazes, and carbon-neutral shipping options</strong>, ensuring that their custom drinkware was both beautiful and responsible.</h6><h6><strong>4. Reliable, Scalable Supply Chain</strong>: With our <strong>streamlined ordering process and ongoing inventory management support</strong>, we provided Bluestone Lane with a reliable source for their ceramics, eliminating supply chain frustrations and allowing them to focus on growing their business.</h6>",
+        "description_color": "#000000"
+      }
+    },
+    "pursuit_content_9rGb9A": {
+      "type": "pursuit-content",
+      "settings": {
+        "background_color": "#909090",
+        "image": "shopify://shop_images/Blue_Stone_Blog_Page_35559b91-269d-4cff-9e09-e4aa432d4b78.png",
+        "heading": "THE IMPACT",
+        "description": "<p>Through our partnership, Bluestone Lane was able to elevate their café experience while solving their operational challenges.</p>",
+        "heading_color": "#ffffff",
+        "description_color": "#ffffff"
+      }
+    },
+    "pursuit_description_HUUgjU": {
+      "type": "pursuit-description",
+      "settings": {
+        "background_color": "#ffffff",
+        "background_color_mobile": "#f7f2ee",
+        "description": "<h6> The results?</h6><ul><li><h6><strong>Significant Cost Savings</strong>: With fewer replacements needed, they reduced their overall spend on drinkware.</h6></li><li><h6><strong>Stronger Brand Identity</strong>: Their custom-designed ceramics reinforced brand recognition and created a cohesive customer experience across all locations.</h6></li><li><h6><strong>Consistency & Reliability</strong>: They now have a dependable, long-term supplier that understands their needs and can scale with them as they grow.</h6></li></ul>",
+        "description_color": "#000000"
+      }
+    },
+    "pursuit_double_image_LL8gNj": {
+      "type": "pursuit-double-image",
+      "blocks": {
+        "media_with_content_jdkaez": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/Frame_2_2000x_png.webp",
+            "image_align_mobile": "left",
+            "description": "",
+            "text_color": "#000000",
+            "hide_text_mobile": false
+          }
+        },
+        "media_with_content_tGR9PA": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2025-02-20_at_4.18.33_PM.png",
+            "image_align_mobile": "right",
+            "description": "",
+            "text_color": "#000000",
+            "hide_text_mobile": false
+          }
+        }
+      },
+      "block_order": [
+        "media_with_content_jdkaez",
+        "media_with_content_tGR9PA"
+      ],
+      "disabled": true,
+      "custom_css": [
+        "@media (min-width: 1000px) {.di_media_item_width.flot_2.flot_right {max-width: 600px; } .di_media_item_width.flot_1.flot_left {margin-top: 5rem; }}"
+      ],
+      "settings": {
+        "bg_color": "#f7f2ee",
+        "reverse_row": false
+      }
+    },
+    "pursuit_single_image_WDWdck": {
+      "type": "pursuit-single-image",
+      "disabled": true,
+      "settings": {
+        "add_padding": false,
+        "background_color": "#f7f2ee",
+        "image_video": "image",
+        "deskstop_image": "shopify://shop_images/4_4af1393f-e371-49f7-a709-085cf0e2d4ec.jpg",
+        "heading": "",
+        "description": "<p><strong>Olivia Sugarmen practices yoga</strong> in a local Southern California park where she finds peace connecting her mind and body. Featuring our <a href=\"https://created.co/products/wander-26oz-citron\" title=\"https://created.co/products/wander-26oz-citron\">26oz Citron Wander Bottle</a>. </p>",
+        "button_text": "",
+        "button_url": "",
+        "description_color": ""
+      }
+    },
+    "pursuit_double_image_99L9A7": {
+      "type": "pursuit-double-image",
+      "blocks": {
+        "media_with_content_p9T8pw": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/5_68306d43-acf1-4264-b53b-676e237d9116.jpg",
+            "image_align_mobile": "left",
+            "description": "",
+            "text_color": "#000000",
+            "hide_text_mobile": false
+          }
+        },
+        "media_with_content_kMP84p": {
+          "type": "media_with_content",
+          "settings": {
+            "image": "shopify://shop_images/6_c81087fb-a726-4d68-95bd-c44151acf15e.jpg",
+            "image_align_mobile": "right",
+            "description": "",
+            "text_color": "#000000",
+            "hide_text_mobile": false
+          }
+        }
+      },
+      "block_order": [
+        "media_with_content_p9T8pw",
+        "media_with_content_kMP84p"
+      ],
+      "disabled": true,
+      "custom_css": [
+        "@media (min-width: 1000px) {.di_media_item_width.flot_1.flot_left {max-width: 600px; } .di_media_item_width.flot_2.flot_right {margin-top: 5rem; }}"
+      ],
+      "settings": {
+        "bg_color": "#f7f2ee",
+        "reverse_row": false
+      }
+    },
+    "about_created_GG9wBe": {
+      "type": "about-created",
+      "settings": {
+        "background_color": "#f7f2ee",
+        "heading": "<span class=\"text-62 font-canela font-thin\">Ready to get started?</span>",
+        "text": "<p>Visit our custom page to fill out our form and get started.</p>",
+        "button_text": "GO CUstoM",
+        "button_link": "http://created.co/pages/ceramics-landing-page"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "pursuit_banner_jhPDem",
+    "pursuit_description_rB4kxG",
+    "pursuit_description_AVgYYU",
+    "pursuit_single_image_8UWtnf",
+    "pursuit_content_FbEWiL",
+    "pursuit_description_ABtpfh",
+    "pursuit_description_XWVQ8d",
+    "pursuit_content_AUrnfy",
+    "pursuit_description_J7J4F3",
+    "pursuit_content_9rGb9A",
+    "pursuit_description_HUUgjU",
+    "pursuit_double_image_LL8gNj",
+    "pursuit_single_image_WDWdck",
+    "pursuit_double_image_99L9A7",
+    "about_created_GG9wBe"
+  ]
+}

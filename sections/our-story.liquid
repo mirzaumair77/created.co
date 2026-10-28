@@ -1,0 +1,379 @@
+<section class="story">
+  <div class="story__hero relative px-16 tablet:px-32">
+    {% if section.settings.hero_image != blank %}
+      <div class="story-hero__img">
+        {% render 'lazy-image', image: section.settings.hero_image, alt: section.settings.hero_text %}
+      </div>
+    {% endif %}
+    {% if section.settings.hero_text_1 != blank or section.settings.hero_text_2 != blank %}
+      <h1 class="story-hero__title absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-grotesque uppercase text-32 tablet:text-104 text-white">
+        <span class="font-grotesque font-semibold">{{ section.settings.hero_text_1 }}</span>
+        <span class="font-canela font-thin">{{ section.settings.hero_text_2 }}</span>
+      </h1>
+    {% endif %}
+  </div>
+
+  <div class="story__textblock py-72 tablet:py-180 px-16 tablet:px-32">
+    {% if section.settings.story_title_svg != blank %}
+      <div class="max-w-965 mx-auto mb-72">
+        {{ section.settings.story_title_svg }}
+      </div>
+    {% elsif section.settings.text_block_title != blank %}
+      <h1 class="story-textblock__title max-w-965 text-32 tablet:text-72 mx-auto text-center mb-72">
+        {{ section.settings.text_block_title }}
+      </h1>
+    {% endif %}
+    {% if section.settings.text_block_text != blank %}
+      <p class="story-textblock__text max-w-645 mx-auto text-center font-semibold text-20">
+        {{ section.settings.text_block_text }}
+      </p>
+    {% endif %}
+  </div>
+
+  <div class="story__personnel px-16 tablet:px-72 pb-32 tablet:pb-90 grid grid-cols-1 tablet:grid-cols-2 gap-32">
+    {% for block in section.blocks %}
+      {% if block.type == 'personnel' %}
+        <div class="story-personnel__block">
+          <div class="story-personnel__img">
+            {% render 'lazy-image', image: block.settings.image, alt: section.settings.name %}
+          </div>
+          <div class="story-personnel__content pt-32">
+            {% if block.settings.name != blank %}
+              <p class="story-personnel__name font-semibold text-36 uppercase">
+                {{ block.settings.name }}
+              </p>
+            {% endif %}
+            {% if block.settings.subtitle != blank %}
+              <p class="story-personnel__subtitle font-canela font-thin text-24">
+                {{ block.settings.subtitle }}
+              </p>
+            {% endif %}
+            {% if block.settings.description != blank %}
+              <p class="story-personnel__desctiption mt-32 pr-72 font-semibold text-20">
+                {{ block.settings.description }}
+              </p>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="story__timeline text-white px-16 tablet:px-32 py-32 tablet:py-152 max-w-100vw" style="background-color: {{ section.settings.timeline_background }};">
+    <div class="story-timeline__container overflow-x-scroll whitespace-nowrap">
+      {% if section.settings.timeline_title_1 != blank or section.settings.timeline_title_2 != blank %}
+        <div class="story-timeline__title-container mb-180 tablet:mb-90 tablet:relative tablet:h-72">
+          <p class="story-timeline__title text-32 tablet:text-62 uppercase tablet:absolute w-">
+            <span class="font-canela font-thin">{{ section.settings.timeline_title_1 }}</span>
+            <span class="font-grotesque font-semibold">{{ section.settings.timeline_title_2 }}</span>
+          </p>
+        </div>
+      {% endif %}
+      <div class="story-timeline__events tablet:pl-180">
+        {% for block in section.blocks %}
+          {% if block.type == 'timeline' %}
+            <div class="story-timeline__event inline-block max-w-375 tablet:max-w-645 text-center px-32 relative">
+              <div class="story-timeline__event-arrow absolute left-1/2 transform -translate-x-1/2 w-16">
+                {% render 'lazy-image', image: 'timeline-event.png', type: 'asset', atl: 'Timeline Arrow' %}
+              </div>
+              <div class="story-timeline__event-next absolute w-28 -right-8 tablet:-right-20">
+                {% render 'lazy-image', image: 'timeline-arrow.png', type: 'asset', alt: 'Timeline Next' %}
+              </div>
+              {% if block.settings.timeline_img != blank %}
+                <div class="story-timeline__event-img">
+                  {% render 'lazy-image', image: block.settings.timeline_img, alt: block.settings.year %}
+                </div>
+              {% endif %}
+              <div class="story-timeline__event-content max-w-450 mx-auto">
+                {% if block.settings.year != blank %}
+                  <p class="story-timeline__event-year font-canela font-thin text-46 leading-none mt-42 mb-36">
+                    {{ block.settings.year }}
+                  </p>
+                {% endif %}
+                {% if block.settings.timeline_text != blank %}
+                  <p class="story-timeline__event-text text-16 tablet:text-20 font-semibold">
+                    {{ block.settings.timeline_text }}
+                  </p>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="story__imagetext py-48 tablet:py-100">
+    {% for block in section.blocks %}
+      {% if block.type == 'image_text' %}
+        <div class="story-imagetext__block flex flex-col {% if block.settings.reverse %} tablet:flex-row-reverse{% else %} tablet:flex-row{% endif %} items-end py-48 tablet:py-100">
+          {% if block.settings.image != blank %}
+            <div class="story-imagetext__img w-full tablet:w-1/2">
+              {% render 'lazy-image', image: block.settings.image, alt: block.settings.title %}
+            </div>
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <div class="story__imagetext-content w-full tablet:w-1/2 px-32 tablet:px-52 py-16">
+              {% if block.settings.svg_title != blank %}
+                <div class="mb-36 tablet:mb-72{% if block.settings.half_wide_title %} tablet:w-6/12{% endif %} tablet:max-w-8/10">
+                  {{ block.settings.svg_title }}
+                </div>
+              {% elsif block.settings.title != blank %}
+                <p class="story__imagetext-content_title text-32 tablet:text-48 mb-72 tablet:max-w-8/10">
+                  {{ block.settings.title }}
+                </p>
+              {% endif %}
+              <p class="story__imagetext-content_text text-20 font-semibold max-w-85/100">
+                {{ block.settings.text }}
+              </p>
+              {% if block.settings.btn_link != blank and block.settings.btn_text != blank %}
+                <a class="story__imagetext-content_link btn mt-24" href="{{ block.settings.btn_link }}">
+                  {{ block.settings.btn_text }}
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="story__articles px-16 tablet:px-32 py-32">
+    {% if section.settings.article_title_1 != blank or section.settings.article_title_2 != blank %}
+      <div class="story-articles__title flex items-center mb-32 relative">
+        <p class="story-articles__title-text text-32 tablet:text-62 pr-48 bg-white z-10">
+          <span class="font-grotesque font-semibold">{{ section.settings.article_title_1 }}</span>
+          <span class="font-canela font-thin">{{ section.settings.article_title_2 }}</span>
+        </p>
+      </div>
+    {% endif %}
+    <div class="story-articles__container grid grid-cols-2 tablet:grid-cols-4 gap-36">
+      {% for block in section.blocks %}
+        {% if block.type == 'article' %}
+          {% assign article = articles[block.settings.article] %}
+          <a class="story-article py-32 block" href="{{ article.url }}">
+            {% if article.image != blank %}
+              <div class="story-article__img-wrapper relative w-full inline-block">
+                <div class="story-article__img-container"></div>
+                <div class="story-article__img absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat" style="background-image: url({{ article.image | img_url: '1000x' }});"></div>
+              </div>
+            {% endif %}
+            <div class="story-article__content flex-1 flex flex-col py-24 tablet:pt-50">
+              {% if block.settings.blog_title != blank %}
+                <p class="story-article__blog text-14 font-canela font-thin uppercase">
+                  {{ block.settings.blog_title }}
+                </p>
+              {% endif %}
+              <p class="story-article__title text-16 tablet:text-24 font-semibold uppercase flex-1">
+                {{ article.title }}
+              </p>
+              <p class="story-article__date text-14 font-canela font-thin mt-16">
+                {{ article.published_at | date: '%B %d, %Y' }}
+              </p>
+            </div>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Our Story",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Hero"
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_image",
+        "label": "Hero Image"
+      },
+      {
+        "type": "text",
+        "id": "hero_text_1",
+        "label": "Hero Text",
+        "info": "Grotesque Off White"
+      },
+      {
+        "type": "text",
+        "id": "hero_text_2",
+        "label": "Hero Text",
+        "info": "Canela Thin"
+      },
+      {
+        "type": "header",
+        "content": "Text Block"
+      },
+      {
+        "type": "textarea",
+        "id": "text_block_title",
+        "label": "Title"
+      },
+      {
+        "type": "html",
+        "id": "story_title_svg",
+        "label": "Title Text (SVG)",
+        "info": "Overrides normal title text"
+      },
+      {
+        "type": "textarea",
+        "id": "text_block_text",
+        "label": "Text"
+      },
+      {
+        "type": "header",
+        "content": "Timeline"
+      },
+      {
+        "type": "color",
+        "id": "timeline_background",
+        "label": "Timeline Background Color"
+      },
+      {
+        "type": "text",
+        "id": "timeline_title_1",
+        "label": "Timeline Title 1",
+        "info": "Canela"
+      },
+      {
+        "type": "text",
+        "id": "timeline_title_2",
+        "label": "Timeline Title 2",
+        "info": "Grotesque"
+      },
+      {
+        "type": "header",
+        "content": "Articles"
+      },
+      {
+        "type": "text",
+        "id": "article_title_1",
+        "label": "Article Title 1",
+        "info": "Grotesque"
+      },
+      {
+        "type": "text",
+        "id": "article_title_2",
+        "label": "Article Title 2",
+        "info": "Canela"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Personnel",
+        "type": "personnel",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "name",
+            "label": "Name"
+          },
+          {
+            "type": "text",
+            "id": "subtitle",
+            "label": "Subtitle"
+          },
+          {
+            "type": "textarea",
+            "id": "description",
+            "label": "Description"
+          }
+        ]
+      },
+      {
+        "name": "Timeline Event",
+        "type": "timeline",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "timeline_img",
+            "label": "Timeline Image"
+          },
+          {
+            "type": "text",
+            "id": "year",
+            "label": "Year"
+          },
+          {
+            "type": "textarea",
+            "id": "timeline_text",
+            "label": "Timeline Text"
+          }
+        ]
+      },
+      {
+        "name": "Image/Text Block",
+        "type": "image_text",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "reverse",
+            "label": "Reverse Layout"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "html",
+            "id": "svg_title",
+            "label": "SVG Title",
+            "info": "Overrides regular text title"
+          },
+          {
+            "type": "checkbox",
+            "id": "half_wide_title",
+            "label": "Half width svg title"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "url",
+            "id": "btn_link",
+            "label": "Button Link",
+            "info": "Optional"
+          },
+          {
+            "type": "text",
+            "id": "btn_text",
+            "label": "Button Text",
+            "info": "Optional"
+          }
+        ]
+      },
+      {
+        "name": "Article",
+        "type": "article",
+        "settings": [
+          {
+            "type": "article",
+            "id": "article",
+            "label": "Article"
+          },
+          {
+            "type": "text",
+            "id": "blog_title",
+            "label": "Blog Title"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
